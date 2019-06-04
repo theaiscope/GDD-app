@@ -93,12 +93,12 @@ workflows:
         - gradlew_path: "$PROJECT_LOCATION/GDDapp/gradlew"
     - android-lint@0.9.6:
         inputs:
-        - project_location: "$PROJECT_LOCATION"
+        - project_location: "$PROJECT_LOCATION/GDDapp/"
         - module: "$MODULE"
         - variant: "$VARIANT"
     - android-unit-test@0.11.0:
         inputs:
-        - project_location: "$PROJECT_LOCATION"
+        - project_location: "$PROJECT_LOCATION/GDDapp/"
         - module: "$MODULE"
         - variant: "$VARIANT"
     - android-build-for-ui-testing@0.1.1:
