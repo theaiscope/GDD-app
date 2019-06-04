@@ -194,7 +194,7 @@ fabric.properties
 
 ### AndroidStudio Patch ###
 
-!/gradle/wrapper/gradle-wrapper.jar
+!gradle-wrapper.jar
 
 ### Java ###
 # Compiled class file
