@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app
 
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,5 +22,15 @@ class MainActivityTest {
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
+    @Test
+    fun buttonShouldRedirectToNewHealthFacilityActivity() {
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_go_to_new_health_facility))
+            .perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.text_health_facility_name_hint))
+            .check(ViewAssertions.matches(ViewMatchers.withText("Enter your Health Facility Name")))
+
+    }
 
 }

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">AI Scope</string>
     <string name="welcome_msg">Welcome to AI Scope application</string>
+    <string name="text_health_facility_name_hint">Enter your Health Facility Name</string>
+    <string name="button_go_to_new_health_facility_text">Add Health Facility</string>
 </resources>
