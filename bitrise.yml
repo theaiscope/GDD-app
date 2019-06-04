@@ -90,7 +90,7 @@ workflows:
         title: Do anything with Script step
     - install-missing-android-tools@2.3.5:
         inputs:
-        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+        - gradlew_path: "$PROJECT_LOCATION/GDDapp/gradlew"
     - android-lint@0.9.6:
         inputs:
         - project_location: "$PROJECT_LOCATION"
