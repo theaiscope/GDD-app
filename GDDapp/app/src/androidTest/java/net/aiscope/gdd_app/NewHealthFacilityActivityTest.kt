@@ -28,7 +28,7 @@ class NewHealthFacilityActivityTest {
         onView(withId(R.id.button_save_new_health_facility))
             .perform(ViewActions.click())
 
-        onView(withText("Field cannot be empty")).inRoot(withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
+        onView(withText(R.string.error_message_field_empty)).inRoot(withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
             .check(matches(isDisplayed()))
     }
 
@@ -40,7 +40,7 @@ class NewHealthFacilityActivityTest {
         onView(withId(R.id.button_save_new_health_facility))
             .perform(ViewActions.click())
 
-        onView(withText("Saved")).inRoot(withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
+        onView(withText(R.string.confirmation_message_health_facility_saved)).inRoot(withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
             .check(matches(isDisplayed()))
     }
 }

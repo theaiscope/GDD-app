@@ -18,7 +18,7 @@ class MainActivityTest {
 
     @Test
     fun shouldDisplayWelcomeMessage() {
-        Espresso.onView(ViewMatchers.withText("Welcome to AI Scope application"))
+        Espresso.onView(ViewMatchers.withText(R.string.welcome_msg))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
@@ -28,7 +28,7 @@ class MainActivityTest {
             .perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.text_health_facility_name_hint))
-            .check(ViewAssertions.matches(ViewMatchers.withText("Enter your Health Facility Name")))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.text_health_facility_name_hint)))
     }
 
 }
