@@ -37,8 +37,10 @@
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/button_cancel_new_health_facility"/>
     <Button
             android:text="@android:string/cancel"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="161dp" android:id="@+id/button_cancel_new_health_facility"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"/>
+            android:id="@+id/button_cancel_new_health_facility"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/button_save_new_health_facility"
+            app:layout_constraintStart_toStartOf="@+id/button_save_new_health_facility"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
