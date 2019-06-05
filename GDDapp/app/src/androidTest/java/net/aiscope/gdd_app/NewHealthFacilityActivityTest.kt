@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Matchers.not
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -28,7 +29,7 @@ class NewHealthFacilityActivityTest {
         onView(withId(R.id.button_save_new_health_facility))
             .perform(ViewActions.click())
 
-        onView(withText(R.string.error_message_field_empty)).inRoot(withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
+        onView(withText(R.string.error_message_field_empty)).inRoot(withDecorView(not(activityRule.activity.window.decorView)))
             .check(matches(isDisplayed()))
     }
 
@@ -40,7 +41,17 @@ class NewHealthFacilityActivityTest {
         onView(withId(R.id.button_save_new_health_facility))
             .perform(ViewActions.click())
 
-        onView(withText(R.string.confirmation_message_health_facility_saved)).inRoot(withDecorView(not(activityRule.getActivity().getWindow().getDecorView())))
+        onView(withText(R.string.confirmation_message_health_facility_saved))
+            .inRoot(withDecorView(not(activityRule.activity.window.decorView)))
             .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun shouldReturnToPreviousScreenIfClicked(){
+
+        onView(withId(R.id.button_cancel_new_health_facility))
+            .perform(ViewActions.click())
+
+        assertTrue(activityRule.activity.isFinishing)
     }
 }

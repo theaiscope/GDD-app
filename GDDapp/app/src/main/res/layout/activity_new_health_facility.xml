@@ -28,10 +28,17 @@
     <Button
             android:text="Save"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:id="@+id/button_save_new_health_facility"
-            android:capitalize="none" android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
+            android:capitalize="none"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.498"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/button_cancel_new_health_facility"/>
+    <Button
+            android:text="@android:string/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="161dp" android:id="@+id/button_cancel_new_health_facility"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,14 +13,23 @@ class NewHealthFacilityActivity : AppCompatActivity() {
         setContentView(R.layout.activity_new_health_facility)
 
         val saveButton = findViewById<Button>(R.id.button_save_new_health_facility)
+        val cancelButton = findViewById<Button>(R.id.button_cancel_new_health_facility)
         val healthFacilityText = findViewById<EditText>(R.id.text_health_facility_name_field)
 
         saveButton.setOnClickListener {
+            val message =
             if (healthFacilityText.text.isNotEmpty()) {
-                Toast.makeText(this, R.string.confirmation_message_health_facility_saved, Toast.LENGTH_SHORT).show()
+                R.string.confirmation_message_health_facility_saved
             } else {
-                Toast.makeText(this, R.string.error_message_field_empty, Toast.LENGTH_SHORT).show()
+                R.string.error_message_field_empty
             }
+            val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+            toast.show()
         }
+
+        cancelButton.setOnClickListener {
+            this.finish()
+        }
+
     }
 }
