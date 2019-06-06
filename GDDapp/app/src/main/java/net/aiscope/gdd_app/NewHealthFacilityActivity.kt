@@ -5,7 +5,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputEditText
 
 class NewHealthFacilityActivity : AppCompatActivity() {
 
@@ -15,11 +14,11 @@ class NewHealthFacilityActivity : AppCompatActivity() {
 
         val saveButton = findViewById<Button>(R.id.button_save_new_health_facility)
         val cancelButton = findViewById<Button>(R.id.button_cancel_new_health_facility)
-        val healthFacilityText = findViewById<TextInputEditText>(R.id.text_health_facility_name_field)
+        val healthFacilityText = findViewById<EditText>(R.id.text_health_facility_name_field)
 
         saveButton.setOnClickListener {
             val message =
-            if (!healthFacilityText.text.isNullOrEmpty()) {
+            if (healthFacilityText.text.isNotEmpty()) {
                 R.string.confirmation_message_health_facility_saved
             } else {
                 R.string.error_message_field_empty
