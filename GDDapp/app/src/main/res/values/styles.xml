@@ -7,13 +7,17 @@
 
         <item name="android:editTextColor">@color/colorPlainText</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:fontFamily">roboto</item>
 
+        <item name="android:textViewStyle">@style/TextView</item>
         <item name="buttonStyle">@style/ButtonCustomStyle</item>
     </style>
 
     <style name="ButtonCustomStyle" parent="Widget.AppCompat.Button">
+        <item name="android:fontFamily">roboto</item>
+    </style>
 
+    <style name="TextView">
+        <item name="android:fontFamily">roboto</item>
     </style>
 
     <style name="ButtonCustomAbove" parent="ButtonCustomStyle">
