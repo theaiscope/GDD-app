@@ -7,6 +7,7 @@
 
         <item name="android:editTextColor">@color/colorPlainText</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">roboto</item>
 
         <item name="buttonStyle">@style/ButtonCustomStyle</item>
     </style>
@@ -23,6 +24,18 @@
     <style name="ButtonCustomBelow" parent="ButtonCustomStyle">
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorButtonBelowText</item>
+    </style>
+    <style name="TextHint">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">21dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginStart">28dp</item>
+        <item name="android:layout_marginTop">36dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:capitalize">characters</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.1</item>
     </style>
 
 </resources>
