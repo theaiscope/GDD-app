@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">AI Scope</string>
     <string name="welcome_msg">Welcome to AI Scope application</string>
-    <string name="text_health_facility_name_hint">Add new hospital</string>
     <string name="button_go_to_new_health_facility_text">Add Health Facility</string>
+    <string name="button_go_to_select_disease_text">Select disease</string>
+    <!--health facility-->
+    <string name="text_health_facility_name_hint">Add new hospital</string>
     <string name="error_message_field_empty">Field cannot be empty</string>
     <string name="confirmation_message_health_facility_saved">Saved</string>
+    <!--select disease-->
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="button_back_select_disease">Back</string>
     <string name="button_capture_image_select_disease">Capture Image</string>

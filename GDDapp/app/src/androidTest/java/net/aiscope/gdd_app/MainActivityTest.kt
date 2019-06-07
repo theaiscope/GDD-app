@@ -23,12 +23,21 @@ class MainActivityTest {
     }
 
     @Test
-    fun buttonShouldRedirectToNewHealthFacilityActivity() {
+    fun shouldRedirectToNewHealthFacilityActivity() {
         Espresso.onView(ViewMatchers.withId(R.id.button_go_to_new_health_facility))
             .perform(ViewActions.click())
 
         Espresso.onView(ViewMatchers.withId(R.id.text_health_facility_name_hint))
             .check(ViewAssertions.matches(ViewMatchers.withText(R.string.text_health_facility_name_hint)))
+    }
+
+    @Test
+    fun shouldRedirectToSelectDiseaseActivity() {
+        Espresso.onView(ViewMatchers.withId(R.id.button_go_to_select_disease))
+            .perform(ViewActions.click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.text_select_disease_spinner_hint))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.text_select_disease_spinner_hint)))
     }
 
 }

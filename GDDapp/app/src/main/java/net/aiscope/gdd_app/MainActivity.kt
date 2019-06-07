@@ -11,11 +11,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button = findViewById<Button>(R.id.button_go_to_new_health_facility)
-        val intent = Intent(this, NewHealthFacilityActivity::class.java)
+        val buttonNewHealthFacility = findViewById<Button>(R.id.button_go_to_new_health_facility)
+        val buttonSelectDisease = findViewById<Button>(R.id.button_go_to_select_disease)
 
-        button.setOnClickListener {
-            startActivity(intent)
+        buttonNewHealthFacility.setOnClickListener {
+            startActivity(Intent(this, NewHealthFacilityActivity::class.java))
+        }
+
+        buttonSelectDisease.setOnClickListener {
+            startActivity(Intent(this, SelectDiseaseActivity::class.java))
         }
     }
 }
