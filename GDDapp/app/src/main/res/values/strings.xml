@@ -5,4 +5,7 @@
     <string name="button_go_to_new_health_facility_text">Add Health Facility</string>
     <string name="error_message_field_empty">Field cannot be empty</string>
     <string name="confirmation_message_health_facility_saved">Saved</string>
+    <string name="text_select_disease_spinner_hint">Select a disease</string>
+    <string name="button_back_select_disease">Back</string>
+    <string name="button_capture_image_select_disease">Capture Image</string>
 </resources>

@@ -7,4 +7,38 @@
         android:layout_height="match_parent"
         tools:context=".SelectDiseaseActivity">
 
+    <Button
+            android:text="@string/button_capture_image_select_disease"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:id="@+id/button_capture_image_select_disease" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/button_back_select_disease"/>
+    <Button
+            android:text="@string/button_back_select_disease"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_back_select_disease"
+            app:layout_constraintStart_toStartOf="@+id/button_capture_image_select_disease"
+            app:layout_constraintEnd_toEndOf="@+id/button_capture_image_select_disease"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
+    />
+    <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_select_disease_spinner_hint" android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="@+id/text_select_disease_spinner_hint"
+            app:layout_constraintStart_toStartOf="@+id/text_select_disease_spinner_hint"/>
+    <TextView
+            android:text="@string/text_select_disease_spinner_hint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_select_disease_spinner_hint" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="24dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
