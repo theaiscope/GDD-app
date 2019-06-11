@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.rule.ActivityTestRule
+import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -15,7 +16,8 @@ import org.junit.Test
 class SelectDiseaseActivityTest {
 
     @get:Rule
-    var activityRule: ActivityTestRule<SelectDiseaseActivity> = ActivityTestRule(SelectDiseaseActivity::class.java)
+    var activityRule: ActivityTestRule<SelectDiseaseActivity> = ActivityTestRule(
+        SelectDiseaseActivity::class.java)
 
     @Test
     fun spinnerShouldDisplayDiseasesList () {

@@ -8,6 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
+import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 import org.hamcrest.Matchers.not
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -19,7 +20,8 @@ import org.junit.Test
 class NewHealthFacilityActivityTest {
 
     @get:Rule
-    var activityRule: ActivityTestRule<NewHealthFacilityActivity> = ActivityTestRule(NewHealthFacilityActivity::class.java)
+    var activityRule: ActivityTestRule<NewHealthFacilityActivity> = ActivityTestRule(
+        NewHealthFacilityActivity::class.java)
 
     @Test
     fun shouldShowErrorMessageIfHealthFacilityIsEmpty() {

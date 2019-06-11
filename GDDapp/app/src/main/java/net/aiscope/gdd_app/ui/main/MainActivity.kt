@@ -1,9 +1,12 @@
-package net.aiscope.gdd_app
+package net.aiscope.gdd_app.ui.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
+import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 
 class MainActivity : AppCompatActivity() {
 
