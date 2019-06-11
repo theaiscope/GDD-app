@@ -5,8 +5,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import net.aiscope.gdd_app.repository.HospitalRepository
+import net.aiscope.gdd_app.repository.SharedPreferencesRepository
+
 
 class NewHealthFacilityActivity : AppCompatActivity() {
+    val healthFacilityRepository: HospitalRepository = SharedPreferencesRepository(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,14 +21,7 @@ class NewHealthFacilityActivity : AppCompatActivity() {
         val healthFacilityText = findViewById<EditText>(R.id.text_health_facility_name_field)
 
         saveButton.setOnClickListener {
-            val message =
-            if (healthFacilityText.text.isNotEmpty()) {
-                R.string.confirmation_message_health_facility_saved
-            } else {
-                R.string.error_message_field_empty
-            }
-            val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-            toast.show()
+            handleSaveButtonClick(healthFacilityText)
         }
 
         cancelButton.setOnClickListener {
@@ -32,4 +29,21 @@ class NewHealthFacilityActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun handleSaveButtonClick(healthFacilityText: EditText) {
+        val message =
+            if (healthFacilityText.text.isNotEmpty()) {
+                saveHealthFacility(healthFacilityText.text.toString())
+                R.string.confirmation_message_health_facility_saved
+            } else {
+                R.string.error_message_field_empty
+            }
+        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
+        toast.show()
+    }
+
+    fun saveHealthFacility(hospitalName: String) {
+        healthFacilityRepository.store(hospitalName)
+    }
+
 }
