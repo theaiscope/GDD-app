@@ -12,7 +12,9 @@ class SharedPreferencesRepository(val context: Context) : HospitalRepository {
     }
 
     override fun load(): String =
-        PreferenceManager.getDefaultSharedPreferences(context).getString("Hospital_Name", "not found") ?: "bad error"
+        PreferenceManager.getDefaultSharedPreferences(context).getString("Hospital_Name", "not found")!!
+            .split("::")
+            .first()
 
 
     override fun delete() {
