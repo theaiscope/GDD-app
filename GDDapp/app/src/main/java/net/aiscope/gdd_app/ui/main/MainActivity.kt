@@ -6,6 +6,10 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.application.GddApplication
+import net.aiscope.gdd_app.dagger.AppComponent
+import net.aiscope.gdd_app.dagger.AppModule
+import net.aiscope.gdd_app.dagger.DaggerAppComponent
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 
 class MainActivity : AppCompatActivity() {
@@ -25,4 +29,5 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SelectDiseaseActivity::class.java))
         }
     }
+
 }

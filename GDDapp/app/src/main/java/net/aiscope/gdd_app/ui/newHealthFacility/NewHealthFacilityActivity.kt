@@ -6,16 +6,19 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.application.GddApplication
 import net.aiscope.gdd_app.repository.HospitalRepository
 import net.aiscope.gdd_app.repository.SharedPreferencesRepository
+import javax.inject.Inject
 
 
 class NewHealthFacilityActivity : AppCompatActivity() {
-    val presenter: NewHealthFacilityPresenter = NewHealthFacilityPresenterImpl()
+    @Inject lateinit var presenter: NewHealthFacilityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_health_facility)
+        (application as GddApplication).gddComponent.inject(this)
         presenter.setView(this)
 
         val saveButton = findViewById<Button>(R.id.button_save_new_health_facility)
