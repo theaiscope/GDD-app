@@ -1,6 +1,8 @@
 package net.aiscope.gdd_app.ui.newHealthFacility
 
+import android.widget.EditText
 import android.widget.Toast
+import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.repository.HospitalRepository
 import net.aiscope.gdd_app.repository.SharedPreferencesRepository
 
@@ -21,5 +23,18 @@ class NewHealthFacilityPresenterImpl : NewHealthFacilityPresenter {
     override fun showToast(messageId: Int) {
         val toast = Toast.makeText(newHealthFacilityActivity, messageId, Toast.LENGTH_SHORT)
         toast.show()
+    }
+
+    override fun handleSaveButtonClick(healthFacilityText: EditText) {
+        if (healthFacilityText.text.isNotEmpty()) {
+            this.saveHospital(healthFacilityText.text.toString())
+            this.showToast(R.string.confirmation_message_health_facility_saved)
+        } else {
+            this.showToast(R.string.error_message_field_empty)
+        }
+    }
+
+    override fun destroyActivity() {
+        this.newHealthFacilityActivity.finish()
     }
 }
