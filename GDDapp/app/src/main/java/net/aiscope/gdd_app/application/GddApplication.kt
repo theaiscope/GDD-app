@@ -1,21 +1,25 @@
 package net.aiscope.gdd_app.application
 
+import android.app.Activity
 import android.app.Application
-import net.aiscope.gdd_app.dagger.AppComponent
-import net.aiscope.gdd_app.dagger.AppModule
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import net.aiscope.gdd_app.dagger.DaggerAppComponent
+import javax.inject.Inject
 
-class GddApplication : Application() {
+class GddApplication : Application(), HasActivityInjector {
 
-    lateinit var gddComponent: AppComponent
+    @Inject
+    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+
+    override fun activityInjector(): AndroidInjector<Activity> = activityInjector
 
     override fun onCreate() {
         super.onCreate()
-        gddComponent = initDagger(this)
-    }
+        // initialize Dagger
+        DaggerAppComponent.builder().application(this).build().inject(this)
 
-    private fun initDagger(app: GddApplication): AppComponent =
-        DaggerAppComponent.builder()
-            .appModule(AppModule(app))
-            .build()
+
+    }
 }

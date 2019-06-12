@@ -1,15 +1,13 @@
 package net.aiscope.gdd_app.dagger
 
-import android.app.Application
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import net.aiscope.gdd_app.application.GddApplication
 
 @Module
-class AppModule(private val app: Application) {
+class AppModule {
+
     @Provides
-    @Singleton
-    fun provideContext(): Context = app
+    fun context(application: GddApplication): Context = application.applicationContext
 }

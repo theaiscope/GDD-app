@@ -1,11 +1,24 @@
 package net.aiscope.gdd_app.dagger
 
+import dagger.BindsInstance
 import dagger.Component
-import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
+import dagger.android.AndroidInjectionModule
+import net.aiscope.gdd_app.application.GddApplication
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, PresenterModule::class])
+@Component(modules = [AndroidInjectionModule::class, AppModule::class, HospitalModule::class])
 interface AppComponent {
-    fun inject(target: NewHealthFacilityActivity)
+
+    @Component.Builder
+    interface Builder {
+        // provide Application instance into DI
+        @BindsInstance
+        fun application(application: GddApplication): Builder
+
+        fun build(): AppComponent
+    }
+
+    fun inject(application: GddApplication)
+
 }
