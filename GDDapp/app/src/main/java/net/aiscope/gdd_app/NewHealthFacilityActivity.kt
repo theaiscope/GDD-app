@@ -34,7 +34,7 @@ class NewHealthFacilityActivity : AppCompatActivity() {
         val message =
             if (healthFacilityText.text.isNotEmpty()) {
                 saveHealthFacility(healthFacilityText.text.toString())
-                R.string.confirmation_message_health_facility_saved
+                R.string.confirmation_message_saved
             } else {
                 R.string.error_message_field_empty
             }

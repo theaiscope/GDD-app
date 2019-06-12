@@ -41,7 +41,7 @@ class NewHealthFacilityActivityTest {
         onView(withId(R.id.button_save_new_health_facility))
             .perform(ViewActions.click())
 
-        onView(withText(R.string.confirmation_message_health_facility_saved))
+        onView(withText(R.string.confirmation_message_saved))
             .inRoot(withDecorView(not(activityRule.activity.window.decorView)))
             .check(matches(isDisplayed()))
     }
