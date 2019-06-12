@@ -6,12 +6,12 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import net.aiscope.gdd_app.model.HealthFacility
-import net.aiscope.gdd_app.repository.HospitalRepository
+import net.aiscope.gdd_app.repository.HealthFacilityRepository
 import net.aiscope.gdd_app.repository.SharedPreferencesRepository
 import java.util.*
 
 class NewHealthFacilityActivity : AppCompatActivity() {
-    private val healthFacilityRepository: HospitalRepository = SharedPreferencesRepository(this)
+    private val healthFacilityRepository: HealthFacilityRepository = SharedPreferencesRepository(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

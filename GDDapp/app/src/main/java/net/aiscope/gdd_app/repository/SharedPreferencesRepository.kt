@@ -4,17 +4,17 @@ import android.content.Context
 import android.preference.PreferenceManager
 import net.aiscope.gdd_app.model.HealthFacility
 
-class SharedPreferencesRepository(private val context: Context) : HospitalRepository {
-    override fun store(hosptial: HealthFacility) {
+class SharedPreferencesRepository(private val context: Context) : HealthFacilityRepository {
+    override fun store(healthFacility: HealthFacility) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = preferences.edit()
-        editor.putString("Hospital_Name", hosptial.name)
-        editor.putString("Hospital_Id", hosptial.id)
+        editor.putString("Health_Facility_Name", healthFacility.name)
+        editor.putString("Health_Facility_Id", healthFacility.id)
         editor.apply()
     }
 
     override fun load(): String =
-        PreferenceManager.getDefaultSharedPreferences(context).getString("Hospital_Name", "not found")!!
+        PreferenceManager.getDefaultSharedPreferences(context).getString("Health_Facility_Name", "not found")!!
 
     override fun delete() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
