@@ -14,4 +14,4 @@ The activity realizes the view.
 
 Presenters mediate between views & the rest of the application.
 They depend on a view. They receive and send commands from/to views.
-Presenters are independant of Android components.
+Presenters are independent of Android component
