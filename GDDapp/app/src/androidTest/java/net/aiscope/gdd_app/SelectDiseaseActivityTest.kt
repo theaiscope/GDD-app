@@ -13,6 +13,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 
@@ -67,5 +68,13 @@ class SelectDiseaseActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases)).perform(click())
 
         onData(allOf(`is`(instanceOf(String::class.java)))).atPosition(1).perform(click())
+    }
+
+    @Test
+    fun shouldFinishActivityIfCancelButtonIsClicked() {
+        Espresso.onView(ViewMatchers.withId(R.id.button_back_select_disease))
+            .perform(click())
+
+        Assert.assertTrue(intentsSelectDiseaseTestRule.activity.isFinishing)
     }
 }
