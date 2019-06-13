@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.repository.HospitalRepository
+import net.aiscope.gdd_app.repository.SharedPreferencesRepository
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityPresenter
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityView
@@ -18,7 +19,7 @@ abstract class HospitalModule {
 
     @Binds
     @PerActivity
-    internal abstract fun provideActivity(activity: NewHealthFacilityActivity): Activity
+    internal abstract fun activity(activity: NewHealthFacilityActivity): Activity
 
     @Module
     companion object {
@@ -26,7 +27,6 @@ abstract class HospitalModule {
         @PerActivity
         @JvmStatic
         internal fun providePresenter(
-            // constructur params
             view: NewHealthFacilityView,
             repository: HospitalRepository
         ): NewHealthFacilityPresenter =
@@ -34,5 +34,14 @@ abstract class HospitalModule {
                 view,
                 repository
             )
+
+        @Provides
+        @PerActivity
+        @JvmStatic
+        fun provideHospitalRepository(impl: SharedPreferencesRepository): HospitalRepository = impl
     }
+
+
+
+
 }

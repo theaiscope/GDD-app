@@ -9,7 +9,7 @@ class NewHealthFacilityPresenter @Inject constructor(val view: NewHealthFacility
 ) {
 
     fun saveHospital(hospitalName: String) {
-        if (hospitalName.isBlank()) {
+        if (!hospitalName.isBlank()) {
             repository.store(hospitalName)
             this.showToast(R.string.confirmation_message_health_facility_saved)
         } else {

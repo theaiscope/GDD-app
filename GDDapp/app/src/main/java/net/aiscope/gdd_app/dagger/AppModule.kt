@@ -5,7 +5,9 @@ import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.application.GddApplication
 
-@Module
+@Module(subcomponents = [
+    (HospitalSubComponents::class)
+])
 class AppModule {
 
     @Provides

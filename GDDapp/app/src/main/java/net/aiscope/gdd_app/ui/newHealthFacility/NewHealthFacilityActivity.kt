@@ -5,15 +5,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.R
 import javax.inject.Inject
 
 
 class NewHealthFacilityActivity : AppCompatActivity(), NewHealthFacilityView {
+
     @Inject lateinit var presenter: NewHealthFacilityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
         setContentView(R.layout.activity_new_health_facility)
 
         val saveButton = findViewById<Button>(R.id.button_save_new_health_facility)

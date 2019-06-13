@@ -2,8 +2,9 @@ package net.aiscope.gdd_app.repository
 
 import android.content.Context
 import android.preference.PreferenceManager
+import javax.inject.Inject
 
-class SharedPreferencesRepository(val context: Context) : HospitalRepository {
+class SharedPreferencesRepository @Inject constructor(val context: Context) : HospitalRepository {
     override fun store(hospitalName: String) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = preferences.edit()
