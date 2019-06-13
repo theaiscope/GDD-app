@@ -14,12 +14,11 @@ import org.junit.Rule
 import org.junit.Test
 
 
-
-
 class NewHealthFacilityActivityTest {
 
     @get:Rule
-    var activityRule: ActivityTestRule<NewHealthFacilityActivity> = ActivityTestRule(NewHealthFacilityActivity::class.java)
+    var activityRule: ActivityTestRule<NewHealthFacilityActivity> =
+        ActivityTestRule(NewHealthFacilityActivity::class.java)
 
     @Test
     fun shouldShowErrorMessageIfHealthFacilityIsEmpty() {
@@ -47,7 +46,7 @@ class NewHealthFacilityActivityTest {
     }
 
     @Test
-    fun shouldReturnToPreviousScreenIfClicked(){
+    fun shouldFinishActivityIfCancelButtonIsClicked() {
 
         onView(withId(R.id.button_cancel_new_health_facility))
             .perform(ViewActions.click())
