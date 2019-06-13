@@ -17,8 +17,6 @@ import org.junit.Rule
 import org.junit.Test
 
 
-
-
 class SelectDiseaseActivityTest {
 
     @get:Rule

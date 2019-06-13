@@ -2,14 +2,22 @@ package net.aiscope.gdd_app.repository
 
 import android.content.Context
 import android.preference.PreferenceManager
+import net.aiscope.gdd_app.model.Disease
 import net.aiscope.gdd_app.model.HealthFacility
 
-class SharedPreferencesRepository(private val context: Context) : HealthFacilityRepository {
-    override fun store(healthFacility: HealthFacility) {
+class SharedPreferencesRepository(private val context: Context) : Repository {
+     override fun store(healthFacility: HealthFacility) {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = preferences.edit()
         editor.putString("Health_Facility_Name", healthFacility.name)
         editor.putString("Health_Facility_Id", healthFacility.id)
+        editor.apply()
+    }
+
+    override fun store(disease: Disease) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = preferences.edit()
+        editor.putString("Disease", disease.name)
         editor.apply()
     }
 
