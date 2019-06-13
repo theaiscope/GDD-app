@@ -15,3 +15,8 @@ The activity realizes the view.
 Presenters mediate between views & the rest of the application.
 They depend on a view. They receive and send commands from/to views.
 Presenters are independent of Android component
+
+## Dependency Injection
+
+We use DI to be able to test in isolation, to separate concerns, and to enable the MVP pattern.
+To make life easier, we implement DI using dagger.
