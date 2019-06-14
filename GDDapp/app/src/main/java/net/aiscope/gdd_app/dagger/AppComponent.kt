@@ -7,7 +7,9 @@ import net.aiscope.gdd_app.application.GddApplication
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, HospitalModule::class, BuildersModule::class])
+@Component(modules = [AndroidInjectionModule::class, AppModule::class, HospitalModule::class,
+    BuildersModule::class, SelectDiseaseModule::class])
+
 interface AppComponent {
 
     @Component.Builder
