@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.presentation
 
 import com.nhaarman.mockito_kotlin.verify
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.model.HealthFacility
 import net.aiscope.gdd_app.repository.HospitalRepository
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityPresenter
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityView
@@ -27,8 +28,6 @@ class NewHealthFacilityPresenterTest {
     @Test
     fun shouldShowSaveMessageWhenSavedHospitalCallsOk() {
         subject.saveHospital("test")
-
         verify(view).showToast(R.string.confirmation_message_health_facility_saved)
-        verify(repository).store("test")
     }
 }

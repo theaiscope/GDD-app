@@ -8,7 +8,6 @@ Accepted
 
 ## Context
 
-The issue motivating this decision, and any context that influences or constrains the decision.
 We need an easy way to integrate and test out code that is fast and reliable.
 
 ## Decision
