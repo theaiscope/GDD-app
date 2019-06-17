@@ -7,13 +7,13 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.model.Disease
-import net.aiscope.gdd_app.repository.HospitalRepository
-import net.aiscope.gdd_app.repository.SharedPreferencesRepository
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
+import javax.inject.Inject
 
-class SelectDiseaseActivity : AppCompatActivity() {
-    private val repository: HospitalRepository = SharedPreferencesRepository(this)
+class SelectDiseaseActivity : AppCompatActivity() , SelectDiseaseView{
+
+    @Inject
+    lateinit var presenter: SelectDiseasePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class SelectDiseaseActivity : AppCompatActivity() {
         val cancelButton = findViewById<Button>(R.id.button_back_select_disease)
 
         captureImageButton.setOnClickListener {
-            handleSaveButtonClick(diseasesSpinner)
+            presenter.saveDisease(diseasesSpinner.selectedItem.toString())
         }
 
         cancelButton.setOnClickListener {
@@ -32,21 +32,15 @@ class SelectDiseaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSaveButtonClick(selectedDisease: Spinner) {
-        val diseaseName = selectedDisease.selectedItem.toString()
-        val message =
-            if (diseaseName == "") {
-                R.string.error_message_field_empty
-            } else {
-                saveDisease(Disease(diseaseName))
-                startActivity(Intent(this, CaptureImageActivity::class.java))
-                R.string.confirmation_message_saved
-            }
-        val toast = Toast.makeText(this, message, Toast.LENGTH_SHORT)
-        toast.show()
+    override fun startActivity() {
+        this.startActivity(Intent(this, CaptureImageActivity::class.java))
     }
 
-    private fun saveDisease(disease: Disease) {
-        repository.store(disease)
+    override fun showSuccessToast() {
+        Toast.makeText(this, R.string.confirmation_message_saved, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showFailureToast() {
+        Toast.makeText(this, R.string.error_message_field_empty, Toast.LENGTH_SHORT).show()
     }
 }
