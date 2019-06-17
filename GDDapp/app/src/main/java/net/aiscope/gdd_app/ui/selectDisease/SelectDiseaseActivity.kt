@@ -6,17 +6,18 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import javax.inject.Inject
 
 class SelectDiseaseActivity : AppCompatActivity() , SelectDiseaseView{
 
-    @Inject
-    lateinit var presenter: SelectDiseasePresenter
+    @Inject lateinit var presenter: SelectDiseasePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
         setContentView(R.layout.activity_select_disease)
 
         val captureImageButton = findViewById<Button>(R.id.button_capture_image_select_disease)
