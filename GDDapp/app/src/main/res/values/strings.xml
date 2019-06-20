@@ -12,4 +12,6 @@
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="button_back_select_disease">Back</string>
     <string name="button_capture_image_select_disease">Capture Image</string>
+    <string name="capture_image_button_text">Take a Photo</string>
+    <string name="preview_capture_image_content_description">capture image preview</string>
 </resources>
