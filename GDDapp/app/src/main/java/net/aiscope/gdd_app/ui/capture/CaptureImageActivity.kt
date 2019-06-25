@@ -1,8 +1,8 @@
 package net.aiscope.gdd_app.ui.capture
 
-import android.graphics.BitmapFactory
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.camerakit.CameraKit
@@ -11,35 +11,34 @@ import kotlinx.android.synthetic.main.activity_capture_image.*
 import net.aiscope.gdd_app.R
 
 
-class CaptureImageActivity : AppCompatActivity() {
+class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
+
+    private val presenter: CaptureImagePresenter = CaptureImagePresenter(this)
+    lateinit var cameraKitView: CameraKitView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_capture_image)
-        cameraKitView = findViewById(R.id.camera)
-        cameraKitView.focus = CameraKit.FOCUS_OFF
-        cameraKitView.flash = CameraKit.FLASH_OFF
-        cameraKitView.facing = CameraKit.FACING_BACK
 
+        cameraKitView = setupCamera()
 
-        capture_image_button.setOnClickListener {
-            Log.e("Taking picture", "trying to take a picture")
+        capture_image_button.setOnClickListener { presenter.handleCaptureImageButton() }
 
-            cameraKitView.captureImage { view, byteImage ->
-                Log.e("Taking picture", "callback called")
-                val imgViewer = findViewById<ImageView>(R.id.capture_image_preview)
-                val bm = BitmapFactory.decodeByteArray(byteImage, 0, byteImage.size)
+        cameraKitView.errorListener = CameraKitView.ErrorListener { _: View, e: Exception -> onCameraError(e.message) }
+    }
 
-                imgViewer.setImageBitmap(bm)
-            }
-        }
-
-        cameraKitView.errorListener = CameraKitView.ErrorListener { cameraKitView, e ->
-            Log.e(localClassName,"error in camera", e)
+    override fun takePhoto() {
+        cameraKitView.captureImage { _, byteImage ->
+            presenter.storeImageData(byteImage)
+            presenter.setPreviewImage(byteImage)
         }
     }
 
-    private lateinit var cameraKitView: CameraKitView
+    override var onCameraError: (String?) -> Unit = {}
+
+    override fun setPreviewImage(bm: Bitmap?) {
+        findViewById<ImageView>(R.id.capture_image_preview).setImageBitmap(bm)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -64,6 +63,14 @@ class CaptureImageActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun setupCamera(): CameraKitView {
+        val cam: CameraKitView = findViewById(R.id.camera)
+        cam.focus = CameraKit.FOCUS_OFF
+        cam.flash = CameraKit.FLASH_OFF
+        cam.facing = CameraKit.FACING_BACK
+        return cam
     }
 
 }
