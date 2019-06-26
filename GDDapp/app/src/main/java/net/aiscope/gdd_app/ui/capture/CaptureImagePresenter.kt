@@ -1,27 +1,30 @@
 package net.aiscope.gdd_app.ui.capture
 
-import android.graphics.BitmapFactory
 import android.util.Log
+import io.fotoapparat.exception.camera.CameraException
+import io.fotoapparat.result.BitmapPhoto
 
 class CaptureImagePresenter(val view: CaptureImageView) {
 
-    var byteImageArray: ByteArray = byteArrayOf()
+    lateinit var imageBitmap: BitmapPhoto
 
-    init {
-        view.onCameraError = { e: String? ->
-            Log.e("Camera Error", e.orEmpty())
+    fun handleCaptureImageButton() {
+        Log.e("Taking Photo", "button pressed")
+        view.takePhoto {
+            Log.e("Taking Photo", it.toString())
+            storeImageData(it)
+            view.setPreviewImage(imageBitmap)
         }
     }
 
-    fun handleCaptureImageButton() {
-        view.takePhoto()
+    private fun storeImageData(photo: BitmapPhoto?) {
+        if (photo != null) {
+            imageBitmap = photo
+        }
     }
 
-    fun storeImageData(bytes: ByteArray) {
-        byteImageArray = bytes
+    fun onCaptureError(it: CameraException) {
+        Log.e("Camera Error", it.message)
     }
 
-    fun setPreviewImage(bytes: ByteArray) {
-        view.setPreviewImage(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
-    }
 }

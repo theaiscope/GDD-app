@@ -7,20 +7,11 @@
         android:layout_height="match_parent"
         tools:context=".ui.capture.CaptureImageActivity">
 
-    <com.camerakit.CameraKitView
-            android:id="@+id/camera"
+    <io.fotoapparat.view.CameraView
+            android:id="@+id/camera_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:keepScreenOn="true"
-            app:camera_flash="auto"
-            app:camera_facing="back"
-            app:camera_focus="continuous"
-            app:camera_permissions="camera" android:layout_marginStart="32dp"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp" app:layout_constraintBottom_toTopOf="@+id/capture_image_button"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="16dp"/>
+            android:layout_height="match_parent"/>
+
     <Button
             android:text="@string/capture_image_button_text"
             android:layout_width="wrap_content"

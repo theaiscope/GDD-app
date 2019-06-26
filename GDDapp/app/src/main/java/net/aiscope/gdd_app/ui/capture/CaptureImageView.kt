@@ -1,13 +1,10 @@
 package net.aiscope.gdd_app.ui.capture
 
-import android.graphics.Bitmap
+import io.fotoapparat.result.BitmapPhoto
 
 interface CaptureImageView {
 
-    fun setPreviewImage(bm: Bitmap?)
+    fun setPreviewImage(photo: BitmapPhoto)
 
-    fun takePhoto()
-
-    var onCameraError: (String?) -> Unit
-
+    fun takePhoto(onPhotoReceived: (BitmapPhoto?) -> Unit)
 }
