@@ -12,7 +12,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
     private val presenter: CaptureImagePresenter = CaptureImagePresenter(this)
 
-    private lateinit var fotoapparat: Fotoapparat
+    lateinit var fotoapparat: Fotoapparat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

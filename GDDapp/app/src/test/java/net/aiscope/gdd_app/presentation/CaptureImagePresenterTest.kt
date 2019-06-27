@@ -1,17 +1,9 @@
 package net.aiscope.gdd_app.presentation
 
-import net.aiscope.gdd_app.ui.capture.CaptureImageView
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class CaptureImagePresenterTest {
-
-    @Mock
-    lateinit var view: CaptureImageView
 
     @Test
     fun addition_isCorrect() {
