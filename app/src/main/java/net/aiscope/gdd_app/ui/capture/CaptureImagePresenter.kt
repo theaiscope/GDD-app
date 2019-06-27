@@ -10,16 +10,14 @@ class CaptureImagePresenter(val view: CaptureImageView) {
 
     fun handleCaptureImageButton() {
         Log.e("Taking Photo", "button pressed")
-        view.takePhoto {
-            Log.e("Taking Photo", it.toString())
-            storeImageData(it)
-            view.setPreviewImage(imageBitmap)
-        }
-    }
-
-    private fun storeImageData(photo: BitmapPhoto?) {
-        if (photo != null) {
-            imageBitmap = photo
+        view.takePhoto {photo ->
+            Log.e("Taking Photo", photo.toString())
+            if (photo == null) {
+                view.notifyImageCouldNotBeTaken()
+            } else {
+                imageBitmap = photo
+                view.setPreviewImage(imageBitmap)
+            }
         }
     }
 

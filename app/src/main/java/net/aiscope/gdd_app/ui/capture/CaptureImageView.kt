@@ -7,4 +7,6 @@ interface CaptureImageView {
     fun setPreviewImage(photo: BitmapPhoto)
 
     fun takePhoto(onPhotoReceived: (BitmapPhoto?) -> Unit)
+
+    fun notifyImageCouldNotBeTaken()
 }

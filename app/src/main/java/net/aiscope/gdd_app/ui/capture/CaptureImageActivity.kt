@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.ui.capture
 
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.result.BitmapPhoto
@@ -48,6 +49,10 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         val imageView = findViewById<ImageView>(R.id.capture_image_preview)
         imageView.rotation = (-photo.rotationDegrees).toFloat()
         imageView.setImageBitmap(photo.bitmap)
+    }
+
+    override fun notifyImageCouldNotBeTaken() {
+        Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT).show()
     }
 
 }

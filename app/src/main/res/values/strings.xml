@@ -14,4 +14,6 @@
     <string name="button_capture_image_select_disease">Capture Image</string>
     <string name="capture_image_button_text">Take a Photo</string>
     <string name="preview_capture_image_content_description">capture image preview</string>
+    <!-- CaptureImage -->
+    <string name="image_could_not_be_taken">Image could not be taken</string>
 </resources>
