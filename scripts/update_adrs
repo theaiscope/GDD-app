@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+adr generate toc > `dirname $0`/../`adr list | head -n 1 | xargs dirname`/README.md
