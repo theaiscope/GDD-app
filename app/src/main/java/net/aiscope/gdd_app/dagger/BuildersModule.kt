@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.android.ActivityKey
 import dagger.android.AndroidInjector
 import dagger.multibindings.IntoMap
+import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
@@ -28,6 +29,12 @@ abstract class BuildersModule {
     @IntoMap
     @ActivityKey(MetadataActivity::class)
     abstract fun bindMetadataActivityInjectorFactory(builder: MetadataSubComponents.Builder):
+            AndroidInjector.Factory<out Activity>
+
+    @Binds
+    @IntoMap
+    @ActivityKey(CaptureImageActivity::class)
+    abstract fun bindCaptureImageActivityInjectorFactory(builder: CaptureImageSubComponents.Builder):
             AndroidInjector.Factory<out Activity>
 
 }

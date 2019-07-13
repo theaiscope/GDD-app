@@ -4,6 +4,7 @@ import android.app.Activity
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
 import net.aiscope.gdd_app.ui.metadata.MetadataView
@@ -24,11 +25,7 @@ abstract class MetadataModule {
         @Provides
         @PerActivity
         @JvmStatic
-        internal fun providePresenter(
-            view: MetadataView
-        ): MetadataPresenter=
-            MetadataPresenter(
-                view
-            )
+        internal fun providePresenter(view: MetadataView, repository: SampleRepository): MetadataPresenter=
+            MetadataPresenter(view, repository)
     }
 }

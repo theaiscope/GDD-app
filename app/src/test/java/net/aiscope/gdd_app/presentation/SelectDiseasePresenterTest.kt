@@ -1,11 +1,10 @@
 package net.aiscope.gdd_app.presentation
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import net.aiscope.gdd_app.model.Disease
+import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.repository.HospitalRepository
+import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseasePresenter
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseView
 import org.junit.Test
@@ -22,7 +21,7 @@ class SelectDiseasePresenterTest {
     lateinit var view: SelectDiseaseView
 
     @Mock
-    lateinit var repository: HospitalRepository
+    lateinit var repository: SampleRepository
 
     @InjectMocks
     lateinit var subject: SelectDiseasePresenter
@@ -31,11 +30,12 @@ class SelectDiseasePresenterTest {
 
     @Test
     fun `should store a disease with a name in the repository and call success toast on the view`() {
+        whenever(repository.create()).thenReturn(Sample("id", "hospital"))
         subject.saveDisease(DISEASE_NAME)
 
-        argumentCaptor<Disease>().apply {
+        argumentCaptor<Sample>().apply {
             verify(repository).store(capture())
-            assert(firstValue.name == DISEASE_NAME)
+            assert(firstValue.disease == DISEASE_NAME)
             verify(view).showSuccessToast()
         }
     }
@@ -44,7 +44,7 @@ class SelectDiseasePresenterTest {
     fun `should call failure toast on the view is name is empty`() {
         subject.saveDisease("")
 
-        verify(repository, times(0)).store(any<Disease>())
+        verify(repository, times(0)).store(any())
         verify(view).showFailureToast()
     }
 
@@ -52,7 +52,7 @@ class SelectDiseasePresenterTest {
     fun `should call failure toast on the view is name is blank`() {
         subject.saveDisease("    ")
 
-        verify(repository, times(0)).store(any<Disease>())
+        verify(repository, times(0)).store(any())
         verify(view).showFailureToast()
     }
 }

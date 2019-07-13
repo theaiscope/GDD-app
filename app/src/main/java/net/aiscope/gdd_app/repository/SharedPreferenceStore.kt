@@ -15,6 +15,6 @@ class SharedPreferenceStore @Inject constructor(val context: Context) {
     }
 
     fun load(id: String): String {
-        return sharedPreference.getString(id, null)
+        return sharedPreference.getString(id, "") as String
     }
 }

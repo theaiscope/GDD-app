@@ -5,27 +5,32 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.result.BitmapPhoto
 import kotlinx.android.synthetic.main.activity_capture_image.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
+import java.io.File
+import javax.inject.Inject
 
 class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
-    private val presenter: CaptureImagePresenter = CaptureImagePresenter(this)
+    @Inject
+    lateinit var presenter: CaptureImagePresenter
 
     lateinit var fotoapparat: Fotoapparat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
         setContentView(R.layout.activity_capture_image)
 
         fotoapparat = Fotoapparat(
             context = this,
             view = camera_view,
-            cameraErrorCallback = { presenter.onCaptureError(it) }
+            cameraErrorCallback = { presenter   .onCaptureError(it) }
         )
 
         capture_image_button.setOnClickListener { presenter.handleCaptureImageButton() }
@@ -41,17 +46,13 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         super.onStop()
     }
 
-    override fun takePhoto(onPhotoReceived: (BitmapPhoto?) -> Unit) {
-        fotoapparat
-            .takePicture()
-            .toBitmap()
-            .whenAvailable { onPhotoReceived(it) }
-    }
-
-    override fun setPreviewImage(photo: BitmapPhoto) {
-        val imageView = findViewById<ImageView>(R.id.capture_image_preview)
-        imageView.rotation = (-photo.rotationDegrees).toFloat()
-        imageView.setImageBitmap(photo.bitmap)
+    override fun takePhoto(id: String, onPhotoReceived: (File?) -> Unit) {
+        val result = fotoapparat.takePicture()
+        val dest = File(this.filesDir, "${id}.jpg")
+        result.saveToFile(dest)
+            .whenAvailable {
+                onPhotoReceived(dest)
+            }
     }
 
     override fun notifyImageCouldNotBeTaken() {

@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.repository.HospitalRepository
+import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.repository.SharedPreferencesRepository
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseasePresenter
@@ -28,7 +29,7 @@ abstract class SelectDiseaseModule {
         @JvmStatic
         internal fun providePresenter(
             view: SelectDiseaseView,
-            repository: HospitalRepository
+            repository: SampleRepository
         ): SelectDiseasePresenter =
             SelectDiseasePresenter(
                 view,

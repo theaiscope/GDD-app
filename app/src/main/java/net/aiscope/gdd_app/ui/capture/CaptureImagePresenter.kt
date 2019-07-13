@@ -3,20 +3,20 @@ package net.aiscope.gdd_app.ui.capture
 import android.util.Log
 import io.fotoapparat.exception.camera.CameraException
 import io.fotoapparat.result.BitmapPhoto
+import net.aiscope.gdd_app.repository.SampleRepository
 
-class CaptureImagePresenter(val view: CaptureImageView) {
-
-    lateinit var imageBitmap: BitmapPhoto
+class CaptureImagePresenter(val view: CaptureImageView,
+                            val repository: SampleRepository) {
 
     fun handleCaptureImageButton() {
         Log.e("Taking Photo", "button pressed")
-        view.takePhoto {photo ->
-            Log.e("Taking Photo", photo.toString())
-            if (photo == null) {
+        view.takePhoto(repository.current().id) {file ->
+            Log.e("Taking Photo", file?.absolutePath)
+            if (file == null) {
                 view.notifyImageCouldNotBeTaken()
             } else {
-                imageBitmap = photo
-                view.setPreviewImage(imageBitmap)
+                val sample = repository.create().copy(imagePath = file.absolutePath)
+                repository.store(sample)
 
                 view.goToMetadata()
             }

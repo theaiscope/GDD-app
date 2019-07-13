@@ -35,10 +35,6 @@ abstract class HospitalModule {
                 repository
             )
 
-        @Provides
-        @PerActivity
-        @JvmStatic
-        fun provideHospitalRepository(impl: SharedPreferencesRepository): HospitalRepository = impl
     }
 
 
