@@ -24,10 +24,6 @@ android {
     }
 }
 
-ext {
-    kFormMasterVersion = "6.4.0"
-}
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -35,7 +31,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.karumi:dexter:5.0.0'
-    implementation "com.thejuki:k-form-master:$kFormMasterVersion"
+    implementation "com.thejuki:k-form-master:6.4.0"
+    implementation'com.github.salomonbrys.kotson:kotson:2.5.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
