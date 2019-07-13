@@ -7,7 +7,8 @@ import net.aiscope.gdd_app.application.GddApplication
 
 @Module(subcomponents = [
     (HospitalSubComponents::class),
-    (SelectDiseaseSubComponents::class)
+    (SelectDiseaseSubComponents::class),
+    (MetadataSubComponents::class)
 ])
 class AppModule {
 

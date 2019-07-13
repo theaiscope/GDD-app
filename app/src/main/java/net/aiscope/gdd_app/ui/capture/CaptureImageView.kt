@@ -9,4 +9,6 @@ interface CaptureImageView {
     fun takePhoto(onPhotoReceived: (BitmapPhoto?) -> Unit)
 
     fun notifyImageCouldNotBeTaken()
+
+    fun goToMetadata()
 }

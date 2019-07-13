@@ -16,4 +16,11 @@
     <string name="preview_capture_image_content_description">capture image preview</string>
     <!-- CaptureImage -->
     <string name="image_could_not_be_taken">Image could not be taken</string>
+
+    <!-- Metadata -->
+    <string name="metadata_blood_smear_title">Type of blood smear</string>
+    <string name="metadata_blood_smear_thick">thick</string>
+    <string name="metadata_blood_smear_thin">thin</string>
+    <string name="metadata_add">Add</string>
+    <string name="metadata_invalid_form">Not all required fields are filled</string>
 </resources>

@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.ui.capture
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
@@ -8,6 +9,8 @@ import io.fotoapparat.Fotoapparat
 import io.fotoapparat.result.BitmapPhoto
 import kotlinx.android.synthetic.main.activity_capture_image.*
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.ui.main.MainActivity
+import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 
 class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
@@ -53,6 +56,11 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
     override fun notifyImageCouldNotBeTaken() {
         Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun goToMetadata() {
+        val intent = Intent(this, MetadataActivity::class.java)
+        startActivity(intent)
     }
 
 }

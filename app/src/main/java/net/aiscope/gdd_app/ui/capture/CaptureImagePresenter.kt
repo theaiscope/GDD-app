@@ -17,6 +17,8 @@ class CaptureImagePresenter(val view: CaptureImageView) {
             } else {
                 imageBitmap = photo
                 view.setPreviewImage(imageBitmap)
+
+                view.goToMetadata()
             }
         }
     }
