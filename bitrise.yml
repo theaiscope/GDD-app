@@ -21,6 +21,13 @@ workflows:
   primary:
     steps:
     - cache-pull@2.0.1: {}
+    - script@1.1.5:
+        inputs:
+        - content: |-
+                #!/bin/bash
+                set -ex
+                sed -i '' "s/__API_KEY__/$AWS_ACCESS/g" "app/src/main/java/net/aiscope/gdd_app/network/Credentials.kt"
+                sed -i '' "s/__API_SECRET__/$AWS_SECRET/g" "app/src/main/java/net/aiscope/gdd_app/network/Credentials.kt"
     - install-missing-android-tools@2.3.5:
         inputs:
         - gradlew_path: "$PROJECT_LOCATION/gradlew"
