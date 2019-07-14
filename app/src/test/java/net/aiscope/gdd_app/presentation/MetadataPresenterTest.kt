@@ -4,6 +4,7 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.metadata.ListItem
 import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
@@ -25,6 +26,10 @@ class MetadataPresenterTest {
     @Mock
     lateinit var repository: SampleRepository
 
+    @Mock
+    lateinit var remote: RemoteStorage
+
+
     @InjectMocks
     lateinit var subject: MetadataPresenter
 
@@ -42,6 +47,7 @@ class MetadataPresenterTest {
     @Test
     fun shouldStoreMetadata() {
         subject.save(listOf(ListItem(1, "thick")))
+        verify(remote).upload(any())
         verify(repository).store(any())
     }
 }

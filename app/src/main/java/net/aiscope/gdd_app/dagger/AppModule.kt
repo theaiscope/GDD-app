@@ -19,14 +19,4 @@ class AppModule {
     @Provides
     fun context(application: GddApplication): Context = application.applicationContext
 
-    @Provides
-    fun store(context: Context): SharedPreferenceStore = SharedPreferenceStore(context)
-
-    @Singleton
-    @Provides
-    fun sampleRepository(store: SharedPreferenceStore, hospitalRepository: HospitalRepository): SampleRepository =
-        SampleRepositorySharedPreference(store, UUID, hospitalRepository)
-
-    @Provides
-    fun provideHospitalRepository(context: Context): HospitalRepository = SharedPreferencesRepository(context)
 }

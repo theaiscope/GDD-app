@@ -31,8 +31,7 @@ class SampleRepositorySharedPreference @Inject constructor(val store: SharedPref
     }
 
     override fun store(sample: Sample) {
-        val json = Gson().toJson(sample)
-        store.store(sample.id, json)
+        store.store(sample.id, sample.toJson())
         currentSample = sample
     }
 

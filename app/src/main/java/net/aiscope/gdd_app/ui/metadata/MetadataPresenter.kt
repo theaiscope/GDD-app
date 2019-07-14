@@ -2,6 +2,8 @@ package net.aiscope.gdd_app.ui.metadata
 
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.SampleMetadata
+import net.aiscope.gdd_app.model.Status
+import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import javax.inject.Inject
 
@@ -10,7 +12,8 @@ data class FieldModel(val title: Int, val options: List<FieldOption>, val requir
 
 class MetadataPresenter @Inject constructor(
     val view: MetadataView,
-    val repository: SampleRepository
+    val repository: SampleRepository,
+    val remoteStorage: RemoteStorage
 ) {
 
     fun showScreen() {
@@ -27,8 +30,10 @@ class MetadataPresenter @Inject constructor(
 
     fun save(values: List<Any?>) {
         val bloodType = values.first() as ListItem
-        val sample = repository.current().copy(metadata = SampleMetadata(bloodType.id), readyToUpload = true)
+        val sample = repository.current().copy(metadata = SampleMetadata(bloodType.id), status = Status.ReadyToUpload)
         repository.store(sample)
+
+        remoteStorage.upload(sample)
 
         view.goToHome()
     }
