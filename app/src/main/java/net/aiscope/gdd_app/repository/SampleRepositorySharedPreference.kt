@@ -44,4 +44,11 @@ class SampleRepositorySharedPreference @Inject constructor(val store: SharedPref
         return sample
     }
 
+    override fun all(): List<Sample> {
+        val jsons = store.all()
+
+        return jsons.map {
+            Gson().fromJson<Sample>(it)
+        }.toList()
+    }
 }

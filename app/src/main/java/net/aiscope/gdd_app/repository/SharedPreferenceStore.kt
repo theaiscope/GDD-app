@@ -17,4 +17,8 @@ class SharedPreferenceStore @Inject constructor(val context: Context) {
     fun load(id: String): String {
         return sharedPreference.getString(id, "") as String
     }
+
+    fun all(): Collection<String> {
+        return sharedPreference.all.values as Collection<String>
+    }
 }

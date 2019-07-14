@@ -33,7 +33,7 @@ class SampleRepositorySharedPreferenceTest {
     private val HOSPITAL = "H. St. Pau"
 
     val sampleOnlyRequired = Sample(ID, HOSPITAL)
-    val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H. St. Pau","readyToUpload":false}"""
+    val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H. St. Pau","status":"Incomplete"}"""
 
     @Before
     fun before() {
@@ -90,5 +90,14 @@ class SampleRepositorySharedPreferenceTest {
         val sample = subject.current()
 
         assert(sample == sampleOnlyRequired)
+    }
+
+    @Test
+    fun `should give all the samples`() {
+        whenever(store.all()).thenReturn(listOf(sampleOnlyRequiredJson, sampleOnlyRequiredJson))
+
+        val samples = subject.all()
+
+        assert(samples.size == 2)
     }
 }
