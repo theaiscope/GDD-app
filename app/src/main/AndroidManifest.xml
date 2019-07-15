@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".ui.metadata.MetadataActivity">
         </activity>
+        <activity android:name=".ui.mask.MaskActivity">
+        </activity>
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

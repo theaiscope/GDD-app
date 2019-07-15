@@ -9,4 +9,5 @@ interface CaptureImageView {
     fun notifyImageCouldNotBeTaken()
 
     fun goToMetadata()
+    fun goToMask(imagePath: String?)
 }

@@ -18,6 +18,7 @@ class SelectDiseasePresenter @Inject constructor(
             val sample = repository.create().copy(disease = input)
             repository.store(sample)
 
+            val samples = repository.all()
             view.startActivity()
             view.showSuccessToast()
         } else {

@@ -1,6 +1,8 @@
 package net.aiscope.gdd_app.ui.capture
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
@@ -11,8 +13,10 @@ import io.fotoapparat.result.BitmapPhoto
 import kotlinx.android.synthetic.main.activity_capture_image.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.main.MainActivity
+import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
@@ -49,10 +53,22 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
     override fun takePhoto(id: String, onPhotoReceived: (File?) -> Unit) {
         val result = fotoapparat.takePicture()
         val dest = File(this.filesDir, "${id}.jpg")
-        result.saveToFile(dest)
-            .whenAvailable {
+        result.toBitmap().whenAvailable {
+            it?.let {
+                val degrees = (-it.rotationDegrees) % 360
+                val bmp = it.bitmap.rotate(degrees.toFloat())
+
+                val out = FileOutputStream(dest)
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, out)
+
                 onPhotoReceived(dest)
-            }
+            } ?: notifyImageCouldNotBeTaken()
+        }
+    }
+
+    fun Bitmap.rotate(degrees: Float): Bitmap {
+        val matrix = Matrix().apply { postRotate(degrees) }
+        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
     }
 
     override fun notifyImageCouldNotBeTaken() {
@@ -64,6 +80,12 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         startActivity(intent)
     }
 
+    override fun goToMask(imagePath: String?) {
+        val intent = Intent(this, MaskActivity::class.java)
+        intent.putExtra("imagePath", imagePath)
+
+        startActivity(intent)
+    }
 }
 
 

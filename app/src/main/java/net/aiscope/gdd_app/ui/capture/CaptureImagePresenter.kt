@@ -2,7 +2,6 @@ package net.aiscope.gdd_app.ui.capture
 
 import android.util.Log
 import io.fotoapparat.exception.camera.CameraException
-import io.fotoapparat.result.BitmapPhoto
 import net.aiscope.gdd_app.repository.SampleRepository
 
 class CaptureImagePresenter(val view: CaptureImageView,
@@ -19,6 +18,7 @@ class CaptureImagePresenter(val view: CaptureImageView,
                 repository.store(sample)
 
                 view.goToMetadata()
+//                view.goToMask(sample.imagePath)
             }
         }
     }
