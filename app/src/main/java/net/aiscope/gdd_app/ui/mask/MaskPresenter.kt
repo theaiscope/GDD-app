@@ -25,6 +25,7 @@ class MaskPresenter(val view: MaskView,
     fun start() {
         val imagePath = repository.current().imagePath
 
+//        val imagePath = "/data/user/0/net.aiscope.gdd_app/files/c6c725a5-6eab-4800-823c-39c582b5ac70.jpg"
         if ( imagePath == null ) {
             view.notifyImageCouldNotBeTaken()
         } else {

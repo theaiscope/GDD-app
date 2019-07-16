@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import io.fotoapparat.selector.back
 
 
@@ -54,7 +55,6 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
     var canvasRect = RectF(0f,0f,0f,0f)
 
 
-    fun getMask(): Bitmap? = maskBitmap
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         canvasRect = RectF(0f, 0f, width.toFloat(), height.toFloat())
@@ -82,6 +82,8 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
     val TOUCH_TOLERANCE = 4f
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        mScaleDetector.onTouchEvent(event)
 
         val (x, y) = transformPoint(event.x, event.y)
 
@@ -122,6 +124,45 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         path.reset()
         invalidate()
     }
+
+
+
+    private val scaleListener = object : ScaleGestureDetector.OnScaleGestureListener {
+        private var lastSpanX: Float = 0f
+        private var lastSpanY: Float = 0f
+        var scale: Float = 0f
+
+        override fun onScaleBegin(scaleGestureDetector: ScaleGestureDetector): Boolean {
+            lastSpanX = scaleGestureDetector.currentSpanX
+            lastSpanY = scaleGestureDetector.currentSpanY
+
+            val floats = FloatArray(9)
+            scaleMatrix.getValues(floats)
+            scale = floats[Matrix.MSCALE_X]
+
+            return true
+        }
+
+        override fun onScaleEnd(p0: ScaleGestureDetector?) {
+            scaleMatrix.setScale(scale, scale)
+            scaleMatrix.invert(inverseScaleMatrix)
+
+            invalidate()
+        }
+
+        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
+            scale *= scaleGestureDetector.scaleFactor
+
+
+            return true
+        }
+
+    }
+
+
+    private val mScaleDetector = ScaleGestureDetector(context, scaleListener)
+
+
 
 
     private fun transformPoint(x: Float, y: Float): Pair<Float, Float> {
