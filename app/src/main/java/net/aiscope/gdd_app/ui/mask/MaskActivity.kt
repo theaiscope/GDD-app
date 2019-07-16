@@ -10,6 +10,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_mask.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import java.io.File
 import javax.inject.Inject
@@ -29,6 +30,8 @@ class MaskActivity : AppCompatActivity(), MaskView {
         presenter.start()
 
         getBitmap.setOnClickListener { presenter.handleCaptureBitmap() }
+        erase.setOnClickListener { presenter.eraseMode() }
+        brush.setOnClickListener { presenter.brushMode() }
     }
 
     override fun takeMask(id: String, onPhotoReceived: (File?) -> Unit) {
@@ -56,6 +59,15 @@ class MaskActivity : AppCompatActivity(), MaskView {
         val bmp = readImage(imagePath)
         maskView.originalBitmap = bmp
     }
+
+    override fun brushMode() {
+        maskView.mode = MaskCustomView.DrawMode.Brush
+    }
+
+    override fun eraseMode() {
+        maskView.mode = MaskCustomView.DrawMode.Erase
+    }
+
 
     private fun readImage(filepath: String): Bitmap {
         val options = BitmapFactory.Options()

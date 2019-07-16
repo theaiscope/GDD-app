@@ -9,4 +9,6 @@ interface MaskView {
     fun goToMetadata()
     fun notifyImageCouldNotBeTaken()
     fun loadBitmap(imagePath: String)
+    fun eraseMode()
+    fun brushMode()
 }

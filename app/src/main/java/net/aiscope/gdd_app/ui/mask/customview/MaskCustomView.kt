@@ -8,10 +8,15 @@ import androidx.core.content.res.ResourcesCompat
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import io.fotoapparat.selector.back
+import java.time.chrono.Era
 
 
 class MaskCustomView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
+    enum class DrawMode {
+        Brush,
+        Erase
+    }
     // Transformation for canvas to view
     var scaleMatrix = Matrix()
 
@@ -34,7 +39,7 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     var maskCanvas: Canvas? = null
     var maskBitmap: Bitmap? = null
-    val maskPaint =  Paint().apply {
+    val maskPaintBrush =  Paint().apply {
         color = 0xffff6666.toInt()
         isAntiAlias = true
         isDither = true
@@ -43,6 +48,17 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         strokeCap = Paint.Cap.ROUND
         strokeWidth = 50f
     }
+
+    val maskPaintErase =  Paint().apply {
+        xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+        isAntiAlias = true
+        isDither = true
+        style = Paint.Style.STROKE
+        strokeJoin = Paint.Join.ROUND
+        strokeCap = Paint.Cap.ROUND
+        strokeWidth = 50f
+    }
+    var maskPaint = maskPaintBrush
 
     val backgroundPaint = Paint().apply {
         color = 0xFFFFFFFF.toInt()
@@ -74,6 +90,15 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
             maskBitmap?.let {
                 canvas.drawBitmap(it, scaleMatrix, maskPaintBitmap)
             }
+        }
+    }
+
+    var mode: DrawMode = DrawMode.Brush
+    set(value) {
+        field = value
+        maskPaint = when (mode) {
+            DrawMode.Brush -> maskPaintBrush
+            DrawMode.Erase -> maskPaintErase
         }
     }
 
@@ -161,9 +186,6 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
 
 
     private val mScaleDetector = ScaleGestureDetector(context, scaleListener)
-
-
-
 
     private fun transformPoint(x: Float, y: Float): Pair<Float, Float> {
         val p = FloatArray(2) {

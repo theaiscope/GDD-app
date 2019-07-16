@@ -22,5 +22,15 @@
                 android:id="@+id/getBitmap"
                 android:text="GET BITMAP"
         />
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/erase"
+                android:text="Erase"
+        />
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/brush"
+                android:text="Brush"
+        />
     </LinearLayout>
 </LinearLayout>
