@@ -18,6 +18,7 @@
     <string name="image_could_not_be_taken">Image could not be taken</string>
 
     <!-- Metadata -->
+    <string name="metadata_section_desease_title">Desease Options</string>
     <string name="metadata_blood_smear_title">Type of blood smear</string>
     <string name="metadata_blood_smear_thick">thick</string>
     <string name="metadata_blood_smear_thin">thin</string>
