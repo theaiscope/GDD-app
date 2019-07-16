@@ -12,7 +12,8 @@ import javax.inject.Singleton
     (HospitalSubComponents::class),
     (SelectDiseaseSubComponents::class),
     (MetadataSubComponents::class),
-    (CaptureImageSubComponents::class)
+    (CaptureImageSubComponents::class),
+    (MaskSubComponents::class)
 ])
 class AppModule {
 

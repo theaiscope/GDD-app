@@ -12,6 +12,7 @@ import io.fotoapparat.Fotoapparat
 import io.fotoapparat.result.BitmapPhoto
 import kotlinx.android.synthetic.main.activity_capture_image.*
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
@@ -57,14 +58,13 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
             it?.let {
                 val degrees = (-it.rotationDegrees) % 360
                 val bmp = it.bitmap.rotate(degrees.toFloat())
-
-                val out = FileOutputStream(dest)
-                bmp.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                bmp.writeToFile(dest)
 
                 onPhotoReceived(dest)
             } ?: notifyImageCouldNotBeTaken()
         }
     }
+
 
     fun Bitmap.rotate(degrees: Float): Bitmap {
         val matrix = Matrix().apply { postRotate(degrees) }
@@ -75,10 +75,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT).show()
     }
 
-    override fun goToMetadata() {
-        val intent = Intent(this, MetadataActivity::class.java)
-        startActivity(intent)
-    }
 
     override fun goToMask(imagePath: String?) {
         val intent = Intent(this, MaskActivity::class.java)

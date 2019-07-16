@@ -1,23 +1,58 @@
 package net.aiscope.gdd_app.ui.mask
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.graphics.BitmapFactory
+import android.widget.Toast
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_mask.*
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.ui.metadata.MetadataActivity
+import java.io.File
+import javax.inject.Inject
 
 
-class MaskActivity : AppCompatActivity() {
+class MaskActivity : AppCompatActivity(), MaskView {
+
+    @Inject
+    lateinit var presenter: MaskPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        var imagePath = "/data/user/0/net.aiscope.gdd_app/files/faf868b2-4bf8-47bc-8d9f-0497e762ae2a.jpg"
-        imagePath = intent.getStringExtra("imagePath") ?: imagePath
+        AndroidInjection.inject(this)
 
         setContentView(R.layout.activity_mask)
 
+        presenter.start()
+
+        getBitmap.setOnClickListener { presenter.handleCaptureBitmap() }
+    }
+
+    override fun takeMask(id: String, onPhotoReceived: (File?) -> Unit) {
+        val bmp = maskView.maskBitmap
+        if (bmp == null) {
+            onPhotoReceived(null)
+        } else {
+            val dest = File(this.filesDir, "${id}_mask.jpg")
+            bmp.writeToFile(dest)
+
+            onPhotoReceived(dest)
+        }
+    }
+
+    override fun goToMetadata() {
+        val intent = Intent(this, MetadataActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun notifyImageCouldNotBeTaken() {
+        Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun loadBitmap(imagePath: String) {
         val bmp = readImage(imagePath)
         maskView.originalBitmap = bmp
     }

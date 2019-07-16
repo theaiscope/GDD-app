@@ -12,6 +12,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 

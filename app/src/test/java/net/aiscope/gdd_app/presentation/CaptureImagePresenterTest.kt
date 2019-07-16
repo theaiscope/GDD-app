@@ -23,7 +23,7 @@ class CaptureImagePresenterTest {
 //
 //        val presenter = CaptureImagePresenter(view)
 //
-//        presenter.handleCaptureImageButton()
+//        presenter.handleCaptureBitmap()
 //
 //    }
 

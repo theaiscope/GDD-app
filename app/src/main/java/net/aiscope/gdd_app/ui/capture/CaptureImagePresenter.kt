@@ -7,6 +7,7 @@ import net.aiscope.gdd_app.repository.SampleRepository
 class CaptureImagePresenter(val view: CaptureImageView,
                             val repository: SampleRepository) {
 
+
     fun handleCaptureImageButton() {
         Log.e("Taking Photo", "button pressed")
         view.takePhoto(repository.current().id) {file ->
@@ -17,8 +18,7 @@ class CaptureImagePresenter(val view: CaptureImageView,
                 val sample = repository.create().copy(imagePath = file.absolutePath)
                 repository.store(sample)
 
-                view.goToMetadata()
-//                view.goToMask(sample.imagePath)
+                view.goToMask(sample.imagePath)
             }
         }
     }
