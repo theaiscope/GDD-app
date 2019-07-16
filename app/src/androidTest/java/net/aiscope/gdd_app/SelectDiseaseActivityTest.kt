@@ -2,6 +2,7 @@ package net.aiscope.gdd_app
 
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.intent.Intents.intended
@@ -9,9 +10,11 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -34,6 +37,15 @@ class SelectDiseaseActivityTest {
     }
 
     @Test
+    fun spinnerShouldHaveMalariaPreselectedAsFirstOption () {
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases))
+            .perform(click())
+        onData(allOf(`is`(instanceOf(String::class.java)), `is`("Malaria"))).perform(click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases)).check(ViewAssertions.matches(withSpinnerText(`is`("Malaria"))))
+    }
+
+    @Test
     fun shouldRedirectToCaptureImageActivity() {
         selectFirstItem()
 
@@ -45,6 +57,8 @@ class SelectDiseaseActivityTest {
 
     @Test
     fun shouldShowErrorMessageIfDiseaseIsNotSelected() {
+
+        selectEmptyItem()
 
         Espresso.onView(ViewMatchers.withId(R.id.button_capture_image_select_disease))
             .perform(click())
@@ -70,6 +84,12 @@ class SelectDiseaseActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases)).perform(click())
 
         onData(allOf(`is`(instanceOf(String::class.java)))).atPosition(1).perform(click())
+    }
+
+    private fun selectEmptyItem() {
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases)).perform(click())
+
+        onData(allOf(`is`(instanceOf(String::class.java)))).atPosition(0).perform(click())
     }
 
     @Test
