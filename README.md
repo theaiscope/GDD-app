@@ -25,10 +25,16 @@ section Run on an emulator
 
 ## Learning Resources
 
-kotlin -> https://kotlinlang.org/docs/reference/android-overview.html
-android ->
-https://developer.android.com/training/basics/firstapp/creating-project 
-https://antonioleiva.com/free-guide/
-https://www.raywenderlich.com/library?domain_ids%5B%5D=2
-Good Android tutorials:
-https://www.raywenderlich.com/library?domain_ids%5B%5D=2
+kotlin:  
+https://kotlinlang.org/docs/reference/android-overview.html  
+
+android:  
+https://developer.android.com/training/basics/firstapp/creating-project  
+https://antonioleiva.com/free-guide/  
+https://www.raywenderlich.com/library?domain_ids%5B%5D=2  
+
+Good Android tutorials:  
+https://www.raywenderlich.com/library?domain_ids%5B%5D=2  
+
+Android course:  
+https://developer.android.com/courses  
