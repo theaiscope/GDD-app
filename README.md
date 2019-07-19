@@ -44,3 +44,10 @@ https://www.raywenderlich.com/library?domain_ids%5B%5D=2
 
 Android course:  
 https://developer.android.com/courses  
+
+## Further documentation
+Find more documentation in the [doc](doc folder), for example:
+
+* [Application architecture](doc/architecture.md)
+* [UI Design](doc/UI-Design.md)
+* [Architecture Decision Records](doc/adr)
