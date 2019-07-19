@@ -1,5 +1,11 @@
 # GDD-app
 
+## How to contribute
+
+- Pick a task from our [kanban board on trello](https://trello.com/b/kcLkX2WQ/disease-tagging-app)
+- Make sure the tests pass on Bitrise.
+- Open a Pull Request, or ask to be added to the repository and commit directly to master
+
 ## Setting up the development environment
 
 Requirements:
