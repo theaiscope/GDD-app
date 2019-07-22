@@ -32,6 +32,7 @@ class MaskActivity : AppCompatActivity(), MaskView {
         getBitmap.setOnClickListener { presenter.handleCaptureBitmap() }
         erase.setOnClickListener { presenter.eraseMode() }
         brush.setOnClickListener { presenter.brushMode() }
+        move.setOnClickListener { presenter.moveMode() }
     }
 
     override fun takeMask(id: String, onPhotoReceived: (File?) -> Unit) {
@@ -66,6 +67,10 @@ class MaskActivity : AppCompatActivity(), MaskView {
 
     override fun eraseMode() {
         maskView.mode = MaskCustomView.DrawMode.Erase
+    }
+
+    override fun moveMode() {
+        maskView.mode = MaskCustomView.DrawMode.Move
     }
 
 

@@ -40,4 +40,8 @@ class MaskPresenter(val view: MaskView,
     fun brushMode() {
         view.brushMode()
     }
+
+    fun moveMode() {
+        view.moveMode()
+    }
 }

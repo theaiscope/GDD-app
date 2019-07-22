@@ -4,18 +4,19 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import io.fotoapparat.selector.back
-import java.time.chrono.Era
+
+
+
 
 
 class MaskCustomView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
     enum class DrawMode {
         Brush,
-        Erase
+        Erase,
+        Move
     }
     // Transformation for canvas to view
     var scaleMatrix = Matrix()
@@ -34,30 +35,16 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
             maskCanvas = Canvas(maskBitmap)
         }
         createMatrix()
+        recreateBrush()
+
         invalidate()
     }
 
     var maskCanvas: Canvas? = null
     var maskBitmap: Bitmap? = null
-    val maskPaintBrush =  Paint().apply {
-        color = 0xffff6666.toInt()
-        isAntiAlias = true
-        isDither = true
-        style = Paint.Style.STROKE
-        strokeJoin = Paint.Join.ROUND
-        strokeCap = Paint.Cap.ROUND
-        strokeWidth = 50f
-    }
+    var maskPaintBrush =  Paint()
+    var maskPaintErase =  Paint()
 
-    val maskPaintErase =  Paint().apply {
-        xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-        isAntiAlias = true
-        isDither = true
-        style = Paint.Style.STROKE
-        strokeJoin = Paint.Join.ROUND
-        strokeCap = Paint.Cap.ROUND
-        strokeWidth = 50f
-    }
     var maskPaint = maskPaintBrush
 
     val backgroundPaint = Paint().apply {
@@ -71,10 +58,20 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
     var canvasRect = RectF(0f,0f,0f,0f)
 
 
+    var mode: DrawMode = DrawMode.Brush
+        set(value) {
+            field = value
+            maskPaint = when (mode) {
+                DrawMode.Brush -> maskPaintBrush
+                DrawMode.Erase -> maskPaintErase
+                else -> maskPaintBrush
+            }
+        }
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         canvasRect = RectF(0f, 0f, width.toFloat(), height.toFloat())
         createMatrix()
+        recreateBrush()
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -93,15 +90,6 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
     }
 
-    var mode: DrawMode = DrawMode.Brush
-    set(value) {
-        field = value
-        maskPaint = when (mode) {
-            DrawMode.Brush -> maskPaintBrush
-            DrawMode.Erase -> maskPaintErase
-        }
-    }
-
     private var mX = 0f
     private var mY = 0f
     val TOUCH_TOLERANCE = 4f
@@ -109,6 +97,10 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         mScaleDetector.onTouchEvent(event)
+
+        if(event.pointerCount > 1) {
+            return true;
+        }
 
         val (x, y) = transformPoint(event.x, event.y)
 
@@ -132,6 +124,11 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
     private fun touchMove(x: Float, y: Float) {
         val dx = Math.abs(x - mX)
         val dy = Math.abs(y - mY)
+        if (mode == DrawMode.Move) {
+            scaleMatrix.preTranslate(x- mX, y - mY)
+            scaleMatrix.invert(inverseScaleMatrix)
+            return
+        }
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
             path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
 
@@ -151,7 +148,6 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
 
-
     private val scaleListener = object : ScaleGestureDetector.OnScaleGestureListener {
         private var lastSpanX: Float = 0f
         private var lastSpanY: Float = 0f
@@ -160,6 +156,7 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         override fun onScaleBegin(scaleGestureDetector: ScaleGestureDetector): Boolean {
             lastSpanX = scaleGestureDetector.currentSpanX
             lastSpanY = scaleGestureDetector.currentSpanY
+
 
             val floats = FloatArray(9)
             scaleMatrix.getValues(floats)
@@ -178,7 +175,12 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
             scale *= scaleGestureDetector.scaleFactor
 
+            scaleMatrix.setScale(scale, scale)
+            scaleMatrix.invert(inverseScaleMatrix)
 
+            recreateBrush()
+
+            invalidate()
             return true
         }
 
@@ -202,9 +204,49 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         return Pair(_x, _y)
     }
 
+    private  fun getScaleFromMatrix(m: Matrix): Float {
+        val p = FloatArray(9)
+        m.getValues(p)
+
+        return p[Matrix.MSCALE_X]
+    }
+
     private fun createMatrix() {
         // Get the matrix to show the bitmap scaled and centered in the view
         scaleMatrix.setRectToRect(originalBitmapRect, canvasRect, Matrix.ScaleToFit.CENTER)
         scaleMatrix.invert(inverseScaleMatrix)
+    }
+
+    private fun recreateBrush() {
+        val w = this.width
+        val h = this.height
+        val s = getScaleFromMatrix(this.scaleMatrix)
+
+        maskPaintBrush =  Paint().apply {
+            color = 0xffff6666.toInt()
+            isAntiAlias = true
+            isDither = true
+            style = Paint.Style.STROKE
+            strokeJoin = Paint.Join.ROUND
+            strokeCap = Paint.Cap.ROUND
+            strokeWidth = Math.max(h, w).toFloat() / (20.0f * s)
+        }
+
+        maskPaintErase =  Paint().apply {
+            xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+            isAntiAlias = true
+            isDither = true
+            style = Paint.Style.STROKE
+            strokeJoin = Paint.Join.ROUND
+            strokeCap = Paint.Cap.ROUND
+            strokeWidth = Math.max(h, w).toFloat() / (20.0f * s)
+        }
+
+        if(mode == DrawMode.Erase) {
+            maskPaint = maskPaintErase
+        }
+        if(mode == DrawMode.Brush) {
+            maskPaint = maskPaintBrush
+        }
     }
 }

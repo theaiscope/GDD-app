@@ -11,4 +11,5 @@ interface MaskView {
     fun loadBitmap(imagePath: String)
     fun eraseMode()
     fun brushMode()
+    fun moveMode()
 }
