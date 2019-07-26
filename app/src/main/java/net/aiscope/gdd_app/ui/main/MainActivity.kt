@@ -11,6 +11,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import kotlinx.android.synthetic.main.activity_main.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
@@ -24,14 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         askCameraPermission()
 
-        val buttonNewHealthFacility = findViewById<Button>(R.id.button_go_to_new_health_facility)
-        val buttonSelectDisease = findViewById<Button>(R.id.button_go_to_select_disease)
-
-        buttonNewHealthFacility.setOnClickListener {
-            startActivity(Intent(this, NewHealthFacilityActivity::class.java))
-        }
-
-        buttonSelectDisease.setOnClickListener {
+        button_go_to_select_disease.setOnClickListener {
             startActivity(Intent(this, SelectDiseaseActivity::class.java))
         }
     }
