@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.WorkerFactory
 import dagger.Module
 import dagger.Provides
+import net.aiscope.gdd_app.application.AppWorkerFactory
 import net.aiscope.gdd_app.application.GddApplication
-import net.aiscope.gdd_app.network.AppWorkerFactory
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.*
 

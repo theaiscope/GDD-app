@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.presentation
 
+import android.content.Context
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -29,6 +30,9 @@ class MetadataPresenterTest {
     @Mock
     lateinit var remote: RemoteStorage
 
+    @Mock
+    lateinit var context: Context
+
 
     @InjectMocks
     lateinit var subject: MetadataPresenter
@@ -47,7 +51,7 @@ class MetadataPresenterTest {
     @Test
     fun shouldStoreMetadata() {
         subject.save(listOf(ListItem(1, "thick")))
-        verify(remote).upload(any())
+        verify(remote).enqueue(any(), any())
         verify(repository).store(any())
     }
 }
