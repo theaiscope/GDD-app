@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="net.aiscope.gdd_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -35,6 +36,11 @@
         </activity>
         <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
                  android:enabled="true" />
+
+        <provider
+                android:name="androidx.work.impl.WorkManagerInitializer"
+                android:authorities="${applicationId}.workmanager-init"
+                tools:node="remove" />
     </application>
 
 </manifest>

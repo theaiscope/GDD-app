@@ -1,7 +1,7 @@
 package net.aiscope.gdd_app.dagger
 
-import dagger.BindsInstance
-import dagger.Component
+
+import dagger.*
 import dagger.android.AndroidInjectionModule
 import net.aiscope.gdd_app.application.GddApplication
 import javax.inject.Singleton

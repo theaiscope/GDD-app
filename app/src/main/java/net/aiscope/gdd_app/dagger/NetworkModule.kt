@@ -19,4 +19,5 @@ class NetworkModule {
     @Provides
     fun uploader(context: Context):S3Uploader = S3Uploader(context, Credentials)
 
+
 }

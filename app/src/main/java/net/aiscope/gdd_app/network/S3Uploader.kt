@@ -13,34 +13,45 @@ import java.lang.Exception
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStreamWriter
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 
 class S3Uploader(val context: Context, val credentials: Credentials) {
 
     val s3: AmazonS3 = AmazonS3Client(S3Credentials())
 
+
     val transfer = TransferUtility.builder().s3Client(s3).context(context).build()
 
-    fun upload(file: File, key: String) {
-        val observer = transfer.upload("aiscope-test", key, file)
+    suspend fun upload(file: File, key: String): Unit {
+        return suspendCoroutine {cont ->
+            val observer = transfer.upload("aiscope-test", key, file)
 
-        observer.setTransferListener(object : TransferListener {
-            override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
-                Log.i("S3Uploader", "onProgressChanged key ${key} progres: ${bytesCurrent}/${bytesTotal}")
-            }
+            observer.setTransferListener(object : TransferListener {
+                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
+                    Log.i("S3Uploader", "onProgressChanged key ${key} progres: ${bytesCurrent}/${bytesTotal}")
+                }
 
-            override fun onStateChanged(id: Int, state: TransferState?) {
-                Log.i("S3Uploader", "stateChanged key ${key} state ${state}")
-            }
+                override fun onStateChanged(id: Int, state: TransferState?) {
+                    Log.i("S3Uploader", "stateChanged key ${key} state ${state}")
 
-            override fun onError(id: Int, ex: Exception?) {
-                Log.e("S3Uploader", "error key ${key} ex: ${ex.toString()}")
-            }
+                    if(state == TransferState.COMPLETED) {
+                        cont.resume(Unit)
+                    } else if(state == TransferState.FAILED || state == TransferState.CANCELED) {
+                        cont.resumeWithException(Exception("failed to upload ${state}"))
+                    }
+                }
 
-        })
+                override fun onError(id: Int, ex: Exception?) {
+                    Log.e("S3Uploader", "error key ${key} ex: ${ex?.toString()}")
+                }
+            })
+        }
     }
 
-    fun upload(data: String, id: String, key: String) {
+    suspend fun upload(data: String, id: String, key: String) {
         val file = File(context.cacheDir, "${id}.json")
 
         // code copied from https://stackoverflow.com/questions/35481924/write-a-string-to-a-file/35481977 (not the best code in the world)
@@ -59,7 +70,6 @@ class S3Uploader(val context: Context, val credentials: Credentials) {
         } catch (e: IOException) {
             Log.e("Exception", "File write failed: " + e.toString())
         }
-
     }
 
     private fun S3Credentials() : AWSCredentials {

@@ -1,12 +1,13 @@
 package net.aiscope.gdd_app.dagger
 
 import android.content.Context
+import androidx.work.WorkerFactory
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.application.GddApplication
-import net.aiscope.gdd_app.model.HealthFacility
+import net.aiscope.gdd_app.network.AppWorkerFactory
+import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.*
-import javax.inject.Singleton
 
 @Module(subcomponents = [
     (HospitalSubComponents::class),
@@ -19,5 +20,9 @@ class AppModule {
 
     @Provides
     fun context(application: GddApplication): Context = application.applicationContext
+
+    @Provides
+    fun workerFactory(repository: SampleRepository, storage: RemoteStorage): WorkerFactory =
+            AppWorkerFactory(repository, storage)
 
 }
