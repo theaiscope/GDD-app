@@ -10,6 +10,7 @@
 
         <item name="android:textViewStyle">@style/TextView</item>
         <item name="buttonStyle">@style/ButtonCustomStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
     </style>
 
     <style name="ButtonCustomStyle" parent="Widget.AppCompat.Button">
@@ -41,5 +42,12 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:letterSpacing">0.1</item>
     </style>
+
+
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/colorButtonAboveText</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 
 </resources>
