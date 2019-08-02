@@ -17,6 +17,12 @@
     <!-- CaptureImage -->
     <string name="image_could_not_be_taken">Image could not be taken</string>
 
+    <!-- Mask -->
+    <string name="button_save_text">Save</string>
+    <string name="button_erase_text">Erase</string>
+    <string name="button_draw_text">Draw</string>
+    <string name="button_zoom_text">Zoom</string>
+
     <!-- Metadata -->
     <string name="metadata_section_desease_title">Desease Options</string>
     <string name="metadata_blood_smear_title">Type of blood smear</string>

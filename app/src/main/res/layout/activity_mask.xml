@@ -17,25 +17,66 @@
     <LinearLayout android:layout_width="match_parent"
                   android:layout_weight="0"
                   android:layout_height="wrap_content">
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+        </Space>
         <Button android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/getBitmap"
-                android:text="GET BITMAP"
+                android:text="@string/button_save_text"
+                android:drawableTop="@android:drawable/ic_menu_save"
+                android:gravity="center_horizontal|top"
+                android:tint="@android:color/black"
+                android:background="@color/colorPrimaryDark"
         />
-        <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/erase"
-                android:text="Erase"
-        />
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+        </Space>
         <Button android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/brush"
-                android:text="Add Mask"
+                android:text="@string/button_draw_text"
+                android:drawableTop="@android:drawable/ic_menu_edit"
+                android:gravity="center_horizontal|top"
+                android:tint="@android:color/black"
+                android:background="@color/colorPrimaryDark"
+                />
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+        </Space>
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/erase"
+                android:text="@string/button_erase_text"
+                android:drawableTop="@android:drawable/ic_menu_close_clear_cancel"
+                android:gravity="center_horizontal|top"
+                android:tint="@android:color/black"
+                android:background="@color/colorPrimaryDark"
         />
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+        </Space>
         <Button android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/move"
-                android:text="Move"
+                android:text="@string/button_zoom_text"
+                android:drawableTop="@android:drawable/ic_menu_zoom"
+                android:gravity="center_horizontal|top"
+                android:tint="@android:color/black"
+                android:background="@color/colorPrimaryDark"
         />
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" >
+        </Space>
     </LinearLayout>
 </LinearLayout>
