@@ -26,7 +26,7 @@ class SelectDiseaseActivity : AppCompatActivity() , SelectDiseaseView{
         val captureImageButton = findViewById<Button>(R.id.button_capture_image_select_disease)
         val diseasesSpinner = findViewById<Spinner>(R.id.spinner_diseases)
         val cancelButton = findViewById<Button>(R.id.button_back_select_disease)
-        diseasesSpinner.setSelection(1, true)
+        diseasesSpinner.setSelection(0, true)
 
         captureImageButton.setOnClickListener {
             presenter.saveDisease(diseasesSpinner.selectedItem.toString())
