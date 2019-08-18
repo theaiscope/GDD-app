@@ -7,7 +7,7 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 @PerActivity
 @Subcomponent(modules = [(CaptureImageModule::class)])
 interface CaptureImageSubComponents : AndroidInjector<CaptureImageActivity> {
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<CaptureImageActivity>()
+    @Subcomponent.Factory
+    interface Factory : AndroidInjector.Factory<CaptureImageActivity>
 }
 

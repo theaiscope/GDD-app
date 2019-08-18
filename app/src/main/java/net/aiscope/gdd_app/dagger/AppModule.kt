@@ -16,11 +16,13 @@ import net.aiscope.gdd_app.repository.*
     (CaptureImageSubComponents::class),
     (MaskSubComponents::class)
 ])
-class AppModule {
+object AppModule {
 
+    @JvmStatic
     @Provides
     fun context(application: GddApplication): Context = application.applicationContext
 
+    @JvmStatic
     @Provides
     fun workerFactory(repository: SampleRepository, storage: RemoteStorage): WorkerFactory =
             AppWorkerFactory(repository, storage)
