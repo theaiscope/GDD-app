@@ -8,7 +8,7 @@ import net.aiscope.gdd_app.ui.mask.MaskActivity
 @PerActivity
 @Subcomponent(modules = [(MaskModule::class)])
 interface MaskSubComponents : AndroidInjector<MaskActivity> {
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<MaskActivity>()
+    @Subcomponent.Factory
+    interface Factory : AndroidInjector.Factory<MaskActivity>
 }
 

@@ -19,8 +19,8 @@ class SelectDiseaseActivity : AppCompatActivity() , SelectDiseaseView{
     @Inject lateinit var presenter: SelectDiseasePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_disease)
 
         val captureImageButton = findViewById<Button>(R.id.button_capture_image_select_disease)

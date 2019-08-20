@@ -14,8 +14,8 @@ class NewHealthFacilityActivity : AppCompatActivity(), NewHealthFacilityView {
     @Inject lateinit var presenter: NewHealthFacilityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_health_facility)
 
         button_save_new_health_facility.setOnClickListener {

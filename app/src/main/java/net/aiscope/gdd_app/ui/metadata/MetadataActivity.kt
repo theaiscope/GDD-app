@@ -23,8 +23,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
     lateinit var formBuilder: FormBuildHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_metadata)
 
         formBuilder = FormBuildHelper(this)

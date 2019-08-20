@@ -7,6 +7,6 @@ import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 @PerActivity
 @Subcomponent(modules = [(HospitalModule::class)])
 interface HospitalSubComponents : AndroidInjector<NewHealthFacilityActivity> {
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<NewHealthFacilityActivity>()
+    @Subcomponent.Factory
+    interface Factory : AndroidInjector.Factory<NewHealthFacilityActivity>
 }

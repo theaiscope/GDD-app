@@ -8,7 +8,7 @@ import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 @PerActivity
 @Subcomponent(modules = [(SelectDiseaseModule::class)])
 interface SelectDiseaseSubComponents : AndroidInjector<SelectDiseaseActivity> {
-    @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<SelectDiseaseActivity>()
+    @Subcomponent.Factory
+    interface Factory : AndroidInjector.Factory<SelectDiseaseActivity>
 }
 
