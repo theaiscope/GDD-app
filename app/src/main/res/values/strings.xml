@@ -24,6 +24,7 @@
     <string name="button_zoom_text">Zoom</string>
 
     <!-- Metadata -->
+    <string name="metadata_activity_title">Add data</string>
     <string name="metadata_section_desease_title">Desease Options</string>
     <string name="metadata_blood_smear_title">Type of blood smear</string>
     <string name="metadata_blood_smear_thick">thick</string>

@@ -23,8 +23,10 @@
         </activity>
         <activity android:name=".ui.newHealthFacility.NewHealthFacilityActivity">
         </activity>
-        <activity android:name=".ui.metadata.MetadataActivity">
-        </activity>
+        <activity
+                android:name=".ui.metadata.MetadataActivity"
+                android:label="@string/metadata_activity_title"
+        />
         <activity android:name=".ui.mask.MaskActivity">
         </activity>
         <activity android:name=".ui.main.MainActivity">

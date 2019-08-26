@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.thejuki.kformmaster.helper.*
 import com.thejuki.kformmaster.model.BaseFormElement
 import com.thejuki.kformmaster.model.FormButtonElement
-import com.thejuki.kformmaster.model.FormEmailEditTextElement
 import com.thejuki.kformmaster.model.FormPickerDropDownElement
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
@@ -20,12 +20,19 @@ import javax.inject.Inject
 class MetadataActivity : AppCompatActivity() , MetadataView {
 
     @Inject lateinit var presenter: MetadataPresenter
-    lateinit var formBuilder: FormBuildHelper
+    private lateinit var formBuilder: FormBuildHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_metadata)
+
+        val toolbar: Toolbar = findViewById(R.id.metadata_toolbar)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            // TODO add dialog and go to home screen on confirmation
+            finish()
+        }
 
         formBuilder = FormBuildHelper(this)
         formBuilder.attachRecyclerView(this, recyclerView)
@@ -38,18 +45,18 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
 
         val formModels = model.map {
             FormPickerDropDownElement<ListItem>(0).apply {
-                title = getResources().getString(it.title)
-                dialogTitle = getResources().getString(it.title)
+                title = resources.getString(it.title)
+                dialogTitle = resources.getString(it.title)
                 required = it.required
                 options = it.options.map {
-                    ListItem(id = it.id, name = getResources().getString(it.title))
+                    ListItem(id = it.id, name = resources.getString(it.title))
                 }
             }
         }
         elements.addAll(formModels)
 
         elements.add(FormButtonElement(1).apply {
-            value = getResources().getString(R.string.metadata_add)
+            value = resources.getString(R.string.metadata_add)
             valueObservers.add { _, _ ->
                 save()
             }
