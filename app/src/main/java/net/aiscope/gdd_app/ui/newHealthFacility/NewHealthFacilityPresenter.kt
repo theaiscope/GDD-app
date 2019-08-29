@@ -6,8 +6,9 @@ import net.aiscope.gdd_app.repository.HospitalRepository
 import java.util.*
 import javax.inject.Inject
 
-class NewHealthFacilityPresenter @Inject constructor(val view: NewHealthFacilityView,
-                                                     val repository: HospitalRepository
+class NewHealthFacilityPresenter @Inject constructor(
+    val view: NewHealthFacilityView,
+    val repository: HospitalRepository
 ) {
 
     fun saveHospital(hospitalName: String) {

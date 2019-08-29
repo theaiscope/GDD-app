@@ -15,14 +15,17 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:id="@+id/textView"/>
+
     <Button
-            android:text="@string/button_go_to_select_disease_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/button_go_to_select_disease"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintEnd_toEndOf="@+id/textView" android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp" android:textAllCaps="false"/>
+        android:id="@+id/button_go_to_select_disease"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/button_go_to_select_disease_text"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

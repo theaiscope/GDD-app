@@ -2,8 +2,13 @@ package net.aiscope.gdd_app.model
 
 import com.google.gson.Gson
 
-enum class Status() {
+enum class Status {
     Incomplete, ReadyToUpload, Uploaded
+}
+
+enum class SmearType(val id: Long) {
+    THIN(1),
+    THICK(2)
 }
 
 data class SampleMetadata(val bloodType: Long)

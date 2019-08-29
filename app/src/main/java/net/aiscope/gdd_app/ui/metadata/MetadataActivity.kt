@@ -4,23 +4,18 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.widget.Toast
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.thejuki.kformmaster.helper.*
-import com.thejuki.kformmaster.model.BaseFormElement
-import com.thejuki.kformmaster.model.FormButtonElement
-import com.thejuki.kformmaster.model.FormPickerDropDownElement
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.main.MainActivity
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView {
 
     @Inject lateinit var presenter: MetadataPresenter
-    private lateinit var formBuilder: FormBuildHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -31,55 +26,24 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             // TODO add dialog and go to home screen on confirmation
-            finish()
+            goToHome()
         }
-
-        formBuilder = FormBuildHelper(this)
-        formBuilder.attachRecyclerView(this, recyclerView)
 
         presenter.showScreen()
-    }
 
-    private fun generateFormElements(model: List<FieldModel>): List<BaseFormElement<*>> {
-        val elements: MutableList<BaseFormElement<*>> = mutableListOf()
-
-        val formModels = model.map {
-            FormPickerDropDownElement<ListItem>(0).apply {
-                title = resources.getString(it.title)
-                dialogTitle = resources.getString(it.title)
-                required = it.required
-                options = it.options.map {
-                    ListItem(id = it.id, name = resources.getString(it.title))
+        metadata_save_sample.setOnClickListener {
+            presenter.save(
+                when(metadata_section_smear_type_radio_group.checkedRadioButtonId) {
+                    R.id.metadata_blood_smear_thick -> SmearType.THICK
+                    R.id.metadata_blood_smear_thin -> SmearType.THIN
+                    else -> throw IllegalStateException("${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown")
                 }
-            }
+             )
         }
-        elements.addAll(formModels)
-
-        elements.add(FormButtonElement(1).apply {
-            value = resources.getString(R.string.metadata_add)
-            valueObservers.add { _, _ ->
-                save()
-            }
-        })
-
-        return elements
-    }
-
-    private fun save() {
-        if (! formBuilder.isValidForm) {
-            presenter.notValid()
-        } else {
-            val values = (0..formBuilder.elements.size - 2).map {
-                formBuilder.getElementAtIndex(it).value
-            }
-            presenter.save(values)
-        }
-
     }
 
     override fun fillForm(model: List<FieldModel>) {
-        val formElements = generateFormElements(model)
-        formBuilder.addFormElements(formElements)
+        // TODO set species stages
     }
 
     override fun showInvalidFormError() {

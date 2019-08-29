@@ -1,10 +1,5 @@
 package net.aiscope.gdd_app.ui.selectDisease
 
-import net.aiscope.gdd_app.model.Disease
-import net.aiscope.gdd_app.network.Credentials
-import net.aiscope.gdd_app.network.S3Storage
-import net.aiscope.gdd_app.network.S3Uploader
-import net.aiscope.gdd_app.repository.HospitalRepository
 import net.aiscope.gdd_app.repository.SampleRepository
 import javax.inject.Inject
 

@@ -9,27 +9,41 @@
         <item name="android:textColor">@color/colorPrimary</item>
 
         <item name="android:textViewStyle">@style/TextView</item>
-        <item name="buttonStyle">@style/ButtonCustomStyle</item>
+        <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
     </style>
 
-    <style name="ButtonCustomStyle" parent="Widget.AppCompat.Button">
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
         <item name="android:fontFamily">roboto</item>
+        <item name="android:minHeight">56dp</item> <!-- 48 + 4 + 4 -->
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorButtonAboveText</item>
+    </style>
+
+    <style name="AppTheme.Button.Borderless" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">roboto</item>
+        <item name="android:textColor">@color/colorPlainText</item>
+        <item name="android:minHeight">56dp</item> <!-- 48 + 4 + 4 -->
+        <item name="android:backgroundTint">@color/colorPrimary</item>
     </style>
 
     <style name="TextView">
         <item name="android:fontFamily">roboto</item>
     </style>
 
-    <style name="ButtonCustomAbove" parent="ButtonCustomStyle">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textColor">@color/colorButtonAboveText</item>
+    <style name="TextView.SectionTitle">
+        <item name="android:textColor">@color/colorTextSubtitle</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.43</item>
     </style>
 
-    <style name="ButtonCustomBelow" parent="ButtonCustomStyle">
-        <item name="android:background">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/colorButtonBelowText</item>
+    <style name="RadioButtonText" parent="TextView.SectionTitle">
+        <item name="android:textColor">@color/selector_radio_button_text_color</item>
+        <item name="android:textColorSecondary">#61ffffff</item>
+        <item name="colorControlNormal">#61ffffff</item>
     </style>
+
     <style name="TextHint">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">21dp</item>

@@ -28,27 +28,55 @@
         tools:title="Add data" />
 
     <TextView
-        android:id="@+id/metadata_section_desease"
-        style="@style/TextHint"
-        android:layout_marginTop="20dp"
-        android:text="@string/metadata_section_desease_title"
+        android:id="@+id/metadata_section_smear_type"
+        style="@style/TextView.SectionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/metadata_section_smear_type_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/metadata_toolbar"
         app:layout_constraintVertical_bias="0.0" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RadioGroup
+        android:id="@+id/metadata_section_smear_type_radio_group"
         android:layout_width="match_parent"
-        android:layout_height="104dp"
-        android:layout_marginTop="8dp"
-        android:descendantFocusability="beforeDescendants"
-        android:divider="#b5b5b5"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:checkedButton="@id/metadata_blood_smear_thick"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/metadata_section_desease" />
+        app:layout_constraintTop_toBottomOf="@+id/metadata_section_smear_type">
+
+        <RadioButton
+            android:id="@+id/metadata_blood_smear_thick"
+            style="@style/RadioButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:text="@string/metadata_blood_smear_thick" />
+
+        <RadioButton
+            android:id="@+id/metadata_blood_smear_thin"
+            style="@style/RadioButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/metadata_blood_smear_thin" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/metadata_save_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/metadata_save_sample"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

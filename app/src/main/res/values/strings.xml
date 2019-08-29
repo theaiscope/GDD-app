@@ -25,10 +25,9 @@
 
     <!-- Metadata -->
     <string name="metadata_activity_title">Add data</string>
-    <string name="metadata_section_desease_title">Desease Options</string>
-    <string name="metadata_blood_smear_title">Type of blood smear</string>
-    <string name="metadata_blood_smear_thick">thick</string>
-    <string name="metadata_blood_smear_thin">thin</string>
-    <string name="metadata_add">Add</string>
+    <string name="metadata_section_smear_type_title">Smear type</string>
+    <string name="metadata_blood_smear_thick">Thick</string>
+    <string name="metadata_blood_smear_thin">Thin</string>
+    <string name="metadata_save_sample">Save sample</string>
     <string name="metadata_invalid_form">Not all required fields are filled</string>
 </resources>

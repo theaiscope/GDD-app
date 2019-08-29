@@ -6,4 +6,6 @@
     <color name="colorPlainText">#ffffff</color>
     <color name="colorButtonAboveText">#DE000000</color>
     <color name="colorButtonBelowText">#FFFFFFFF</color>
+    <color name="colorTextSubtitle">#99FFFFFF</color>
+    <color name="colorControlNormal">#61FFFFFF</color>
 </resources>

@@ -22,7 +22,6 @@ class S3Uploader(val context: Context, val credentials: Credentials) {
 
     val s3: AmazonS3 = AmazonS3Client(S3Credentials())
 
-
     val transfer = TransferUtility.builder().s3Client(s3).context(context).build()
 
     suspend fun upload(file: File, key: String): Unit {
@@ -37,7 +36,7 @@ class S3Uploader(val context: Context, val credentials: Credentials) {
                 override fun onStateChanged(id: Int, state: TransferState?) {
                     Log.i("S3Uploader", "stateChanged key ${key} state ${state}")
 
-                    if(state == TransferState.COMPLETED) {
+                    if (state == TransferState.COMPLETED) {
                         cont.resume(Unit)
                     } else if(state == TransferState.FAILED || state == TransferState.CANCELED) {
                         cont.resumeWithException(Exception("failed to upload ${state}"))
