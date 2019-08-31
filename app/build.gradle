@@ -8,6 +8,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+
     defaultConfig {
         applicationId "net.aiscope.gdd_app"
         minSdkVersion 23
@@ -16,12 +17,24 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../gdd.jks")
+            keyAlias 'gdd'
+            storePassword System.getenv("STORE_PW")
+            keyPassword System.getenv("KEY_PW")
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
         }
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

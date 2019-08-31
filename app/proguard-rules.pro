@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# https://github.com/aws-amplify/aws-sdk-android/blob/master/Proguard.md
+# Class names are needed in reflection
+-keepnames class com.amazonaws.**
+-keepnames class com.amazon.**
+# Request handlers defined in request.handlers
+
+-keep class com.amazonaws.services.**.*Handler
+
+# App models
+-keep class net.aiscope.gdd_app.model.**
+-keep enum net.aiscope.gdd_app.model.** { *; }
