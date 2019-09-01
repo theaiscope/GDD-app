@@ -2,12 +2,13 @@ package net.aiscope.gdd_app.ui.mask
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.graphics.BitmapFactory
+import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_mask.*
+import kotlinx.android.synthetic.main.toolbar.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
@@ -26,6 +27,7 @@ class MaskActivity : AppCompatActivity(), MaskView {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_mask)
+        setSupportActionBar(toolbar)
 
         presenter.start()
 

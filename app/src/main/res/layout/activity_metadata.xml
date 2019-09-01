@@ -7,25 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.metadata.MetadataActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/metadata_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="8dp"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:contentInsetStart="72dp"
-        app:contentInsetStartWithNavigation="72dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <include
+        layout="@layout/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:navigationIcon="@drawable/ic_close"
-        app:titleTextColor="@color/colorPlainText"
-        tools:title="Add data" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/metadata_section_blood_sample"
@@ -39,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/metadata_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView

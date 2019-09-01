@@ -29,7 +29,9 @@
 
         <activity android:name=".ui.selectDisease.SelectDiseaseActivity" />
 
-        <activity android:name=".ui.capture.CaptureImageActivity" />
+        <activity
+            android:name=".ui.capture.CaptureImageActivity"
+            android:label="@string/capture_activity_title" />
 
         <activity android:name=".ui.newHealthFacility.NewHealthFacilityActivity" />
 
@@ -37,7 +39,9 @@
             android:name=".ui.metadata.MetadataActivity"
             android:label="@string/metadata_activity_title" />
 
-        <activity android:name=".ui.mask.MaskActivity" />
+        <activity
+            android:name=".ui.mask.MaskActivity"
+            android:label="@string/mask_activity_title" />
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"

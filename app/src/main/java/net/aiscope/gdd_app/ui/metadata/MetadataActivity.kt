@@ -6,9 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
+import kotlinx.android.synthetic.main.toolbar.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.main.MainActivity
@@ -24,7 +24,6 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_metadata)
 
-        val toolbar: Toolbar = findViewById(R.id.metadata_toolbar)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             // TODO add dialog and go to home screen on confirmation
