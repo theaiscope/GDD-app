@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.build-properties'
+apply plugin: 'io.fabric'
 
 buildProperties {
     secrets {
@@ -41,6 +42,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
+            ext.enableCrashlytics = false
         }
         release {
             signingConfig signingConfigs.release
@@ -76,6 +78,10 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-s3:2.15.2'
     implementation 'androidx.work:work-runtime-ktx:2.2.0'
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -103,3 +109,5 @@ dependencies {
 
     compileOnly 'javax.annotation:jsr250-api:1.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
