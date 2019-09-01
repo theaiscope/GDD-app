@@ -7,6 +7,7 @@
 
         <item name="android:editTextColor">@color/colorPlainText</item>
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPlainText</item>
 
         <item name="android:textViewStyle">@style/TextView</item>
         <item name="buttonStyle">@style/AppTheme.Button</item>
@@ -63,5 +64,11 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="AppTheme.Toolbar" parent="Widget.AppCompat.ActionBar">
+        <item name="contentInsetStart">@dimen/nine_grid_unit</item>
+        <item name="android:elevation">@dimen/one_grid_unit</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
 
 </resources>

@@ -24,7 +24,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_metadata)
 
-        val toolbar: Toolbar = findViewById(R.id.metadata_toolbar)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
             // TODO add dialog and go to home screen on confirmation
