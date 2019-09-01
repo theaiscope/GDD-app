@@ -39,7 +39,13 @@ class MetadataPresenterTest {
 
     @Before
     fun before() {
-        whenever(repository.current()).thenReturn(Sample("id", "StPau"))
+        whenever(repository.current()).thenReturn(
+            Sample(
+                id = "id",
+                healthFacility = "StPau",
+                imagePath = "/img.jpg"
+            )
+        )
     }
 
     @Test

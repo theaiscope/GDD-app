@@ -25,6 +25,7 @@
 
     <!-- Metadata -->
     <string name="metadata_activity_title">Add data</string>
+    <string name="metadata_section_blood_sample_title">Blood sample</string>
     <string name="metadata_section_smear_type_title">Smear type</string>
     <string name="metadata_blood_smear_thick">Thick</string>
     <string name="metadata_blood_smear_thin">Thin</string>

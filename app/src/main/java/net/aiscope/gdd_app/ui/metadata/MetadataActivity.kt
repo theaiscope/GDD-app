@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_metadata.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.main.MainActivity
+import java.io.File
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView {
@@ -42,7 +44,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         }
     }
 
-    override fun fillForm(model: List<FieldModel>) {
+    override fun fillForm(model: ViewStateModel) {
+        metadata_blood_sample_image.setImageURI(Uri.fromFile(File(model.imagePath)))
         // TODO set species stages
     }
 

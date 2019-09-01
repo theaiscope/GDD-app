@@ -9,18 +9,18 @@ import net.aiscope.gdd_app.repository.SampleRepository
 import javax.inject.Inject
 
 data class FieldOption(val id: Long, val title: Int)
-data class FieldModel(val title: Int, val options: List<FieldOption>, val required: Boolean = true)
+data class ViewStateModel(val imagePath: String, val options: List<FieldOption>, val required: Boolean = true)
 
 class MetadataPresenter @Inject constructor(
-    val view: MetadataView,
-    val repository: SampleRepository,
-    val remoteStorage: RemoteStorage,
-    val context: Context
+    private val view: MetadataView,
+    private val repository: SampleRepository,
+    private val remoteStorage: RemoteStorage,
+    private val context: Context
 ) {
 
     fun showScreen() {
         // TODO set species stages
-        view.fillForm(emptyList())
+        view.fillForm(ViewStateModel(repository.current().imagePath!!, emptyList()))
     }
 
     fun notValid() {
