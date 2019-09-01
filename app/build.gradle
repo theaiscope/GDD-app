@@ -26,6 +26,7 @@ android {
 
         buildConfigString 'AWS_ACCESS', buildProperties.secrets['AWS_ACCESS'].or(buildProperties.env['AWS_ACCESS'])
         buildConfigString 'AWS_SECRET', buildProperties.secrets['AWS_SECRET'].or(buildProperties.env['AWS_SECRET'])
+        buildConfigString 'S3_BUCKET', buildProperties.secrets['S3_BUCKET'].or(buildProperties.env['S3_BUCKET'])
     }
 
     signingConfigs {

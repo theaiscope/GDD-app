@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import net.aiscope.gdd_app.BuildConfig
 import java.lang.Exception
 import java.io.FileOutputStream
 import java.io.IOException
@@ -26,7 +27,7 @@ class S3Uploader(val context: Context, val credentials: Credentials) {
 
     suspend fun upload(file: File, key: String): Unit {
         return suspendCoroutine {cont ->
-            val observer = transfer.upload("aiscope-test", key, file)
+            val observer = transfer.upload(BuildConfig.S3_BUCKET, key, file)
 
             observer.setTransferListener(object : TransferListener {
                 override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
