@@ -1,10 +1,17 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.novoda.build-properties'
+
+buildProperties {
+    secrets {
+        using rootProject.file('properties/secrets.properties')
+    }
+    env {
+        using System.getenv()
+    }
+}
 
 android {
     compileSdkVersion 28
@@ -16,14 +23,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigString 'AWS_ACCESS', buildProperties.secrets['AWS_ACCESS'].or(buildProperties.env['AWS_ACCESS'])
+        buildConfigString 'AWS_SECRET', buildProperties.secrets['AWS_SECRET'].or(buildProperties.env['AWS_SECRET'])
     }
 
     signingConfigs {
         release {
             storeFile file("../gdd.jks")
             keyAlias 'gdd'
-            storePassword System.getenv("STORE_PW")
-            keyPassword System.getenv("KEY_PW")
+            storePassword buildProperties.secrets['STORE_PW'].or(buildProperties.env['STORE_PW']).string
+            keyPassword buildProperties.secrets['KEY_PW'].or(buildProperties.env['KEY_PW']).string
         }
     }
 

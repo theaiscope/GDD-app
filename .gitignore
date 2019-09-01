@@ -462,3 +462,6 @@ fabric.properties
 # End of https://www.gitignore.io/api/java,kotlin,android,androidstudio
 Credentials.kt
 .bitrise*
+
+.gradletasknamecache
+properties/secrets.properties
