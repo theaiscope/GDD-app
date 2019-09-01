@@ -4,20 +4,16 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
-import io.fotoapparat.result.BitmapPhoto
 import kotlinx.android.synthetic.main.activity_capture_image.*
+import kotlinx.android.synthetic.main.toolbar.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
-import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
-import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
@@ -31,6 +27,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_capture_image)
+        setSupportActionBar(toolbar)
 
         fotoapparat = Fotoapparat(
             context = this,
