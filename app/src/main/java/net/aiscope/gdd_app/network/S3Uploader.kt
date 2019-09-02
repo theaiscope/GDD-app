@@ -9,6 +9,8 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
 import net.aiscope.gdd_app.BuildConfig
 import java.lang.Exception
 import java.io.FileOutputStream
@@ -19,9 +21,9 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 
-class S3Uploader(val context: Context, val credentials: Credentials) {
+class S3Uploader(val context: Context) {
 
-    val s3: AmazonS3 = AmazonS3Client(S3Credentials())
+    val s3: AmazonS3 = AmazonS3Client(S3Credentials(), Region.getRegion(Regions.US_EAST_1))
 
     val transfer = TransferUtility.builder().s3Client(s3).context(context).build()
 
@@ -46,6 +48,7 @@ class S3Uploader(val context: Context, val credentials: Credentials) {
 
                 override fun onError(id: Int, ex: Exception?) {
                     Log.e("S3Uploader", "error key ${key} ex: ${ex?.toString()}")
+                    cont.resumeWithException(Exception("failed to upload ${id}", ex))
                 }
             })
         }
@@ -75,11 +78,11 @@ class S3Uploader(val context: Context, val credentials: Credentials) {
     private fun S3Credentials() : AWSCredentials {
         return object : AWSCredentials {
             override fun getAWSAccessKeyId(): String {
-                return credentials.API_KEY
+                return BuildConfig.AWS_ACCESS
             }
 
             override fun getAWSSecretKey(): String {
-                return credentials.API_SECRET
+                return BuildConfig.AWS_SECRET
             }
         }
     }

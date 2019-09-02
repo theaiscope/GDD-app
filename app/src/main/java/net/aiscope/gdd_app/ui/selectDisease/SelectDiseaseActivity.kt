@@ -8,10 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.model.Sample
-import net.aiscope.gdd_app.network.Credentials
-import net.aiscope.gdd_app.network.S3Storage
-import net.aiscope.gdd_app.network.S3Uploader
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import javax.inject.Inject
 
