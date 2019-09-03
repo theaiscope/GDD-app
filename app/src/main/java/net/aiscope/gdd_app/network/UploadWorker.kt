@@ -2,10 +2,9 @@ package net.aiscope.gdd_app.network
 
 import android.content.Context
 import androidx.work.CoroutineWorker
-import androidx.work.ListenableWorker
-import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import net.aiscope.gdd_app.repository.SampleRepository
+import timber.log.Timber
 
 class UploadWorker constructor(
         context: Context,
@@ -26,6 +25,7 @@ class UploadWorker constructor(
                     storage.upload(sample)
                     Result.success()
                 } catch (error: Throwable) {
+                    Timber.e(error, "An error occurred when doing work")
                     Result.retry()
                 }
             }

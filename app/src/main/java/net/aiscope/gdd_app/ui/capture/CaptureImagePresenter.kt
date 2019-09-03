@@ -1,17 +1,17 @@
 package net.aiscope.gdd_app.ui.capture
 
-import android.util.Log
 import io.fotoapparat.exception.camera.CameraException
 import net.aiscope.gdd_app.repository.SampleRepository
+import timber.log.Timber
 
 class CaptureImagePresenter(val view: CaptureImageView,
                             val repository: SampleRepository) {
 
 
     fun handleCaptureImageButton() {
-        Log.e("Taking Photo", "button pressed")
+        Timber.tag("Taking Photo").d("button pressed")
         view.takePhoto(repository.current().id) {file ->
-            Log.e("Taking Photo", file?.absolutePath)
+            Timber.tag("Taking Photo").d(file?.absolutePath)
             if (file == null) {
                 view.notifyImageCouldNotBeTaken()
             } else {
@@ -24,7 +24,7 @@ class CaptureImagePresenter(val view: CaptureImageView,
     }
 
     fun onCaptureError(it: CameraException) {
-        Log.e("Camera Error", it.message)
+        Timber.tag("Camera Error").e(it, "capture error")
     }
 
 }
