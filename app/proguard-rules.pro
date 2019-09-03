@@ -38,3 +38,6 @@
 -keep public class * extends java.lang.Exception
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
+
+# AWS
+-keep class com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkConnectionType {*;}
