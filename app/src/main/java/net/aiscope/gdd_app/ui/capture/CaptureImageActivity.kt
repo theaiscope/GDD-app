@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
@@ -32,10 +33,18 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         fotoapparat = Fotoapparat(
             context = this,
             view = camera_view,
-            cameraErrorCallback = { presenter   .onCaptureError(it) }
+            cameraErrorCallback = { presenter.onCaptureError(it) }
         )
 
         capture_image_button.setOnClickListener { presenter.handleCaptureImageButton() }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            presenter.handleCaptureImageButton()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onStart() {
