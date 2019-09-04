@@ -1,30 +1,34 @@
 package net.aiscope.gdd_app.presentation
 
-import org.junit.Assert
+import com.nhaarman.mockito_kotlin.*
+import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.ui.capture.CaptureImagePresenter
+import net.aiscope.gdd_app.ui.capture.CaptureImageView
 import org.junit.Test
+import java.io.File
 
 class CaptureImagePresenterTest {
 
     @Test
-    fun addition_isCorrect() {
-        Assert.assertEquals(4, 2 + 2)
+    fun `capture image should store the image`() {
+        val view: CaptureImageView = mock()
+        val repository: SampleRepository = mock()
+        val sample = Sample("an id", "a facility")
+        val file = File.createTempFile("temp", ".png")
+
+        whenever(repository.current()).thenReturn(sample)
+
+        whenever(view.takePhoto(any(), any())).doAnswer {
+            val cb = it.getArgument(1) as (File?) -> Unit
+            cb(file)
+            Unit
+        }
+
+        val presenter = CaptureImagePresenter(view, repository)
+        presenter.handleCaptureImageButton()
+
+        verify(repository).store(sample.copy(imagePath = file.absolutePath))
     }
-
-
-//    @Test
-//    fun `capture image should store the image`() {
-//        whenever(view.takePhoto(any())).doAnswer {
-//            val cb = it.getArgument(0) as (BitmapPhoto?) -> Unit
-//            val bitmap = BitmapFactory.decodeByteArray("testBitMap".toByteArray(), 0, 50)
-//            val testImage = BitmapPhoto(bitmap, 0)
-//            cb(testImage)
-//            Unit
-//        }
-//
-//        val presenter = CaptureImagePresenter(view)
-//
-//        presenter.handleCaptureBitmap()
-//
-//    }
 
 }
