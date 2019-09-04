@@ -20,7 +20,7 @@ Steps:
 1. Clone the repository to your computer
 1. Open Android Studio, select “Import”, and select the location where
 you’ve cloned the app
-1. Copy `properties/secrets.sample.properties` to `properties/secrets.properties` and replace the
+1. [OPTIONAL] Copy `properties/secrets.sample.properties` to `properties/secrets.properties` and replace the
 placeholders
 1. Make sure the build succeeds - follow the instructions in the “build
 window”, e.g. to install the Android SDK and accept licenses

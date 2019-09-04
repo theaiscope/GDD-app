@@ -25,18 +25,18 @@ android {
         versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigString 'AWS_ACCESS', buildProperties.secrets['AWS_ACCESS'].or(buildProperties.env['AWS_ACCESS'])
-        buildConfigString 'AWS_SECRET', buildProperties.secrets['AWS_SECRET'].or(buildProperties.env['AWS_SECRET'])
-        buildConfigString 'S3_BUCKET', buildProperties.secrets['S3_BUCKET'].or(buildProperties.env['S3_BUCKET'])
-        buildConfigString 'SMARTLOOK_API_KEY', buildProperties.secrets['SMARTLOOK_API_KEY'].or(buildProperties.env['SMARTLOOK_API_KEY'])
+        buildConfigString 'AWS_ACCESS', buildProperties.secrets['AWS_ACCESS'].or(buildProperties.env['AWS_ACCESS']).or("")
+        buildConfigString 'AWS_SECRET', buildProperties.secrets['AWS_SECRET'].or(buildProperties.env['AWS_SECRET']).or("")
+        buildConfigString 'S3_BUCKET', buildProperties.secrets['S3_BUCKET'].or(buildProperties.env['S3_BUCKET']).or("")
+        buildConfigString 'SMARTLOOK_API_KEY', buildProperties.secrets['SMARTLOOK_API_KEY'].or(buildProperties.env['SMARTLOOK_API_KEY']).or("")
     }
 
     signingConfigs {
         release {
             storeFile file("../gdd.jks")
             keyAlias 'gdd'
-            storePassword buildProperties.secrets['STORE_PW'].or(buildProperties.env['STORE_PW']).string
-            keyPassword buildProperties.secrets['KEY_PW'].or(buildProperties.env['KEY_PW']).string
+            storePassword buildProperties.secrets['STORE_PW'].or(buildProperties.env['STORE_PW']).or("").string
+            keyPassword buildProperties.secrets['KEY_PW'].or(buildProperties.env['KEY_PW']).or("").string
         }
     }
 
