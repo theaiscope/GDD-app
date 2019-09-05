@@ -10,7 +10,7 @@ By installing the application, you acknowledge and agree to the data processing 
 
 No personally identifiable information is being collected, processed or stored.
 
-Recording of the interactions within the app are stored in an anonymized fashion. This is done to understand problems in and improve the application. The data is handled by the provider [Smartlook](https://www.smartlook.com)  and stored on their infrastructure infrastructure. Recordings will be deleted as soon as they are not needed for the stated purpose anymore. [Smartlook Privacy STatement](https://www.smartlook.com/help/privacy-statement/).
+Recording of the interactions within the app are stored in an anonymized fashion. This is done to understand problems in and improve the application. The data is handled by the provider [Smartlook](https://www.smartlook.com)  and stored on their infrastructure. Recordings will be deleted as soon as they are not needed for the stated purpose anymore. [Smartlook Privacy Statement](https://www.smartlook.com/help/privacy-statement/).
 
 Aggregated technical information about app crashes, and analytics data about app behavior is stored in an anonymized fashion. This includes information about the device (Make, Model), the user's location and stacktraces. This is done to improve the application. The data is handled by the provider [Firebase](https://firebase.google.com) and stored on their infrastructure. 
 
