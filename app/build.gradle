@@ -21,10 +21,9 @@ android {
         applicationId "net.aiscope.gdd_app"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.1.0-alpha01"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        testInstrumentationRunner "net.aiscope.gdd_app.DexOpenerAndroidJUnitRunner"
 
         buildConfigString 'AWS_ACCESS', buildProperties.secrets['AWS_ACCESS'].or(buildProperties.env['AWS_ACCESS']).or("")
         buildConfigString 'AWS_SECRET', buildProperties.secrets['AWS_SECRET'].or(buildProperties.env['AWS_SECRET']).or("")
@@ -97,6 +96,17 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+
+    androidTestImplementation 'com.github.fabioCollini.daggermock:daggermock:0.8.5'
+    androidTestImplementation 'com.github.fabioCollini.daggermock:daggermock-kotlin:0.8.5'
+
+//    androidTestImplementation 'com.github.tmurakami:dexopener:2.0.3'
+//    androidTestImplementation "org.mockito:mockito-inline:$mockito_version"
+//    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation('com.nhaarman:mockito-kotlin:1.6.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito-inline:$mockito_version"
 
 
     // Test
