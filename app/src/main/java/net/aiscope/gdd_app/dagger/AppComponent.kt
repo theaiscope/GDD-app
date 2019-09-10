@@ -13,6 +13,9 @@ interface AppComponent {
 
     @Component.Builder
     interface Builder {
+        /* These method is necessary for DaggerMock when running instrumentation tests */
+        fun repositoryModule(repositoryModule: RepositoryModule): Builder
+
         // provide Application instance into DI
         @BindsInstance
         fun application(application: GddApplication): Builder
