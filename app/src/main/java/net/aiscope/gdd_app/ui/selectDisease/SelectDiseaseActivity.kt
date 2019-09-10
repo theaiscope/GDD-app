@@ -33,8 +33,11 @@ class SelectDiseaseActivity : AppCompatActivity() , SelectDiseaseView{
         }
     }
 
-    override fun startActivity() {
-        this.startActivity(Intent(this, CaptureImageActivity::class.java))
+    override fun captureImage(nextImageName: String, nextMaskName: String) {
+        val intent = Intent(this, CaptureImageActivity::class.java)
+        intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
+        intent.putExtra(CaptureImageActivity.EXTRA_MASK_NAME, nextMaskName)
+        this.startActivity(intent)
     }
 
     override fun showSuccessToast() {

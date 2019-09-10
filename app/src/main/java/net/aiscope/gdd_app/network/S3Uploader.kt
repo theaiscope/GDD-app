@@ -22,7 +22,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class S3Uploader(val context: Context) {
 
-    val s3: AmazonS3 = AmazonS3Client(S3Credentials(), Region.getRegion(Regions.US_EAST_1))
+    private val s3: AmazonS3 = AmazonS3Client(S3Credentials(), Region.getRegion(Regions.US_EAST_1))
 
     private val transfer: TransferUtility = TransferUtility.builder().s3Client(s3).context(context).build()
 

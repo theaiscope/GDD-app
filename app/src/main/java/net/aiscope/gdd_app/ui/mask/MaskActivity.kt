@@ -19,6 +19,11 @@ import javax.inject.Inject
 
 class MaskActivity : AppCompatActivity(), MaskView {
 
+    companion object {
+        const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_IMAGE_NAME"
+        const val EXTRA_MASK_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_MASK_NAME"
+    }
+
     @Inject
     lateinit var presenter: MaskPresenter
 
@@ -29,20 +34,25 @@ class MaskActivity : AppCompatActivity(), MaskView {
         setContentView(R.layout.activity_mask)
         setSupportActionBar(toolbar)
 
-        presenter.start()
+        presenter.start(extractImageNameExtra())
 
-        getBitmap.setOnClickListener { presenter.handleCaptureBitmap() }
+        getBitmap.setOnClickListener { presenter.handleCaptureBitmap(extractMaskNameExtra()) }
         erase.setOnClickListener { presenter.eraseMode() }
         brush.setOnClickListener { presenter.brushMode() }
         move.setOnClickListener { presenter.moveMode() }
     }
 
-    override fun takeMask(id: String, onPhotoReceived: (File?) -> Unit) {
+    private fun extractImageNameExtra() = intent.getStringExtra(EXTRA_IMAGE_NAME)
+
+    private fun extractMaskNameExtra() = intent.getStringExtra(EXTRA_MASK_NAME)
+
+
+    override fun takeMask(maskName: String, onPhotoReceived: (File?) -> Unit) {
         val bmp = maskView.maskBitmap
         if (bmp == null) {
             onPhotoReceived(null)
         } else {
-            val dest = File(this.filesDir, "${id}_mask.jpg")
+            val dest = File(this.filesDir, "${maskName}.jpg")
             bmp.writeToFile(dest)
 
             onPhotoReceived(dest)

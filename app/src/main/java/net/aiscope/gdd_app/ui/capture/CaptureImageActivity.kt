@@ -19,10 +19,15 @@ import javax.inject.Inject
 
 class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
+    companion object {
+        const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.capture.CaptureImageActivity.EXTRA_IMAGE_NAME"
+        const val EXTRA_MASK_NAME = "net.aiscope.gdd_app.ui.capture.CaptureImageActivity.EXTRA_MASK_NAME"
+    }
+
     @Inject
     lateinit var presenter: CaptureImagePresenter
 
-    lateinit var fotoapparat: Fotoapparat
+    private lateinit var fotoapparat: Fotoapparat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -36,12 +41,18 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
             cameraErrorCallback = { presenter.onCaptureError(it) }
         )
 
-        capture_image_button.setOnClickListener { presenter.handleCaptureImageButton() }
+        capture_image_button.setOnClickListener {
+            presenter.handleCaptureImageButton(extractImageNameExtra(), extractMaskNameExtra())
+        }
     }
+
+    private fun extractImageNameExtra() = intent.getStringExtra(EXTRA_IMAGE_NAME)
+
+    private fun extractMaskNameExtra() = intent.getStringExtra(EXTRA_MASK_NAME)
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            presenter.handleCaptureImageButton()
+            presenter.handleCaptureImageButton(extractImageNameExtra(), extractMaskNameExtra())
             return true
         }
         return super.onKeyDown(keyCode, event)
@@ -57,9 +68,9 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         super.onStop()
     }
 
-    override fun takePhoto(id: String, onPhotoReceived: (File?) -> Unit) {
+    override fun takePhoto(imageName: String, onPhotoReceived: (File?) -> Unit) {
         val result = fotoapparat.takePicture()
-        val dest = File(this.filesDir, "${id}.jpg")
+        val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
             it?.let {
                 val degrees = (-it.rotationDegrees) % 360
@@ -72,7 +83,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
     }
 
 
-    fun Bitmap.rotate(degrees: Float): Bitmap {
+    private fun Bitmap.rotate(degrees: Float): Bitmap {
         val matrix = Matrix().apply { postRotate(degrees) }
         return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
     }
@@ -82,9 +93,10 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
     }
 
 
-    override fun goToMask(imagePath: String?) {
+    override fun goToMask(imagePath: String, nextMaskName: String) {
         val intent = Intent(this, MaskActivity::class.java)
-        intent.putExtra("imagePath", imagePath)
+        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, imagePath)
+        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, nextMaskName)
 
         startActivity(intent)
     }

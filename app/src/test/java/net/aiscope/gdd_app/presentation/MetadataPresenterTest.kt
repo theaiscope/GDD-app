@@ -43,7 +43,7 @@ class MetadataPresenterTest {
             Sample(
                 id = "id",
                 healthFacility = "StPau",
-                imagePath = "/img.jpg"
+                images = linkedSetOf()
             )
         )
     }

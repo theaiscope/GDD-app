@@ -28,10 +28,6 @@
 
 -keep class com.amazonaws.services.**.*Handler
 
-# App models
--keep class net.aiscope.gdd_app.model.**
--keep enum net.aiscope.gdd_app.model.** { *; }
-
 # Crashlytics
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable

@@ -4,10 +4,10 @@ import java.io.File
 
 interface CaptureImageView {
 
-    fun takePhoto(id: String, onPhotoReceived: (File?) -> Unit)
+    fun takePhoto(imageName: String, onPhotoReceived: (File?) -> Unit)
 
     fun notifyImageCouldNotBeTaken()
 
 //    fun goToMetadata()
-    fun goToMask(imagePath: String?)
+    fun goToMask(imagePath: String, nextMaskName: String)
 }

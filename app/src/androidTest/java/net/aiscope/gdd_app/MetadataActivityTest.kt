@@ -20,7 +20,6 @@ class MetadataActivityTest {
     val intentsMetadataTestRule = IntentsTestRule(MetadataActivity::class.java)
 
     @Test
-    @Ignore("Repository can't be mocked ATM")
     fun thickSmearTypeIsPreselected () {
         Espresso.onView(ViewMatchers.withText(R.string.metadata_blood_smear_thick))
             .check(matches(isChecked()))
@@ -37,7 +36,6 @@ class MetadataActivityTest {
     }
 
     @Test
-    @Ignore("Repository can't be mocked ATM")
     fun shouldStoreData() {
         // Select bloodType
         Espresso.onView(ViewMatchers.withText(R.string.metadata_blood_smear_thin)).perform(click())

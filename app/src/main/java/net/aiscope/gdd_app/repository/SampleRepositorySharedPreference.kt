@@ -8,7 +8,8 @@ import javax.inject.Inject
 class SampleRepositorySharedPreference @Inject constructor(
     private val store: SharedPreferenceStore,
     private val uuid: UUID,
-    private val hospitalRepository: HospitalRepository
+    private val hospitalRepository: HospitalRepository,
+    private val gson: Gson
 ) : SampleRepository {
 
     private var currentSample: Sample? = null
@@ -27,13 +28,13 @@ class SampleRepositorySharedPreference @Inject constructor(
     }
 
     override fun store(sample: Sample) {
-        store.store(sample.id, sample.toJson())
+        store.store(sample.id, gson.toJson(sample.toDto()))
         currentSample = sample
     }
 
     override fun load(id: String): Sample {
-        val json = store.load(id);
-        val sample: Sample = Gson().fromJson(json)
+        val json = store.load(id)
+        val sample: Sample = gson.fromJson<SampleDto>(json).toDomain()
         currentSample = sample
 
         return sample
@@ -43,7 +44,7 @@ class SampleRepositorySharedPreference @Inject constructor(
         val jsons = store.all()
 
         return jsons.map {
-            Gson().fromJson<Sample>(it)
+            gson.fromJson<SampleDto>(it).toDomain()
         }.toList()
     }
 }

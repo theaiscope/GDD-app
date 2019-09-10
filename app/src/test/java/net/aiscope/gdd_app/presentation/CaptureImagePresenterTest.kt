@@ -26,9 +26,9 @@ class CaptureImagePresenterTest {
         }
 
         val presenter = CaptureImagePresenter(view, repository)
-        presenter.handleCaptureImageButton()
+        presenter.handleCaptureImageButton("any", "any")
 
-        verify(repository).store(sample.copy(imagePath = file.absolutePath))
+        verify(repository).store(sample.copy(images = linkedSetOf(file)))
     }
 
 }

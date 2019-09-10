@@ -13,8 +13,7 @@ class SelectDiseasePresenter @Inject constructor(
             val sample = repository.create().copy(disease = input)
             repository.store(sample)
 
-            val samples = repository.all()
-            view.startActivity()
+            view.captureImage(sample.nextImageName(), sample.nextMaskName())
             view.showSuccessToast()
         } else {
             view.showFailureToast()

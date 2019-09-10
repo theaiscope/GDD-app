@@ -1,11 +1,7 @@
 package net.aiscope.gdd_app.repository
 
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
-import net.aiscope.gdd_app.model.Disease
-import net.aiscope.gdd_app.model.HealthFacility
+import com.google.gson.Gson
+import com.nhaarman.mockito_kotlin.*
 import net.aiscope.gdd_app.model.Sample
 import org.junit.Before
 import org.junit.Test
@@ -13,6 +9,7 @@ import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import java.lang.reflect.Type
 
 @RunWith(MockitoJUnitRunner::class)
 class SampleRepositorySharedPreferenceTest {
@@ -26,6 +23,9 @@ class SampleRepositorySharedPreferenceTest {
     @Mock
     lateinit var uuidGenerator: UUID
 
+    @Mock
+    lateinit var gson: Gson
+
     @InjectMocks
     lateinit var subject: SampleRepositorySharedPreference
 
@@ -38,6 +38,8 @@ class SampleRepositorySharedPreferenceTest {
     @Before
     fun before() {
         whenever(hospitalRepository.load()).thenReturn(HOSPITAL)
+        whenever(gson.toJson(sampleOnlyRequired.toDto())).thenReturn(sampleOnlyRequiredJson)
+        whenever(gson.fromJson<SampleDto>(eq(sampleOnlyRequiredJson), any<Type>())).thenReturn(sampleOnlyRequired.toDto())
     }
 
     @Test

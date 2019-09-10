@@ -9,17 +9,17 @@ class CaptureImagePresenter(
     val repository: SampleRepository
 ) {
 
-    fun handleCaptureImageButton() {
+    fun handleCaptureImageButton(imageName: String, nextMaskName: String) {
         Timber.tag("Taking Photo").d("button pressed")
-        view.takePhoto(repository.current().id) { file ->
+        view.takePhoto(imageName) { file ->
             Timber.tag("Taking Photo").d(file?.absolutePath)
             if (file == null) {
                 view.notifyImageCouldNotBeTaken()
             } else {
-                val sample = repository.current().copy(imagePath = file.absolutePath)
+                val sample = repository.current().addImage(file)
                 repository.store(sample)
 
-                view.goToMask(sample.imagePath)
+                view.goToMask(file.absolutePath, nextMaskName)
             }
         }
     }

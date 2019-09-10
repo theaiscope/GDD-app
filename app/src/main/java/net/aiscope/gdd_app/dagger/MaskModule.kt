@@ -5,9 +5,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.repository.SampleRepository
-import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
-import net.aiscope.gdd_app.ui.capture.CaptureImagePresenter
-import net.aiscope.gdd_app.ui.capture.CaptureImageView
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.mask.MaskPresenter
 import net.aiscope.gdd_app.ui.mask.MaskView
