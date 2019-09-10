@@ -33,4 +33,6 @@
     <string name="metadata_blood_smear_thin">Thin</string>
     <string name="metadata_save_sample">Save sample</string>
     <string name="metadata_invalid_form">Not all required fields are filled</string>
+    <string name="welcome">Welcome</string>
+    <string name="home_screen_cta_text">Start capturing a new blood sample</string>
 </resources>
