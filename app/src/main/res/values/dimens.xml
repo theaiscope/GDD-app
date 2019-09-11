@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sample_image_thumbnail_width">72dp</dimen>
+    <dimen name="sample_image_thumbnail_height">104dp</dimen>
+</resources>
