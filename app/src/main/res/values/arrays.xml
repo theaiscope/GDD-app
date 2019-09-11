@@ -3,4 +3,17 @@
     <string-array name="diseases">
         <item>Malaria</item>
     </string-array>
+    <string-array name="metadata_species">
+        <item>P. falciparum</item>
+        <item>P. vivax</item>
+        <item>P. ovale</item>
+        <item>P. malariae</item>
+        <item>P. knowlesi</item>
+    </string-array>
+    <string-array name="metadata_stages">
+        <item>Ring</item>
+        <item>Trophozoite</item>
+        <item>Schizont</item>
+        <item>Gametocyte</item>
+    </string-array>
 </resources>

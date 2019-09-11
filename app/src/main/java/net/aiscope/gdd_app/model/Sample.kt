@@ -12,7 +12,9 @@ enum class SmearType(val id: Int) {
     THICK(2)
 }
 
-data class SampleMetadata(val smearType: SmearType = SmearType.THIN)
+data class SampleMetadata(val smearType: SmearType = SmearType.THIN,
+                          val specie: String = "",
+                          val stage: String = "")
 
 data class Sample(
     val id: String,

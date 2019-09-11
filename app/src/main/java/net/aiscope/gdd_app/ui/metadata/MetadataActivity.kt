@@ -2,6 +2,10 @@ package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,10 +53,10 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
                     R.id.metadata_blood_smear_thick -> SmearType.THICK
                     R.id.metadata_blood_smear_thin -> SmearType.THIN
                     else -> throw IllegalStateException(
-                        "${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown"
-                    )
-                }
-            )
+                        "${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown")
+                }, metadata_species_spinner.selectedItem.toString(),
+                metadata_stage_spinner.selectedItem.toString()s
+             )
         }
     }
 
@@ -63,7 +67,17 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
 
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
-        // TODO set species stages
+
+        // TODO: use a constant!
+        if (model.disease == "Malaria") {
+            fillSpecies()
+            setSpeciesVisibility(View.VISIBLE)
+            fillStages()
+            setStageVisibility(View.VISIBLE)
+        } else {
+            setSpeciesVisibility(View.GONE)
+            setStageVisibility(View.GONE)
+        }
     }
 
     override fun showInvalidFormError() {
@@ -84,4 +98,56 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
     private fun onAddImageClicked() {
         presenter.addImage()
     }
+<<<<<<< HEAD
+=======
+
+    private fun fillSpecies() {
+        val spinner : Spinner = findViewById(R.id.metadata_species_spinner)
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.metadata_species,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.setAdapter(adapter)
+        }
+
+
+    }
+
+    private fun setSpeciesVisibility(visibility: Int) {
+        val spinner : Spinner = findViewById(R.id.metadata_species_spinner)
+        spinner.visibility = visibility
+
+        val textView : TextView = findViewById(R.id.metadata_species_title)
+        textView.visibility = visibility
+
+        val divider : View = findViewById(R.id.metadata_species_divider)
+        divider.visibility = visibility
+    }
+
+    private fun fillStages() {
+        val spinner : Spinner = findViewById(R.id.metadata_stage_spinner)
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.metadata_stages,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.setAdapter(adapter)
+        }
+
+        spinner.visibility = View.VISIBLE
+    }
+
+    private fun setStageVisibility(visibility: Int) {
+        val spinner : Spinner = findViewById(R.id.metadata_stage_spinner)
+        spinner.visibility = visibility
+
+        val textView : TextView = findViewById(R.id.metadata_stages_title)
+        textView.visibility = visibility
+    }
+>>>>>>> Add spinners for species and stage
 }

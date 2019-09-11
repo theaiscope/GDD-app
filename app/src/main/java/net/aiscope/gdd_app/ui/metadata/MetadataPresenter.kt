@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 data class FieldOption(val id: Long, val title: Int)
 data class ViewStateModel(
+    val disease: String,
     val images: List<File>,
     val options: List<FieldOption>,
     val required: Boolean = true
@@ -25,16 +26,23 @@ class MetadataPresenter @Inject constructor(
 
     fun showScreen() {
         // TODO set species stages
-        view.fillForm(ViewStateModel(repository.current().images.toList(), emptyList()))
+        val sample = repository.current()
+
+        if (sample.disease == null) {
+            notValid()
+            return
+        }
+
+        view.fillForm(ViewStateModel(sample.disease, sample.images.toList(), emptyList()))
     }
 
     fun notValid() {
         view.showInvalidFormError()
     }
 
-    fun save(smearType: SmearType) {
+    fun save(smearType: SmearType, specie: String, stage: String) {
         val sample = repository.current()
-            .copy(metadata = SampleMetadata(smearType), status = Status.ReadyToUpload)
+            .copy(metadata = SampleMetadata(smearType, specie, stage), status = Status.ReadyToUpload)
         repository.store(sample)
 
         remoteStorage.enqueue(sample, context)

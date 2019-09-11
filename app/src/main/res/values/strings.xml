@@ -40,4 +40,6 @@
     <string name="capture_flow_exit_dialog_stay">No, stay</string>
     <string name="capture_flow_exit_dialog_exit">Yes, exit</string>
     <string name="text_save_new_health_facility">Register new hospital</string>
+    <string name="metadata_species_title">Species</string>
+    <string name="metadata_stage_title">Stage</string>
 </resources>
