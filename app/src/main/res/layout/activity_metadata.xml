@@ -144,7 +144,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/metadata_species_title"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:entries="@array/metadata_species"/>
 
     <TextView
         android:id="@+id/metadata_stages_title"
@@ -172,7 +173,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/metadata_stages_title"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0"
+        android:entries="@array/metadata_stages" />
 
     <Button
         android:id="@+id/metadata_save_sample"

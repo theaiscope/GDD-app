@@ -25,7 +25,6 @@ class MetadataPresenter @Inject constructor(
 ) {
 
     fun showScreen() {
-        // TODO set species stages
         val sample = repository.current()
 
         if (sample.disease == null) {

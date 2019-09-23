@@ -55,7 +55,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
                     else -> throw IllegalStateException(
                         "${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown")
                 }, metadata_species_spinner.selectedItem.toString(),
-                metadata_stage_spinner.selectedItem.toString()s
+                metadata_stage_spinner.selectedItem.toString()
              )
         }
     }
@@ -67,17 +67,6 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
 
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
-
-        // TODO: use a constant!
-        if (model.disease == "Malaria") {
-            fillSpecies()
-            setSpeciesVisibility(View.VISIBLE)
-            fillStages()
-            setStageVisibility(View.VISIBLE)
-        } else {
-            setSpeciesVisibility(View.GONE)
-            setStageVisibility(View.GONE)
-        }
     }
 
     override fun showInvalidFormError() {
@@ -98,8 +87,6 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
     private fun onAddImageClicked() {
         presenter.addImage()
     }
-<<<<<<< HEAD
-=======
 
     private fun fillSpecies() {
         val spinner : Spinner = findViewById(R.id.metadata_species_spinner)
@@ -149,5 +136,5 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         val textView : TextView = findViewById(R.id.metadata_stages_title)
         textView.visibility = visibility
     }
->>>>>>> Add spinners for species and stage
+
 }

@@ -9,7 +9,9 @@ import net.aiscope.gdd_app.model.Status
 import java.io.File
 
 data class SampleMetadataDto(
-    @SerializedName("bloodType") val bloodType: Int
+    @SerializedName("bloodType") val bloodType: Int,
+    @SerializedName("species") val species: String,
+    @SerializedName("stage") val stage: String
 )
 
 data class SampleDto(
@@ -27,7 +29,8 @@ data class SampleDto(
         disease = disease,
         images = imagePaths.map { File(it) }.toLinkedHashSet(),
         masks = maskPaths.map { File(it) }.toLinkedHashSet(),
-        metadata = SampleMetadata(SmearType.values().first { it.id == metadata.bloodType }),
+        metadata = SampleMetadata(SmearType.values().first { it.id == metadata.bloodType },
+            metadata.species, metadata.stage),
         status = Status.values().first { it.id == status }
     )
 }
@@ -38,6 +41,6 @@ fun Sample.toDto() = SampleDto(
     disease = disease,
     imagePaths = images.map { it.absolutePath },
     maskPaths = masks.map { it.absolutePath },
-    metadata = SampleMetadataDto(metadata.smearType.id),
+    metadata = SampleMetadataDto(metadata.smearType.id, metadata.specie, metadata.stage),
     status = status.id
 )
