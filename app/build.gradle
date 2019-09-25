@@ -21,8 +21,8 @@ android {
         applicationId "net.aiscope.gdd_app"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.1.0-alpha01"
+        versionCode 5
+        versionName "1.1.0-alpha02"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigString 'AWS_ACCESS', buildProperties.secrets['AWS_ACCESS'].or(buildProperties.env['AWS_ACCESS']).or("")
