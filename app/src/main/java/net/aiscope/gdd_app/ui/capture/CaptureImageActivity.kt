@@ -1,11 +1,14 @@
 package net.aiscope.gdd_app.ui.capture
 
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
@@ -13,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_capture_image.*
 import kotlinx.android.synthetic.main.toolbar.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import java.io.File
 import javax.inject.Inject
@@ -34,6 +38,30 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_capture_image)
         setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            val alertDialog: AlertDialog? = this.let {
+                val builder = AlertDialog.Builder(it, R.style.MyAlertDialogStyle)
+                builder.apply {
+                    setPositiveButton(R.string.ok
+                    ) { _, _ ->
+                        // User clicked OK button
+                        val intent = Intent(context,  MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    setNegativeButton(R.string.cancel
+                    ) { dialog, _ ->
+                        // User cancelled the dialog
+                        dialog.dismiss()
+                    }
+                }
+                // Set other dialog properties
+                builder.setMessage("Are you sure you want to exit? Your current data will be lost")
+                builder.setTitle("Warning!")
+                // Create the AlertDialog
+                builder.create()
+            }
+            alertDialog!!.show()
+        }
 
         fotoapparat = Fotoapparat(
             context = this,
