@@ -52,8 +52,8 @@ class MaskActivity : AppCompatActivity(), MaskView {
                     }
                 }
                 // Set other dialog properties
-                builder.setMessage("Are you sure you want to exit? Your current data will be lost")
-                builder.setTitle("Warning!")
+                builder.setMessage(R.string.alert_dialog_message)
+                builder.setTitle(R.string.alert_dialog_title)
                 // Create the AlertDialog
                 builder.create()
             }
