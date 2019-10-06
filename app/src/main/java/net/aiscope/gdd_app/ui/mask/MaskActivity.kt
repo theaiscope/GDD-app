@@ -57,7 +57,7 @@ class MaskActivity : AppCompatActivity(), MaskView {
                 // Create the AlertDialog
                 builder.create()
             }
-            alertDialog!!.show()
+            alertDialog?.show()
         }
 
         presenter.start(extractImageNameExtra())

@@ -37,4 +37,6 @@
     <string name="metadata_invalid_form">Not all required fields are filled</string>
     <string name="ok">Yes, exit</string>
     <string name="cancel">No, stay</string>
+    <string name="alert_dialog_message">Are you sure you want to exit? Your current data will be lost</string>
+    <string name="alert_dialog_title">Warning!</string>
 </resources>

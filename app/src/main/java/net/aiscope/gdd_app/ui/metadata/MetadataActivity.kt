@@ -44,12 +44,12 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
                     }
                 }
                 // Set other dialog properties
-                builder.setMessage("Are you sure you want to exit? Your current data will be lost")
-                builder.setTitle("Warning!")
+                builder.setMessage(getString(R.string.alert_dialog_message))
+                builder.setTitle(getString(R.string.alert_dialog_title))
                 // Create the AlertDialog
                 builder.create()
             }
-            alertDialog!!.show()
+            alertDialog?.show()
         }
 
         metadata_blood_sample_images.apply {

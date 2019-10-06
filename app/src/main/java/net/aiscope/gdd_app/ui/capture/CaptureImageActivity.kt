@@ -45,7 +45,9 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
                     setPositiveButton(R.string.ok
                     ) { _, _ ->
                         // User clicked OK button
-                        val intent = Intent(context,  MainActivity::class.java)
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+
                         startActivity(intent)
                     }
                     setNegativeButton(R.string.cancel
@@ -60,7 +62,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
                 // Create the AlertDialog
                 builder.create()
             }
-            alertDialog!!.show()
+            alertDialog?.show()
         }
 
         fotoapparat = Fotoapparat(
@@ -128,6 +130,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
         startActivity(intent)
     }
+
 }
 
 
