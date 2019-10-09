@@ -46,9 +46,12 @@ class MetadataPresenterTest {
             Sample(
                 id = "id",
                 healthFacility = "StPau",
-                images = linkedSetOf()
+                images = linkedSetOf(),
+                disease = "malaria"
             )
         )
+
+        val test = repository.current()
     }
 
     @Test
