@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
@@ -28,8 +29,27 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
 
         setSupportActionBar(toolbar)
         toolbar.setNavigationOnClickListener {
-            // TODO add dialog and go to home screen on confirmation
-            goToHome()
+            val alertDialog: AlertDialog? = this.let {
+                val builder = AlertDialog.Builder(it, R.style.MyAlertDialogStyle)
+                builder.apply {
+                    setPositiveButton(R.string.ok
+                    ) { _, _ ->
+                        // User clicked OK button
+                        goToHome()
+                    }
+                    setNegativeButton(R.string.cancel
+                    ) { dialog, _ ->
+                        // User cancelled the dialog
+                        dialog.dismiss()
+                    }
+                }
+                // Set other dialog properties
+                builder.setMessage(getString(R.string.alert_dialog_message))
+                builder.setTitle(getString(R.string.alert_dialog_title))
+                // Create the AlertDialog
+                builder.create()
+            }
+            alertDialog?.show()
         }
 
         metadata_blood_sample_images.apply {
