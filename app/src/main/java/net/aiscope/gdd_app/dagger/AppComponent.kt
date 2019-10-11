@@ -1,13 +1,17 @@
 package net.aiscope.gdd_app.dagger
 
-
-import dagger.*
+import dagger.BindsInstance
+import dagger.Component
 import dagger.android.AndroidInjectionModule
 import net.aiscope.gdd_app.application.GddApplication
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, RepositoryModule::class, BuildersModule::class, NetworkModule::class])
+@Component(
+    modules = [AndroidInjectionModule::class, AppModule::class, RepositoryModule::class,
+        BuildersModule::class, NetworkModule::class
+    ]
+)
 
 interface AppComponent {
 
@@ -21,5 +25,4 @@ interface AppComponent {
     }
 
     fun inject(application: GddApplication)
-
 }

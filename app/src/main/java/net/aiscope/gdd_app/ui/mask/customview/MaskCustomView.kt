@@ -1,17 +1,24 @@
 package net.aiscope.gdd_app.ui.mask.customview
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.util.AttributeSet
-import android.view.View
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
+import android.view.View
 
-
-
-
-
-class MaskCustomView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+class MaskCustomView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
     enum class DrawMode {
         Brush,
@@ -42,21 +49,19 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     var maskCanvas: Canvas? = null
     var maskBitmap: Bitmap? = null
-    var maskPaintBrush =  Paint()
-    var maskPaintErase =  Paint()
-
+    var maskPaintBrush = Paint()
+    var maskPaintErase = Paint()
     var maskPaint = maskPaintBrush
 
     val backgroundPaint = Paint().apply {
-        color = 0xFFFFFFFF.toInt()
+        color = BACKGROUND_PAINT_COLOR
     }
 
     val maskPaintBitmap = Paint().apply {
-        alpha = 200
+        alpha = MASK_PAINT_ALPHA
     }
 
     var canvasRect = RectF(0f,0f,0f,0f)
-
 
     var mode: DrawMode = DrawMode.Brush
         set(value) {
@@ -92,7 +97,6 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private var mX = 0f
     private var mY = 0f
-    val TOUCH_TOLERANCE = 4f
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
@@ -158,7 +162,7 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
             lastSpanY = scaleGestureDetector.currentSpanY
 
 
-            val floats = FloatArray(9)
+            val floats = FloatArray(MATRIX_SIZE)
             scaleMatrix.getValues(floats)
             scale = floats[Matrix.MSCALE_X]
 
@@ -183,9 +187,7 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
             invalidate()
             return true
         }
-
     }
-
 
     private val mScaleDetector = ScaleGestureDetector(context, scaleListener)
 
@@ -199,13 +201,11 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
         inverseScaleMatrix.mapPoints(p)
 
-        val _x = p[0]
-        val _y = p[1]
-        return Pair(_x, _y)
+        return Pair(p[0], p[1])
     }
 
-    private  fun getScaleFromMatrix(m: Matrix): Float {
-        val p = FloatArray(9)
+    private fun getScaleFromMatrix(m: Matrix): Float {
+        val p = FloatArray(MATRIX_SIZE)
         m.getValues(p)
 
         return p[Matrix.MSCALE_X]
@@ -222,13 +222,15 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
         val h = this.height
         val s = getScaleFromMatrix(this.scaleMatrix)
 
-        maskPaintBrush =  Paint().apply {
-            color = 0xffff6666.toInt()
+        maskPaintBrush = Paint().apply {
+
+            color = MASK_PAINT_COLOR
             isAntiAlias = true
             isDither = true
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
+            @Suppress("MagicNumber")
             strokeWidth = Math.max(h, w).toFloat() / (20.0f * s)
         }
 
@@ -239,14 +241,23 @@ class MaskCustomView @JvmOverloads constructor(context: Context, attrs: Attribut
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
+            @Suppress("MagicNumber")
             strokeWidth = Math.max(h, w).toFloat() / (20.0f * s)
         }
 
-        if(mode == DrawMode.Erase) {
+        if (mode == DrawMode.Erase) {
             maskPaint = maskPaintErase
         }
-        if(mode == DrawMode.Brush) {
+        if (mode == DrawMode.Brush) {
             maskPaint = maskPaintBrush
         }
+    }
+
+    companion object {
+        private const val TOUCH_TOLERANCE = 4f
+        private const val MATRIX_SIZE = 9
+        private const val BACKGROUND_PAINT_COLOR = 0xFFFFFFFF.toInt()
+        private const val MASK_PAINT_COLOR = 0xffff6666.toInt()
+        private const val MASK_PAINT_ALPHA = 200
     }
 }

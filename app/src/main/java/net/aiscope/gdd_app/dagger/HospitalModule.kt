@@ -5,7 +5,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.repository.HospitalRepository
-import net.aiscope.gdd_app.repository.SharedPreferencesRepository
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityPresenter
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityView
@@ -34,10 +33,5 @@ abstract class HospitalModule {
                 view,
                 repository
             )
-
     }
-
-
-
-
 }

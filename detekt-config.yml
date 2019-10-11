@@ -1,0 +1,11 @@
+complexity:
+  TooManyFunctions:
+    active: false
+
+naming:
+  PackageNaming:
+    active: false
+
+style:
+  ForbiddenComment:
+    active: false

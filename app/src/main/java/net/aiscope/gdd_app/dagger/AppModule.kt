@@ -7,7 +7,7 @@ import dagger.Provides
 import net.aiscope.gdd_app.application.AppWorkerFactory
 import net.aiscope.gdd_app.application.GddApplication
 import net.aiscope.gdd_app.network.RemoteStorage
-import net.aiscope.gdd_app.repository.*
+import net.aiscope.gdd_app.repository.SampleRepository
 
 @Module(subcomponents = [
     (HospitalSubComponents::class),
@@ -26,5 +26,4 @@ object AppModule {
     @Provides
     fun workerFactory(repository: SampleRepository, storage: RemoteStorage): WorkerFactory =
             AppWorkerFactory(repository, storage)
-
 }

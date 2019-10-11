@@ -10,4 +10,3 @@ interface MetadataSubComponents : AndroidInjector<MetadataActivity> {
     @Subcomponent.Factory
     interface Factory : AndroidInjector.Factory<MetadataActivity>
 }
-

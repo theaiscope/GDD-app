@@ -68,6 +68,14 @@ android {
     }
 }
 
+detekt {
+    toolVersion = "1.1.1"
+    input = files("src/main/java")
+    config = files("$rootProject.projectDir/detekt-config.yml")
+    buildUponDefaultConfig = true
+    filters = ".*/res/.*,.*/build/.*"
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

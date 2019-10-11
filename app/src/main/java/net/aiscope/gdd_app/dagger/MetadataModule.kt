@@ -26,7 +26,12 @@ abstract class MetadataModule {
         @Provides
         @PerActivity
         @JvmStatic
-        internal fun providePresenter(view: MetadataView, repository: SampleRepository, remoteStorage: RemoteStorage, context: Activity): MetadataPresenter=
+        internal fun providePresenter(
+            view: MetadataView,
+            repository: SampleRepository,
+            remoteStorage: RemoteStorage,
+            context: Activity
+        ): MetadataPresenter=
             MetadataPresenter(view, repository, remoteStorage, context)
     }
 }

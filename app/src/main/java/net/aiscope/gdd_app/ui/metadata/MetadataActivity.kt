@@ -62,12 +62,14 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
 
         metadata_save_sample.setOnClickListener {
             presenter.save(
-                when(metadata_section_smear_type_radio_group.checkedRadioButtonId) {
+                when (metadata_section_smear_type_radio_group.checkedRadioButtonId) {
                     R.id.metadata_blood_smear_thick -> SmearType.THICK
                     R.id.metadata_blood_smear_thin -> SmearType.THIN
-                    else -> throw IllegalStateException("${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown")
+                    else -> throw IllegalStateException(
+                        "${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown"
+                    )
                 }
-             )
+            )
         }
     }
 
@@ -97,5 +99,4 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
     private fun onAddImageClicked() {
         presenter.addImage()
     }
-
 }

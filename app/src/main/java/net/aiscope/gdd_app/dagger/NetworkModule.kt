@@ -23,6 +23,4 @@ object NetworkModule {
     @JvmStatic
     fun remoteStorage(s3uploader: S3Uploader, gson: Gson): RemoteStorage =
         S3Storage(s3uploader, gson)
-
-
 }

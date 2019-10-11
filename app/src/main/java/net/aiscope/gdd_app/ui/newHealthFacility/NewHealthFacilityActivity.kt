@@ -8,7 +8,6 @@ import kotlinx.android.synthetic.main.activity_new_health_facility.*
 import net.aiscope.gdd_app.R
 import javax.inject.Inject
 
-
 class NewHealthFacilityActivity : AppCompatActivity(), NewHealthFacilityView {
 
     @Inject lateinit var presenter: NewHealthFacilityPresenter
@@ -25,7 +24,6 @@ class NewHealthFacilityActivity : AppCompatActivity(), NewHealthFacilityView {
         button_cancel_new_health_facility.setOnClickListener {
             presenter.destroyActivity()
         }
-
     }
 
     override fun showToast(messageId: Int) {
@@ -36,7 +34,4 @@ class NewHealthFacilityActivity : AppCompatActivity(), NewHealthFacilityView {
     override fun destroy() {
         this.finish()
     }
-
-
-
 }

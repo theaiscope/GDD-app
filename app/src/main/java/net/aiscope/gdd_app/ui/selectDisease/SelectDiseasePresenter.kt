@@ -19,5 +19,4 @@ class SelectDiseasePresenter @Inject constructor(
             view.showFailureToast()
         }
     }
-
 }

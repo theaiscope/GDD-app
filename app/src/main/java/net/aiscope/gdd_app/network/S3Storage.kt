@@ -1,7 +1,11 @@
 package net.aiscope.gdd_app.network
 
 import android.content.Context
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.google.gson.Gson
 import net.aiscope.gdd_app.model.Sample
 
@@ -33,7 +37,7 @@ class S3Storage(private val uploader: S3Uploader, private val gson: Gson) : Remo
         }
 
         sample.masks.forEachIndexed { index, mask ->
-        uploader.upload(mask, "${sample.id}/mask_${index}.jpg")
+            uploader.upload(mask, "${sample.id}/mask_${index}.jpg")
         }
     }
 }

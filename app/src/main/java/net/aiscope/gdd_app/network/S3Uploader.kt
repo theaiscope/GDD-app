@@ -19,15 +19,15 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-
 class S3Uploader(val context: Context) {
 
-    private val s3: AmazonS3 = AmazonS3Client(S3Credentials(), Region.getRegion(Regions.US_EAST_1))
+    private val s3: AmazonS3 = AmazonS3Client(s3Credentials(), Region.getRegion(Regions.US_EAST_1))
 
-    private val transfer: TransferUtility = TransferUtility.builder().s3Client(s3).context(context).build()
+    private val transfer: TransferUtility =
+        TransferUtility.builder().s3Client(s3).context(context).build()
 
     suspend fun upload(file: File, key: String) {
-        return suspendCoroutine {cont ->
+        return suspendCoroutine { cont ->
             var continuationResumed = false
             val observer = transfer.upload(BuildConfig.S3_BUCKET, key, file)
 
@@ -43,7 +43,7 @@ class S3Uploader(val context: Context) {
                     if (state == TransferState.COMPLETED) {
                         continuationResumed = true
                         cont.resume(Unit)
-                    } else if(state == TransferState.FAILED || state == TransferState.CANCELED) {
+                    } else if (state == TransferState.FAILED || state == TransferState.CANCELED) {
                         Timber.tag("S3Uploader").w("failed to upload $state")
                         if (!continuationResumed) cont.resumeWithException(Exception("failed to upload $state"))
                     }
@@ -61,7 +61,8 @@ class S3Uploader(val context: Context) {
     suspend fun upload(data: String, id: String, key: String) {
         val file = File(context.cacheDir, "${id}.json")
 
-        // code copied from https://stackoverflow.com/questions/35481924/write-a-string-to-a-file/35481977 (not the best code in the world)
+        // code copied from https://stackoverflow.com/questions/35481924/write-a-string-to-a-file/35481977
+        // (not the best code in the world)
         try {
             file.createNewFile()
             val fOut = FileOutputStream(file)
@@ -79,7 +80,7 @@ class S3Uploader(val context: Context) {
         }
     }
 
-    private fun S3Credentials() : AWSCredentials {
+    private fun s3Credentials(): AWSCredentials {
         return object : AWSCredentials {
             override fun getAWSAccessKeyId(): String {
                 return BuildConfig.AWS_ACCESS
