@@ -29,6 +29,7 @@ workflows:
         - project_location: "$PROJECT_LOCATION/"
         - module: "$MODULE"
         - variant: "$VARIANT"
+    - android-detekt@0.0.2: {}
     - android-unit-test@0.11.1:
         inputs:
         - project_location: "$PROJECT_LOCATION/"
