@@ -39,7 +39,7 @@ class MetadataPresenter @Inject constructor(
 
         remoteStorage.enqueue(sample, context)
 
-        view.goToHome()
+        view.finishFlow()
     }
 
     fun addImage() {

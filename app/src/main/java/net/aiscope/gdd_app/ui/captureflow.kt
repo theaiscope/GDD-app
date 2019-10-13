@@ -7,13 +7,6 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.main.MainActivity
 
 fun AppCompatActivity.attachCaptureFlowToolbar(toolbar: androidx.appcompat.widget.Toolbar) {
-
-    fun goToHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-    }
-
     toolbar.setNavigationOnClickListener {
         with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
             setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
@@ -29,3 +22,8 @@ fun AppCompatActivity.attachCaptureFlowToolbar(toolbar: androidx.appcompat.widge
     }
 }
 
+fun AppCompatActivity.goToHome() {
+    val intent = Intent(this, MainActivity::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    startActivity(intent)
+}

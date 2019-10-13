@@ -1,7 +1,6 @@
 package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +12,7 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
-import net.aiscope.gdd_app.ui.main.MainActivity
+import net.aiscope.gdd_app.ui.goToHome
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView {
@@ -58,11 +57,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         Toast.makeText(this, R.string.metadata_invalid_form, Toast.LENGTH_SHORT).show()
     }
 
-    override fun goToHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = FLAG_ACTIVITY_CLEAR_TOP
-
-        startActivity(intent)
+    override fun finishFlow() {
+        goToHome()
     }
 
     override fun captureImage(nextImageName: String, nextMaskName: String) {
