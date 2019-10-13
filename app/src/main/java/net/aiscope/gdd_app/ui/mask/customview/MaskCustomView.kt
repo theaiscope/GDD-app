@@ -15,6 +15,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+import net.aiscope.gdd_app.R
 
 
 const val TWENTY = 20.0f
@@ -223,19 +224,19 @@ class MaskCustomView @JvmOverloads constructor(
     }
 
     private fun recreateBrush() {
-        val w = this.width
-        val h = this.height
-        val s = getScaleFromMatrix(this.scaleMatrix)
+        val viewWidth = this.width
+        val viewHeight = this.height
+        val scale = getScaleFromMatrix(this.scaleMatrix)
 
         maskPaintBrush = Paint().apply {
 
-            color = MASK_PAINT_COLOR
+            color = context.getColor(R.color.colorPrimary)
             isAntiAlias = true
             isDither = true
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
-            strokeWidth = Math.max(h, w).toFloat() / (TWENTY * s)
+            strokeWidth = viewHeight.coerceAtLeast(viewWidth).toFloat() / (TWENTY * scale)
         }
 
         maskPaintErase =  Paint().apply {
@@ -245,7 +246,7 @@ class MaskCustomView @JvmOverloads constructor(
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
-            strokeWidth = Math.max(h, w).toFloat() / (TWENTY * s)
+            strokeWidth = viewHeight.coerceAtLeast(viewWidth).toFloat() / (TWENTY * scale)
         }
 
         if (mode == DrawMode.Erase) {
@@ -260,7 +261,6 @@ class MaskCustomView @JvmOverloads constructor(
         private const val TOUCH_TOLERANCE = 4f
         private const val MATRIX_SIZE = 9
         private const val BACKGROUND_PAINT_COLOR = 0xFFFFFFFF.toInt()
-        private const val MASK_PAINT_COLOR = 0xffff6666.toInt()
         private const val MASK_PAINT_ALPHA = 200
     }
 }
