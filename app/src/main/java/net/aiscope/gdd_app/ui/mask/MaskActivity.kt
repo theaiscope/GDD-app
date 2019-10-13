@@ -5,14 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_mask.*
 import kotlinx.android.synthetic.main.toolbar.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
-import net.aiscope.gdd_app.ui.main.MainActivity
+import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import java.io.File
@@ -35,30 +34,7 @@ class MaskActivity : AppCompatActivity(), MaskView {
 
         setContentView(R.layout.activity_mask)
         setSupportActionBar(toolbar)
-        toolbar.setNavigationOnClickListener {
-            val alertDialog: AlertDialog? = this.let {
-                val builder = AlertDialog.Builder(it, R.style.MyAlertDialogStyle)
-                builder.apply {
-                    setPositiveButton(R.string.ok
-                    ) { _, _ ->
-                        // User clicked OK button
-                        val intent = Intent(context,  MainActivity::class.java)
-                        startActivity(intent)
-                    }
-                    setNegativeButton(R.string.cancel
-                    ) { dialog, _ ->
-                        // User cancelled the dialog
-                        dialog.dismiss()
-                    }
-                }
-                // Set other dialog properties
-                builder.setMessage(R.string.alert_dialog_message)
-                builder.setTitle(R.string.alert_dialog_title)
-                // Create the AlertDialog
-                builder.create()
-            }
-            alertDialog?.show()
-        }
+        attachCaptureFlowToolbar(toolbar)
 
         presenter.start(extractImageNameExtra())
 

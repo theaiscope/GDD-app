@@ -1,10 +1,8 @@
 package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
@@ -12,8 +10,9 @@ import kotlinx.android.synthetic.main.activity_metadata.*
 import kotlinx.android.synthetic.main.toolbar.*
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.SmearType
+import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
-import net.aiscope.gdd_app.ui.main.MainActivity
+import net.aiscope.gdd_app.ui.goToHome
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView {
@@ -28,29 +27,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         setContentView(R.layout.activity_metadata)
 
         setSupportActionBar(toolbar)
-        toolbar.setNavigationOnClickListener {
-            val alertDialog: AlertDialog? = this.let {
-                val builder = AlertDialog.Builder(it, R.style.MyAlertDialogStyle)
-                builder.apply {
-                    setPositiveButton(R.string.ok
-                    ) { _, _ ->
-                        // User clicked OK button
-                        goToHome()
-                    }
-                    setNegativeButton(R.string.cancel
-                    ) { dialog, _ ->
-                        // User cancelled the dialog
-                        dialog.dismiss()
-                    }
-                }
-                // Set other dialog properties
-                builder.setMessage(getString(R.string.alert_dialog_message))
-                builder.setTitle(getString(R.string.alert_dialog_title))
-                // Create the AlertDialog
-                builder.create()
-            }
-            alertDialog?.show()
-        }
+        attachCaptureFlowToolbar(toolbar)
 
         metadata_blood_sample_images.apply {
             setHasFixedSize(true)
@@ -80,11 +57,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         Toast.makeText(this, R.string.metadata_invalid_form, Toast.LENGTH_SHORT).show()
     }
 
-    override fun goToHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = FLAG_ACTIVITY_CLEAR_TOP
-
-        startActivity(intent)
+    override fun finishFlow() {
+        goToHome()
     }
 
     override fun captureImage(nextImageName: String, nextMaskName: String) {
