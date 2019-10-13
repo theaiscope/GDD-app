@@ -14,9 +14,7 @@ class UploadWorker constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val id = inputData.getString("sample_id")
-
-        return when (id) {
+        return when (val id = inputData.getString("sample_id")) {
             null -> Result.failure()
             else -> {
                 try {

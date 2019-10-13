@@ -1,11 +1,6 @@
-complexity:
-  TooManyFunctions:
-    active: false
+build:
+  maxIssues: 0
 
 naming:
   PackageNaming:
-    active: false
-
-style:
-  ForbiddenComment:
     active: false

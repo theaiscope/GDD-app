@@ -1,3 +1,5 @@
+@file:Suppress("ForbiddenComment")
+
 package net.aiscope.gdd_app.ui.mask.customview
 
 import android.content.Context
@@ -13,6 +15,9 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
+
+
+const val TWENTY = 20.0f
 
 class MaskCustomView @JvmOverloads constructor(
     context: Context,
@@ -230,8 +235,7 @@ class MaskCustomView @JvmOverloads constructor(
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
-            @Suppress("MagicNumber")
-            strokeWidth = Math.max(h, w).toFloat() / (20.0f * s)
+            strokeWidth = Math.max(h, w).toFloat() / (TWENTY * s)
         }
 
         maskPaintErase =  Paint().apply {
@@ -241,8 +245,7 @@ class MaskCustomView @JvmOverloads constructor(
             style = Paint.Style.STROKE
             strokeJoin = Paint.Join.ROUND
             strokeCap = Paint.Cap.ROUND
-            @Suppress("MagicNumber")
-            strokeWidth = Math.max(h, w).toFloat() / (20.0f * s)
+            strokeWidth = Math.max(h, w).toFloat() / (TWENTY * s)
         }
 
         if (mode == DrawMode.Erase) {
