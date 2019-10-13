@@ -18,6 +18,9 @@ import net.aiscope.gdd_app.ui.mask.MaskActivity
 import java.io.File
 import javax.inject.Inject
 
+
+const val THREE_SIXTY_DEGREES = 360
+
 class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
     companion object {
@@ -75,8 +78,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
             it?.let {
-                @Suppress("MagicNumber")
-                val degrees = (-it.rotationDegrees) % 360
+                val degrees = (-it.rotationDegrees) % THREE_SIXTY_DEGREES
                 val bmp = it.bitmap.rotate(degrees.toFloat())
                 bmp.writeToFile(dest)
 

@@ -4,8 +4,9 @@ import android.graphics.Bitmap
 import java.io.File
 import java.io.FileOutputStream
 
+const val MAX_QUALITY = 100
+
 fun Bitmap.writeToFile(file: File) {
     val out = FileOutputStream(file)
-    @Suppress("MagicNumber")
-    this.compress(Bitmap.CompressFormat.JPEG, 100, out)
+    this.compress(Bitmap.CompressFormat.JPEG, MAX_QUALITY, out)
 }
