@@ -5,7 +5,3 @@ complexity:
 naming:
   PackageNaming:
     active: false
-
-style:
-  ForbiddenComment:
-    active: false

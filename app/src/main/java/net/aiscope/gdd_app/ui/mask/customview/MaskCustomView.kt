@@ -1,3 +1,5 @@
+@file:Suppress("ForbiddenComment")
+
 package net.aiscope.gdd_app.ui.mask.customview
 
 import android.content.Context
