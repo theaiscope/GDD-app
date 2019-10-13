@@ -35,17 +35,16 @@ class MaskActivity : AppCompatActivity(), MaskView {
         setSupportActionBar(toolbar)
         attachCaptureFlowToolbar(toolbar)
 
-        presenter.start(extractImageNameExtra())
+        val imageNameExtra = intent.getStringExtra(EXTRA_IMAGE_NAME)
+        val maskNameExtra = intent.getStringExtra(EXTRA_MASK_NAME)
 
-        getBitmap.setOnClickListener { presenter.handleCaptureBitmap(extractMaskNameExtra()) }
+        presenter.start(imageNameExtra)
+
+        getBitmap.setOnClickListener { presenter.handleCaptureBitmap(maskNameExtra) }
         erase.setOnClickListener { presenter.eraseMode() }
         brush.setOnClickListener { presenter.brushMode() }
         move.setOnClickListener { presenter.moveMode() }
     }
-
-    private fun extractImageNameExtra() = intent.getStringExtra(EXTRA_IMAGE_NAME)
-
-    private fun extractMaskNameExtra() = intent.getStringExtra(EXTRA_MASK_NAME)
 
 
     override fun takeMask(maskName: String, onPhotoReceived: (File?) -> Unit) {
