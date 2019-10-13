@@ -15,15 +15,15 @@ fun AppCompatActivity.attachCaptureFlowToolbar(toolbar: androidx.appcompat.widge
     }
 
     toolbar.setNavigationOnClickListener {
-        with(AlertDialog.Builder(this, R.style.MyAlertDialogStyle)) {
-            setPositiveButton(R.string.ok) { _, _ ->
+        with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
+            setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
                 goToHome()
             }
-            setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
+            setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
+                // do nothing
             }
-            setMessage(getString(R.string.alert_dialog_message))
-            setTitle(getString(R.string.alert_dialog_title))
+            setMessage(getString(R.string.capture_flow_exit_dialog_message))
+            setTitle(getText(R.string.capture_flow_exit_dialog_title))
             create()
         }.show()
     }

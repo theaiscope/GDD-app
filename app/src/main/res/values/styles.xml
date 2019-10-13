@@ -71,11 +71,12 @@
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <!-- Used for the buttons -->
         <item name="colorAccent">@color/colorPrimary</item>
         <!-- Used for the title and text -->
-        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPlainText</item>
+        <item name="title">@color/colorPlainText</item>
         <!-- Used for the background -->
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
