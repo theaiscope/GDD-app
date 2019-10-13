@@ -4,5 +4,4 @@ interface NewHealthFacilityView {
 
     fun showToast(messageId: Int)
     fun destroy()
-
 }

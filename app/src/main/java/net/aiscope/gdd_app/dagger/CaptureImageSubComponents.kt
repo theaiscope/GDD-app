@@ -10,4 +10,3 @@ interface CaptureImageSubComponents : AndroidInjector<CaptureImageActivity> {
     @Subcomponent.Factory
     interface Factory : AndroidInjector.Factory<CaptureImageActivity>
 }
-

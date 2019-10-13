@@ -27,5 +27,4 @@ class CaptureImagePresenter(
     fun onCaptureError(it: CameraException) {
         Timber.tag("Camera Error").e(it, "capture error")
     }
-
 }

@@ -17,7 +17,6 @@ import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import java.io.File
 import javax.inject.Inject
 
-
 class MaskActivity : AppCompatActivity(), MaskView {
 
     companion object {
@@ -86,7 +85,6 @@ class MaskActivity : AppCompatActivity(), MaskView {
     override fun moveMode() {
         maskView.mode = MaskCustomView.DrawMode.Move
     }
-
 
     private fun readImage(filepath: String): Bitmap {
         val options = BitmapFactory.Options()

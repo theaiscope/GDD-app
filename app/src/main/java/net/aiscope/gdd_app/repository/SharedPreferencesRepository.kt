@@ -26,7 +26,6 @@ class SharedPreferencesRepository @Inject constructor(val context: Context) : Ho
         PreferenceManager.getDefaultSharedPreferences(context).getString("Health_Facility_Name", "not found")!!
 
     override fun delete() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
-
 }

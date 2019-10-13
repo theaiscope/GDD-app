@@ -41,4 +41,3 @@ fun Sample.toDto() = SampleDto(
     metadata = SampleMetadataDto(metadata.smearType.id),
     status = status.id
 )
-

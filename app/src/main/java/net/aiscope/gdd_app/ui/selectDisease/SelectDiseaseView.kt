@@ -5,5 +5,4 @@ interface SelectDiseaseView {
     fun captureImage(nextImageName: String, nextMaskName: String)
     fun showSuccessToast()
     fun showFailureToast()
-
 }

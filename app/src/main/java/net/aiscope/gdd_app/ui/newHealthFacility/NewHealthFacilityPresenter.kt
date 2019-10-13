@@ -3,7 +3,7 @@ package net.aiscope.gdd_app.ui.newHealthFacility
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.HealthFacility
 import net.aiscope.gdd_app.repository.HospitalRepository
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 
 class NewHealthFacilityPresenter @Inject constructor(

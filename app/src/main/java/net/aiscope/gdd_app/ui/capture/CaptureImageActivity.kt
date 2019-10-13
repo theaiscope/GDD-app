@@ -75,6 +75,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
             it?.let {
+                @Suppress("MagicNumber")
                 val degrees = (-it.rotationDegrees) % 360
                 val bmp = it.bitmap.rotate(degrees.toFloat())
                 bmp.writeToFile(dest)
@@ -83,7 +84,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
             } ?: notifyImageCouldNotBeTaken()
         }
     }
-
 
     private fun Bitmap.rotate(degrees: Float): Bitmap {
         val matrix = Matrix().apply { postRotate(degrees) }
@@ -94,7 +94,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT).show()
     }
 
-
     override fun goToMask(imagePath: String, nextMaskName: String) {
         val intent = Intent(this, MaskActivity::class.java)
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, imagePath)
@@ -102,7 +101,4 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
         startActivity(intent)
     }
-
 }
-
-
