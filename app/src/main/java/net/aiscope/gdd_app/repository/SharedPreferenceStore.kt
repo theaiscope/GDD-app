@@ -5,7 +5,7 @@ import android.content.Context
 import javax.inject.Inject
 
 class SharedPreferenceStore @Inject constructor(val context: Context) {
-    val sharedPreference = context.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE)
+    private val sharedPreference = context.getSharedPreferences(PREF_NAME, Activity.MODE_PRIVATE)
 
     fun store(id: String, data: String) {
         val editor = sharedPreference.edit()

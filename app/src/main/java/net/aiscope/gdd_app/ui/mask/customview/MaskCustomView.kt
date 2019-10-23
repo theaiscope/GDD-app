@@ -16,6 +16,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import net.aiscope.gdd_app.R
+import kotlin.math.abs
 
 
 const val TWENTY = 20.0f
@@ -36,9 +37,9 @@ class MaskCustomView @JvmOverloads constructor(
 
     // transformation from touches to canvas
     var inverseScaleMatrix = Matrix()
-    val path = Path()
+    private val path = Path()
 
-    var originalBitmapRect = RectF(0f, 0f,0f,0f)
+    private var originalBitmapRect = RectF(0f, 0f,0f,0f)
     var originalBitmap: Bitmap? = null
     set(bmp) {
         field = bmp
@@ -53,21 +54,21 @@ class MaskCustomView @JvmOverloads constructor(
         invalidate()
     }
 
-    var maskCanvas: Canvas? = null
+    private var maskCanvas: Canvas? = null
     var maskBitmap: Bitmap? = null
-    var maskPaintBrush = Paint()
-    var maskPaintErase = Paint()
-    var maskPaint = maskPaintBrush
+    private var maskPaintBrush = Paint()
+    private var maskPaintErase = Paint()
+    private var maskPaint = maskPaintBrush
 
-    val backgroundPaint = Paint().apply {
+    private val backgroundPaint = Paint().apply {
         color = BACKGROUND_PAINT_COLOR
     }
 
-    val maskPaintBitmap = Paint().apply {
+    private val maskPaintBitmap = Paint().apply {
         alpha = MASK_PAINT_ALPHA
     }
 
-    var canvasRect = RectF(0f,0f,0f,0f)
+    private var canvasRect = RectF(0f,0f,0f,0f)
 
     var mode: DrawMode = DrawMode.Brush
         set(value) {
@@ -109,7 +110,7 @@ class MaskCustomView @JvmOverloads constructor(
         mScaleDetector.onTouchEvent(event)
 
         if(event.pointerCount > 1) {
-            return true;
+            return true
         }
 
         val (x, y) = transformPoint(event.x, event.y)
@@ -132,8 +133,8 @@ class MaskCustomView @JvmOverloads constructor(
     }
 
     private fun touchMove(x: Float, y: Float) {
-        val dx = Math.abs(x - mX)
-        val dy = Math.abs(y - mY)
+        val dx = abs(x - mX)
+        val dy = abs(y - mY)
         if (mode == DrawMode.Move) {
             scaleMatrix.preTranslate(x- mX, y - mY)
             scaleMatrix.invert(inverseScaleMatrix)
@@ -146,9 +147,7 @@ class MaskCustomView @JvmOverloads constructor(
             mY = y
 
             // TODO: improve performance, see if we can to canvas on touch-up
-            maskCanvas?.let {
-                it.drawPath(path, maskPaint)
-            }
+            maskCanvas?.drawPath(path, maskPaint)
         }
     }
 

@@ -32,8 +32,8 @@ class SampleRepositorySharedPreferenceTest {
     private val ID = "1111"
     private val HOSPITAL = "H. St. Pau"
 
-    val sampleOnlyRequired = Sample(ID, HOSPITAL)
-    val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H. St. Pau","status":"Incomplete"}"""
+    private val sampleOnlyRequired = Sample(ID, HOSPITAL)
+    private val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H. St. Pau","status":"Incomplete"}"""
 
     @Before
     fun before() {

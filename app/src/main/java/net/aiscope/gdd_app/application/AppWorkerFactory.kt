@@ -8,7 +8,7 @@ import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.network.UploadWorker
 import net.aiscope.gdd_app.repository.SampleRepository
 
-class AppWorkerFactory(val repo: SampleRepository, val storage: RemoteStorage): WorkerFactory() {
+class AppWorkerFactory(private val repo: SampleRepository, private val storage: RemoteStorage): WorkerFactory() {
     override fun createWorker(
         appContext: Context,
         workerClassName: String,

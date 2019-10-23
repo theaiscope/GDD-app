@@ -39,4 +39,5 @@
     <string name="capture_flow_exit_dialog_message">Are you sure you want to exit? Your sample data will be lost.</string>
     <string name="capture_flow_exit_dialog_stay">No, stay</string>
     <string name="capture_flow_exit_dialog_exit">Yes, exit</string>
+    <string name="text_save_new_health_facility">Register new hospital</string>
 </resources>
