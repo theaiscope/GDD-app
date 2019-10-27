@@ -1,9 +1,7 @@
 package net.aiscope.gdd_app.presentation
 
 import com.nhaarman.mockito_kotlin.*
-import net.aiscope.gdd_app.model.Disease
 import net.aiscope.gdd_app.model.Sample
-import net.aiscope.gdd_app.repository.HospitalRepository
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseasePresenter
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseView
@@ -25,8 +23,6 @@ class SelectDiseasePresenterTest {
 
     @InjectMocks
     lateinit var subject: SelectDiseasePresenter
-
-    private val DISEASE_NAME = "testDisease"
 
     @Test
     fun `should store a disease with a name in the repository and call success toast on the view`() {
@@ -54,5 +50,9 @@ class SelectDiseasePresenterTest {
 
         verify(repository, times(0)).store(any())
         verify(view).showFailureToast()
+    }
+
+    companion object {
+        private const val DISEASE_NAME = "testDisease"
     }
 }

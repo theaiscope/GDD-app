@@ -9,8 +9,8 @@ import timber.log.Timber
 class UploadWorker constructor(
     context: Context,
     params: WorkerParameters,
-    val repo: SampleRepository,
-    val storage: RemoteStorage
+    private val repo: SampleRepository,
+    private val storage: RemoteStorage
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {

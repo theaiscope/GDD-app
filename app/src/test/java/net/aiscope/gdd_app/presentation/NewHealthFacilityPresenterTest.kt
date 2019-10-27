@@ -2,7 +2,6 @@ package net.aiscope.gdd_app.presentation
 
 import com.nhaarman.mockito_kotlin.verify
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.model.HealthFacility
 import net.aiscope.gdd_app.repository.HospitalRepository
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityPresenter
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityView

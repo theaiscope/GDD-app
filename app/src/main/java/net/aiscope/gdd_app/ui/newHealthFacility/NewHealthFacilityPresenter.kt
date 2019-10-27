@@ -21,7 +21,7 @@ class NewHealthFacilityPresenter @Inject constructor(
         }
     }
 
-    fun showToast(messageId: Int) {
+    private fun showToast(messageId: Int) {
         view.showToast(messageId)
     }
 
