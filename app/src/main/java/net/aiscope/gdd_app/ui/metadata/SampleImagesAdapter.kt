@@ -15,12 +15,13 @@ import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import java.io.File
 
-class SampleImagesAdapter(private val onAddImageClicked: () -> Unit) :
+class SampleImagesAdapter(
+    private val uiScope: CoroutineScope,
+    private val onAddImageClicked: () -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val images: MutableList<File> = mutableListOf()
-
-    private val uiScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)

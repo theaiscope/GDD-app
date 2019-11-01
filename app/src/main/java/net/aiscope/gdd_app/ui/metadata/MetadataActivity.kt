@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
@@ -19,7 +22,10 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
 
     @Inject lateinit var presenter: MetadataPresenter
 
-    private val imagesAdapter = SampleImagesAdapter(this::onAddImageClicked)
+    private val parentJob = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
+
+    private val imagesAdapter = SampleImagesAdapter(coroutineScope, this::onAddImageClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -48,6 +54,11 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
                 }
             )
         }
+    }
+
+    override fun onDestroy() {
+        parentJob.cancel()
+        super.onDestroy()
     }
 
     override fun fillForm(model: ViewStateModel) {
