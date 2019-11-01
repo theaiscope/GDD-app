@@ -27,7 +27,7 @@ class SampleImagesAdapter(
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.item_metadata_add_image -> AddImageViewHolder(view, onAddImageClicked)
-            R.layout.item_metadata_sample_image -> ImageViewHolder(view as ImageView)
+            R.layout.item_metadata_sample_image -> ImageViewHolder(view as ImageView, uiScope)
             else -> throw IllegalArgumentException("View type $viewType not known")
         }
     }
@@ -35,12 +35,7 @@ class SampleImagesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AddImageViewHolder -> holder.bind()
-            is ImageViewHolder -> {
-                (holder.itemView.tag as? Job)?.cancel()
-                holder.itemView.tag = uiScope.launch(Dispatchers.IO) {
-                    holder.bind(images[position - 1])
-                }
-            }
+            is ImageViewHolder -> holder.bind(images[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -70,18 +65,19 @@ private class AddImageViewHolder(view: View, val onAddImageClicked: () -> Unit) 
     }
 }
 
-private class ImageViewHolder(view: ImageView) : RecyclerView.ViewHolder(view) {
-    suspend fun bind(image: File) {
-        withContext(Dispatchers.Main) {
+private class ImageViewHolder(
+    view: ImageView, private val uiScope: CoroutineScope
+) : RecyclerView.ViewHolder(view) {
+    fun bind(image: File) {
+        (itemView.tag as? Job)?.cancel()
+        itemView.tag = uiScope.launch {
             (itemView as ImageView).setImageBitmap(null)
-        }
-        val bitmap = decodeSampledBitmapFromResource(
-            image,
-            itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
-            itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height)
-        )
-        withContext(Dispatchers.Main) {
-            (itemView as ImageView).setImageBitmap(bitmap)
+            val bitmap = decodeSampledBitmapFromResource(
+                image,
+                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
+                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height)
+            )
+            itemView.setImageBitmap(bitmap)
         }
     }
 }
@@ -110,7 +106,7 @@ suspend fun calculateInSampleSize(
     options: BitmapFactory.Options,
     reqWidth: Int,
     reqHeight: Int
-): Int = withContext(Dispatchers.IO) {
+): Int = withContext(Dispatchers.Default) {
     // Raw height and width of image
     val (height: Int, width: Int) = options.run { outHeight to outWidth }
     var inSampleSize = 1
