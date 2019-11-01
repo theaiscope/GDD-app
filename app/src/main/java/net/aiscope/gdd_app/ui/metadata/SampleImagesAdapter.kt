@@ -13,6 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.extensions.writeToFile
 import java.io.File
 
 class SampleImagesAdapter(
@@ -87,6 +88,13 @@ suspend fun decodeSampledBitmapFromResource(
     reqWidth: Int,
     reqHeight: Int
 ): Bitmap = withContext(Dispatchers.IO) {
+    val cachedImage = File(
+        image.parent,
+        "${image.nameWithoutExtension}_${reqWidth}x${reqHeight}.${image.extension}"
+    )
+    if (cachedImage.exists()) {
+        return@withContext BitmapFactory.decodeFile(cachedImage.absolutePath)
+    }
     // First decode with inJustDecodeBounds=true to check dimensions
     BitmapFactory.Options().run {
         inJustDecodeBounds = true
@@ -98,7 +106,11 @@ suspend fun decodeSampledBitmapFromResource(
         // Decode bitmap with inSampleSize set
         inJustDecodeBounds = false
 
-        BitmapFactory.decodeFile(image.absolutePath, this)
+        val bitmap = BitmapFactory.decodeFile(image.absolutePath, this)
+
+        bitmap.writeToFile(cachedImage)
+
+        bitmap
     }
 }
 
