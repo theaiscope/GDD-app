@@ -60,7 +60,7 @@ class MaskActivity : AppCompatActivity(), MaskView {
     }
 
     override fun takeMask(maskName: String, onPhotoReceived: (File?) -> Unit) {
-        val bmp = maskView.maskBitmap
+        val bmp = maskView.getMaskBitmap()
         if (bmp == null) {
             onPhotoReceived(null)
         } else {
@@ -83,7 +83,7 @@ class MaskActivity : AppCompatActivity(), MaskView {
     override fun loadBitmap(imagePath: String) {
         coroutineScope.launch {
             val bmp = readImage(imagePath)
-            maskView.originalBitmap = bmp
+            maskView.setImageBitmap(bmp)
         }
     }
 
