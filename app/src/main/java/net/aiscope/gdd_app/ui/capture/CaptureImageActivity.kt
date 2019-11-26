@@ -1,8 +1,6 @@
 package net.aiscope.gdd_app.ui.capture
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.Toast
@@ -11,8 +9,13 @@ import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
 import kotlinx.android.synthetic.main.activity_capture_image.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.extensions.rotate
+import net.aiscope.gdd_app.extensions.writeToFileAsync
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import java.io.File
@@ -30,6 +33,9 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
     @Inject
     lateinit var presenter: CaptureImagePresenter
+
+    private val parentJob = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
 
     private lateinit var fotoapparat: Fotoapparat
 
@@ -73,23 +79,25 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         super.onStop()
     }
 
+    override fun onDestroy() {
+        parentJob.cancel()
+        super.onDestroy()
+    }
+
     override fun takePhoto(imageName: String, onPhotoReceived: (File?) -> Unit) {
         val result = fotoapparat.takePicture()
         val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
             it?.let {
                 val degrees = (-it.rotationDegrees) % THREE_SIXTY_DEGREES
-                val bmp = it.bitmap.rotate(degrees.toFloat())
-                bmp.writeToFile(dest)
+                coroutineScope.launch {
+                    val bmp = it.bitmap.rotate(degrees.toFloat())
+                    bmp.writeToFileAsync(dest)
+                    onPhotoReceived(dest)
+                }
 
-                onPhotoReceived(dest)
             } ?: notifyImageCouldNotBeTaken()
         }
-    }
-
-    private fun Bitmap.rotate(degrees: Float): Bitmap {
-        val matrix = Matrix().apply { postRotate(degrees) }
-        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
     }
 
     override fun notifyImageCouldNotBeTaken() {

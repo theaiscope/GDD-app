@@ -9,6 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_mask.*
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
@@ -26,6 +31,9 @@ class MaskActivity : AppCompatActivity(), MaskView {
 
     @Inject
     lateinit var presenter: MaskPresenter
+
+    private val parentJob = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -46,6 +54,10 @@ class MaskActivity : AppCompatActivity(), MaskView {
         move.setOnClickListener { presenter.moveMode() }
     }
 
+    override fun onDestroy() {
+        parentJob.cancel()
+        super.onDestroy()
+    }
 
     override fun takeMask(maskName: String, onPhotoReceived: (File?) -> Unit) {
         val bmp = maskView.maskBitmap
@@ -69,8 +81,10 @@ class MaskActivity : AppCompatActivity(), MaskView {
     }
 
     override fun loadBitmap(imagePath: String) {
-        val bmp = readImage(imagePath)
-        maskView.originalBitmap = bmp
+        coroutineScope.launch {
+            val bmp = readImage(imagePath)
+            maskView.originalBitmap = bmp
+        }
     }
 
     override fun brushMode() {
@@ -85,9 +99,9 @@ class MaskActivity : AppCompatActivity(), MaskView {
         maskView.mode = MaskCustomView.DrawMode.Move
     }
 
-    private fun readImage(filepath: String): Bitmap {
+    private suspend fun readImage(filepath: String): Bitmap = withContext(Dispatchers.IO) {
         val options = BitmapFactory.Options()
         options.inPreferredConfig = Bitmap.Config.ARGB_8888
-        return BitmapFactory.decodeFile(filepath, options)
+        BitmapFactory.decodeFile(filepath, options)
     }
 }
