@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.build-properties'
 apply plugin: 'io.fabric'
+apply plugin: "scabbard.gradle"
 
 buildProperties {
     secrets {
@@ -66,6 +67,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+scabbard {
+    enabled true
 }
 
 detekt {
