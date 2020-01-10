@@ -3,10 +3,13 @@ package net.aiscope.gdd_app.ui.capture
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
+import io.fotoapparat.parameter.Zoom
 import kotlinx.android.synthetic.main.activity_capture_image.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
@@ -71,6 +74,31 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
 
     override fun onStart() {
         fotoapparat.start()
+
+        fotoapparat.getCapabilities().whenAvailable { capabilities ->
+            when (capabilities?.zoom) {
+                is Zoom.VariableZoom -> {
+                    camera_zoom_level.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                            fotoapparat.setZoom(progress / 100f)
+                        }
+
+                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                            // not used
+                        }
+
+                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                            // not used
+                        }
+                    })
+
+                }
+                else -> {
+                    camera_zoom_level.isVisible = false
+                }
+            }
+        }
+
         super.onStart()
     }
 
