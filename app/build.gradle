@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.build-properties'
 apply plugin: 'io.fabric'
+apply plugin: "io.gitlab.arturbosch.detekt"
 apply plugin: "scabbard.gradle"
 
 buildProperties {
@@ -16,12 +17,12 @@ buildProperties {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "net.aiscope.gdd_app"
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 8
         versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -74,11 +75,8 @@ scabbard {
 }
 
 detekt {
-    toolVersion = "1.1.1"
-    input = files("src/main/java")
     config = files("$rootProject.projectDir/detekt-config.yml")
     buildUponDefaultConfig = true
-    filters = ".*/res/.*,.*/build/.*"
 }
 
 
@@ -104,7 +102,6 @@ dependencies {
     // Timber – logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -124,7 +121,7 @@ dependencies {
 
 
     // Test
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "org.mockito:mockito-inline:$mockito_version"
     testImplementation 'com.nhaarman:mockito-kotlin:1.6.0'
