@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
         android:max="100"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/capture_image_button" />
 
     <Button

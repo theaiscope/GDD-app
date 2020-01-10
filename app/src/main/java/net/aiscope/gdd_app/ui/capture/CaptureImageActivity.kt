@@ -2,7 +2,9 @@ package net.aiscope.gdd_app.ui.capture
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.KeyEvent
+import android.view.ScaleGestureDetector
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -73,33 +75,21 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
     }
 
     override fun onStart() {
+        super.onStart()
         fotoapparat.start()
 
         fotoapparat.getCapabilities().whenAvailable { capabilities ->
-            when (capabilities?.zoom) {
+            when (val zoom = capabilities?.zoom) {
                 is Zoom.VariableZoom -> {
-                    camera_zoom_level.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                            fotoapparat.setZoom(progress / 100f)
-                        }
-
-                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                            // not used
-                        }
-
-                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                            // not used
-                        }
-                    })
-
+                    val maxZoomRatio = zoom.zoomRatios.last() / 100f
+                    setUpZoomSeekBar(maxZoomRatio)
+                    setUpPinchToZoom(maxZoomRatio)
                 }
                 else -> {
-                    camera_zoom_level.isVisible = false
+                    hideZoomLevelSeekBar()
                 }
             }
         }
-
-        super.onStart()
     }
 
     override fun onStop() {
@@ -138,5 +128,70 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
         intent.putExtra(MaskActivity.EXTRA_MASK_NAME, nextMaskName)
 
         startActivity(intent)
+    }
+
+
+    private var zoomScaleFactor = 1f
+
+    private fun setUpZoomSeekBar(maxZoomRatio: Float) {
+        camera_zoom_level.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val zoomLevel = progress / 100f
+                zoomScaleFactor = (maxZoomRatio - 1) * zoomLevel + 1
+                fotoapparat.setZoom(zoomLevel)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                showZoomLevelSeekBar()
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                hideZoomLevelSeekBar()
+            }
+        })
+    }
+
+    private fun setUpPinchToZoom(maxZoomRatio: Float) {
+        val scaleGestureDetector =
+            ScaleGestureDetector(this, object : ScaleGestureDetector.OnScaleGestureListener {
+
+                override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+                    showZoomLevelSeekBar()
+                    return true
+                }
+
+                override fun onScaleEnd(detector: ScaleGestureDetector) {
+                    hideZoomLevelSeekBar()
+                }
+
+                override fun onScale(detector: ScaleGestureDetector): Boolean {
+                    zoomScaleFactor = (zoomScaleFactor * detector.scaleFactor).coerceAtLeast(1f)
+                        .coerceAtMost(maxZoomRatio)
+
+                    val zoomLevel = (zoomScaleFactor - 1) / (maxZoomRatio - 1)
+                    camera_zoom_level.progress = (zoomLevel * 100f).toInt()
+                    fotoapparat.setZoom(zoomLevel)
+
+                    return true
+                }
+            })
+
+        camera_view.setOnTouchListener { _, event ->
+            scaleGestureDetector.onTouchEvent(event)
+        }
+    }
+
+    private val handler: Handler = Handler()
+    private val hideZoomLevelSeekBarRunnable = Runnable { camera_zoom_level.isVisible = false }
+
+    private fun hideZoomLevelSeekBar() {
+        handler.removeCallbacks(hideZoomLevelSeekBarRunnable)
+        handler.postDelayed(hideZoomLevelSeekBarRunnable, 2000)
+
+    }
+
+    private fun showZoomLevelSeekBar() {
+        handler.removeCallbacks(hideZoomLevelSeekBarRunnable)
+        camera_zoom_level.isVisible = true
     }
 }
