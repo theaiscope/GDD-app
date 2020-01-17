@@ -12,7 +12,28 @@ enum class SmearType(val id: Int) {
     THICK(2)
 }
 
-data class SampleMetadata(val smearType: SmearType = SmearType.THIN)
+@Suppress("MagicNumber") // these are IDs
+enum class MalariaSpecies(val id: Int) {
+    P_FALCIPARUM(1),
+    P_VIVAX(2),
+    P_OVALE(3),
+    P_MALARIAE(4),
+    P_KNOWLESI(5)
+}
+
+@Suppress("MagicNumber") // these are IDs
+enum class MalariaStage(val id: Int) {
+    RING(1),
+    TROPHOZOITE(2),
+    SCHIZONT(3),
+    GAMETOCYTE(4)
+}
+
+data class SampleMetadata(
+    val smearType: SmearType = SmearType.THIN,
+    val species: MalariaSpecies = MalariaSpecies.P_FALCIPARUM,
+    val stage: MalariaStage = MalariaStage.RING
+)
 
 data class Sample(
     val id: String,

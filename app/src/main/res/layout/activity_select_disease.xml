@@ -33,12 +33,11 @@
     <Spinner
         android:id="@+id/spinner_diseases"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:background="@drawable/spinner_background"
         android:entries="@array/diseases"
-        android:popupBackground="@color/colorPrimaryDark"
         android:spinnerMode="dropdown"
+        android:theme="@style/AppTheme.SpinnerTheme"
         app:layout_constraintEnd_toEndOf="@+id/text_select_disease_spinner_hint"
         app:layout_constraintStart_toStartOf="@+id/text_select_disease_spinner_hint"
         app:layout_constraintTop_toBottomOf="@+id/text_select_disease_spinner_hint" />

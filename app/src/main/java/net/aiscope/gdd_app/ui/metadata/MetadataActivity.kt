@@ -12,6 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.model.MalariaSpecies
+import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
@@ -44,14 +46,41 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
         presenter.showScreen()
 
         metadata_save_sample.setOnClickListener {
-            presenter.save(
-                when (metadata_section_smear_type_radio_group.checkedRadioButtonId) {
-                    R.id.metadata_blood_smear_thick -> SmearType.THICK
-                    R.id.metadata_blood_smear_thin -> SmearType.THIN
-                    else -> throw IllegalStateException(
-                        "${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown"
-                    )
-                }
+            presenter.save(selectedSmearType(), selectedSpecies(), selectedStage())
+        }
+    }
+
+    private fun selectedSmearType(): SmearType {
+        return when (metadata_section_smear_type_radio_group.checkedRadioButtonId) {
+            R.id.metadata_blood_smear_thick -> SmearType.THICK
+            R.id.metadata_blood_smear_thin -> SmearType.THIN
+            else -> throw IllegalStateException(
+                "${metadata_section_smear_type_radio_group.checkedRadioButtonId} radio button id is unknown"
+            )
+        }
+    }
+
+    private fun selectedSpecies(): MalariaSpecies {
+        return when (metadata_species_spinner.selectedItem) {
+            getString(R.string.malaria_species_p_falciparum) -> MalariaSpecies.P_FALCIPARUM
+            getString(R.string.malaria_species_p_vivax) -> MalariaSpecies.P_VIVAX
+            getString(R.string.malaria_species_p_ovale) -> MalariaSpecies.P_OVALE
+            getString(R.string.malaria_species_p_malariae) -> MalariaSpecies.P_MALARIAE
+            getString(R.string.malaria_species_p_knowlesi) -> MalariaSpecies.P_KNOWLESI
+            else -> throw IllegalStateException(
+                "${metadata_species_spinner.selectedItem} species is unknown"
+            )
+        }
+    }
+
+    private fun selectedStage(): MalariaStage {
+        return when (metadata_stage_spinner.selectedItem) {
+            getString(R.string.malaria_stage_ring) -> MalariaStage.RING
+            getString(R.string.malaria_stage_trophozoite) -> MalariaStage.TROPHOZOITE
+            getString(R.string.malaria_stage_schizont) -> MalariaStage.SCHIZONT
+            getString(R.string.malaria_stage_gametocyte) -> MalariaStage.GAMETOCYTE
+            else -> throw IllegalStateException(
+                "${metadata_species_spinner.selectedItem} stage is unknown"
             )
         }
     }
@@ -63,7 +92,6 @@ class MetadataActivity : AppCompatActivity() , MetadataView {
 
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
-        // TODO set species stages
     }
 
     override fun showInvalidFormError() {

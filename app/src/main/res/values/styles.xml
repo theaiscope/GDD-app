@@ -11,7 +11,8 @@
 
         <item name="android:textViewStyle">@style/TextView</item>
         <item name="buttonStyle">@style/AppTheme.Button</item>
-        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+        <item name="spinnerStyle">@style/AppTheme.Spinner</item>
+        <item name="spinnerDropDownItemStyle">@style/AppTheme.DropDownItem.Spinner</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
     </style>
 
@@ -37,6 +38,24 @@
         <item name="android:textColor">@color/colorTextSubtitle</item>
         <item name="android:textSize">14sp</item>
         <item name="android:lineSpacingMultiplier">1.43</item>
+    </style>
+
+    <style name="AppTheme.Spinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:popupBackground">@color/colorSpinnerPopupBackground</item>
+        <item name="android:colorAccent">@color/colorPlainText</item>
+        <item name="android:textColor">@color/colorPlainText</item>
+        <item name="android:textColorPrimary">@color/colorPlainText</item>
+        <item name="android:textAppearance">@style/TextView.SectionTitle</item>
+    </style>
+
+    <style name="AppTheme.SpinnerTheme" parent="AppTheme">
+        <item name="android:textColor">@color/colorPlainText</item>
+    </style>
+
+    <style name="AppTheme.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/colorPlainText</item>
     </style>
 
     <style name="RadioButtonText" parent="TextView.SectionTitle">

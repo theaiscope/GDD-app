@@ -1,6 +1,8 @@
 package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Context
+import net.aiscope.gdd_app.model.MalariaSpecies
+import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.model.Status
@@ -11,6 +13,7 @@ import javax.inject.Inject
 
 data class FieldOption(val id: Long, val title: Int)
 data class ViewStateModel(
+    val disease: String,
     val images: List<File>,
     val options: List<FieldOption>,
     val required: Boolean = true
@@ -24,17 +27,23 @@ class MetadataPresenter @Inject constructor(
 ) {
 
     fun showScreen() {
-        // TODO set species stages
-        view.fillForm(ViewStateModel(repository.current().images.toList(), emptyList()))
+        val sample = repository.current()
+
+        if (sample.disease == null) {
+            notValid()
+            return
+        }
+
+        view.fillForm(ViewStateModel(sample.disease, sample.images.toList(), emptyList()))
     }
 
     fun notValid() {
         view.showInvalidFormError()
     }
 
-    fun save(smearType: SmearType) {
+    fun save(smearType: SmearType, species: MalariaSpecies, stage: MalariaStage) {
         val sample = repository.current()
-            .copy(metadata = SampleMetadata(smearType), status = Status.ReadyToUpload)
+            .copy(metadata = SampleMetadata(smearType, species, stage), status = Status.ReadyToUpload)
         repository.store(sample)
 
         remoteStorage.enqueue(sample, context)

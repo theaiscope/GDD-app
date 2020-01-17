@@ -1,10 +1,11 @@
 package net.aiscope.gdd_app.presentation
 
 import android.content.Context
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
+import com.nhaarman.mockito_kotlin.*
+import net.aiscope.gdd_app.model.MalariaSpecies
+import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
@@ -12,6 +13,7 @@ import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
 import net.aiscope.gdd_app.ui.metadata.MetadataView
 import org.junit.Before
 import org.junit.Test
+import org.junit.Assert.assertEquals
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
@@ -43,9 +45,12 @@ class MetadataPresenterTest {
             Sample(
                 id = "id",
                 healthFacility = "StPau",
-                images = linkedSetOf()
+                images = linkedSetOf(),
+                disease = "malaria"
             )
         )
+
+        val test = repository.current()
     }
 
     @Test
@@ -56,8 +61,17 @@ class MetadataPresenterTest {
 
     @Test
     fun shouldStoreMetadata() {
-        subject.save(SmearType.THICK)
-        verify(remote).enqueue(any(), any())
-        verify(repository).store(any())
+        val expected = SampleMetadata(SmearType.THICK, MalariaSpecies.P_VIVAX,
+            MalariaStage.TROPHOZOITE
+        )
+
+        subject.save(SmearType.THICK, MalariaSpecies.P_VIVAX, MalariaStage.TROPHOZOITE)
+
+        verify(remote).enqueue(check {
+            assertEquals(it.metadata, expected)
+        }, any())
+        verify(repository).store(check {
+            assertEquals(it.metadata, expected)
+        })
     }
 }

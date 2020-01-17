@@ -40,4 +40,30 @@
     <string name="capture_flow_exit_dialog_stay">No, stay</string>
     <string name="capture_flow_exit_dialog_exit">Yes, exit</string>
     <string name="text_save_new_health_facility">Register new hospital</string>
+    <string name="metadata_species_title">Species</string>
+    <string name="metadata_stage_title">Stage</string>
+
+    <string name="malaria_species_p_falciparum">P. falciparum</string>
+    <string name="malaria_species_p_vivax">P. vivax</string>
+    <string name="malaria_species_p_ovale">P. ovale</string>
+    <string name="malaria_species_p_malariae">P. malariae</string>
+    <string name="malaria_species_p_knowlesi">P. knowlesi</string>
+    <string-array name="metadata_malaria_species">
+        <item>@string/malaria_species_p_falciparum</item>
+        <item>@string/malaria_species_p_vivax</item>
+        <item>@string/malaria_species_p_ovale</item>
+        <item>@string/malaria_species_p_malariae</item>
+        <item>@string/malaria_species_p_knowlesi</item>
+    </string-array>
+
+    <string name="malaria_stage_ring">Ring</string>
+    <string name="malaria_stage_trophozoite">Trophozoite</string>
+    <string name="malaria_stage_schizont">Schizont</string>
+    <string name="malaria_stage_gametocyte">Gametocyte</string>
+    <string-array name="metadata_malaria_stages">
+        <item>Ring</item>
+        <item>Trophozoite</item>
+        <item>Schizont</item>
+        <item>Gametocyte</item>
+    </string-array>
 </resources>
