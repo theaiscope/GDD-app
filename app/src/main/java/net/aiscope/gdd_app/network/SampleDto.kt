@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName
 import net.aiscope.gdd_app.model.Sample
 
 data class SampleMetadataDto(
-    @SerializedName("bloodType") val bloodType: Int
+    @SerializedName("bloodType") val bloodType: Int,
+    @SerializedName("species") val species: Int,
+    @SerializedName("stage") val stage: Int
 )
 
 data class SampleDto(
@@ -18,6 +20,10 @@ fun Sample.toDto() = SampleDto(
     id = id,
     healthFacility = healthFacility,
     disease = disease ?: "",
-    metadata = SampleMetadataDto(bloodType = metadata.smearType.id)
+    metadata = SampleMetadataDto(
+        bloodType = metadata.smearType.id,
+        species = metadata.species.id,
+        stage = metadata.stage.id
+    )
 
 )
