@@ -20,6 +20,10 @@ class MaskCustomView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : PhotoView(context, attrs, defStyleAttr) {
 
+    companion object {
+        const val MAX_SCALE = 5f
+    }
+
     private val maskLayer: MaskLayer = MaskLayer(context, imageMatrix)
 
     enum class DrawMode {
@@ -39,6 +43,8 @@ class MaskCustomView @JvmOverloads constructor(
 
 
     init {
+        maximumScale = MAX_SCALE
+
         setOnMatrixChangeListener {
             maskLayer.onScaleChanged()
         }
