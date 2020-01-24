@@ -1,12 +1,11 @@
 package net.aiscope.gdd_app.dagger
 
-import android.content.Context
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import net.aiscope.gdd_app.network.FirebaseRemoteStorage
+import net.aiscope.gdd_app.network.FirebaseStorageUploader
 import net.aiscope.gdd_app.network.RemoteStorage
-import net.aiscope.gdd_app.network.S3Storage
-import net.aiscope.gdd_app.network.S3Uploader
 
 @Module
 object NetworkModule {
@@ -17,10 +16,6 @@ object NetworkModule {
 
     @Provides
     @JvmStatic
-    fun uploader(context: Context): S3Uploader = S3Uploader(context)
-
-    @Provides
-    @JvmStatic
-    fun remoteStorage(s3uploader: S3Uploader, gson: Gson): RemoteStorage =
-        S3Storage(s3uploader, gson)
+    fun remoteStorage(firebaseStorageUploader: FirebaseStorageUploader, gson: Gson): RemoteStorage =
+        FirebaseRemoteStorage(firebaseStorageUploader, gson)
 }
