@@ -16,13 +16,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import java.io.File
 import javax.inject.Inject
 
-class MaskActivity : AppCompatActivity(), MaskView {
+class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
     companion object {
         const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_IMAGE_NAME"

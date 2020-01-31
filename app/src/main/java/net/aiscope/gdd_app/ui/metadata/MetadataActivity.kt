@@ -15,12 +15,13 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.SmearType
+import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHome
 import javax.inject.Inject
 
-class MetadataActivity : AppCompatActivity() , MetadataView {
+class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
     @Inject lateinit var presenter: MetadataPresenter
 

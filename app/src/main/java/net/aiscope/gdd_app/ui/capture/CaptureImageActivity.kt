@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.rotate
 import net.aiscope.gdd_app.extensions.writeToFileAsync
+import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import java.io.File
@@ -24,7 +25,7 @@ import javax.inject.Inject
 
 const val THREE_SIXTY_DEGREES = 360
 
-class CaptureImageActivity : AppCompatActivity(), CaptureImageView {
+class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow {
 
     companion object {
         const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.capture.CaptureImageActivity.EXTRA_IMAGE_NAME"
