@@ -35,7 +35,6 @@ class SampleImagesAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is AddImageViewHolder -> holder.bind()
             is ImageViewHolder -> holder.bind(images[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
@@ -59,9 +58,10 @@ class SampleImagesAdapter(
     }
 }
 
-private class AddImageViewHolder(view: View, val onAddImageClicked: () -> Unit) :
+private class AddImageViewHolder(view: View, private val onAddImageClicked: () -> Unit) :
     RecyclerView.ViewHolder(view) {
-    fun bind() {
+
+    init {
         itemView.setOnClickListener { onAddImageClicked() }
     }
 }
