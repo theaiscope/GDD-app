@@ -3,9 +3,11 @@ package net.aiscope.gdd_app.dagger
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
+import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
+import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
@@ -18,6 +20,10 @@ abstract class BuildersModule {
     @ClassKey(NewHealthFacilityActivity::class)
     abstract fun bindNewHealthFacilityActivityInjectorFactory(factory: HospitalSubComponents.Factory):
             AndroidInjector.Factory<*>
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [LoginModule::class])
+    abstract fun contributesAndroidInjector(): LoginActivity
 
     @Binds
     @IntoMap
