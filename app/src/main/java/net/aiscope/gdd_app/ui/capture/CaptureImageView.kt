@@ -4,7 +4,7 @@ import java.io.File
 
 interface CaptureImageView {
 
-    fun takePhoto(imageName: String, onPhotoReceived: (File?) -> Unit)
+    fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit)
 
     fun notifyImageCouldNotBeTaken()
 

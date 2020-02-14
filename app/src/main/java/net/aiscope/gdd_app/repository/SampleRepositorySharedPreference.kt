@@ -8,20 +8,20 @@ import javax.inject.Inject
 class SampleRepositorySharedPreference @Inject constructor(
     private val store: SharedPreferenceStore,
     private val uuid: UUID,
-    private val hospitalRepository: HospitalRepository,
+    private val healthFacilityRepository: HealthFacilityRepository,
     private val gson: Gson
 ) : SampleRepository {
 
     private var currentSample: Sample? = null
 
-    override fun current(): Sample {
+    override suspend fun current(): Sample {
         return currentSample ?: create()
     }
 
-    override fun create(): Sample {
+    override suspend fun create(): Sample {
         val uuid = uuid.generateUUID()
-        val facility = hospitalRepository.load()
-        val sample = Sample(uuid, facility)
+        val facility = healthFacilityRepository.load()
+        val sample = Sample(uuid, facility.id)
 
         currentSample = sample
         return sample

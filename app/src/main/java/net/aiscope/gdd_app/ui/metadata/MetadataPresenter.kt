@@ -26,7 +26,7 @@ class MetadataPresenter @Inject constructor(
     private val context: Context
 ) {
 
-    fun showScreen() {
+    suspend fun showScreen() {
         val sample = repository.current()
 
         if (sample.disease == null) {
@@ -41,7 +41,7 @@ class MetadataPresenter @Inject constructor(
         view.showInvalidFormError()
     }
 
-    fun save(smearType: SmearType, species: MalariaSpecies, stage: MalariaStage) {
+    suspend fun save(smearType: SmearType, species: MalariaSpecies, stage: MalariaStage) {
         val sample = repository.current()
             .copy(metadata = SampleMetadata(smearType, species, stage), status = Status.ReadyToUpload)
         repository.store(sample)
@@ -51,7 +51,7 @@ class MetadataPresenter @Inject constructor(
         view.finishFlow()
     }
 
-    fun addImage() {
+    suspend fun addImage() {
         val current = repository.current()
         view.captureImage(current.nextImageName(), current.nextMaskName())
     }

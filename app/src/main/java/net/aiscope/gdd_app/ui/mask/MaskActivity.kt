@@ -60,15 +60,17 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         super.onDestroy()
     }
 
-    override fun takeMask(maskName: String, onPhotoReceived: (File?) -> Unit) {
+    override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
         val bmp = maskView.getMaskBitmap()
-        if (bmp == null) {
-            onPhotoReceived(null)
-        } else {
-            val dest = File(this.filesDir, "${maskName}.jpg")
-            bmp.writeToFile(dest)
+        coroutineScope.launch {
+            if (bmp == null) {
+                onPhotoReceived(null)
+            } else {
+                val dest = File(this@MaskActivity.filesDir, "${maskName}.jpg")
+                bmp.writeToFile(dest)
 
-            onPhotoReceived(dest)
+                onPhotoReceived(dest)
+            }
         }
     }
 

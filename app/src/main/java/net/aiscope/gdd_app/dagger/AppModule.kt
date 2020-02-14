@@ -25,6 +25,4 @@ object AppModule {
     fun workerFactory(repository: SampleRepository, storage: RemoteStorage): WorkerFactory =
             AppWorkerFactory(repository, storage)
 
-    @Provides
-    fun providesFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }

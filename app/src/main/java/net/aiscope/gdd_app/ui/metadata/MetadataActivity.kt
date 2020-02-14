@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
@@ -44,10 +45,14 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
             adapter = imagesAdapter
         }
 
-        presenter.showScreen()
+        coroutineScope.launch {
+            presenter.showScreen()
+        }
 
         metadata_save_sample.setOnClickListener {
-            presenter.save(selectedSmearType(), selectedSpecies(), selectedStage())
+            coroutineScope.launch {
+                presenter.save(selectedSmearType(), selectedSpecies(), selectedStage())
+            }
         }
     }
 
@@ -111,6 +116,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun onAddImageClicked() {
-        presenter.addImage()
+        coroutineScope.launch {
+            presenter.addImage()
+        }
     }
 }

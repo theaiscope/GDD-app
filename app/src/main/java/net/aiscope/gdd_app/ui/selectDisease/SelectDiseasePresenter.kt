@@ -8,7 +8,7 @@ class SelectDiseasePresenter @Inject constructor(
     val repository: SampleRepository
 ) {
 
-    fun saveDisease(input :String) {
+    suspend fun saveDisease(input: String) {
         if (!input.isBlank()) {
             val sample = repository.create().copy(disease = input)
             repository.store(sample)

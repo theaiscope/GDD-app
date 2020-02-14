@@ -6,6 +6,8 @@ import dagger.android.AndroidInjector
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
+import net.aiscope.gdd_app.coroutines.DefaultDispatcherProvider
+import net.aiscope.gdd_app.coroutines.DispatcherProvider
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
@@ -42,4 +44,7 @@ abstract class BuildersModule {
     @ClassKey(MaskActivity::class)
     abstract fun bindMaskActivityInjectorFactory(factory: MaskSubComponents.Factory):
             AndroidInjector.Factory<*>
+
+    @Binds
+    internal abstract fun bindDispatcherProvider(dispatcherProvider: DefaultDispatcherProvider): DispatcherProvider
 }

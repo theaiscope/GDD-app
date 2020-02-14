@@ -88,7 +88,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         super.onDestroy()
     }
 
-    override fun takePhoto(imageName: String, onPhotoReceived: (File?) -> Unit) {
+    override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
         val result = fotoapparat.takePicture()
         val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {

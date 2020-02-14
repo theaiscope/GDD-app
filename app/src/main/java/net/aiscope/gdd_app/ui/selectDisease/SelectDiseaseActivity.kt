@@ -7,12 +7,19 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import javax.inject.Inject
 
 class SelectDiseaseActivity : AppCompatActivity() , SelectDiseaseView{
     @Inject lateinit var presenter: SelectDiseasePresenter
+
+    private val parentJob = Job()
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -25,12 +32,19 @@ class SelectDiseaseActivity : AppCompatActivity() , SelectDiseaseView{
         diseasesSpinner.setSelection(0, true)
 
         captureImageButton.setOnClickListener {
-            presenter.saveDisease(diseasesSpinner.selectedItem.toString())
+            coroutineScope.launch {
+                presenter.saveDisease(diseasesSpinner.selectedItem.toString())
+            }
         }
 
         cancelButton.setOnClickListener {
             this.finish()
         }
+    }
+
+    override fun onDestroy() {
+        parentJob.cancel()
+        super.onDestroy()
     }
 
     override fun captureImage(nextImageName: String, nextMaskName: String) {

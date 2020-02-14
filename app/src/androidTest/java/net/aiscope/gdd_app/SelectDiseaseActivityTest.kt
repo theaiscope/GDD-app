@@ -17,6 +17,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,22 +28,24 @@ class SelectDiseaseActivityTest {
     val intentsSelectDiseaseTestRule = IntentsTestRule(SelectDiseaseActivity::class.java)
 
     @Test
-    fun spinnerShouldDisplayDiseasesList () {
+    fun spinnerShouldDisplayDiseasesList() {
         Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases))
             .perform(click())
         onData(allOf(`is`(instanceOf(String::class.java)), `is`("Malaria"))).perform(click())
     }
 
     @Test
-    fun spinnerShouldHaveMalariaPreselectedAsFirstOption () {
+    fun spinnerShouldHaveMalariaPreselectedAsFirstOption() {
         Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases))
             .perform(click())
         onData(allOf(`is`(instanceOf(String::class.java)), `is`("Malaria"))).perform(click())
 
-        Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases)).check(ViewAssertions.matches(withSpinnerText(`is`("Malaria"))))
+        Espresso.onView(ViewMatchers.withId(R.id.spinner_diseases))
+            .check(ViewAssertions.matches(withSpinnerText(`is`("Malaria"))))
     }
 
     @Test
+    @Ignore("needs to have firebase auth current user stubbed")
     fun shouldRedirectToCaptureImageActivity() {
         selectFirstItem()
 
@@ -51,7 +54,6 @@ class SelectDiseaseActivityTest {
 
         intended(hasComponent(CaptureImageActivity::class.java.name))
     }
-
 
     @Test
     fun shouldShowConfirmationMessageIfDiseaseIsValid() {

@@ -1,7 +1,12 @@
 package net.aiscope.gdd_app.presentation
 
 import android.content.Context
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.check
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.Sample
@@ -11,17 +16,22 @@ import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
 import net.aiscope.gdd_app.ui.metadata.MetadataView
-import org.junit.Before
-import org.junit.Test
 import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class MetadataPresenterTest {
+
+    @get:Rule
+    var coroutinesTestRule = CoroutineTestRule()
 
     @Mock
     lateinit var view: MetadataView
@@ -40,7 +50,7 @@ class MetadataPresenterTest {
     lateinit var subject: MetadataPresenter
 
     @Before
-    fun before() {
+    fun before() = coroutinesTestRule.runBlockingTest {
         whenever(repository.current()).thenReturn(
             Sample(
                 id = "id",
@@ -54,14 +64,15 @@ class MetadataPresenterTest {
     }
 
     @Test
-    fun shouldAskTheViewToSetTheForm() {
+    fun shouldAskTheViewToSetTheForm() = coroutinesTestRule.runBlockingTest {
         subject.showScreen()
         verify(view).fillForm(any())
     }
 
     @Test
-    fun shouldStoreMetadata() {
-        val expected = SampleMetadata(SmearType.THICK, MalariaSpecies.P_VIVAX,
+    fun shouldStoreMetadata() = coroutinesTestRule.runBlockingTest {
+        val expected = SampleMetadata(
+            SmearType.THICK, MalariaSpecies.P_VIVAX,
             MalariaStage.TROPHOZOITE
         )
 
