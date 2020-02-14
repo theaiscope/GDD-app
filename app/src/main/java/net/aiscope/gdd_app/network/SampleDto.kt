@@ -14,6 +14,7 @@ data class SampleMetadataDto(
 data class SampleDto(
     @SerializedName("id") val id: String,
     @SerializedName("healthFacility") val healthFacility: String,
+    @SerializedName("microscopist") val microscopist: String,
     @SerializedName("disease") val disease: String,
     @SerializedName("metadata") val metadata: SampleMetadataDto,
     @SerializedName("appVersion") val appVersion: String,
@@ -23,6 +24,7 @@ data class SampleDto(
 fun Sample.toDto() = SampleDto(
     id = id,
     healthFacility = healthFacility,
+    microscopist = microscopist,
     disease = disease ?: "",
     metadata = SampleMetadataDto(
         bloodType = metadata.smearType.id,

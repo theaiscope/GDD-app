@@ -21,7 +21,7 @@ class SampleRepositorySharedPreference @Inject constructor(
     override suspend fun create(): Sample {
         val uuid = uuid.generateUUID()
         val facility = healthFacilityRepository.load()
-        val sample = Sample(uuid, facility.id)
+        val sample = Sample(uuid, facility.id, facility.microscopist)
 
         currentSample = sample
         return sample

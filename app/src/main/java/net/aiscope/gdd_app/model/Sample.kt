@@ -38,6 +38,7 @@ data class SampleMetadata(
 data class Sample(
     val id: String,
     val healthFacility: String,
+    val microscopist: String,
     val disease: String? = null,
     val images: LinkedHashSet<File> = linkedSetOf(),
     val masks: LinkedHashSet<File> = linkedSetOf(),

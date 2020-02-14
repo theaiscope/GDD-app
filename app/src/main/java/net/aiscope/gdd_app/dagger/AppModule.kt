@@ -2,7 +2,6 @@ package net.aiscope.gdd_app.dagger
 
 import android.content.Context
 import androidx.work.WorkerFactory
-import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.application.AppWorkerFactory

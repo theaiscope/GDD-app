@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.repository
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,15 +19,15 @@ class FirestoreHealthFacilityRepository @Inject constructor(
 ) : HealthFacilityRepository {
 
     override suspend fun load(): HealthFacility = withContext(dispatchers.io()) {
+        val user = firebaseAuth.currentUser ?: throw IllegalStateException("")
         val snapshot: QuerySnapshot = firestore.collection("facilities")
-            .whereArrayContains("microscopists", getMicroscopistReference())
+            .whereArrayContains("microscopists", getMicroscopistReference(user))
             .get().await()
         val document: DocumentSnapshot = snapshot.documents[0]
-        HealthFacility(document["name"] as String, document.id)
+        HealthFacility(document["name"] as String, document.id, user.uid)
     }
 
-    private fun getMicroscopistReference(): DocumentReference {
-        val user = firebaseAuth.currentUser ?: throw IllegalStateException("")
+    private fun getMicroscopistReference(user: FirebaseUser): DocumentReference {
         return firestore.collection("microscopists").document(user.uid)
     }
 }

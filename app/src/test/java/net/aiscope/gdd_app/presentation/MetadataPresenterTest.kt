@@ -55,6 +55,7 @@ class MetadataPresenterTest {
             Sample(
                 id = "id",
                 healthFacility = "StPau",
+                microscopist = "a microscopist",
                 images = linkedSetOf(),
                 disease = "malaria"
             )

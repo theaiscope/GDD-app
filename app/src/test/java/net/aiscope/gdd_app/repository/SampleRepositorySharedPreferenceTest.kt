@@ -40,13 +40,14 @@ class SampleRepositorySharedPreferenceTest {
     private val ID = "1111"
     private val HOSPITAL_NAME = "H. St. Pau"
     private val HOSPITAL_ID = "H_St_Pau"
+    private val MICROSCOPIST = "a microscopist"
 
-    private val sampleOnlyRequired = Sample(ID, HOSPITAL_NAME)
+    private val sampleOnlyRequired = Sample(ID, HOSPITAL_NAME, MICROSCOPIST)
     private val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H. St. Pau","status":"Incomplete"}"""
 
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
-        whenever(healthFacilityRepository.load()).thenReturn(HealthFacility(HOSPITAL_NAME, HOSPITAL_ID))
+        whenever(healthFacilityRepository.load()).thenReturn(HealthFacility(HOSPITAL_NAME, HOSPITAL_ID, MICROSCOPIST))
         whenever(gson.toJson(sampleOnlyRequired.toDto())).thenReturn(sampleOnlyRequiredJson)
         whenever(gson.fromJson<SampleDto>(eq(sampleOnlyRequiredJson), any<Type>())).thenReturn(sampleOnlyRequired.toDto())
     }

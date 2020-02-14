@@ -19,6 +19,7 @@ data class SampleMetadataDto(
 data class SampleDto(
     val id: String,
     val healthFacility: String,
+    val microscopist: String,
     val disease: String? = null,
     val imagePaths: List<String>,
     val maskPaths: List<String>,
@@ -28,6 +29,7 @@ data class SampleDto(
     fun toDomain(): Sample = Sample(
         id = id,
         healthFacility = healthFacility,
+        microscopist = microscopist,
         disease = disease,
         images = imagePaths.map { File(it) }.toLinkedHashSet(),
         masks = maskPaths.map { File(it) }.toLinkedHashSet(),
@@ -43,6 +45,7 @@ data class SampleDto(
 fun Sample.toDto() = SampleDto(
     id = id,
     healthFacility = healthFacility,
+    microscopist = microscopist,
     disease = disease,
     imagePaths = images.map { it.absolutePath },
     maskPaths = masks.map { it.absolutePath },
