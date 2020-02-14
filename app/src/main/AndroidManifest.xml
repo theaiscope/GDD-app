@@ -31,7 +31,6 @@
         <activity
             android:name=".ui.capture.CaptureImageActivity"
             android:label="@string/capture_activity_title" />
-        <activity android:name=".ui.newHealthFacility.NewHealthFacilityActivity" />
         <activity
             android:name=".ui.metadata.MetadataActivity"
             android:exported="true"

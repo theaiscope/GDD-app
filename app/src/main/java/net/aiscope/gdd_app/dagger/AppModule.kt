@@ -11,7 +11,6 @@ import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 
 @Module(subcomponents = [
-    (HospitalSubComponents::class),
     (SelectDiseaseSubComponents::class),
     (MetadataSubComponents::class),
     (CaptureImageSubComponents::class),

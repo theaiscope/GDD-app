@@ -10,16 +10,10 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
-import net.aiscope.gdd_app.ui.newHealthFacility.NewHealthFacilityActivity
 import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 
 @Module
 abstract class BuildersModule {
-    @Binds
-    @IntoMap
-    @ClassKey(NewHealthFacilityActivity::class)
-    abstract fun bindNewHealthFacilityActivityInjectorFactory(factory: HospitalSubComponents.Factory):
-            AndroidInjector.Factory<*>
 
     @PerActivity
     @ContributesAndroidInjector(modules = [LoginModule::class])

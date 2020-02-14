@@ -5,9 +5,6 @@
     <string name="button_go_to_select_disease_text">Select disease</string>
     <string name="error_message_field_empty">Field cannot be empty</string>
     <string name="confirmation_message_saved">Saved</string>
-    <string name="confirmation_message_health_facility_saved">Health facility Saved</string>
-    <!--health facility-->
-    <string name="text_health_facility_name_hint">Add new hospital</string>
     <!--select disease-->
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="button_back_select_disease">Back</string>
@@ -39,7 +36,6 @@
     <string name="capture_flow_exit_dialog_message">Are you sure you want to exit? Your sample data will be lost.</string>
     <string name="capture_flow_exit_dialog_stay">No, stay</string>
     <string name="capture_flow_exit_dialog_exit">Yes, exit</string>
-    <string name="text_save_new_health_facility">Register new hospital</string>
     <string name="metadata_species_title">Species</string>
     <string name="metadata_stage_title">Stage</string>
 
