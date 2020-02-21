@@ -50,9 +50,9 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         presenter.start(imageNameExtra)
 
         getBitmap.setOnClickListener { presenter.handleCaptureBitmap(maskNameExtra) }
-        erase.setOnClickListener { presenter.eraseMode() }
-        brush.setOnClickListener { presenter.brushMode() }
-        move.setOnClickListener { presenter.moveMode() }
+        delete_btn.setOnClickListener { presenter.eraseMode() }
+        draw_btn.setOnClickListener { presenter.brushMode() }
+        zoom_btn.setOnClickListener { presenter.moveMode() }
     }
 
     override fun onDestroy() {

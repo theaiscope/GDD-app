@@ -6,78 +6,89 @@
     android:orientation="vertical"
     tools:context=".ui.mask.MaskActivity">
 
-    <include
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/maskView"
-            android:layout_weight="1"
-    />
+        android:id="@+id/maskView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="2dp"
+            android:paddingStart="2dp"
+            android:orientation="horizontal"
+            tools:checkedButton="@id/zoom_btn">
+
+            <RadioButton
+                android:id="@+id/draw_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="5"
+                android:button="@null"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:buttonTint="@color/button_selector"
+                android:drawableTop="@drawable/ic_draw"
+                android:drawableTint="@color/button_selector"
+                android:gravity="center"
+                android:paddingTop="16dp" />
+
+            <RadioButton
+                android:id="@+id/zoom_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="5"
+                android:button="@null"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:buttonTint="@color/button_selector"
+                android:drawableTop="@drawable/ic_zoom"
+                android:drawableTint="@color/button_selector"
+                android:gravity="center"
+                android:paddingTop="16dp" />
+
+            <RadioButton
+                android:id="@+id/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="5"
+                android:button="@null"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:drawableTop="@drawable/ic_delete"
+                android:drawableTint="@color/button_selector"
+                android:gravity="center"
+                android:paddingTop="16dp" />
+        </RadioGroup>
+
         <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" >
-        </Space>
-        <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/getBitmap"
-                android:text="@string/button_save_text"
-                android:drawableTop="@android:drawable/ic_menu_save"
-                android:gravity="center_horizontal|top"
-                android:tint="@android:color/black"
-                android:background="@color/colorPrimaryDark"
-        />
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" >
-        </Space>
-        <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/brush"
-                android:text="@string/button_draw_text"
-                android:drawableTop="@android:drawable/ic_menu_edit"
-                android:gravity="center_horizontal|top"
-                android:tint="@android:color/black"
-                android:background="@color/colorPrimaryDark"
-                />
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" >
-        </Space>
-        <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/erase"
-                android:text="@string/button_erase_text"
-                android:drawableTop="@android:drawable/ic_menu_close_clear_cancel"
-                android:gravity="center_horizontal|top"
-                android:tint="@android:color/black"
-                android:background="@color/colorPrimaryDark"
-        />
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" >
-        </Space>
-        <Button android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/move"
-                android:text="@string/button_zoom_text"
-                android:drawableTop="@android:drawable/ic_menu_zoom"
-                android:gravity="center_horizontal|top"
-                android:tint="@android:color/black"
-                android:background="@color/colorPrimaryDark"
-        />
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" >
-        </Space>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/getBitmap"
+            style="@style/AppTheme.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:drawableEnd="@drawable/ic_left_arrow"
+            android:drawablePadding="12dp"
+            android:gravity="center_horizontal|center"
+            android:padding="18dp"
+            android:text="@string/button_done_text"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:tint="@android:color/black" />
     </LinearLayout>
 </LinearLayout>
