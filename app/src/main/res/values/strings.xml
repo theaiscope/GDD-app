@@ -13,11 +13,7 @@
 
     <!-- Mask -->
     <string name="mask_activity_title">Highlight</string>
-    <string name="button_save_text">Save</string>
-    <string name="button_erase_text">Erase</string>
-    <string name="button_draw_text">Draw</string>
-    <string name="button_zoom_text">Zoom</string>
-    <string name="button_done_text">DONE</string>
+    <string name="button_done_text">Done</string>
 
     <!-- Metadata -->
     <string name="metadata_activity_title">Add data</string>

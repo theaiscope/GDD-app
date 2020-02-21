@@ -17,17 +17,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
 
         <RadioGroup
+            android:id="@+id/tools_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="2dp"
-            android:paddingStart="2dp"
+            android:checkedButton="@id/draw_btn"
             android:orientation="horizontal"
-            tools:checkedButton="@id/zoom_btn">
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp">
 
             <RadioButton
                 android:id="@+id/draw_btn"
@@ -35,13 +37,13 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="5"
                 android:button="@null"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp"
                 android:buttonTint="@color/button_selector"
                 android:drawableTop="@drawable/ic_draw"
                 android:drawableTint="@color/button_selector"
                 android:gravity="center"
-                android:paddingTop="16dp" />
+                android:paddingStart="14dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="14dp" />
 
             <RadioButton
                 android:id="@+id/zoom_btn"
@@ -49,13 +51,13 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="5"
                 android:button="@null"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp"
                 android:buttonTint="@color/button_selector"
                 android:drawableTop="@drawable/ic_zoom"
                 android:drawableTint="@color/button_selector"
                 android:gravity="center"
-                android:paddingTop="16dp" />
+                android:paddingStart="14dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="14dp" />
 
             <RadioButton
                 android:id="@+id/delete_btn"
@@ -63,12 +65,12 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="5"
                 android:button="@null"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp"
                 android:drawableTop="@drawable/ic_delete"
                 android:drawableTint="@color/button_selector"
                 android:gravity="center"
-                android:paddingTop="16dp" />
+                android:paddingStart="14dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="14dp" />
         </RadioGroup>
 
         <Space
@@ -81,14 +83,9 @@
             style="@style/AppTheme.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="12dp"
             android:drawableEnd="@drawable/ic_left_arrow"
-            android:drawablePadding="12dp"
-            android:gravity="center_horizontal|center"
             android:padding="18dp"
-            android:text="@string/button_done_text"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:tint="@android:color/black" />
+            android:text="@string/button_done_text" />
     </LinearLayout>
 </LinearLayout>
