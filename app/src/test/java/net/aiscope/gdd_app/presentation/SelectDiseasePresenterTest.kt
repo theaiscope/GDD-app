@@ -9,8 +9,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.repository.SampleRepository
-import net.aiscope.gdd_app.ui.selectDisease.SelectDiseasePresenter
-import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseView
+import net.aiscope.gdd_app.ui.main.SelectDiseasePresenter
+import net.aiscope.gdd_app.ui.main.SelectDiseaseView
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

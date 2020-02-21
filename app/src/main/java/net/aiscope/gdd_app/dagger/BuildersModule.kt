@@ -10,22 +10,20 @@ import net.aiscope.gdd_app.coroutines.DefaultDispatcherProvider
 import net.aiscope.gdd_app.coroutines.DispatcherProvider
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
+import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
-import net.aiscope.gdd_app.ui.selectDisease.SelectDiseaseActivity
 
 @Module
 abstract class BuildersModule {
 
     @PerActivity
     @ContributesAndroidInjector(modules = [LoginModule::class])
-    abstract fun contributesAndroidInjector(): LoginActivity
+    abstract fun contributesLoginActivityAndroidInjector(): LoginActivity
 
-    @Binds
-    @IntoMap
-    @ClassKey(SelectDiseaseActivity::class)
-    abstract fun bindSelectDiseaseActivityInjectorFactory(factory: SelectDiseaseSubComponents.Factory):
-            AndroidInjector.Factory<*>
+    @PerActivity
+    @ContributesAndroidInjector(modules = [MainModule::class])
+    abstract fun contributesMainActivityAndroidInjector(): MainActivity
 
     @Binds
     @IntoMap

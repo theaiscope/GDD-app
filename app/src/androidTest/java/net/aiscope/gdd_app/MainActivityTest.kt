@@ -1,12 +1,23 @@
 package net.aiscope.gdd_app
 
 import androidx.test.espresso.Espresso
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.main.MainActivity
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.instanceOf
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,12 +35,48 @@ class MainActivityTest {
     }
 
     @Test
-    fun shouldRedirectToSelectDiseaseActivity() {
-        Espresso.onView(ViewMatchers.withId(R.id.button_go_to_select_disease))
-            .perform(ViewActions.click())
-
-        Espresso.onView(ViewMatchers.withId(R.id.text_select_disease_spinner_hint))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.text_select_disease_spinner_hint)))
+    fun spinnerShouldDisplayDiseasesList() {
+        Espresso.onView(ViewMatchers.withId(R.id.dropdown_select_disease))
+            .perform(click())
+        onData(allOf(`is`(instanceOf(String::class.java)), `is`("Malaria"))).perform(click())
     }
 
+    @Test
+    fun spinnerShouldHaveMalariaPreselectedAsFirstOption() {
+        Espresso.onView(ViewMatchers.withId(R.id.dropdown_select_disease))
+            .perform(click())
+        onData(allOf(`is`(instanceOf(String::class.java)), `is`("Malaria"))).perform(click())
+
+        Espresso.onView(ViewMatchers.withId(R.id.dropdown_select_disease))
+            .check(ViewAssertions.matches(withSpinnerText(`is`("Malaria"))))
+    }
+
+    @Test
+    @Ignore("needs to have firebase auth current user stubbed")
+    fun shouldRedirectToCaptureImageActivity() {
+        selectFirstItem()
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_go_to_capture))
+            .perform(click())
+
+        intended(hasComponent(CaptureImageActivity::class.java.name))
+    }
+
+    @Test
+    fun shouldShowConfirmationMessageIfDiseaseIsValid() {
+        selectFirstItem()
+
+        Espresso.onView(ViewMatchers.withId(R.id.button_go_to_capture))
+            .perform(click())
+
+        Espresso.onView(ViewMatchers.withText(R.string.confirmation_message_saved))
+            .inRoot(RootMatchers.withDecorView(Matchers.not(activityRule.activity.window.decorView)))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    private fun selectFirstItem() {
+        Espresso.onView(ViewMatchers.withId(R.id.dropdown_select_disease)).perform(click())
+
+        onData(allOf(`is`(instanceOf(String::class.java)))).atPosition(0).perform(click())
+    }
 }

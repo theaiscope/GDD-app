@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">AI Scope</string>
-    <string name="welcome_msg">Welcome to AI Scope application</string>
-    <string name="button_go_to_new_health_facility_text">Add Health Facility</string>
-    <string name="button_go_to_select_disease_text">Select disease</string>
+    <string name="welcome_msg">Welcome</string>
+    <string name="start_msg">Start capturing a new blood sample</string>
+    <string name="button_start_capturing">Start capturing</string>
     <string name="error_message_field_empty">Field cannot be empty</string>
     <string name="confirmation_message_saved">Saved</string>
     <!--select disease-->
     <string name="text_select_disease_spinner_hint">Select a disease</string>
-    <string name="button_back_select_disease">Back</string>
-    <string name="button_capture_image_select_disease">Capture Image</string>
-    <string name="capture_image_button_text">Take a Photo</string>
-    <string name="preview_capture_image_content_description">capture image preview</string>
     <!-- CaptureImage -->
     <string name="capture_activity_title">Capture photo</string>
     <string name="image_could_not_be_taken">Image could not be taken</string>

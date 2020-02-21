@@ -61,7 +61,7 @@ class MetadataPresenterTest {
             )
         )
 
-        val test = repository.current()
+        repository.current()
     }
 
     @Test

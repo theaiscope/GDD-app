@@ -14,6 +14,7 @@
         <item name="android:textViewStyle">@style/TextView</item>
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="spinnerStyle">@style/AppTheme.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/AppTheme.DropDownItem.Spinner</item>
         <item name="spinnerDropDownItemStyle">@style/AppTheme.DropDownItem.Spinner</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="android:textColorHint">@color/colorPlainText</item>
@@ -58,8 +59,9 @@
         <item name="android:textAppearance">@style/TextView.SectionTitle</item>
     </style>
 
-    <style name="AppTheme.SpinnerTheme" parent="AppTheme">
+    <style name="App.Widget.Spinner" parent="AppTheme">
         <item name="android:textColor">@color/colorPlainText</item>
+        <item name="android:spinnerMode">dropdown</item>
     </style>
 
     <style name="AppTheme.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
@@ -70,25 +72,6 @@
         <item name="android:textColor">@color/selector_radio_button_text_color</item>
         <item name="android:textColorSecondary">#61ffffff</item>
         <item name="colorControlNormal">#61ffffff</item>
-    </style>
-
-    <style name="TextHint">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">21dp</item>
-        <item name="android:layout_marginEnd">24dp</item>
-        <item name="android:layout_marginStart">28dp</item>
-        <item name="android:layout_marginTop">36dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:textAlignment">textStart</item>
-        <item name="android:capitalize">characters</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:letterSpacing">0.1</item>
-    </style>
-
-
-    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
-        <item name="android:textColor">@color/colorButtonAboveText</item>
-        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.Toolbar" parent="Widget.AppCompat.ActionBar">

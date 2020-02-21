@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app.ui.selectDisease
+package net.aiscope.gdd_app.ui.main
 
 interface SelectDiseaseView {
 

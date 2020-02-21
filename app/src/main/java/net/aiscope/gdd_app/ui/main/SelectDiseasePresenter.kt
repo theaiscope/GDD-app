@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app.ui.selectDisease
+package net.aiscope.gdd_app.ui.main
 
 import net.aiscope.gdd_app.repository.SampleRepository
 import javax.inject.Inject

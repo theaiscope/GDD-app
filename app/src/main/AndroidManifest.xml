@@ -27,7 +27,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.selectDisease.SelectDiseaseActivity" />
         <activity
             android:name=".ui.capture.CaptureImageActivity"
             android:label="@string/capture_activity_title" />
