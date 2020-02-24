@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AI Scope</string>
     <string name="welcome_msg">Welcome</string>
-    <string name="start_msg">Start capturing a new blood sample</string>
+    <string name="start_msg">Start capturing a new sample</string>
     <string name="button_start_capturing">Start capturing</string>
     <string name="error_message_field_empty">Field cannot be empty</string>
     <string name="confirmation_message_saved">Saved</string>
