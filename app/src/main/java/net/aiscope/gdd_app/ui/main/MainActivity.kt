@@ -3,6 +3,7 @@ package net.aiscope.gdd_app.ui.main
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.karumi.dexter.Dexter
@@ -65,5 +66,10 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
 
     override fun showFailureToast() {
         Toast.makeText(this, R.string.error_message_field_empty, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
     }
 }
