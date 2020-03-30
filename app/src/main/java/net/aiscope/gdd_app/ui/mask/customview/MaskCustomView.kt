@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Path
 import android.graphics.drawable.Drawable
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -24,7 +25,7 @@ class MaskCustomView @JvmOverloads constructor(
         const val MAX_SCALE = 5f
     }
 
-    private val maskLayer: MaskLayer = MaskLayer(context, imageMatrix)
+    private var maskLayer: MaskLayer = MaskLayer(context, imageMatrix)
 
     enum class DrawMode {
         Brush,
@@ -120,5 +121,21 @@ class MaskCustomView @JvmOverloads constructor(
         val drawableWidth = drawable?.intrinsicWidth ?: 0
         val drawableHeight = drawable?.intrinsicHeight ?: 0
         maskLayer.init(drawableWidth, drawableHeight)
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        return CustomViewSavedState(super.onSaveInstanceState(), maskLayer)
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        super.onRestoreInstanceState(state)
+        if (state is CustomViewSavedState) {
+            maskLayer = state. maskLayer
+        }
+    }
+
+    open class CustomViewSavedState(superState: Parcelable? = null, maskLayer: MaskLayer) :
+        BaseSavedState(superState) {
+        val maskLayer = maskLayer;
     }
 }
