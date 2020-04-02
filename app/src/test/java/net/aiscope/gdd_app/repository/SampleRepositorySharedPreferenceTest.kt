@@ -6,6 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.model.HealthFacility
 import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.model.Status
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import java.lang.reflect.Type
+import java.util.Calendar
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
@@ -42,8 +44,8 @@ class SampleRepositorySharedPreferenceTest {
     private val HOSPITAL_ID = "H_St_Pau"
     private val MICROSCOPIST = "a microscopist"
 
-    private val sampleOnlyRequired = Sample(ID, HOSPITAL_NAME, MICROSCOPIST)
-    private val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H. St. Pau","status":"Incomplete"}"""
+    private val sampleOnlyRequired = Sample(ID, HOSPITAL_ID, MICROSCOPIST)
+    private val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H_St_Pau","status":"Incomplete"""
 
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
@@ -111,5 +113,28 @@ class SampleRepositorySharedPreferenceTest {
         val samples = subject.all()
 
         assert(samples.size == 2)
+    }
+
+    @Test
+    fun `should give last sample`() = coroutinesTestRule.runBlockingTest {
+        val todayId = "1112"
+        val yesterdayId = "1113"
+        val today = Calendar.getInstance()
+        var yesterday = Calendar.getInstance()
+        yesterday.add(Calendar.DAY_OF_YEAR, -1)
+
+        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, status = Status.ReadyToUpload, createdOn = today)
+        val todaySampleJson = """{"id":"1112","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$today"}"""
+        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, status = Status.ReadyToUpload, createdOn = yesterday)
+        val yesterdaySampleJson = """{"id":"1113","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$yesterday"}"""
+
+        whenever(gson.fromJson<SampleDto>(eq(todaySampleJson), any<Type>())).thenReturn(todaySample.toDto())
+        whenever(gson.fromJson<SampleDto>(eq(yesterdaySampleJson), any<Type>())).thenReturn(yesterdaySample.toDto())
+
+        whenever(store.all()).thenReturn(listOf(sampleOnlyRequiredJson, todaySampleJson, yesterdaySampleJson))
+
+        val sample = subject.last()
+
+        assert(sample == todaySample)
     }
 }

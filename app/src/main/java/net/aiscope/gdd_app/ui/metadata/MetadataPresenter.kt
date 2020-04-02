@@ -16,7 +16,8 @@ data class ViewStateModel(
     val disease: String,
     val images: List<File>,
     val options: List<FieldOption>,
-    val required: Boolean = true
+    val required: Boolean = true,
+    val sampleMetadata: SampleMetadata? = null
 )
 
 class MetadataPresenter @Inject constructor(
@@ -34,7 +35,12 @@ class MetadataPresenter @Inject constructor(
             return
         }
 
-        view.fillForm(ViewStateModel(sample.disease, sample.images.toList(), emptyList()))
+        view.fillForm(
+            ViewStateModel(
+                sample.disease,
+                sample.images.toList(),
+                emptyList(),
+                sampleMetadata = repository.last()?.metadata))
     }
 
     fun notValid() {

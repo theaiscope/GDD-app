@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.presentation
 
 import android.content.Context
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.check
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -16,6 +17,7 @@ import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
 import net.aiscope.gdd_app.ui.metadata.MetadataView
+import net.aiscope.gdd_app.ui.metadata.ViewStateModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -85,5 +87,32 @@ class MetadataPresenterTest {
         verify(repository).store(check {
             assertEquals(it.metadata, expected)
         })
+    }
+
+    @Test
+    fun shouldDefaultToLastMetadata() = coroutinesTestRule.runBlockingTest{
+        val expectedMetadata = SampleMetadata(
+            SmearType.THIN,
+            MalariaSpecies.P_OVALE,
+            MalariaStage.TROPHOZOITE
+        )
+
+        whenever(repository.last()).thenReturn(
+            Sample(
+                id = "idlast",
+                healthFacility = "StPau",
+                microscopist = "a microscopist",
+                images = linkedSetOf(),
+                disease = "malaria",
+                createdOn = java.util.Calendar.getInstance(),
+                metadata = expectedMetadata
+            )
+        )
+
+        argumentCaptor<ViewStateModel>().apply{
+            subject.showScreen()
+            verify(view).fillForm(capture())
+            assertEquals(allValues[0].sampleMetadata, expectedMetadata)
+        }
     }
 }
