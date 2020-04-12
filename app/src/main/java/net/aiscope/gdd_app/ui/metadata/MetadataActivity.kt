@@ -58,15 +58,9 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun selectSpinnerValue(spinner: AbsSpinner, value: String) {
-        var index = -1
-        for (i in 0 until spinner.adapter.count){
-            if (spinner.adapter.getItem(i) == value) {
-                index = i
-                break;
-            }
-        }
-        if (index > -1)
-            spinner.setSelection(index)
+        (0 until spinner.adapter.count)
+            .firstOrNull { spinner.adapter.getItem(it) == value }
+            ?.let { spinner.setSelection(it) }
     }
 
     override fun onDestroy() {
