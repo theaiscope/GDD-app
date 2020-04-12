@@ -58,6 +58,6 @@ class SampleRepositorySharedPreference @Inject constructor(
                         && s.microscopist == facility.microscopist
                         && s.createdOn != null
                         && s.status != Status.Incomplete}
-            .sortedWith(compareBy {it.createdOn}).lastOrNull()
+            .sortedBy { it.createdOn }.lastOrNull()
     }
 }
