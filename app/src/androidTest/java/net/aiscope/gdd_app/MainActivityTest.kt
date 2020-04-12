@@ -85,4 +85,14 @@ class MainActivityTest {
 
         onData(allOf(`is`(instanceOf(String::class.java)))).atPosition(0).perform(click())
     }
+
+    @Test
+    fun shouldShowLogoutMenuOption() {
+        Espresso.onView(ViewMatchers.withId(R.id.action_user))
+            .perform(click())
+
+        Espresso.onView(ViewMatchers.withText(R.string.text_logout))
+            .inRoot(RootMatchers.withDecorView(Matchers.not(activityRule.activity.window.decorView)))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
 }

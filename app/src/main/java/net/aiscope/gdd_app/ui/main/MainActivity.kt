@@ -4,8 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import com.karumi.dexter.Dexter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -71,5 +75,24 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_user -> {
+                val itemView: View = this.findViewById(R.id.action_user)
+                showLogoutDialog(itemView)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showLogoutDialog(itemView: View) {
+        val popup = PopupMenu(this, itemView)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.menu_options, popup.menu)
+        popup.show()
+
     }
 }
