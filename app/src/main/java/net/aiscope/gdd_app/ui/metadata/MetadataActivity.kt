@@ -70,15 +70,9 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
-        if (model.sampleMetadata != null) {
-            metadata_section_smear_type_radio_group.check(MetadataMapper.getSmearTypeId(model.sampleMetadata.smearType))
-            selectSpinnerValue(
-                metadata_species_spinner,
-                MetadataMapper.getSpeciesValue(baseContext, model.sampleMetadata.species))
-            selectSpinnerValue(
-                metadata_stage_spinner,
-                MetadataMapper.getStageValue(baseContext, model.sampleMetadata.stage))
-        }
+        model.smearType?.let { metadata_section_smear_type_radio_group.check(it) }
+        model.species?.let { selectSpinnerValue(metadata_species_spinner, it) }
+        model.stage?.let { selectSpinnerValue(metadata_stage_spinner, it) }
     }
 
     override fun showInvalidFormError() {

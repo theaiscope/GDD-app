@@ -17,7 +17,9 @@ data class ViewStateModel(
     val images: List<File>,
     val options: List<FieldOption>,
     val required: Boolean = true,
-    val sampleMetadata: SampleMetadata? = null
+    val smearType: Int? = null,
+    val species: String? = null,
+    val stage: String? = null
 )
 
 class MetadataPresenter @Inject constructor(
@@ -35,12 +37,17 @@ class MetadataPresenter @Inject constructor(
             return
         }
 
+        val lastMetadata = repository.last()?.metadata
         view.fillForm(
             ViewStateModel(
                 sample.disease,
                 sample.images.toList(),
                 emptyList(),
-                sampleMetadata = repository.last()?.metadata))
+                smearType = lastMetadata?.let { MetadataMapper.getSmearTypeId(it.smearType) },
+                species = lastMetadata?.let { MetadataMapper.getSpeciesValue(context, it.species) },
+                stage = lastMetadata?.let { MetadataMapper.getStageValue(context, it.stage) }
+            )
+        )
     }
 
     fun notValid() {

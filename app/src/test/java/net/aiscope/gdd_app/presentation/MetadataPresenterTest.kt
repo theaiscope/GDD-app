@@ -8,6 +8,7 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
+import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.Sample
@@ -64,6 +65,12 @@ class MetadataPresenterTest {
         )
 
         repository.current()
+
+        whenever(context.getString(R.string.malaria_species_p_ovale))
+            .thenReturn("P. ovale")
+
+        whenever(context.getString(R.string.malaria_stage_trophozoite))
+            .thenReturn("Trophozoite")
     }
 
     @Test
@@ -91,11 +98,9 @@ class MetadataPresenterTest {
 
     @Test
     fun shouldDefaultToLastMetadata() = coroutinesTestRule.runBlockingTest{
-        val expectedMetadata = SampleMetadata(
-            SmearType.THIN,
-            MalariaSpecies.P_OVALE,
-            MalariaStage.TROPHOZOITE
-        )
+        val expectedSmearType = R.id.metadata_blood_smear_thin
+        val expectedSpecies = "P. ovale"
+        val expectedStage = "Trophozoite"
 
         whenever(repository.last()).thenReturn(
             Sample(
@@ -105,14 +110,20 @@ class MetadataPresenterTest {
                 images = linkedSetOf(),
                 disease = "malaria",
                 createdOn = java.util.Calendar.getInstance(),
-                metadata = expectedMetadata
+                metadata = SampleMetadata(
+                    SmearType.THIN,
+                    MalariaSpecies.P_OVALE,
+                    MalariaStage.TROPHOZOITE
+                )
             )
         )
 
         argumentCaptor<ViewStateModel>().apply{
             subject.showScreen()
             verify(view).fillForm(capture())
-            assertEquals(allValues[0].sampleMetadata, expectedMetadata)
+            assertEquals(expectedSmearType, allValues[0].smearType)
+            assertEquals(expectedSpecies, allValues[0].species)
+            assertEquals(expectedStage, allValues[0].stage)
         }
     }
 }
