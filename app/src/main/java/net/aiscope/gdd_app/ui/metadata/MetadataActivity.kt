@@ -61,7 +61,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         var index = -1
         for (i in 0 until spinner.adapter.count){
             if (spinner.adapter.getItem(i) == value) {
-                index = 1
+                index = i
                 break;
             }
         }
