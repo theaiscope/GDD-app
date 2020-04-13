@@ -4,6 +4,7 @@
     <string name="start_msg">Start capturing a new sample</string>
     <string name="button_start_capturing">Start capturing</string>
     <string name="error_message_field_empty">Field cannot be empty</string>
+    <string name="error_message_logout_failure">Error when during logout process</string>
     <string name="confirmation_message_saved">Saved</string>
     <!--select disease-->
     <string name="text_select_disease_spinner_hint">Select a disease</string>

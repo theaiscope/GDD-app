@@ -21,6 +21,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
+import net.aiscope.gdd_app.ui.login.LoginActivity
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), SelectDiseaseView {
@@ -74,6 +75,15 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
         Toast.makeText(this, R.string.error_message_field_empty, Toast.LENGTH_SHORT).show()
     }
 
+    override fun loginSuccess() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
+
+    override fun loginFailure() {
+        Toast.makeText(this, R.string.error_message_logout_failure, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -121,6 +131,8 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
     }
 
     private fun logoutAction() {
-
+        presenter.logout()
     }
+
+
 }

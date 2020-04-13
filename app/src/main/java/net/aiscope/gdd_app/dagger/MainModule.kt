@@ -4,6 +4,7 @@ import android.app.Activity
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import net.aiscope.gdd_app.network.FirebaseAuthenticator
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.main.SelectDiseasePresenter
@@ -25,10 +26,12 @@ abstract class MainModule {
         @PerActivity
         internal fun providePresenter(
             view: SelectDiseaseView,
+            firebaseAuth: FirebaseAuthenticator,
             repository: SampleRepository
         ): SelectDiseasePresenter =
             SelectDiseasePresenter(
                 view,
+                firebaseAuth,
                 repository
             )
     }

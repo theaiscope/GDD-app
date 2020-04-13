@@ -62,8 +62,24 @@ class FirebaseAuthenticator @Inject constructor(
         callback = null
     }
 
+    fun singOut(logoutCallBack: LogoutCallBack) {
+        AuthUI.getInstance()
+            .signOut(activity)
+            .addOnFailureListener {
+                logoutCallBack.onSignOutFailure()
+            }
+            .addOnSuccessListener {
+                logoutCallBack.onSignOnSuccess()
+            }
+    }
+
     interface Callback {
         fun onSignInSuccess()
         fun onSignInFailure()
+    }
+
+    interface LogoutCallBack {
+        fun onSignOnSuccess()
+        fun onSignOutFailure()
     }
 }
