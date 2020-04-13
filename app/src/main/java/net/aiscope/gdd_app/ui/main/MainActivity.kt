@@ -3,6 +3,7 @@ package net.aiscope.gdd_app.ui.main
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -90,7 +91,8 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
     }
 
     private fun showLogoutDialog(itemView: View) {
-        val popup = PopupMenu(this, itemView)
+        val context = ContextThemeWrapper(this, R.style.PopupLogoutMenu)
+        val popup = PopupMenu(context, itemView)
         val inflater: MenuInflater = popup.menuInflater
         inflater.inflate(R.menu.menu_options, popup.menu)
         popup.setOnMenuItemClickListener {

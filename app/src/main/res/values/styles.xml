@@ -97,6 +97,11 @@
         <item name="android:windowBackground">@drawable/splash_screen_background</item>
     </style>
 
+    <style name="PopupLogoutMenu">
+        <item name="android:itemBackground">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPlainText</item>
+    </style>
+
 
 
 </resources>
