@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import com.karumi.dexter.Dexter
@@ -92,7 +93,32 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
         val popup = PopupMenu(this, itemView)
         val inflater: MenuInflater = popup.menuInflater
         inflater.inflate(R.menu.menu_options, popup.menu)
+        popup.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.action_logout -> {
+                    showLogoutDialog()
+                    true
+                }
+                else -> false
+            }
+        }
         popup.show()
+    }
+
+    private fun showLogoutDialog() {
+        with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
+            setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
+                logoutAction()
+            }
+            setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
+                // do nothing
+            }
+            setMessage(getString(R.string.logout_flow_exit_dialog_message))
+            create()
+        }.show()
+    }
+
+    private fun logoutAction() {
 
     }
 }

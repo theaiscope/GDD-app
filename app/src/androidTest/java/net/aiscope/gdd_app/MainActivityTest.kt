@@ -95,4 +95,18 @@ class MainActivityTest {
             .inRoot(RootMatchers.withDecorView(Matchers.not(activityRule.activity.window.decorView)))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
+
+    @Test
+    fun shouldShowLogoutDialog() {
+        Espresso.onView(ViewMatchers.withId(R.id.action_user))
+            .perform(click())
+
+        Espresso.onView(ViewMatchers.withText(R.string.text_logout))
+            .inRoot(RootMatchers.withDecorView(Matchers.not(activityRule.activity.window.decorView)))
+            .perform(click())
+
+        Espresso.onView(ViewMatchers.withText(R.string.logout_flow_exit_dialog_message))
+            .inRoot(RootMatchers.withDecorView(Matchers.not(activityRule.activity.window.decorView)))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
 }

@@ -8,6 +8,7 @@
     <!--select disease-->
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="text_logout">Logout</string>
+    <string name="logout_flow_exit_dialog_message">You will logout and go back to login screen.</string>
     <!-- CaptureImage -->
     <string name="capture_activity_title">Capture photo</string>
     <string name="image_could_not_be_taken">Image could not be taken</string>
