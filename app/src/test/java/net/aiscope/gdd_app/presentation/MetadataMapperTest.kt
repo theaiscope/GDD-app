@@ -2,32 +2,26 @@ package net.aiscope.gdd_app.presentation
 
 import android.content.Context
 import com.nhaarman.mockito_kotlin.whenever
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
+import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
-@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class MetadataMapperTest {
-    @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
-
     @Mock
     lateinit var context: Context
 
     @Before
-    fun before() = coroutinesTestRule.runBlockingTest {
+    fun before() {
         whenever(context.getString(R.string.malaria_species_p_falciparum))
             .thenReturn("P. falciparum")
         whenever(context.getString(R.string.malaria_species_p_vivax))
@@ -50,22 +44,19 @@ class MetadataMapperTest {
     }
 
     @Test
-    fun shouldReturnSmearType() =
-        coroutinesTestRule.runBlockingTest {
+    fun shouldReturnSmearType() {
             assertEquals(SmearType.THICK, MetadataMapper.getSmearType(R.id.metadata_blood_smear_thick))
             assertEquals(SmearType.THIN, MetadataMapper.getSmearType(R.id.metadata_blood_smear_thin))
         }
 
     @Test
-    fun shouldReturnSmearTypeId() =
-        coroutinesTestRule.runBlockingTest {
-            assertEquals(R.id.metadata_blood_smear_thick, MetadataMapper.getSmearTypeId(SmearType.THICK))
-            assertEquals(R.id.metadata_blood_smear_thin, MetadataMapper.getSmearTypeId(SmearType.THIN))
+    fun shouldReturnSmearTypeId() {
+            assertEquals(R.id.metadata_blood_smear_thick, MetadataMapper.getSmearTypeId(SampleMetadata(smearType = SmearType.THICK)))
+            assertEquals(R.id.metadata_blood_smear_thin, MetadataMapper.getSmearTypeId(SampleMetadata(smearType = SmearType.THIN)))
         }
 
     @Test
-    fun shouldReturnSpecies() =
-        coroutinesTestRule.runBlockingTest {
+    fun shouldReturnSpecies() {
             assertEquals(MalariaSpecies.P_FALCIPARUM, MetadataMapper.getSpecies(context,"P. falciparum"))
             assertEquals(MalariaSpecies.P_VIVAX, MetadataMapper.getSpecies(context,"P. vivax"))
             assertEquals(MalariaSpecies.P_OVALE, MetadataMapper.getSpecies(context,"P. ovale"))
@@ -74,18 +65,16 @@ class MetadataMapperTest {
         }
 
     @Test
-    fun shouldReturnSpeciesValue() =
-        coroutinesTestRule.runBlockingTest {
-            assertEquals("P. falciparum", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_FALCIPARUM))
-            assertEquals("P. vivax", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_VIVAX))
-            assertEquals("P. ovale", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_OVALE))
-            assertEquals("P. malariae", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_MALARIAE))
-            assertEquals("P. knowlesi", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_KNOWLESI))
+    fun shouldReturnSpeciesValue() {
+            assertEquals("P. falciparum", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_FALCIPARUM)))
+            assertEquals("P. vivax", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_VIVAX)))
+            assertEquals("P. ovale", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_OVALE)))
+            assertEquals("P. malariae", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_MALARIAE)))
+            assertEquals("P. knowlesi", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_KNOWLESI)))
         }
 
     @Test
-    fun shouldReturnStage() =
-        coroutinesTestRule.runBlockingTest {
+    fun shouldReturnStage() {
             assertEquals(MalariaStage.RING, MetadataMapper.getStage(context, "Ring"))
             assertEquals(MalariaStage.TROPHOZOITE, MetadataMapper.getStage(context, "Trophozoite"))
             assertEquals(MalariaStage.SCHIZONT, MetadataMapper.getStage(context, "Schizont"))
@@ -93,11 +82,10 @@ class MetadataMapperTest {
         }
 
     @Test
-    fun shouldReturnStageValue() =
-        coroutinesTestRule.runBlockingTest {
-            assertEquals("Ring", MetadataMapper.getStageValue(context, MalariaStage.RING))
-            assertEquals("Trophozoite", MetadataMapper.getStageValue(context, MalariaStage.TROPHOZOITE))
-            assertEquals("Schizont", MetadataMapper.getStageValue(context, MalariaStage.SCHIZONT))
-            assertEquals("Gametocyte", MetadataMapper.getStageValue(context, MalariaStage.GAMETOCYTE))
+    fun shouldReturnStageValue() {
+            assertEquals("Ring", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.RING)))
+            assertEquals("Trophozoite", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.TROPHOZOITE)))
+            assertEquals("Schizont", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.SCHIZONT)))
+            assertEquals("Gametocyte", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.GAMETOCYTE)))
         }
 }

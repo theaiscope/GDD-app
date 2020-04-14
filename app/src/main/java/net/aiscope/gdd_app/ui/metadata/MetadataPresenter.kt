@@ -1,10 +1,7 @@
 package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Context
-import net.aiscope.gdd_app.model.MalariaSpecies
-import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.SampleMetadata
-import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.model.Status
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
@@ -17,9 +14,9 @@ data class ViewStateModel(
     val images: List<File>,
     val options: List<FieldOption>,
     val required: Boolean = true,
-    val smearType: Int? = null,
-    val species: String? = null,
-    val stage: String? = null
+    val smearTypeId: Int? = null,
+    val speciesValue: String? = null,
+    val stageValue: String? = null
 )
 
 class MetadataPresenter @Inject constructor(
@@ -43,9 +40,9 @@ class MetadataPresenter @Inject constructor(
                 sample.disease,
                 sample.images.toList(),
                 emptyList(),
-                smearType = lastMetadata?.let { MetadataMapper.getSmearTypeId(it.smearType) },
-                species = lastMetadata?.let { MetadataMapper.getSpeciesValue(context, it.species) },
-                stage = lastMetadata?.let { MetadataMapper.getStageValue(context, it.stage) }
+                smearTypeId = MetadataMapper.getSmearTypeId(lastMetadata),
+                speciesValue = MetadataMapper.getSpeciesValue(context, lastMetadata),
+                stageValue = MetadataMapper.getStageValue(context, lastMetadata)
             )
         )
     }
@@ -54,9 +51,14 @@ class MetadataPresenter @Inject constructor(
         view.showInvalidFormError()
     }
 
-    suspend fun save(smearType: SmearType, species: MalariaSpecies, stage: MalariaStage) {
+    suspend fun save(smearTypeId: Int, speciesValue: String, stageValue: String) {
         val sample = repository.current()
-            .copy(metadata = SampleMetadata(smearType, species, stage), status = Status.ReadyToUpload)
+            .copy(metadata = SampleMetadata(
+                    MetadataMapper.getSmearType(smearTypeId),
+                    MetadataMapper.getSpecies(context, speciesValue),
+                    MetadataMapper.getStage(context, stageValue)
+                ), status = Status.ReadyToUpload
+            )
         repository.store(sample)
 
         remoteStorage.enqueue(sample, context)

@@ -69,6 +69,9 @@ class MetadataPresenterTest {
         whenever(context.getString(R.string.malaria_species_p_ovale))
             .thenReturn("P. ovale")
 
+        whenever(context.getString(R.string.malaria_species_p_vivax))
+            .thenReturn("P. vivax")
+
         whenever(context.getString(R.string.malaria_stage_trophozoite))
             .thenReturn("Trophozoite")
     }
@@ -86,7 +89,7 @@ class MetadataPresenterTest {
             MalariaStage.TROPHOZOITE
         )
 
-        subject.save(SmearType.THICK, MalariaSpecies.P_VIVAX, MalariaStage.TROPHOZOITE)
+        subject.save(R.id.metadata_blood_smear_thick, "P. vivax", "Trophozoite")
 
         verify(remote).enqueue(check {
             assertEquals(it.metadata, expected)
@@ -121,9 +124,9 @@ class MetadataPresenterTest {
         argumentCaptor<ViewStateModel>().apply{
             subject.showScreen()
             verify(view).fillForm(capture())
-            assertEquals(expectedSmearType, allValues[0].smearType)
-            assertEquals(expectedSpecies, allValues[0].species)
-            assertEquals(expectedStage, allValues[0].stage)
+            assertEquals(expectedSmearType, allValues[0].smearTypeId)
+            assertEquals(expectedSpecies, allValues[0].speciesValue)
+            assertEquals(expectedStage, allValues[0].stageValue)
         }
     }
 }

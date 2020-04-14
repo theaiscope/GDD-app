@@ -50,9 +50,10 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         metadata_save_sample.setOnClickListener {
             coroutineScope.launch {
                 presenter.save(
-                    MetadataMapper.getSmearType(metadata_section_smear_type_radio_group.checkedRadioButtonId),
-                    MetadataMapper.getSpecies(baseContext, metadata_species_spinner.selectedItem),
-                    MetadataMapper.getStage(baseContext, metadata_stage_spinner.selectedItem))
+                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
+                    metadata_species_spinner.selectedItem.toString(),
+                    metadata_stage_spinner.selectedItem.toString()
+                )
             }
         }
     }
@@ -70,9 +71,9 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
-        model.smearType?.let { metadata_section_smear_type_radio_group.check(it) }
-        model.species?.let { selectSpinnerValue(metadata_species_spinner, it) }
-        model.stage?.let { selectSpinnerValue(metadata_stage_spinner, it) }
+        model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
+        model.speciesValue?.let { selectSpinnerValue(metadata_species_spinner, it) }
+        model.stageValue?.let { selectSpinnerValue(metadata_stage_spinner, it) }
     }
 
     override fun showInvalidFormError() {
