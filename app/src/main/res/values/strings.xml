@@ -52,6 +52,7 @@
     <string name="malaria_stage_trophozoite">Trophozoite</string>
     <string name="malaria_stage_schizont">Schizont</string>
     <string name="malaria_stage_gametocyte">Gametocyte</string>
+    <string name="profile">profile</string>
     <string-array name="metadata_malaria_stages">
         <item>Ring</item>
         <item>Trophozoite</item>
