@@ -60,9 +60,9 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         }
     }
 
-    private fun extractImageNameExtra() = intent.getStringExtra(EXTRA_IMAGE_NAME)
+    private fun extractImageNameExtra() = checkNotNull(intent.getStringExtra(EXTRA_IMAGE_NAME))
 
-    private fun extractMaskNameExtra() = intent.getStringExtra(EXTRA_MASK_NAME)
+    private fun extractMaskNameExtra() = checkNotNull(intent.getStringExtra(EXTRA_MASK_NAME))
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
@@ -99,7 +99,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
                     bmp.writeToFileAsync(dest)
                     onPhotoReceived(dest)
                 }
-
             } ?: notifyImageCouldNotBeTaken()
         }
     }

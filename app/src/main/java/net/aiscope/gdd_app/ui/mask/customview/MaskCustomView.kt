@@ -1,18 +1,14 @@
 package net.aiscope.gdd_app.ui.mask.customview
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.Path
 import android.graphics.drawable.Drawable
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
-import android.view.ViewConfiguration
-import androidx.core.graphics.withMatrix
 import com.github.chrisbanes.photoview.PhotoView
-import kotlin.math.abs
 
 class MaskCustomView @JvmOverloads constructor(
     context: Context,
@@ -24,101 +20,105 @@ class MaskCustomView @JvmOverloads constructor(
         const val MAX_SCALE = 5f
     }
 
-    private val maskLayer: MaskLayer = MaskLayer(context, imageMatrix)
-
-    enum class DrawMode {
-        Brush,
-        Erase,
-        Move
+    enum class Mode {
+        Zoom,
+        Draw
     }
 
-    var mode: DrawMode = DrawMode.Brush
-        set(value) {
-            field = value
-            when (mode) {
-                DrawMode.Brush -> maskLayer.enterDrawMode()
-                DrawMode.Erase -> maskLayer.enterEraseMode()
-            }
-        }
-
+    private val maskLayer: MaskLayer = MaskLayer(context, imageMatrix)
+    private var currentMode: Mode = Mode.Draw
+    private lateinit var drawableDimensions: Pair<Int, Int>
 
     init {
         maximumScale = MAX_SCALE
 
-        setOnMatrixChangeListener {
-            maskLayer.onScaleChanged()
-        }
-
-        setOnTouchListener(object : OnTouchListener {
-            private val path = Path()
-            private var mX = 0f
-            private var mY = 0f
-            private val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop
-
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                if (mode == DrawMode.Move) {
-                    return attacher.onTouch(v, event)
-                } else {
-                    val (x, y) = transformPointInverse(event.x, event.y)
-
-                    when (event.action) {
-                        MotionEvent.ACTION_DOWN -> {
-                            path.moveTo(x, y)
-                            mX = x
-                            mY = y
-                        }
-                        MotionEvent.ACTION_UP -> path.reset()
-                        MotionEvent.ACTION_MOVE -> {
-                            val dx = abs(x - mX)
-                            val dy = abs(y - mY)
-                            if (dx >= touchTolerance || dy >= touchTolerance) {
-                                path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
-
-                                mX = x
-                                mY = y
-
-                                maskLayer.onPath(path)
-                                invalidate()
-                            }
-                        }
-                    }
-                    return true
-                }
-            }
-
-            private fun transformPointInverse(x: Float, y: Float): Pair<Float, Float> {
-                val p = floatArrayOf(x, y)
-                val inverseScaleMatrix = Matrix()
-                imageMatrix.invert(inverseScaleMatrix)
-
-                inverseScaleMatrix.mapPoints(p)
-
-                return p[0] to p[1]
-            }
-        })
+        setOnMatrixChangeListener { maskLayer.onScaleChanged() }
     }
 
-    fun getMaskBitmap(): Bitmap? {
-        return maskLayer.getBitmap()
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean =
+        super.onTouchEvent(event) ||
+                when (currentMode) {
+                    Mode.Zoom -> onTouchMove(event)
+                    Mode.Draw -> onTouchDraw(event)
+                }
+
+    private fun onTouchMove(event: MotionEvent) = attacher.onTouch(this, event)
+
+    private fun onTouchDraw(event: MotionEvent): Boolean {
+        val (x, y) = invert(event.x, event.y)
+        val (drawableWidth, drawableHeight) = drawableDimensions
+        if (0 > x || x > drawableWidth || 0 > y || y > drawableHeight) return false
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> maskLayer.drawStart(x, y)
+            MotionEvent.ACTION_MOVE -> {
+                maskLayer.drawMove(x, y)
+                invalidate()
+            }
+        }
+        return true
+    }
+
+    private fun invert(x: Float, y: Float): Pair<Float, Float> {
+        val invertedScaleMatrix = Matrix().apply { imageMatrix.invert(this) }
+        val p = floatArrayOf(x, y).apply { invertedScaleMatrix.mapPoints(this) }
+        return p[0] to p[1]
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.withMatrix(imageMatrix) {
-            maskLayer.draw(this)
-        }
+        maskLayer.onDraw(canvas)
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        maskLayer.onViewResize(width, height)
+    override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
+        super.onSizeChanged(width, height, oldWidth, oldHeight)
+        maskLayer.onViewSizeChanged(width, height)
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
-
-        val drawableWidth = drawable?.intrinsicWidth ?: 0
-        val drawableHeight = drawable?.intrinsicHeight ?: 0
+        drawableDimensions = (drawable?.intrinsicWidth ?: 0) to (drawable?.intrinsicHeight ?: 0)
+        val (drawableWidth, drawableHeight) = drawableDimensions
         maskLayer.init(drawableWidth, drawableHeight)
     }
+
+    override fun onSaveInstanceState(): Parcelable? =
+        MaskCustomViewSavedState(
+            super.onSaveInstanceState(),
+            maskLayer.onSaveInstanceState()
+        )
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        super.onRestoreInstanceState(state)
+        if (state is MaskCustomViewSavedState) {
+            maskLayer.onRestoreInstanceState(state.maskLayerState)
+        }
+    }
+
+    fun zoomMode() {
+        currentMode = Mode.Zoom
+    }
+
+    fun drawMode() {
+        currentMode = Mode.Draw
+    }
+
+    fun getMaskBitmap() = maskLayer.getBitmap()
+
+    fun undo() {
+        maskLayer.undo()
+        invalidate()
+    }
+
+    fun redo() {
+        maskLayer.redo()
+        invalidate()
+    }
+
+    fun undoAvailable() = maskLayer.undoAvailable()
+
+    fun redoAvailable() = maskLayer.redoAvailable()
+
+    class MaskCustomViewSavedState(superState: Parcelable?, val maskLayerState: Parcelable) :
+        BaseSavedState(superState)
 }

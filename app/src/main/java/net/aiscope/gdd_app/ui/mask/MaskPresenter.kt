@@ -28,15 +28,8 @@ class MaskPresenter(
         }
     }
 
-    fun eraseMode() {
-        view.eraseMode()
-    }
-
-    fun brushMode() {
-        view.brushMode()
-    }
-
-    fun moveMode() {
-        view.moveMode()
-    }
+    fun zoomMode() = view.zoomMode()
+    fun drawMode() = view.drawMode()
+    fun drawUndo() = view.drawUndo()
+    fun drawRedo() = view.drawRedo()
 }

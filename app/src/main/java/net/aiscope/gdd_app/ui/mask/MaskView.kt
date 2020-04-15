@@ -5,11 +5,11 @@ import java.io.File
 interface MaskView {
 
     fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit)
-
     fun goToMetadata()
     fun notifyImageCouldNotBeTaken()
     fun loadBitmap(imagePath: String)
-    fun eraseMode()
-    fun brushMode()
-    fun moveMode()
+    fun zoomMode()
+    fun drawMode()
+    fun drawUndo()
+    fun drawRedo()
 }
