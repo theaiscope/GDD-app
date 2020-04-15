@@ -24,7 +24,7 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), SelectDiseaseView {
+class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
 
     @Inject
     lateinit var presenter: SelectDiseasePresenter
@@ -75,12 +75,10 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
         Toast.makeText(this, R.string.error_message_field_empty, Toast.LENGTH_SHORT).show()
     }
 
-    override fun loginSuccess() {
+    override fun logout(success: Boolean) = if (success) {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
-    }
-
-    override fun loginFailure() {
+    } else {
         Toast.makeText(this, R.string.error_message_logout_failure, Toast.LENGTH_SHORT).show()
     }
 
@@ -100,39 +98,7 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView {
         }
     }
 
-    private fun showLogoutDialog(itemView: View) {
-        val context = ContextThemeWrapper(this, R.style.PopupLogoutMenu)
-        val popup = PopupMenu(context, itemView)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(R.menu.menu_options, popup.menu)
-        popup.setOnMenuItemClickListener {
-            when(it.itemId) {
-                R.id.action_logout -> {
-                    showLogoutDialog()
-                    true
-                }
-                else -> false
-            }
-        }
-        popup.show()
+    override fun logoutAction() {
+        this.presenter.logout()
     }
-
-    private fun showLogoutDialog() {
-        with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
-            setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
-                logoutAction()
-            }
-            setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
-                // do nothing
-            }
-            setMessage(getString(R.string.logout_flow_exit_dialog_message))
-            create()
-        }.show()
-    }
-
-    private fun logoutAction() {
-        presenter.logout()
-    }
-
-
 }

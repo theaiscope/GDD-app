@@ -13,11 +13,11 @@ class SelectDiseasePresenter @Inject constructor(
 
     private val logoutCallBack: FirebaseAuthenticator.LogoutCallBack = object : FirebaseAuthenticator.LogoutCallBack {
         override fun onSignOnSuccess() {
-            view.loginSuccess()
+            view.logout(true)
         }
 
         override fun onSignOutFailure() {
-            view.loginFailure()
+            view.logout(false)
         }
     }
 
