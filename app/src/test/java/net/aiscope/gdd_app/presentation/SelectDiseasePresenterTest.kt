@@ -8,6 +8,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.network.FirebaseAuthenticator
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.main.SelectDiseasePresenter
 import net.aiscope.gdd_app.ui.main.SelectDiseaseView
@@ -31,6 +32,9 @@ class SelectDiseasePresenterTest {
 
     @Mock
     lateinit var repository: SampleRepository
+
+    @Mock
+    lateinit var firebaseAuth: FirebaseAuthenticator
 
     @InjectMocks
     lateinit var subject: SelectDiseasePresenter
