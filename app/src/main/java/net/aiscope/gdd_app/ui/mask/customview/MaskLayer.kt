@@ -140,11 +140,17 @@ class MaskLayer(
 
         init {
             val (firstPath, firstPaint) = pathsAndPaints[0]
-            basePathsAndPaintChangesData.add(PathBaseData(firstPath.getPoints()) to PaintChangeBaseData(firstPaint.color, firstPaint.strokeWidth))
+            val firstPathBaseData = PathBaseData(firstPath.getPoints())
+            val firstPaintChangeBaseData = PaintChangeBaseData(firstPaint.color, firstPaint.strokeWidth)
+            basePathsAndPaintChangesData.add(firstPathBaseData to firstPaintChangeBaseData)
             var latestPaint: Paint = firstPaint
             for ((path, paint) in pathsAndPaints.subList(1, pathsAndPaints.size)) {
                 val pathBaseData = PathBaseData(path.getPoints())
-                val paintBaseChangeData = if (paint != latestPaint) PaintChangeBaseData(paint.color, paint.strokeWidth) else null
+                val paintBaseChangeData =
+                    if (paint != latestPaint)
+                        PaintChangeBaseData(paint.color, paint.strokeWidth)
+                    else
+                        null
                 basePathsAndPaintChangesData.add(pathBaseData to paintBaseChangeData)
                 latestPaint = paint
             }
@@ -165,7 +171,13 @@ class MaskLayer(
             lateinit var latestPaint: Paint
             for ((basePath, paintChange) in basePathsAndPaintChangesData) {
                 val path = PointToPointPath(basePath.points)
-                latestPaint = if (paintChange == null) latestPaint else newDefaultPaintBrush(paintChange.color).apply { strokeWidth = paintChange.strokeWidth }
+                latestPaint =
+                    if (paintChange == null)
+                        latestPaint
+                    else
+                        newDefaultPaintBrush(paintChange.color).apply {
+                            strokeWidth = paintChange.strokeWidth
+                        }
                 result.add(path to latestPaint)
             }
             return result

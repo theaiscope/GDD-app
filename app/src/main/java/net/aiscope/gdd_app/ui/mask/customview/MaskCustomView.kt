@@ -48,7 +48,9 @@ class MaskCustomView @JvmOverloads constructor(
     private fun onTouchDraw(event: MotionEvent): Boolean {
         val (x, y) = invert(event.x, event.y)
         val (drawableWidth, drawableHeight) = drawableDimensions
-        if (0 > x || x > drawableWidth || 0 > y || y > drawableHeight) return false
+        val xOffBounds = 0 > x || x > drawableWidth
+        val yOffBounds = 0 > y || y > drawableHeight
+        if (xOffBounds || yOffBounds) return false
         when (event.action) {
             MotionEvent.ACTION_DOWN -> maskLayer.drawStart(x, y)
             MotionEvent.ACTION_MOVE -> {
