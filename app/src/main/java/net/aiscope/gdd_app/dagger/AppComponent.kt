@@ -4,7 +4,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import net.aiscope.gdd_app.application.GddApplication
-import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import javax.inject.Singleton
 
 @Singleton

@@ -22,6 +22,7 @@ data class ViewStateModel(
 class MetadataPresenter @Inject constructor(
     private val view: MetadataView,
     private val repository: SampleRepository,
+    private val metadataMapper: MetadataMapper,
     private val remoteStorage: RemoteStorage,
     private val context: Context
 ) {
@@ -40,9 +41,9 @@ class MetadataPresenter @Inject constructor(
                 sample.disease,
                 sample.images.toList(),
                 emptyList(),
-                smearTypeId = MetadataMapper.getSmearTypeId(lastMetadata),
-                speciesValue = MetadataMapper.getSpeciesValue(context, lastMetadata),
-                stageValue = MetadataMapper.getStageValue(context, lastMetadata)
+                smearTypeId = lastMetadata?.let { metadataMapper.getSmearTypeId(it.smearType) },
+                speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) },
+                stageValue = lastMetadata?.let { metadataMapper.getStageValue(context, it.stage) }
             )
         )
     }
@@ -54,9 +55,9 @@ class MetadataPresenter @Inject constructor(
     suspend fun save(smearTypeId: Int, speciesValue: String, stageValue: String) {
         val sample = repository.current()
             .copy(metadata = SampleMetadata(
-                    MetadataMapper.getSmearType(smearTypeId),
-                    MetadataMapper.getSpecies(context, speciesValue),
-                    MetadataMapper.getStage(context, stageValue)
+                    metadataMapper.getSmearType(smearTypeId),
+                    metadataMapper.getSpecies(context, speciesValue),
+                    metadataMapper.getStage(context, stageValue)
                 ), status = Status.ReadyToUpload
             )
         repository.store(sample)

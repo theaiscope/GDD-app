@@ -4,7 +4,6 @@ import android.content.Context
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
-import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 
 object MetadataMapper {
@@ -18,11 +17,10 @@ object MetadataMapper {
         }
     }
 
-    fun getSmearTypeId(metadata: SampleMetadata?): Int? {
-        return when (metadata?.smearType) {
+    fun getSmearTypeId(smearType: SmearType): Int {
+        return when (smearType) {
             SmearType.THICK -> R.id.metadata_blood_smear_thick
             SmearType.THIN -> R.id.metadata_blood_smear_thin
-            else -> return null;
         }
     }
 
@@ -39,14 +37,13 @@ object MetadataMapper {
         }
     }
 
-    fun getSpeciesValue(context: Context, metadata: SampleMetadata?): String? {
-        return when (metadata?.species) {
+    fun getSpeciesValue(context: Context, species: MalariaSpecies): String {
+        return when (species) {
             MalariaSpecies.P_FALCIPARUM -> context.getString(R.string.malaria_species_p_falciparum)
             MalariaSpecies.P_VIVAX -> context.getString(R.string.malaria_species_p_vivax)
             MalariaSpecies.P_OVALE -> context.getString(R.string.malaria_species_p_ovale)
             MalariaSpecies.P_MALARIAE -> context.getString(R.string.malaria_species_p_malariae)
             MalariaSpecies.P_KNOWLESI -> context.getString(R.string.malaria_species_p_knowlesi)
-            else -> return null;
         }
     }
 
@@ -62,13 +59,12 @@ object MetadataMapper {
         }
     }
 
-    fun getStageValue(context: Context, metadata: SampleMetadata?): String? {
-        return when (metadata?.stage) {
+    fun getStageValue(context: Context, stage: MalariaStage): String {
+        return when (stage) {
             MalariaStage.RING -> context.getString(R.string.malaria_stage_ring)
             MalariaStage.TROPHOZOITE -> context.getString(R.string.malaria_stage_trophozoite)
             MalariaStage.SCHIZONT -> context.getString(R.string.malaria_stage_schizont)
             MalariaStage.GAMETOCYTE -> context.getString(R.string.malaria_stage_gametocyte)
-            else -> return null;
         }
     }
 }

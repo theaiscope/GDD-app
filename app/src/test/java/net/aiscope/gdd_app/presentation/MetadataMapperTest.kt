@@ -5,7 +5,6 @@ import com.nhaarman.mockito_kotlin.whenever
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
-import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import org.junit.Assert.assertEquals
@@ -45,47 +44,47 @@ class MetadataMapperTest {
 
     @Test
     fun shouldReturnSmearType() {
-            assertEquals(SmearType.THICK, MetadataMapper.getSmearType(R.id.metadata_blood_smear_thick))
-            assertEquals(SmearType.THIN, MetadataMapper.getSmearType(R.id.metadata_blood_smear_thin))
-        }
+        assertEquals(SmearType.THICK, MetadataMapper.getSmearType(R.id.metadata_blood_smear_thick))
+        assertEquals(SmearType.THIN, MetadataMapper.getSmearType(R.id.metadata_blood_smear_thin))
+    }
 
     @Test
     fun shouldReturnSmearTypeId() {
-            assertEquals(R.id.metadata_blood_smear_thick, MetadataMapper.getSmearTypeId(SampleMetadata(smearType = SmearType.THICK)))
-            assertEquals(R.id.metadata_blood_smear_thin, MetadataMapper.getSmearTypeId(SampleMetadata(smearType = SmearType.THIN)))
-        }
+        assertEquals(R.id.metadata_blood_smear_thick, MetadataMapper.getSmearTypeId(SmearType.THICK))
+        assertEquals(R.id.metadata_blood_smear_thin, MetadataMapper.getSmearTypeId(SmearType.THIN))
+    }
 
     @Test
     fun shouldReturnSpecies() {
-            assertEquals(MalariaSpecies.P_FALCIPARUM, MetadataMapper.getSpecies(context,"P. falciparum"))
-            assertEquals(MalariaSpecies.P_VIVAX, MetadataMapper.getSpecies(context,"P. vivax"))
-            assertEquals(MalariaSpecies.P_OVALE, MetadataMapper.getSpecies(context,"P. ovale"))
-            assertEquals(MalariaSpecies.P_MALARIAE, MetadataMapper.getSpecies(context,"P. malariae"))
-            assertEquals(MalariaSpecies.P_KNOWLESI, MetadataMapper.getSpecies(context,"P. knowlesi"))
-        }
+        assertEquals(MalariaSpecies.P_FALCIPARUM, MetadataMapper.getSpecies(context, "P. falciparum"))
+        assertEquals(MalariaSpecies.P_VIVAX, MetadataMapper.getSpecies(context, "P. vivax"))
+        assertEquals(MalariaSpecies.P_OVALE, MetadataMapper.getSpecies(context, "P. ovale"))
+        assertEquals(MalariaSpecies.P_MALARIAE, MetadataMapper.getSpecies(context, "P. malariae"))
+        assertEquals(MalariaSpecies.P_KNOWLESI, MetadataMapper.getSpecies(context, "P. knowlesi"))
+    }
 
     @Test
     fun shouldReturnSpeciesValue() {
-            assertEquals("P. falciparum", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_FALCIPARUM)))
-            assertEquals("P. vivax", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_VIVAX)))
-            assertEquals("P. ovale", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_OVALE)))
-            assertEquals("P. malariae", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_MALARIAE)))
-            assertEquals("P. knowlesi", MetadataMapper.getSpeciesValue(context, SampleMetadata(species = MalariaSpecies.P_KNOWLESI)))
-        }
+        assertEquals("P. falciparum", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_FALCIPARUM))
+        assertEquals("P. vivax", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_VIVAX))
+        assertEquals("P. ovale", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_OVALE))
+        assertEquals("P. malariae", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_MALARIAE))
+        assertEquals("P. knowlesi", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_KNOWLESI))
+    }
 
     @Test
     fun shouldReturnStage() {
-            assertEquals(MalariaStage.RING, MetadataMapper.getStage(context, "Ring"))
-            assertEquals(MalariaStage.TROPHOZOITE, MetadataMapper.getStage(context, "Trophozoite"))
-            assertEquals(MalariaStage.SCHIZONT, MetadataMapper.getStage(context, "Schizont"))
-            assertEquals(MalariaStage.GAMETOCYTE, MetadataMapper.getStage(context, "Gametocyte"))
-        }
+        assertEquals(MalariaStage.RING, MetadataMapper.getStage(context, "Ring"))
+        assertEquals(MalariaStage.TROPHOZOITE, MetadataMapper.getStage(context, "Trophozoite"))
+        assertEquals(MalariaStage.SCHIZONT, MetadataMapper.getStage(context, "Schizont"))
+        assertEquals(MalariaStage.GAMETOCYTE, MetadataMapper.getStage(context, "Gametocyte"))
+    }
 
     @Test
     fun shouldReturnStageValue() {
-            assertEquals("Ring", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.RING)))
-            assertEquals("Trophozoite", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.TROPHOZOITE)))
-            assertEquals("Schizont", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.SCHIZONT)))
-            assertEquals("Gametocyte", MetadataMapper.getStageValue(context, SampleMetadata(stage = MalariaStage.GAMETOCYTE)))
-        }
+        assertEquals("Ring", MetadataMapper.getStageValue(context, MalariaStage.RING))
+        assertEquals("Trophozoite", MetadataMapper.getStageValue(context, MalariaStage.TROPHOZOITE))
+        assertEquals("Schizont", MetadataMapper.getStageValue(context, MalariaStage.SCHIZONT))
+        assertEquals("Gametocyte", MetadataMapper.getStageValue(context, MalariaStage.GAMETOCYTE))
+    }
 }

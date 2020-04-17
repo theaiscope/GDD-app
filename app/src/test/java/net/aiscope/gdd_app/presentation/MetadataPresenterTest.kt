@@ -16,6 +16,7 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
 import net.aiscope.gdd_app.ui.metadata.MetadataView
 import net.aiscope.gdd_app.ui.metadata.ViewStateModel
@@ -48,6 +49,8 @@ class MetadataPresenterTest {
     @Mock
     lateinit var context: Context
 
+    @Mock
+    lateinit var metadataMapper: MetadataMapper
 
     @InjectMocks
     lateinit var subject: MetadataPresenter
@@ -66,13 +69,17 @@ class MetadataPresenterTest {
 
         repository.current()
 
-        whenever(context.getString(R.string.malaria_species_p_ovale))
+        whenever(metadataMapper.getSmearType(R.id.metadata_blood_smear_thick))
+            .thenReturn(SmearType.THICK)
+        whenever(metadataMapper.getSmearTypeId(SmearType.THIN))
+            .thenReturn(R.id.metadata_blood_smear_thin)
+        whenever(metadataMapper.getSpecies(context, "P. vivax"))
+            .thenReturn(MalariaSpecies.P_VIVAX)
+        whenever(metadataMapper.getSpeciesValue(context, MalariaSpecies.P_OVALE))
             .thenReturn("P. ovale")
-
-        whenever(context.getString(R.string.malaria_species_p_vivax))
-            .thenReturn("P. vivax")
-
-        whenever(context.getString(R.string.malaria_stage_trophozoite))
+        whenever(metadataMapper.getStage(context, "Trophozoite"))
+            .thenReturn(MalariaStage.TROPHOZOITE)
+        whenever(metadataMapper.getStageValue(context, MalariaStage.TROPHOZOITE))
             .thenReturn("Trophozoite")
     }
 
