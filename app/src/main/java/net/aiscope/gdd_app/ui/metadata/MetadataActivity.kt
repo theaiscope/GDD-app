@@ -125,7 +125,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
             .show()
     }
 
-    override fun finishFlow() {
+    private fun finishFlow() {
         Snackbar.make(
             findViewById(android.R.id.content),
             "Sample saved!",
@@ -138,10 +138,10 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
                 }
             })
             .show()
-        }
+    }
 
 
-override fun captureImage(nextImageName: String, nextMaskName: String) {
+    override fun captureImage(nextImageName: String, nextMaskName: String) {
         val intent = Intent(this, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
         intent.putExtra(CaptureImageActivity.EXTRA_MASK_NAME, nextMaskName)
