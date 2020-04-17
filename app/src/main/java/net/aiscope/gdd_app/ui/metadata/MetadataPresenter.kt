@@ -47,8 +47,6 @@ class MetadataPresenter @Inject constructor(
         repository.store(sample)
 
         remoteStorage.enqueue(sample, context)
-
-        view.finishFlow()
     }
 
     suspend fun addImage() {
