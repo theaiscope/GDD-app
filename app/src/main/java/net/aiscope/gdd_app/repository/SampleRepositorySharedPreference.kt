@@ -3,6 +3,8 @@ package net.aiscope.gdd_app.repository
 import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.Gson
 import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.model.Status
+import java.util.Calendar
 import javax.inject.Inject
 
 class SampleRepositorySharedPreference @Inject constructor(
@@ -21,7 +23,7 @@ class SampleRepositorySharedPreference @Inject constructor(
     override suspend fun create(): Sample {
         val uuid = uuid.generateUUID()
         val facility = healthFacilityRepository.load()
-        val sample = Sample(uuid, facility.id, facility.microscopist)
+        val sample = Sample(uuid, facility.id, facility.microscopist, createdOn = Calendar.getInstance())
 
         currentSample = sample
         return sample
@@ -46,5 +48,13 @@ class SampleRepositorySharedPreference @Inject constructor(
         return jsons.map {
             gson.fromJson<SampleDto>(it).toDomain()
         }.toList()
+    }
+
+    override suspend fun last(): Sample? {
+        val allStores = all()
+        return allStores
+            .filter{s -> s.createdOn != null
+                        && s.status != Status.Incomplete}
+            .sortedBy { it.createdOn }.lastOrNull()
     }
 }

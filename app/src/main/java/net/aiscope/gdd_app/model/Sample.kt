@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.model
 
 import net.aiscope.gdd_app.extensions.plus
 import java.io.File
+import java.util.Calendar
 
 enum class Status(val id: Short) {
     Incomplete(0), ReadyToUpload(1), Uploaded(2)
@@ -43,7 +44,8 @@ data class Sample(
     val images: LinkedHashSet<File> = linkedSetOf(),
     val masks: LinkedHashSet<File> = linkedSetOf(),
     val metadata: SampleMetadata = SampleMetadata(),
-    val status: Status = Status.Incomplete
+    val status: Status = Status.Incomplete,
+    val createdOn: Calendar? = null
 ) {
     fun addImage(path: File) = copy(images = images + path)
 

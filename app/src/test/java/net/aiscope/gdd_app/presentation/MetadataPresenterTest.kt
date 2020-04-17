@@ -2,11 +2,13 @@ package net.aiscope.gdd_app.presentation
 
 import android.content.Context
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.check
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
+import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.Sample
@@ -14,8 +16,10 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
 import net.aiscope.gdd_app.ui.metadata.MetadataView
+import net.aiscope.gdd_app.ui.metadata.ViewStateModel
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -45,6 +49,8 @@ class MetadataPresenterTest {
     @Mock
     lateinit var context: Context
 
+    @Mock
+    lateinit var metadataMapper: MetadataMapper
 
     @InjectMocks
     lateinit var subject: MetadataPresenter
@@ -62,6 +68,19 @@ class MetadataPresenterTest {
         )
 
         repository.current()
+
+        whenever(metadataMapper.getSmearType(R.id.metadata_blood_smear_thick))
+            .thenReturn(SmearType.THICK)
+        whenever(metadataMapper.getSmearTypeId(SmearType.THIN))
+            .thenReturn(R.id.metadata_blood_smear_thin)
+        whenever(metadataMapper.getSpecies(context, "P. vivax"))
+            .thenReturn(MalariaSpecies.P_VIVAX)
+        whenever(metadataMapper.getSpeciesValue(context, MalariaSpecies.P_OVALE))
+            .thenReturn("P. ovale")
+        whenever(metadataMapper.getStage(context, "Trophozoite"))
+            .thenReturn(MalariaStage.TROPHOZOITE)
+        whenever(metadataMapper.getStageValue(context, MalariaStage.TROPHOZOITE))
+            .thenReturn("Trophozoite")
     }
 
     @Test
@@ -77,7 +96,7 @@ class MetadataPresenterTest {
             MalariaStage.TROPHOZOITE
         )
 
-        subject.save(SmearType.THICK, MalariaSpecies.P_VIVAX, MalariaStage.TROPHOZOITE)
+        subject.save(R.id.metadata_blood_smear_thick, "P. vivax", "Trophozoite")
 
         verify(remote).enqueue(check {
             assertEquals(it.metadata, expected)
@@ -85,5 +104,36 @@ class MetadataPresenterTest {
         verify(repository).store(check {
             assertEquals(it.metadata, expected)
         })
+    }
+
+    @Test
+    fun shouldDefaultToLastMetadata() = coroutinesTestRule.runBlockingTest{
+        val expectedSmearType = R.id.metadata_blood_smear_thin
+        val expectedSpecies = "P. ovale"
+        val expectedStage = "Trophozoite"
+
+        whenever(repository.last()).thenReturn(
+            Sample(
+                id = "idlast",
+                healthFacility = "StPau",
+                microscopist = "a microscopist",
+                images = linkedSetOf(),
+                disease = "malaria",
+                createdOn = java.util.Calendar.getInstance(),
+                metadata = SampleMetadata(
+                    SmearType.THIN,
+                    MalariaSpecies.P_OVALE,
+                    MalariaStage.TROPHOZOITE
+                )
+            )
+        )
+
+        argumentCaptor<ViewStateModel>().apply{
+            subject.showScreen()
+            verify(view).fillForm(capture())
+            assertEquals(expectedSmearType, allValues[0].smearTypeId)
+            assertEquals(expectedSpecies, allValues[0].speciesValue)
+            assertEquals(expectedStage, allValues[0].stageValue)
+        }
     }
 }

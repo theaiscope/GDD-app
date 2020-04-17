@@ -9,4 +9,5 @@ interface SampleRepository {
     suspend fun current(): Sample
 
     fun all(): List<Sample>
+    suspend fun last(): Sample?
 }

@@ -9,6 +9,7 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.model.Status
 import java.io.File
+import java.util.Calendar
 
 data class SampleMetadataDto(
     @SerializedName("bloodType") val bloodType: Int,
@@ -24,7 +25,8 @@ data class SampleDto(
     val imagePaths: List<String>,
     val maskPaths: List<String>,
     val metadata: SampleMetadataDto,
-    val status: Short
+    val status: Short,
+    val createdOn: Calendar? = null
 ) {
     fun toDomain(): Sample = Sample(
         id = id,
@@ -38,7 +40,8 @@ data class SampleDto(
             MalariaSpecies.values().first { it.id == metadata.species },
             MalariaStage.values().first { it.id == metadata.stage }
         ),
-        status = Status.values().first { it.id == status }
+        status = Status.values().first { it.id == status },
+        createdOn = createdOn
     )
 }
 
@@ -50,5 +53,6 @@ fun Sample.toDto() = SampleDto(
     imagePaths = images.map { it.absolutePath },
     maskPaths = masks.map { it.absolutePath },
     metadata = SampleMetadataDto(metadata.smearType.id, metadata.species.id, metadata.stage.id),
-    status = status.id
+    status = status.id,
+    createdOn = createdOn
 )
