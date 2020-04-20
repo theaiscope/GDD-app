@@ -128,7 +128,10 @@ class MaskLayer(
         return p[Matrix.MSCALE_X]
     }
 
-    class CustomViewBaseState(pathsAndPaints: List<Pair<PointToPointPath, Paint>>, val undoPendingPaths: Int) : Parcelable {
+    class CustomViewBaseState(
+        pathsAndPaints: List<Pair<PointToPointPath, Paint>>,
+        val undoPendingPaths: Int
+    ) : Parcelable {
 
         companion object CREATOR : Parcelable.Creator<CustomViewBaseState> {
             override fun createFromParcel(parcel: Parcel): CustomViewBaseState {
