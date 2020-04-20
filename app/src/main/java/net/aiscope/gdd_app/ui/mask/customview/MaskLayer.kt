@@ -79,7 +79,6 @@ class MaskLayer(
 
     fun drawStart(x: Float, y: Float) {
         currentPath = PointToPointPath(x, y)
-        addPath(currentPath)
     }
 
     fun drawMove(x: Float, y: Float) {
@@ -89,13 +88,17 @@ class MaskLayer(
         val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop
         if (dX >= touchTolerance || dY >= touchTolerance) {
             currentPath.quadTo(x, y)
+            if (pathsAndPaints.isEmpty() || currentPath != pathsAndPaints.last().first) {
+                addPath(currentPath)
+            }
         }
     }
 
-    fun onSaveInstanceState() = CustomViewBaseState(pathsAndPaints)
+    fun onSaveInstanceState() = CustomViewBaseState(pathsAndPaints, undoPendingPaths)
 
     fun onRestoreInstanceState(savedState: Parcelable) {
         if (savedState is CustomViewBaseState) {
+            undoPendingPaths = savedState.undoPendingPaths
             pathsAndPaints.addAll(savedState.composePathsAndPaints())
         }
     }
@@ -124,7 +127,7 @@ class MaskLayer(
         return p[Matrix.MSCALE_X]
     }
 
-    class CustomViewBaseState(pathsAndPaints: List<Pair<PointToPointPath, Paint>>) : Parcelable {
+    class CustomViewBaseState(pathsAndPaints: List<Pair<PointToPointPath, Paint>>, val undoPendingPaths: Int) : Parcelable {
 
         companion object CREATOR : Parcelable.Creator<CustomViewBaseState> {
             override fun createFromParcel(parcel: Parcel): CustomViewBaseState {
@@ -139,29 +142,34 @@ class MaskLayer(
         val basePathsAndPaintChangesData: MutableList<Pair<PathBaseData, PaintChangeBaseData?>> = LinkedList()
 
         init {
-            val (firstPath, firstPaint) = pathsAndPaints[0]
-            val firstPathBaseData = PathBaseData(firstPath.getPoints())
-            val firstPaintChangeBaseData = PaintChangeBaseData(firstPaint.color, firstPaint.strokeWidth)
-            basePathsAndPaintChangesData.add(firstPathBaseData to firstPaintChangeBaseData)
-            var latestPaint: Paint = firstPaint
-            for ((path, paint) in pathsAndPaints.subList(1, pathsAndPaints.size)) {
-                val pathBaseData = PathBaseData(path.getPoints())
-                val paintBaseChangeData =
-                    if (paint != latestPaint)
-                        PaintChangeBaseData(paint.color, paint.strokeWidth)
-                    else
-                        null
-                basePathsAndPaintChangesData.add(pathBaseData to paintBaseChangeData)
-                latestPaint = paint
+            if (pathsAndPaints.isNotEmpty()) {
+                val (firstPath, firstPaint) = pathsAndPaints[0]
+                val firstPathBaseData = PathBaseData(firstPath.getPoints())
+                val firstPaintChangeBaseData =
+                    PaintChangeBaseData(firstPaint.color, firstPaint.strokeWidth)
+                basePathsAndPaintChangesData.add(firstPathBaseData to firstPaintChangeBaseData)
+                var latestPaint: Paint = firstPaint
+                for ((path, paint) in pathsAndPaints.subList(1, pathsAndPaints.size)) {
+                    val pathPoints = path.getPoints()
+                    val pathBaseData = PathBaseData(pathPoints)
+                    val paintBaseChangeData =
+                        if (paint != latestPaint)
+                            PaintChangeBaseData(paint.color, paint.strokeWidth)
+                        else
+                            null
+                    basePathsAndPaintChangesData.add(pathBaseData to paintBaseChangeData)
+                    latestPaint = paint
+                }
             }
         }
 
         constructor(parcel: Parcel) : this(LinkedList<Pair<PointToPointPath, Paint>>().apply {
             parcel.readList(this as List<*>, Pair::class.java.classLoader)
-        })
+        }, parcel.readInt())
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeList(basePathsAndPaintChangesData as List<*>)
+            parcel.writeInt(undoPendingPaths)
         }
 
         override fun describeContents() = 0
