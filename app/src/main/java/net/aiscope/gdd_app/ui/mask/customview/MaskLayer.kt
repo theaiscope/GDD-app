@@ -13,6 +13,7 @@ import net.aiscope.gdd_app.R
 import java.util.*
 import kotlin.math.abs
 
+@Suppress("TooManyFunctions")
 class MaskLayer(
     private val context: Context,
     private val scaleMatrix: Matrix

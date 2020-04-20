@@ -23,6 +23,7 @@ import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import java.io.File
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
     companion object {

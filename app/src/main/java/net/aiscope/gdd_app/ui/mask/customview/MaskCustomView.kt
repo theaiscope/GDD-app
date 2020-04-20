@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import com.github.chrisbanes.photoview.PhotoView
 
+@Suppress("TooManyFunctions")
 class MaskCustomView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
