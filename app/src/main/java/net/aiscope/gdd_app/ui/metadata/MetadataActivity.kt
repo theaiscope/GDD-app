@@ -68,11 +68,11 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
     private fun save() {
         coroutineScope.launch {
-            presenter.save(selectedSmearType(), selectedSpecies(), selectedStage())
-        }.invokeOnCompletion { error: Throwable? ->
-            if(error == null) {
+            try {
+                presenter.save(selectedSmearType(), selectedSpecies(), selectedStage())
                 finishFlow()
-            } else {
+            }
+            catch(e: Throwable) {
                 showRetryBar()
             }
         }
@@ -119,16 +119,16 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     private fun showRetryBar() {
         Snackbar.make(
             findViewById(android.R.id.content),
-            "Error saving sample",
+            "An error occurred while saving your sample. Please try again. ",
             Snackbar.LENGTH_LONG)
-            .setAction("Retry") { save() }
+            .setAction("Try again") { save() }
             .show()
     }
 
     private fun finishFlow() {
         Snackbar.make(
             findViewById(android.R.id.content),
-            "Sample saved!",
+            "Sample saved successfully!",
             Snackbar.LENGTH_LONG)
             .addCallback(object :
                 BaseCallback<Snackbar?>() {
