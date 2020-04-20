@@ -6,6 +6,8 @@ import android.widget.AbsSpinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar.BaseCallback
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -49,11 +51,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
         metadata_save_sample.setOnClickListener {
             coroutineScope.launch {
-                presenter.save(
-                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
-                    metadata_species_spinner.selectedItem.toString(),
-                    metadata_stage_spinner.selectedItem.toString()
-                )
+                save()
             }
         }
     }
@@ -80,8 +78,44 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         Toast.makeText(this, R.string.metadata_invalid_form, Toast.LENGTH_SHORT).show()
     }
 
-    override fun finishFlow() {
-        goToHome()
+    private fun save() {
+        coroutineScope.launch {
+            try {
+                presenter.save(
+                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
+                    metadata_species_spinner.selectedItem.toString(),
+                    metadata_stage_spinner.selectedItem.toString()
+                )
+                finishFlow()
+            }
+            catch(e: Throwable) {
+                showRetryBar()
+            }
+        }
+    }
+
+    private fun showRetryBar() {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            "An error occurred while saving your sample. Please try again. ",
+            Snackbar.LENGTH_LONG)
+            .setAction("Try again") { save() }
+            .show()
+    }
+
+    private fun finishFlow() {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            "Sample saved successfully!",
+            Snackbar.LENGTH_LONG)
+            .addCallback(object :
+                BaseCallback<Snackbar?>() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    goToHome()
+                    super.onDismissed(transientBottomBar, event)
+                }
+            })
+            .show()
     }
 
     override fun captureImage(nextImageName: String, nextMaskName: String) {
