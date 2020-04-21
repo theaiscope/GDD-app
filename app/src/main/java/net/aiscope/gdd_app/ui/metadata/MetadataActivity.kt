@@ -108,12 +108,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun finishFlow() {
-        Snackbar.make(
-            findViewById(android.R.id.content),
-            buildSnackbarContent(R.string.metadata_snackbar_success,R.drawable.ic_thumb_up),
-            Snackbar.LENGTH_SHORT)
-            .setActionOnDismissed { goToHome() }
-            .show()
+        goToHome(true)
     }
 
     override fun captureImage(nextImageName: String, nextMaskName: String) {

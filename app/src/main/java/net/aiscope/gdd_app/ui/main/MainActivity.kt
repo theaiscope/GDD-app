@@ -3,15 +3,12 @@ package net.aiscope.gdd_app.ui.main
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.extensions.buildSnackbarContent
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import javax.inject.Inject
@@ -44,6 +42,14 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
             coroutineScope.launch {
                 presenter.saveDisease(dropdown_select_disease.selectedItem.toString())
             }
+        }
+
+        if(intent.hasExtra("SAMPLE_SAVED")) {
+            Snackbar.make(
+                findViewById(android.R.id.content),
+                buildSnackbarContent(R.string.metadata_snackbar_success,R.drawable.ic_thumb_up),
+                Snackbar.LENGTH_LONG)
+                .show()
         }
     }
 

@@ -1,16 +1,19 @@
 package net.aiscope.gdd_app
 
 import android.Manifest
+import android.content.Intent
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
@@ -109,4 +112,33 @@ class MainActivityTest {
             .inRoot(RootMatchers.withDecorView(Matchers.not(activityRule.activity.window.decorView)))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
+
+    @Test
+     fun shouldShowSuccessMessageWhenSampleSavedFromMetadataDialog() {
+        val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+        val intent = Intent(targetContext, MainActivity::class.java)
+        intent.putExtra("SAMPLE_SAVED", "OK")
+
+        activityRule.launchActivity(intent)
+
+       Espresso
+           .onView(ViewMatchers.withSubstring(targetContext.resources.getString(R.string.metadata_snackbar_success)))
+           .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun shouldNotShowSuccessMessageWhenNotComingFromMetadataDialog() {
+        val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+        val intent = Intent(targetContext, MainActivity::class.java)
+
+        activityRule.launchActivity(intent)
+
+        Espresso
+            .onView(ViewMatchers.withSubstring(targetContext.resources.getString(R.string.metadata_snackbar_success)))
+            .check(doesNotExist())
+    }
 }
+
+
