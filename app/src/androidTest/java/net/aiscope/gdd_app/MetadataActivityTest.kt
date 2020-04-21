@@ -54,5 +54,7 @@ class MetadataActivityTest {
 
         // Save button click
         onView(withText("SAVE SAMPLE")).perform(click())
+
+        onView(withText("Sample saved successfully!")).check(matches(isDisplayed()))
     }
 }
