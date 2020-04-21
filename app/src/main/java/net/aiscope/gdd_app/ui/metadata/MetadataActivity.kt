@@ -97,16 +97,16 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     private fun showRetryBar() {
         Snackbar.make(
             findViewById(android.R.id.content),
-            "An error occurred while saving your sample. Please try again. ",
+            R.string.metadata_snackbar_error,
             Snackbar.LENGTH_LONG)
-            .setAction("Try again") { save() }
+            .setAction(R.string.metadata_snackbar_retry) { save() }
             .show()
     }
 
     private fun finishFlow() {
         Snackbar.make(
             findViewById(android.R.id.content),
-            "Sample saved successfully!",
+            R.string.metadata_snackbar_success,
             Snackbar.LENGTH_LONG)
             .addCallback(object :
                 BaseCallback<Snackbar?>() {

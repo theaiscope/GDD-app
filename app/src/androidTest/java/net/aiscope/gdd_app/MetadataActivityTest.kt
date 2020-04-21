@@ -53,8 +53,8 @@ class MetadataActivityTest {
         onData(anything()).atPosition(1).perform(click())
 
         // Save button click
-        onView(withText("SAVE SAMPLE")).perform(click())
+        onView(withText(R.string.metadata_save_sample)).perform(click())
 
-        onView(withText("Sample saved successfully!")).check(matches(isDisplayed()))
+        onView(withText(R.string.metadata_snackbar_success)).check(matches(isDisplayed()))
     }
 }
