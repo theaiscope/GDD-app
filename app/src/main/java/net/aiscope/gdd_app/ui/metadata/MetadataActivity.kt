@@ -1,10 +1,18 @@
 package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.style.ImageSpan
 import android.widget.AbsSpinner
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.color
+import androidx.core.text.scale
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.BaseTransientBottomBar.BaseCallback
 import com.google.android.material.snackbar.Snackbar
@@ -95,28 +103,45 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun showRetryBar() {
-        Snackbar.make(
+        val snackbar = Snackbar.make(
             findViewById(android.R.id.content),
-            R.string.metadata_snackbar_error,
+            buildSnackbarContent(R.string.metadata_snackbar_error),
             Snackbar.LENGTH_LONG)
             .setAction(R.string.metadata_snackbar_retry) { save() }
-            .show()
+
+        val snackbarActionTextView =
+            snackbar.view.findViewById(R.id.snackbar_action) as TextView
+        snackbarActionTextView.setTypeface(snackbarActionTextView.typeface, Typeface.BOLD)
+
+        snackbar.show()
     }
 
     private fun finishFlow() {
         Snackbar.make(
             findViewById(android.R.id.content),
-            R.string.metadata_snackbar_success,
-            Snackbar.LENGTH_LONG)
+            buildSnackbarContent(R.string.metadata_snackbar_success,R.drawable.ic_thumb_up),
+            Snackbar.LENGTH_SHORT)
             .addCallback(object :
                 BaseCallback<Snackbar?>() {
                 override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                     goToHome()
-                    super.onDismissed(transientBottomBar, event)
+                    super .onDismissed(transientBottomBar, event)
                 }
             })
             .show()
     }
+
+    private fun buildSnackbarContent(@StringRes text: Int, @DrawableRes icon: Int? = null): SpannableStringBuilder {
+        val builder = SpannableStringBuilder()
+        if(icon != null) {
+            builder.append("  ")
+            builder.setSpan(ImageSpan(this, icon), builder.length - 1, builder.length, 0)
+            builder.append("  ")
+        }
+        builder.color(getColor(R.color.colorPlainText)) { scale(1.2f) { append(getString(text)) } }
+        return builder
+    }
+
 
     override fun captureImage(nextImageName: String, nextMaskName: String) {
         val intent = Intent(this, CaptureImageActivity::class.java)
