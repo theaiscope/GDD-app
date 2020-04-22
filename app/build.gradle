@@ -119,7 +119,7 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
     }
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito-inline:$mockito_version"
-
+    androidTestImplementation 'com.azimolabs.conditionwatcher:conditionwatcher:0.2'
 
     // Test
     testImplementation 'junit:junit:4.13'

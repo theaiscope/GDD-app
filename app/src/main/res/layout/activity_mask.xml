@@ -9,7 +9,7 @@
     <include layout="@layout/toolbar" />
 
     <net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
-        android:id="@+id/maskView"
+        android:id="@+id/mask_custom_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -18,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:paddingTop="4dp"
         android:paddingBottom="4dp">
 
@@ -30,20 +29,6 @@
             android:orientation="horizontal"
             android:paddingStart="4dp"
             android:paddingEnd="4dp">
-
-            <RadioButton
-                android:id="@+id/draw_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="5"
-                android:button="@null"
-                android:buttonTint="@color/button_selector"
-                android:drawableTop="@drawable/ic_draw"
-                android:drawableTint="@color/button_selector"
-                android:gravity="center"
-                android:paddingStart="14dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="14dp" />
 
             <RadioButton
                 android:id="@+id/zoom_btn"
@@ -60,12 +45,13 @@
                 android:paddingEnd="14dp" />
 
             <RadioButton
-                android:id="@+id/delete_btn"
+                android:id="@+id/draw_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="5"
                 android:button="@null"
-                android:drawableTop="@drawable/ic_delete"
+                android:buttonTint="@color/button_selector"
+                android:drawableTop="@drawable/ic_draw"
                 android:drawableTint="@color/button_selector"
                 android:gravity="center"
                 android:paddingStart="14dp"
@@ -73,13 +59,43 @@
                 android:paddingEnd="14dp" />
         </RadioGroup>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/undo_btn"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@color/colorPrimaryDark"
+                android:contentDescription="@string/mask_activity_undo"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:src="@drawable/ic_undo"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/redo_btn"
+                style="@style/Widget.AppCompat.ImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@color/colorPrimaryDark"
+                android:contentDescription="@string/mask_activity_redo"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:src="@drawable/ic_redo"
+                android:visibility="invisible" />
+        </LinearLayout>
+
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/getBitmap"
+            android:id="@+id/get_bitmap_btn"
             style="@style/AppTheme.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

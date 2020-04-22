@@ -20,23 +20,9 @@ class MaskPresenter(
         }
     }
 
-    fun start(imagePath: String?) {
-        if (imagePath == null) {
-            view.notifyImageCouldNotBeTaken()
-        } else {
-            view.loadBitmap(imagePath)
-        }
-    }
-
-    fun eraseMode() {
-        view.eraseMode()
-    }
-
-    fun brushMode() {
-        view.brushMode()
-    }
-
-    fun moveMode() {
-        view.moveMode()
-    }
+    fun start(imagePath: String) = view.loadBitmap(imagePath)
+    fun zoomMode() = view.zoomMode()
+    fun drawMode() = view.drawMode()
+    fun drawUndo() = view.drawUndo()
+    fun drawRedo() = view.drawRedo()
 }
