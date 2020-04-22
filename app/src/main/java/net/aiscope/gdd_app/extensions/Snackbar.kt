@@ -12,6 +12,8 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import net.aiscope.gdd_app.R
 
+const val SNACKBAR_TEXT_SCALE = 1.2f
+
 fun Snackbar.setActionOnDismissed(action: () -> Unit): Snackbar {
     return addCallback(object :
         BaseTransientBottomBar.BaseCallback<Snackbar?>() {
@@ -37,6 +39,6 @@ fun Context.buildSnackbarContent(@StringRes text: Int, @DrawableRes icon: Int? =
         builder.setSpan(ImageSpan(this, icon), builder.length - 1, builder.length, 0)
         builder.append("  ")
     }
-    builder.color(getColor(R.color.colorPlainText)) { scale(1.2f) { append(getString(text)) } }
+    builder.color(getColor(R.color.colorPlainText)) { scale(SNACKBAR_TEXT_SCALE) { append(getString(text)) } }
     return builder
 }

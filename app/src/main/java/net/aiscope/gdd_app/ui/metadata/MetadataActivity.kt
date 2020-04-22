@@ -23,6 +23,7 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHome
+import timber.log.Timber
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
@@ -91,7 +92,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
                 )
                 finishFlow()
             }
-            catch(e: Throwable) {
+            catch(@Suppress("TooGenericExceptionCaught") error: Throwable) {
+                Timber.e(error, "An error occurred when saving sample")
                 showRetryBar()
             }
         }
