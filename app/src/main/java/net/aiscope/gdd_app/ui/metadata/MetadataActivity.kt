@@ -18,12 +18,10 @@ import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.buildSnackbarContent
 import net.aiscope.gdd_app.extensions.setActionFontType
-import net.aiscope.gdd_app.extensions.setActionOnDismissed
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHome
-import timber.log.Timber
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
@@ -82,24 +80,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         Toast.makeText(this, R.string.metadata_invalid_form, Toast.LENGTH_SHORT).show()
     }
 
-    private fun save() {
-        coroutineScope.launch {
-            try {
-                presenter.save(
-                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
-                    metadata_species_spinner.selectedItem.toString(),
-                    metadata_stage_spinner.selectedItem.toString()
-                )
-                finishFlow()
-            }
-            catch(@Suppress("TooGenericExceptionCaught") error: Throwable) {
-                Timber.e(error, "An error occurred when saving sample")
-                showRetryBar()
-            }
-        }
-    }
-
-    private fun showRetryBar() {
+    override fun showRetryBar() {
         Snackbar.make(
             findViewById(android.R.id.content),
             buildSnackbarContent(R.string.metadata_snackbar_error),
@@ -109,7 +90,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
             .show()
     }
 
-    private fun finishFlow() {
+    override fun finishFlow() {
         goToHome(true)
     }
 
@@ -118,6 +99,16 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
         intent.putExtra(CaptureImageActivity.EXTRA_MASK_NAME, nextMaskName)
         this.startActivity(intent)
+    }
+
+    private fun save() {
+        coroutineScope.launch {
+            presenter.save(
+                metadata_section_smear_type_radio_group.checkedRadioButtonId,
+                metadata_species_spinner.selectedItem.toString(),
+                metadata_stage_spinner.selectedItem.toString()
+            )
+        }
     }
 
     private fun onAddImageClicked() {

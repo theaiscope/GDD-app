@@ -5,6 +5,7 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.Status
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -53,16 +54,23 @@ class MetadataPresenter @Inject constructor(
     }
 
     suspend fun save(smearTypeId: Int, speciesValue: String, stageValue: String) {
-        val sample = repository.current()
-            .copy(metadata = SampleMetadata(
+        try {
+            val sample = repository.current()
+                .copy(metadata = SampleMetadata(
                     metadataMapper.getSmearType(smearTypeId),
                     metadataMapper.getSpecies(context, speciesValue),
                     metadataMapper.getStage(context, stageValue)
                 ), status = Status.ReadyToUpload
-            )
-        repository.store(sample)
+                )
+            repository.store(sample)
 
-        remoteStorage.enqueue(sample, context)
+            remoteStorage.enqueue(sample, context)
+            view.finishFlow()
+        }
+        catch(@Suppress("TooGenericExceptionCaught") error: Throwable) {
+            Timber.e(error, "An error occurred when saving sample")
+            view.showRetryBar()
+        }
     }
 
     suspend fun addImage() {
