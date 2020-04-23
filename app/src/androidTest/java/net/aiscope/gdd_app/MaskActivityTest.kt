@@ -29,7 +29,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 
-
+//FIXME("Some tests will fail depending on the device's screen aspect ratio - swipes won't start/end
+// in the picture, so their expected results will not happen")
 @RunWith(AndroidJUnit4::class)
 class MaskActivityTest {
 

@@ -48,10 +48,14 @@ class MaskLayer(
 
     fun onDraw(canvas: Canvas) {
         canvas.withMatrix(scaleMatrix) {
-            for (i in 0 until pathsAndPaints.size - undoPendingPaths) {
-                val (path, paint) = pathsAndPaints[i]
-                this.drawPath(path, paint)
-            }
+            drawPaths(this)
+        }
+    }
+
+    private fun drawPaths(canvas: Canvas) {
+        for (i in 0 until pathsAndPaints.size - undoPendingPaths) {
+            val (path, paint) = pathsAndPaints[i]
+            canvas.drawPath(path, paint)
         }
     }
 
@@ -74,7 +78,7 @@ class MaskLayer(
         val (width, height) = bitmapDimensions
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
             val canvas = Canvas(this)
-            onDraw(canvas)
+            drawPaths(canvas)
         }
     }
 
