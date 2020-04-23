@@ -14,16 +14,6 @@ import net.aiscope.gdd_app.R
 
 const val SNACKBAR_TEXT_SCALE = 1.2f
 
-fun Snackbar.setActionOnDismissed(action: () -> Unit): Snackbar {
-    return addCallback(object :
-        BaseTransientBottomBar.BaseCallback<Snackbar?>() {
-        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-            action()
-            super .onDismissed(transientBottomBar, event)
-        }
-    })
-}
-
 fun Snackbar.setActionFontType(typeface: Int): Snackbar {
     val actionTextView = this.view.findViewById(R.id.snackbar_action) as TextView
 
