@@ -3,9 +3,6 @@ package net.aiscope.gdd_app.ui.mask
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.View
@@ -136,19 +133,11 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     private fun refreshBrushDrawable(color: Int) {
-        val brush = draw_btn.compoundDrawables[1] as LayerDrawable
         val brushHeadTinted = resources.getDrawable(R.drawable.ic_brush_head, null).apply {
             setTint(color)
         }
+        val brush = draw_btn.compoundDrawables[1] as LayerDrawable
         brush.setDrawable(1, brushHeadTinted)
-    }
-
-    private fun composeColoredBrushDrawable(color: Int): Drawable {
-        val brushHeadless = resources.getDrawable(R.drawable.ic_brush_handle, null)
-        val brushHead = resources.getDrawable(R.drawable.ic_brush_head, null).apply {
-            colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-        }
-        return LayerDrawable(arrayOf(brushHeadless, brushHead))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

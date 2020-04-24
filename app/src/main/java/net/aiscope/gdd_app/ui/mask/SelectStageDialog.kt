@@ -10,12 +10,11 @@ import android.widget.ListAdapter
 import androidx.fragment.app.DialogFragment
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.selector.customview.SelectorListItemCustomView
-import kotlin.reflect.KFunction1
 
 class SelectStageDialog(
     private val items: Array<BrushDiseaseStage>,
-    private val currentBrushDiseaseStageId: Int,
-    private val brushDiseaseStageSetter: KFunction1<BrushDiseaseStage, Unit>
+    private val presenter: MaskPresenter,
+    private val view: MaskView
 ) :
     DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -43,7 +42,7 @@ class SelectStageDialog(
                 view.findViewById(R.id.select_stage_dialog_checkedtextview)
         }
 
-        val checkedItem = items.find { item -> item.id == currentBrushDiseaseStageId }
+        val checkedItem = items.find { item -> item.id == presenter.getBrushDiseaseStage().id }
         val currentItemIndex = items.indexOf(checkedItem)
         var latestSelection = currentItemIndex
         return AlertDialog.Builder(activity, R.style.AppTheme_Dialog)
@@ -51,7 +50,7 @@ class SelectStageDialog(
             .setNegativeButton(getString(R.string.button_cancel), null)
             .setPositiveButton(getString(R.string.button_ok)) { _, _ ->
                 if (latestSelection != currentItemIndex) {
-                    brushDiseaseStageSetter.call(items[latestSelection])
+                    view.setBrushDiseaseStage(items[latestSelection])
                 }
             }
             .setTitle(R.string.mask_activity_stages_dialog_title)

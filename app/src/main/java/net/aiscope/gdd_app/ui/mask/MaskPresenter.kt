@@ -50,11 +50,7 @@ class MaskPresenter(
     fun getBrushDiseaseStage() = view.getBrushDiseaseStage()
 
     fun showSelectStageDialog(supportFragmentManager: FragmentManager) =
-        SelectStageDialog(
-            brushDiseaseStages,
-            view.getBrushDiseaseStage().id,
-            view::setBrushDiseaseStage
-        )
+        SelectStageDialog(brushDiseaseStages, this, view)
             .show(supportFragmentManager, "SelectStageFragment")
 
     companion object {
