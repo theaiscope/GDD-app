@@ -38,7 +38,7 @@ class SimpleCustomSnackbar (
             )
 
             val customView = LayoutInflater.from(view.context).inflate(
-                R.layout.custom_view_inflation,
+                R.layout.custom_snackbar_inflation,
                 parent,
                 false
             ) as CustomSnackbarView
