@@ -67,24 +67,28 @@ class CustomSnackbar (
 
         private fun findSuitableParent(view: View?): ViewGroup? {
             var fallback: ViewGroup? = null
+            var foundView : ViewGroup? = null
 
             when (view) {
                 is CoordinatorLayout -> {
-                    return view
+                    foundView = view
                 }
                 is FrameLayout -> {
                     if (view.id == android.R.id.content) {
-                        return view
+                        foundView = view
                     } else {
                         fallback = view
                     }
                 }
             }
 
+            if(foundView != null) {
+                return foundView
+            }
+
             val parentView = view?.parent as View?
 
             return if(parentView == null) fallback else findSuitableParent(parentView)
-
         }
 
     }

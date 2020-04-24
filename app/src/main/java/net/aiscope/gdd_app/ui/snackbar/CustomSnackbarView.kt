@@ -38,8 +38,10 @@ class CustomSnackbarView @JvmOverloads constructor(
     }
 
     override fun animateContentIn(delay: Int, duration: Int) {
-        val scaleX = ObjectAnimator.ofFloat(icon, View.SCALE_X, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
-        val scaleY = ObjectAnimator.ofFloat(icon, View.SCALE_Y, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
+        val scaleX = ObjectAnimator
+            .ofFloat(icon, View.SCALE_X, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
+        val scaleY = ObjectAnimator
+            .ofFloat(icon, View.SCALE_Y, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
         val animatorSet = AnimatorSet().apply {
             interpolator = OvershootInterpolator()
             setDuration(duration.toLong())
@@ -48,6 +50,5 @@ class CustomSnackbarView @JvmOverloads constructor(
         animatorSet.start()
     }
 
-    override fun animateContentOut(delay: Int, duration: Int) {
-    }
+    override fun animateContentOut(delay: Int, duration: Int) = Unit
 }
