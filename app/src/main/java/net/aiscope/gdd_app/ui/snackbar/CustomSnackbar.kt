@@ -8,7 +8,6 @@ import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
-import kotlinx.android.synthetic.main.custom_snackbar.view.*
 import net.aiscope.gdd_app.R
 
 class CustomSnackbar (
@@ -47,16 +46,16 @@ class CustomSnackbar (
             ) as CustomSnackbarView
 
             with(customView) {
-                tv_message.text = message
+                messageLabel.text = message
                 action?.let {
-                    tvAction.text = action.label
-                    tvAction.setOnClickListener {
-                        action.listener.onClick(customView.tvAction)
+                    this.actionLabel.text = action.label
+                    this.actionLabel.setOnClickListener {
+                        action.listener.onClick(customView.actionLabel)
                     }
                 }
                 icon?.let {
-                    imLeft.visibility = VISIBLE
-                    imLeft.setImageResource(it)
+                    this.icon.visibility = VISIBLE
+                    this.icon.setImageResource(it)
                 }
             }
 

@@ -12,7 +12,7 @@
         android:background="@color/colorDark">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/im_action_left"
+            android:id="@+id/icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="16dp"
@@ -24,7 +24,7 @@
             tools:ignore="VectorDrawableCompat" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_message"
+            android:id="@+id/message_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -35,14 +35,14 @@
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/im_action_left"
-            app:layout_constraintStart_toEndOf="@+id/im_action_left"
-            app:layout_constraintEnd_toStartOf="@+id/tv_action"
+            app:layout_constraintLeft_toRightOf="@+id/icon"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintEnd_toStartOf="@+id/action_label"
             app:layout_constraintTop_toTopOf="parent"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_action"
+            android:id="@+id/action_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -55,8 +55,8 @@
             android:textStyle="bold"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/tv_message"
-            app:layout_constraintStart_toEndOf="@+id/tv_message"
+            app:layout_constraintLeft_toRightOf="@+id/message_label"
+            app:layout_constraintStart_toEndOf="@+id/message_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />

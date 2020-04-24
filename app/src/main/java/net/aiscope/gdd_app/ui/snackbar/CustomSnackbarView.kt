@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.ContentViewCallback
-import kotlinx.android.synthetic.main.custom_snackbar.view.*
 import net.aiscope.gdd_app.R
 
 class CustomSnackbarView @JvmOverloads constructor(
@@ -24,23 +23,23 @@ class CustomSnackbarView @JvmOverloads constructor(
         const val ANIMATION_SCALE_FINAL_VALUE = 1f
     }
 
-    var tvMsg: TextView
-    var tvAction: TextView
-    var imLeft: ImageView
-    var layRoot: ConstraintLayout
+    var messageLabel: TextView
+    var actionLabel: TextView
+    var icon: ImageView
+    var root: ConstraintLayout
 
     init {
         View.inflate(context, R.layout.custom_snackbar, this)
         clipToPadding = false
-        this.tvMsg = findViewById(R.id.tv_message)
-        this.tvAction = findViewById(R.id.tv_action)
-        this.imLeft = findViewById(R.id.im_action_left)
-        this.layRoot = findViewById(R.id.snack_constraint)
+        this.messageLabel = findViewById(R.id.message_label)
+        this.actionLabel = findViewById(R.id.action_label)
+        this.icon = findViewById(R.id.icon)
+        this.root = findViewById(R.id.snack_constraint)
     }
 
     override fun animateContentIn(delay: Int, duration: Int) {
-        val scaleX = ObjectAnimator.ofFloat(im_action_left, View.SCALE_X, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
-        val scaleY = ObjectAnimator.ofFloat(im_action_left, View.SCALE_Y, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
+        val scaleX = ObjectAnimator.ofFloat(icon, View.SCALE_X, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
+        val scaleY = ObjectAnimator.ofFloat(icon, View.SCALE_Y, ANIMATION_SCALE_INITIAL_VALUE, ANIMATION_SCALE_FINAL_VALUE)
         val animatorSet = AnimatorSet().apply {
             interpolator = OvershootInterpolator()
             setDuration(duration.toLong())
