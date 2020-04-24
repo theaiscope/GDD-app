@@ -10,4 +10,8 @@
     <color name="colorControlNormal">#61FFFFFF</color>
     <color name="colorSpinnerBackground">#212634</color>
     <color name="colorSpinnerPopupBackground">#4B556C</color>
+    <color name="malaria_stage_ring">#F44336</color>
+    <color name="malaria_stage_trophozoite">#FFEB3B</color>
+    <color name="malaria_stage_schizont">#2196F3</color>
+    <color name="malaria_stage_gametocyte">#4CAF50</color>
 </resources>

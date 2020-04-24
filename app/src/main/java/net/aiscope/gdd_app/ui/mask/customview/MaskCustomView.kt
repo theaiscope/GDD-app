@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import com.github.chrisbanes.photoview.PhotoView
+import net.aiscope.gdd_app.ui.mask.BrushDiseaseStage
 
 @Suppress("TooManyFunctions")
 class MaskCustomView @JvmOverloads constructor(
@@ -73,6 +74,11 @@ class MaskCustomView @JvmOverloads constructor(
         maskLayer.onDraw(canvas)
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(width, height)
+        maskLayer.onViewSizeChanged(width, height)
+    }
+
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
         maskLayer.onViewSizeChanged(width, height)
@@ -104,6 +110,12 @@ class MaskCustomView @JvmOverloads constructor(
 
     fun drawMode() {
         currentMode = Mode.Draw
+    }
+
+    fun getBrushDiseaseStage() = maskLayer.brushDiseaseStage
+
+    fun setBrushDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
+        maskLayer.brushDiseaseStage = brushDiseaseStage
     }
 
     fun getMaskBitmap() = maskLayer.getBitmap()

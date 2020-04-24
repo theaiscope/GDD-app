@@ -3,45 +3,35 @@ package net.aiscope.gdd_app.ui.mask.customview
 import android.graphics.Path
 import java.util.*
 
-class PointToPointPath() : Path() {
+class PointToPointPath(x: Float, y: Float) : Path() {
 
-    private val points: MutableList<Pair<Float, Float>> = LinkedList()
-    lateinit var latestPoint: Pair<Float, Float>
+    val points: List<Pair<Float, Float>> = LinkedList()
+    val firstPoint: Pair<Float, Float> = x to y
+    var latestPoint: Pair<Float, Float> = firstPoint
+    val verticalDirection: Int by lazy { if (points[1].second > points[0].second) 1 else -1 }
 
-    constructor(x: Float, y: Float) : this() {
-        this.points.add(x to y)
-        composePathFromPoints()
+    init {
+        moveTo(x, y)
+        addPoint(firstPoint)
     }
 
-    constructor(points: List<Pair<Float, Float>>) : this() {
+    constructor(points: List<Pair<Float, Float>>) : this(points[0].first, points[0].second) {
         require(points.size > 1)
-        this.points.addAll(points)
-        composePathFromPoints()
+        for ((x, y) in points.subList(1, points.size)) {
+            quadTo(x, y)
+        }
     }
 
-    override fun quadTo(x1: Float, y1: Float, x2: Float, y2: Float) {
+    override fun quadTo(x1: Float, y1: Float, x2: Float, y2: Float) =
         error("Use quadTo(x, y) instead")
-    }
-
-    fun getPoints() = points as List<Pair<Float, Float>>
 
     fun quadTo(xTo: Float, yTo: Float) {
         val (xFrom, yFrom) = latestPoint
         super.quadTo(xFrom, yFrom, xTo, yTo)
         latestPoint = xTo to yTo
-        points.add(latestPoint)
+        addPoint(latestPoint)
     }
 
-    private fun composePathFromPoints() {
-        latestPoint = points[0]
-        val (firstX, firstY) = latestPoint
-        moveTo(firstX, firstY)
-        if (points.size == 1) return
-        for (point in points.subList(1, points.size)) {
-            val (latestX, latestY) = latestPoint
-            val (nextX, nextY) = point
-            super.quadTo(latestX, latestY, nextX, nextY)
-            latestPoint = point
-        }
-    }
+    private fun addPoint(point: Pair<Float, Float>) = (points as MutableList).add(point)
+
 }

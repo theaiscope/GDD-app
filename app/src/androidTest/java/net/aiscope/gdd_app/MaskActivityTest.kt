@@ -29,7 +29,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 
-
+//FIXME("Some tests will fail depending on the device's screen aspect ratio - swipes won't start/end
+// in the picture, so their expected results will not happen")
 @RunWith(AndroidJUnit4::class)
 class MaskActivityTest {
 
@@ -38,10 +39,12 @@ class MaskActivityTest {
     private fun startActivity() {
         val tempFile = File.createTempFile("img", ".png")
         val outputStream = tempFile.outputStream()
-        getAssetStream(getInstrumentation().targetContext.applicationContext, "photo.png").copyTo(outputStream)
+        val applicationContext = getInstrumentation().targetContext.applicationContext
+        getAssetStream(applicationContext, "photo.png").copyTo(outputStream)
 
         activityTestRule.launchActivity(
             Intent(Intent.ACTION_MAIN)
+                .putExtra(MaskActivity.EXTRA_DISEASE_NAME, applicationContext.resources.getString(R.string.malaria_name))
                 .putExtra(MaskActivity.EXTRA_IMAGE_NAME, tempFile.absolutePath)
                 .putExtra(MaskActivity.EXTRA_MASK_NAME, "mask")
         )
@@ -222,7 +225,7 @@ class MaskActivityTest {
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
+         assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
 
         perform(R.id.undo_btn, click())
 

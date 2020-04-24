@@ -8,6 +8,5 @@ interface CaptureImageView {
 
     fun notifyImageCouldNotBeTaken()
 
-//    fun goToMetadata()
-    fun goToMask(imagePath: String, nextMaskName: String)
+    fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String)
 }

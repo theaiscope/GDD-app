@@ -3,15 +3,11 @@ package net.aiscope.gdd_app.ui.main
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import com.karumi.dexter.Dexter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -60,10 +56,9 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         super.onDestroy()
     }
 
-    override fun captureImage(nextImageName: String, nextMaskName: String) {
+    override fun captureImage(nextImageName: String) {
         val intent = Intent(this, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
-        intent.putExtra(CaptureImageActivity.EXTRA_MASK_NAME, nextMaskName)
         this.startActivity(intent)
     }
 

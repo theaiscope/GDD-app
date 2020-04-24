@@ -1,6 +1,5 @@
 package net.aiscope.gdd_app.ui.main
 
-import com.google.firebase.auth.FirebaseAuth
 import net.aiscope.gdd_app.network.FirebaseAuthenticator
 import net.aiscope.gdd_app.repository.SampleRepository
 import javax.inject.Inject
@@ -21,16 +20,12 @@ class SelectDiseasePresenter @Inject constructor(
         }
     }
 
-    suspend fun saveDisease(input: String) {
-        if (!input.isBlank()) {
-            val sample = repository.create().copy(disease = input)
-            repository.store(sample)
+    suspend fun saveDisease(diseaseName: String) {
+        val sample = repository.create().copy(disease = diseaseName)
+        repository.store(sample)
 
-            view.captureImage(sample.nextImageName(), sample.nextMaskName())
-            view.showSuccessToast()
-        } else {
-            view.showFailureToast()
-        }
+        view.captureImage(sample.nextImageName())
+        view.showSuccessToast()
     }
 
     fun logout() {

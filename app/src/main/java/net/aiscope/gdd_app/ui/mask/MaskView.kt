@@ -12,4 +12,6 @@ interface MaskView {
     fun drawMode()
     fun drawUndo()
     fun drawRedo()
+    fun getBrushDiseaseStage(): BrushDiseaseStage
+    fun setBrushDiseaseStage(brushDiseaseStage: BrushDiseaseStage)
 }

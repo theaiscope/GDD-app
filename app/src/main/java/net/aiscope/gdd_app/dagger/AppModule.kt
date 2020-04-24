@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.dagger
 
 import android.content.Context
+import android.content.res.Resources
 import androidx.work.WorkerFactory
 import dagger.Module
 import dagger.Provides
@@ -18,6 +19,9 @@ object AppModule {
 
     @Provides
     fun context(application: GddApplication): Context = application.applicationContext
+
+    @Provides
+    fun resources(context: Context): Resources = context.resources
 
     @Provides
     fun workerFactory(repository: SampleRepository, storage: RemoteStorage): WorkerFactory =

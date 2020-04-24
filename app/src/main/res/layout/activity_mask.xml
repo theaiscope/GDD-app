@@ -1,107 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.mask.MaskActivity">
 
     <include layout="@layout/toolbar" />
 
     <net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
         android:id="@+id/mask_custom_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_marginBottom="4dp"
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tools_panel"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+    <ImageView
+        android:id="@+id/tools_panel"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mask_custom_view"
+        tools:ignore="ContentDescription" />
 
-        <RadioGroup
-            android:id="@+id/tools_radio_group"
+    <RadioGroup
+        android:id="@+id/tools_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/draw_btn"
+        android:orientation="horizontal"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/tools_panel"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/tools_panel"
+        app:layout_constraintTop_toTopOf="@id/tools_panel">
+
+        <RadioButton
+            android:id="@+id/zoom_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkedButton="@id/draw_btn"
-            android:orientation="horizontal"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp">
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="1dp"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_zoom"
+            android:drawableTint="@color/button_selector"
+            android:gravity="center"
+            android:paddingStart="14dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="14dp" />
 
-            <RadioButton
-                android:id="@+id/zoom_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="5"
-                android:button="@null"
-                android:buttonTint="@color/button_selector"
-                android:drawableTop="@drawable/ic_zoom"
-                android:drawableTint="@color/button_selector"
-                android:gravity="center"
-                android:paddingStart="14dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="14dp" />
-
-            <RadioButton
-                android:id="@+id/draw_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="5"
-                android:button="@null"
-                android:buttonTint="@color/button_selector"
-                android:drawableTop="@drawable/ic_draw"
-                android:drawableTint="@color/button_selector"
-                android:gravity="center"
-                android:paddingStart="14dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="14dp" />
-        </RadioGroup>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical">
-
-            <ImageButton
-                android:id="@+id/undo_btn"
-                style="@style/Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:background="@color/colorPrimaryDark"
-                android:contentDescription="@string/mask_activity_undo"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:src="@drawable/ic_undo"
-                android:visibility="invisible" />
-
-            <ImageButton
-                android:id="@+id/redo_btn"
-                style="@style/Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:background="@color/colorPrimaryDark"
-                android:contentDescription="@string/mask_activity_redo"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:src="@drawable/ic_redo"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/get_bitmap_btn"
-            style="@style/AppTheme.Button"
+        <RadioButton
+            android:id="@+id/draw_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:drawableEnd="@drawable/ic_left_arrow"
-            android:padding="18dp"
-            android:text="@string/button_done_text" />
-    </LinearLayout>
-</LinearLayout>
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_brush"
+            android:drawableTint="@color/button_selector"
+            android:gravity="center"
+            android:paddingStart="14dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="14dp" />
+
+    </RadioGroup>
+
+    <ImageButton
+        android:id="@+id/stages_btn"
+        android:background="@color/colorPrimaryDark"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:contentDescription="@string/mask_activity_stages"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:src="@drawable/ic_color"
+        app:layout_constraintTop_toTopOf="@id/tools_panel"
+        app:layout_constraintBottom_toBottomOf="@id/tools_panel"
+        app:layout_constraintStart_toEndOf="@id/tools_radio_group" />
+
+    <ImageButton
+        android:id="@+id/undo_btn"
+        android:background="@color/colorPrimaryDark"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:contentDescription="@string/mask_activity_undo"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:src="@drawable/ic_undo"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/tools_panel"
+        app:layout_constraintBottom_toBottomOf="@id/tools_panel"
+        app:layout_constraintStart_toEndOf="@id/stages_btn" />
+
+    <ImageButton
+        android:id="@+id/redo_btn"
+        android:background="@color/colorPrimaryDark"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:contentDescription="@string/mask_activity_redo"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:src="@drawable/ic_redo"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/tools_panel"
+        app:layout_constraintBottom_toBottomOf="@id/tools_panel"
+        app:layout_constraintStart_toEndOf="@id/undo_btn" />
+
+    <Button
+        android:id="@+id/get_bitmap_btn"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:drawableEnd="@drawable/ic_left_arrow"
+        android:padding="18dp"
+        android:text="@string/button_done_text"
+        app:layout_constraintBottom_toBottomOf="@id/tools_panel"
+        app:layout_constraintEnd_toEndOf="@id/tools_panel"
+        app:layout_constraintStart_toStartOf="@id/tools_panel"
+        app:layout_constraintTop_toTopOf="@id/tools_panel"
+        app:layout_constraintHorizontal_bias="1.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

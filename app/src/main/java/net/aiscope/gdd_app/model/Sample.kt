@@ -2,7 +2,7 @@ package net.aiscope.gdd_app.model
 
 import net.aiscope.gdd_app.extensions.plus
 import java.io.File
-import java.util.Calendar
+import java.util.*
 
 enum class Status(val id: Short) {
     Incomplete(0), ReadyToUpload(1), Uploaded(2)
@@ -22,7 +22,6 @@ enum class MalariaSpecies(val id: Int) {
     P_KNOWLESI(5)
 }
 
-@Suppress("MagicNumber") // these are IDs
 enum class MalariaStage(val id: Int) {
     RING(1),
     TROPHOZOITE(2),

@@ -29,7 +29,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
 
     companion object {
         const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.capture.CaptureImageActivity.EXTRA_IMAGE_NAME"
-        const val EXTRA_MASK_NAME = "net.aiscope.gdd_app.ui.capture.CaptureImageActivity.EXTRA_MASK_NAME"
     }
 
     @Inject
@@ -56,17 +55,15 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         zoomController = ZoomController(fotoapparat, camera_zoom_level, camera_view)
 
         capture_image_button.setOnClickListener {
-            presenter.handleCaptureImageButton(extractImageNameExtra(), extractMaskNameExtra())
+            presenter.handleCaptureImageButton(extractImageNameExtra())
         }
     }
 
     private fun extractImageNameExtra() = checkNotNull(intent.getStringExtra(EXTRA_IMAGE_NAME))
 
-    private fun extractMaskNameExtra() = checkNotNull(intent.getStringExtra(EXTRA_MASK_NAME))
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            presenter.handleCaptureImageButton(extractImageNameExtra(), extractMaskNameExtra())
+            presenter.handleCaptureImageButton(extractImageNameExtra())
             return true
         }
         return super.onKeyDown(keyCode, event)
@@ -104,11 +101,13 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     }
 
     override fun notifyImageCouldNotBeTaken() {
-        Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT).show()
+        val message = getString(R.string.image_could_not_be_taken)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun goToMask(imagePath: String, nextMaskName: String) {
+    override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String) {
         val intent = Intent(this, MaskActivity::class.java)
+        intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, diseaseName)
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, imagePath)
         intent.putExtra(MaskActivity.EXTRA_MASK_NAME, nextMaskName)
 

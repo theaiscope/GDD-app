@@ -4,5 +4,5 @@ interface MetadataView {
     fun fillForm(model: ViewStateModel)
     fun showInvalidFormError()
     fun finishFlow()
-    fun captureImage(nextImageName: String, nextMaskName: String)
+    fun captureImage(nextImageName: String)
 }
