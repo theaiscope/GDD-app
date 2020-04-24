@@ -20,6 +20,7 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHome
+import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import javax.inject.Inject
@@ -92,7 +93,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     override fun finishFlow() {
-        goToHome(true)
+        goToHomeAndConfirmSaved()
     }
 
     override fun captureImage(nextImageName: String, nextMaskName: String) {

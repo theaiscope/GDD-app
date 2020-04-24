@@ -26,9 +26,15 @@ fun <T> T.attachCaptureFlowToolbar(toolbar: androidx.appcompat.widget.Toolbar)
     }
 }
 
-fun <T> T.goToHome(sampleSaved: Boolean = false) where T : AppCompatActivity, T : CaptureFlow {
+fun <T> T.goToHomeAndConfirmSaved() where T : AppCompatActivity, T : CaptureFlow {
     val intent = Intent(this, MainActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-    intent.putExtra("SAMPLE_SAVED", if(sampleSaved) "OK" else null )
+    intent.putExtra("SAMPLE_SAVED", "OK" )
+    startActivity(intent)
+}
+
+fun <T> T.goToHome() where T : AppCompatActivity, T : CaptureFlow {
+    val intent = Intent(this, MainActivity::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
     startActivity(intent)
 }
