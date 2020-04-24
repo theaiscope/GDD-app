@@ -36,7 +36,7 @@
     <string name="metadata_stage_title">Stage</string>
     <string name="metadata_snackbar_success">Sample saved successfully!</string>
     <string name="metadata_snackbar_error">An error occurred while saving your sample. Please try again.</string>
-    <string name="metadata_snackbar_retry">Try again</string>
+    <string name="metadata_snackbar_retry">TRY AGAIN</string>
 
 
     <string name="malaria_species_p_falciparum">P. falciparum</string>

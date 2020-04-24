@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.ui.snackbar
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -29,8 +30,10 @@ class SimpleCustomSnackbar (
 
         fun make(
             view: View,
-            message: String, duration: Int,
-            listener: View.OnClickListener?, icon: Int, actionLabel: String?, backgroundColor: Int
+            message: String,
+            duration: Int,
+            icon: Int? = null,
+            action: CustomSnackbarAction? = null
         ): SimpleCustomSnackbar {
 
             val parent = findSuitableParent(view) ?: throw IllegalArgumentException(
@@ -45,14 +48,16 @@ class SimpleCustomSnackbar (
 
             with(customView) {
                 tv_message.text = message
-                actionLabel?.let {
-                    tvAction.text = actionLabel
+                action?.let {
+                    tvAction.text = action.label
                     tvAction.setOnClickListener {
-                        listener?.onClick(customView.tvAction)
+                        action.listener.onClick(customView.tvAction)
                     }
                 }
-                imLeft.setImageResource(icon)
-                layRoot.setBackgroundColor(backgroundColor)
+                icon?.let {
+                    imLeft.visibility = VISIBLE
+                    imLeft.setImageResource(it)
+                }
             }
 
             return SimpleCustomSnackbar(
