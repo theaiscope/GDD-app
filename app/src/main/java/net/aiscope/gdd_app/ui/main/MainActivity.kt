@@ -17,9 +17,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.extensions.buildSnackbarContent
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
+import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
@@ -45,10 +45,11 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         }
 
         if(intent.hasExtra("SAMPLE_SAVED")) {
-            Snackbar.make(
+            CustomSnackbar.make(
                 findViewById(android.R.id.content),
-                buildSnackbarContent(R.string.metadata_snackbar_success,R.drawable.ic_thumb_up),
-                Snackbar.LENGTH_LONG)
+                getString(R.string.metadata_snackbar_success),
+                Snackbar.LENGTH_LONG,
+                R.drawable.ic_thumb_up)
                 .show()
         }
     }

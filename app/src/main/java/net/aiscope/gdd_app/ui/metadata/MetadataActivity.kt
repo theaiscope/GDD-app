@@ -1,8 +1,8 @@
 package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
+import android.view.View
 import android.widget.AbsSpinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,12 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.extensions.buildSnackbarContent
-import net.aiscope.gdd_app.extensions.setActionFontType
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHome
+import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
+import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
@@ -81,13 +81,14 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     override fun showRetryBar() {
-        Snackbar.make(
+        CustomSnackbar.make(
             findViewById(android.R.id.content),
-            buildSnackbarContent(R.string.metadata_snackbar_error),
-            Snackbar.LENGTH_LONG)
-            .setAction(R.string.metadata_snackbar_retry) { save() }
-            .setActionFontType(Typeface.BOLD)
-            .show()
+            getString(R.string.metadata_snackbar_error),
+            Snackbar.LENGTH_INDEFINITE,null,
+            CustomSnackbarAction(getString(R.string.metadata_snackbar_retry),View.OnClickListener {
+                save()
+            })
+        ).show()
     }
 
     override fun finishFlow() {
