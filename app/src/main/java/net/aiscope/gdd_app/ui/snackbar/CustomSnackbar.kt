@@ -11,10 +11,10 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import kotlinx.android.synthetic.main.custom_snackbar.view.*
 import net.aiscope.gdd_app.R
 
-class SimpleCustomSnackbar (
+class CustomSnackbar (
     parent: ViewGroup,
     content: CustomSnackbarView
-) : BaseTransientBottomBar<SimpleCustomSnackbar>(parent, content, content) {
+) : BaseTransientBottomBar<CustomSnackbar>(parent, content, content) {
 
     init {
         getView().setBackgroundColor(
@@ -34,7 +34,7 @@ class SimpleCustomSnackbar (
             duration: Int,
             icon: Int? = null,
             action: CustomSnackbarAction? = null
-        ): SimpleCustomSnackbar {
+        ): CustomSnackbar {
 
             val parent = findSuitableParent(view) ?: throw IllegalArgumentException(
                 "No suitable parent found from the given view. Please provide a valid view."
@@ -60,7 +60,7 @@ class SimpleCustomSnackbar (
                 }
             }
 
-            return SimpleCustomSnackbar(
+            return CustomSnackbar(
                 parent,
                 customView
             ).setDuration(duration)
