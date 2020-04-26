@@ -21,7 +21,7 @@ class MaskLayer(
 ) {
     companion object {
         private const val MATRIX_SIZE = 9
-        private const val MASK_PAINT_ALPHA = 200
+        private const val MASK_PAINT_ALPHA = 0xCC
         private const val PATH_STROKE = 80f
         private const val TEXT_SIZE = 48f
         private const val TEXT_STROKE = 12f
@@ -81,11 +81,17 @@ class MaskLayer(
         }
     }
 
-    private fun drawPaths(canvas: Canvas, drawStageName: Boolean = false) {
+    private fun drawPaths(
+        canvas: Canvas,
+        drawStageNames: Boolean = false,
+        removeAlpha: Boolean = false
+    ) {
         for (i in 0 until pathsPaintsAndStagesNames.size - undoPendingPaths) {
             val (path, paint, stageName) = pathsPaintsAndStagesNames[i]
-            canvas.drawPath(path, paint)
-            if (drawStageName) drawPathText(path, paint, stageName, canvas)
+            val paintReviewed =
+                if (removeAlpha) Paint().apply { set(paint); alpha = 0xFF } else paint
+            canvas.drawPath(path, paintReviewed)
+            if (drawStageNames) drawPathText(path, paint, stageName, canvas)
         }
     }
 
@@ -106,7 +112,8 @@ class MaskLayer(
                 if (path.verticalDirection > 0) {
                     -(pathPaint.strokeWidth / 2 + verticalPadding)
                 } else {
-                    textBoundsRuler.height() + pathPaint.strokeWidth / 2 + verticalPadding - pxToDp(4) / currentScale
+                    textBoundsRuler.height() + pathPaint.strokeWidth / 2 +
+                            verticalPadding - pxToDp(4) / currentScale
                 }
 
         canvas.drawText(text, textX, textY, textStrokePaint)
@@ -134,7 +141,7 @@ class MaskLayer(
         val (width, height) = bitmapDimensions
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
             val canvas = Canvas(this)
-            drawPaths(canvas)
+            drawPaths(canvas, removeAlpha = true)
         }
     }
 
