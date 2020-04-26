@@ -4,6 +4,6 @@
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
-  <item android:drawable="@drawable/ic_brush_handle" />
-  <item android:drawable="@drawable/ic_brush_head" />
+  <item android:drawable="@drawable/ic_circle" />
+  <item android:drawable="@drawable/ic_draw"/>
 </layer-list>

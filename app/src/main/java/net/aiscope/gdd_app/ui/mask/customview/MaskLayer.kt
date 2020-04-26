@@ -81,7 +81,7 @@ class MaskLayer(
         }
     }
 
-    private fun drawPaths(canvas: Canvas, drawStageName: Boolean = true) {
+    private fun drawPaths(canvas: Canvas, drawStageName: Boolean = false) {
         for (i in 0 until pathsPaintsAndStagesNames.size - undoPendingPaths) {
             val (path, paint, stageName) = pathsPaintsAndStagesNames[i]
             canvas.drawPath(path, paint)

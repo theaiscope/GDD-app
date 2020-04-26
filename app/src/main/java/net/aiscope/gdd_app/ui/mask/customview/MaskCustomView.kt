@@ -112,9 +112,9 @@ class MaskCustomView @JvmOverloads constructor(
         currentMode = Mode.Draw
     }
 
-    fun getBrushDiseaseStage() = maskLayer.brushDiseaseStage
+    fun getCurrentBrushDiseaseStage() = maskLayer.brushDiseaseStage
 
-    fun setBrushDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
+    fun setCurrentBrushDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
         maskLayer.brushDiseaseStage = brushDiseaseStage
     }
 

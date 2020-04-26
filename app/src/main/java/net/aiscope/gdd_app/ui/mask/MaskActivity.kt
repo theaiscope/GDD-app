@@ -5,7 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
@@ -38,6 +40,8 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
+    private val brushDiseaseStages by lazy { presenter.brushDiseaseStages }
+    private val selectStagePopup by lazy { composeSelectStagePopup() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -54,26 +58,35 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         presenter.start(diseaseName, imageNameExtra)
 
         if (savedInstanceState == null) {
-            presenter.initBrushDiseaseStage()
+            setBrushDrawableDiseaseStage(brushDiseaseStages[0])
         }
 
         tools_radio_group.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                draw_btn.id -> presenter.drawMode()
-                zoom_btn.id -> presenter.zoomMode()
+                draw_btn.id -> mask_custom_view.drawMode()
+                zoom_btn.id -> mask_custom_view.zoomMode()
             }
         }
 
-        undo_btn.setOnClickListener { presenter.drawUndo() }
+        undo_btn.setOnClickListener {
+            mask_custom_view.undo()
+            setEnabled(undo_btn, mask_custom_view.undoAvailable())
+            setEnabled(redo_btn, true)
+        }
 
-        redo_btn.setOnClickListener { presenter.drawRedo() }
+        redo_btn.setOnClickListener {
+            mask_custom_view.redo()
+            setEnabled(undo_btn, true)
+            setEnabled(redo_btn, mask_custom_view.redoAvailable())
+        }
 
-        stages_btn.setOnClickListener { presenter.showSelectStageDialog(supportFragmentManager) }
+        stages_btn.setOnClickListener { selectStagePopup.show() }
 
         get_bitmap_btn.setOnClickListener { presenter.handleCaptureBitmap(maskNameExtra) }
 
         mask_custom_view.setOnTouchListener { _, _ ->
-            refreshButtonsVisibility()
+            setEnabled(undo_btn, mask_custom_view.undoAvailable())
+            setEnabled(redo_btn, mask_custom_view.redoAvailable())
             false
         }
     }
@@ -99,7 +112,8 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     override fun notifyImageCouldNotBeTaken() {
-        Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT)
+            .show()
     }
 
     override fun loadBitmap(imagePath: String) {
@@ -109,54 +123,42 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         }
     }
 
-    override fun zoomMode() = mask_custom_view.zoomMode()
-
-    override fun drawMode() = mask_custom_view.drawMode()
-
-    override fun drawUndo() {
-        mask_custom_view.undo()
-        setEnabled(undo_btn, mask_custom_view.undoAvailable())
-        setEnabled(redo_btn, true)
-    }
-
-    override fun drawRedo() {
-        mask_custom_view.redo()
-        setEnabled(undo_btn, true)
-        setEnabled(redo_btn, mask_custom_view.redoAvailable())
-    }
-
-    override fun getBrushDiseaseStage() = mask_custom_view.getBrushDiseaseStage()
-
-    override fun setBrushDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
-        refreshBrushDrawable(brushDiseaseStage.maskColor)
-        mask_custom_view.setBrushDiseaseStage(brushDiseaseStage)
-    }
-
-    private fun refreshBrushDrawable(color: Int) {
-        val brushHeadTinted = resources.getDrawable(R.drawable.ic_brush_head, null).apply {
-            setTint(color)
-        }
-        val brush = draw_btn.compoundDrawables[1] as LayerDrawable
-        brush.setDrawable(1, brushHeadTinted)
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("draw_btn-color", presenter.getBrushDiseaseStage().maskColor)
+        outState.putInt("draw_btn-color", mask_custom_view.getCurrentBrushDiseaseStage().maskColor)
         outState.putInt("undo_btn-visibility", undo_btn.visibility)
         outState.putInt("redo_btn-visibility", redo_btn.visibility)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        refreshBrushDrawable(savedInstanceState.getInt("draw_btn-color"))
+        setBrushDrawableColor(savedInstanceState.getInt("draw_btn-color"))
         undo_btn.visibility = savedInstanceState.getInt("undo_btn-visibility", View.INVISIBLE)
         redo_btn.visibility = savedInstanceState.getInt("redo_btn-visibility", View.INVISIBLE)
     }
 
-    private fun refreshButtonsVisibility() {
-        setEnabled(undo_btn, mask_custom_view.undoAvailable())
-        setEnabled(redo_btn, mask_custom_view.redoAvailable())
+    private fun setBrushDrawableDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
+        setBrushDrawableColor(brushDiseaseStage.maskColor)
+        mask_custom_view.setCurrentBrushDiseaseStage(brushDiseaseStage)
+    }
+
+    private fun composeSelectStagePopup(): SelectStagePopup {
+        return SelectStagePopup(
+            this,
+            presenter.brushDiseaseStages,
+            stages_btn,
+            AdapterView.OnItemClickListener() { _, _, position, _ ->
+                setBrushDrawableDiseaseStage(presenter.brushDiseaseStages[position])
+            }).apply {
+            setDropDownGravity(Gravity.TOP)
+        }
+    }
+
+    private fun setBrushDrawableColor(color: Int) {
+        val stageBtnDrawable = draw_btn.compoundDrawables[1] as LayerDrawable
+        stageBtnDrawable.getDrawable(0).apply {
+            setTint(color)
+        }
     }
 
     private fun setEnabled(view: View, enabled: Boolean) {

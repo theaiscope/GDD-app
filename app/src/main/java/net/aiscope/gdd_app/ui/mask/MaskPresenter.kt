@@ -1,7 +1,6 @@
 package net.aiscope.gdd_app.ui.mask
 
 import android.content.res.Resources
-import androidx.fragment.app.FragmentManager
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.repository.SampleRepository
 
@@ -12,6 +11,7 @@ class MaskPresenter(
 ) {
 
     private lateinit var diseaseName: String
+
     val brushDiseaseStages: Array<BrushDiseaseStage> by lazy {
         composeBrushDiseaseStagesArray(
             diseaseName,
@@ -37,22 +37,6 @@ class MaskPresenter(
         view.loadBitmap(imagePath)
     }
 
-    fun zoomMode() = view.zoomMode()
-
-    fun drawMode() = view.drawMode()
-
-    fun drawUndo() = view.drawUndo()
-
-    fun drawRedo() = view.drawRedo()
-
-    fun initBrushDiseaseStage() = view.setBrushDiseaseStage(brushDiseaseStages[0])
-
-    fun getBrushDiseaseStage() = view.getBrushDiseaseStage()
-
-    fun showSelectStageDialog(supportFragmentManager: FragmentManager) =
-        SelectStageDialog(brushDiseaseStages, this, view)
-            .show(supportFragmentManager, "SelectStageFragment")
-
     companion object {
 
         private fun composeBrushDiseaseStagesArray(
@@ -73,7 +57,7 @@ class MaskPresenter(
         private fun getDiseaseStagesArraysIds(diseaseName: String, resources: Resources) =
             when (diseaseName) {
                 resources.getString(R.string.malaria_name) -> R.array.malaria_stages_names to R.array.malaria_stages_colors
-                else -> throw IllegalArgumentException("$diseaseName not implemented in getStagesArraysIds(diseaseName: String)")
+                else -> throw IllegalArgumentException("$diseaseName not implemented in getDiseaseStagesArraysIds(diseaseName: String)")
             }
 
         private fun composeBrushDiseaseStagesArray(
