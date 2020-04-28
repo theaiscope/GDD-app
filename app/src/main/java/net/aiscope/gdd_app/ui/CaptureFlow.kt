@@ -26,6 +26,13 @@ fun <T> T.attachCaptureFlowToolbar(toolbar: androidx.appcompat.widget.Toolbar)
     }
 }
 
+fun <T> T.goToHomeAndConfirmSaved() where T : AppCompatActivity, T : CaptureFlow {
+    val intent = Intent(this, MainActivity::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    intent.putExtra("SAMPLE_SAVED", "OK" )
+    startActivity(intent)
+}
+
 fun <T> T.goToHome() where T : AppCompatActivity, T : CaptureFlow {
     val intent = Intent(this, MainActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
