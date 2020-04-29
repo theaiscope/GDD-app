@@ -79,12 +79,4 @@ class MetadataMapperTest {
         assertEquals(MalariaStage.SCHIZONT, MetadataMapper.getStage(context, "Schizont"))
         assertEquals(MalariaStage.GAMETOCYTE, MetadataMapper.getStage(context, "Gametocyte"))
     }
-
-    @Test
-    fun shouldReturnStageValue() {
-        assertEquals("Ring", MetadataMapper.getStageValue(context, MalariaStage.RING))
-        assertEquals("Trophozoite", MetadataMapper.getStageValue(context, MalariaStage.TROPHOZOITE))
-        assertEquals("Schizont", MetadataMapper.getStageValue(context, MalariaStage.SCHIZONT))
-        assertEquals("Gametocyte", MetadataMapper.getStageValue(context, MalariaStage.GAMETOCYTE))
-    }
 }

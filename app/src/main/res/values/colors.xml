@@ -10,4 +10,5 @@
     <color name="colorControlNormal">#61FFFFFF</color>
     <color name="colorSpinnerBackground">#212634</color>
     <color name="colorSpinnerPopupBackground">#4B556C</color>
+    <color name="colorError">#FF0000</color>
 </resources>

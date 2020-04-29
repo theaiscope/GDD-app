@@ -16,8 +16,7 @@ data class ViewStateModel(
     val options: List<FieldOption>,
     val required: Boolean = true,
     val smearTypeId: Int? = null,
-    val speciesValue: String? = null,
-    val stageValue: String? = null
+    val speciesValue: String? = null
 )
 
 class MetadataPresenter @Inject constructor(
@@ -43,8 +42,7 @@ class MetadataPresenter @Inject constructor(
                 sample.images.toList(),
                 emptyList(),
                 smearTypeId = lastMetadata?.let { metadataMapper.getSmearTypeId(it.smearType) },
-                speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) },
-                stageValue = lastMetadata?.let { metadataMapper.getStageValue(context, it.stage) }
+                speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) }
             )
         )
     }
