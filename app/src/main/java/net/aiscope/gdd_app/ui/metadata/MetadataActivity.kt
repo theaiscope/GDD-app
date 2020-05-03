@@ -19,7 +19,6 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
-import net.aiscope.gdd_app.ui.goToHome
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
@@ -74,7 +73,6 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         imagesAdapter.setImages(model.images)
         model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
         model.speciesValue?.let { selectSpinnerValue(metadata_species_spinner, it) }
-        model.stageValue?.let { selectSpinnerValue(metadata_stage_spinner, it) }
     }
 
     override fun showInvalidFormError() {
@@ -104,12 +102,17 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun save() {
-        coroutineScope.launch {
-            presenter.save(
-                metadata_section_smear_type_radio_group.checkedRadioButtonId,
-                metadata_species_spinner.selectedItem.toString(),
-                metadata_stage_spinner.selectedItem.toString()
-            )
+        var stage = metadata_stage_spinner.selectedItem.toString()
+        if (stage == this.baseContext.getString(R.string.malaria_stage_prompt)) {
+            metadata_stage_error.text = this.baseContext.getString(R.string.malaria_stage_required)
+        } else {
+            coroutineScope.launch {
+                presenter.save(
+                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
+                    metadata_species_spinner.selectedItem.toString(),
+                    metadata_stage_spinner.selectedItem.toString()
+                )
+            }
         }
     }
 

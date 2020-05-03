@@ -58,13 +58,4 @@ object MetadataMapper {
             )
         }
     }
-
-    fun getStageValue(context: Context, stage: MalariaStage): String {
-        return when (stage) {
-            MalariaStage.RING -> context.getString(R.string.malaria_stage_ring)
-            MalariaStage.TROPHOZOITE -> context.getString(R.string.malaria_stage_trophozoite)
-            MalariaStage.SCHIZONT -> context.getString(R.string.malaria_stage_schizont)
-            MalariaStage.GAMETOCYTE -> context.getString(R.string.malaria_stage_gametocyte)
-        }
-    }
 }
