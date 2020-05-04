@@ -2,10 +2,12 @@ package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.AbsSpinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -17,7 +19,9 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
-import net.aiscope.gdd_app.ui.goToHome
+import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
+import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import javax.inject.Inject
 
 class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
@@ -49,11 +53,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
         metadata_save_sample.setOnClickListener {
             coroutineScope.launch {
-                presenter.save(
-                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
-                    metadata_species_spinner.selectedItem.toString(),
-                    metadata_stage_spinner.selectedItem.toString()
-                )
+                save()
             }
         }
     }
@@ -73,21 +73,46 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         imagesAdapter.setImages(model.images)
         model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
         model.speciesValue?.let { selectSpinnerValue(metadata_species_spinner, it) }
-        model.stageValue?.let { selectSpinnerValue(metadata_stage_spinner, it) }
     }
 
     override fun showInvalidFormError() {
         Toast.makeText(this, R.string.metadata_invalid_form, Toast.LENGTH_SHORT).show()
     }
 
+    override fun showRetryBar() {
+        CustomSnackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.metadata_snackbar_error),
+            Snackbar.LENGTH_INDEFINITE,null,
+            CustomSnackbarAction(getString(R.string.metadata_snackbar_retry),View.OnClickListener {
+                save()
+            })
+        ).show()
+    }
+
     override fun finishFlow() {
-        goToHome()
+        goToHomeAndConfirmSaved()
     }
 
     override fun captureImage(nextImageName: String) {
         val intent = Intent(this, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
         this.startActivity(intent)
+    }
+
+    private fun save() {
+        var stage = metadata_stage_spinner.selectedItem.toString()
+        if (stage == this.baseContext.getString(R.string.malaria_stage_prompt)) {
+            metadata_stage_error.text = this.baseContext.getString(R.string.malaria_stage_required)
+        } else {
+            coroutineScope.launch {
+                presenter.save(
+                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
+                    metadata_species_spinner.selectedItem.toString(),
+                    metadata_stage_spinner.selectedItem.toString()
+                )
+            }
+        }
     }
 
     private fun onAddImageClicked() {

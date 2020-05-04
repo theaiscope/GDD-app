@@ -79,8 +79,6 @@ class MetadataPresenterTest {
             .thenReturn("P. ovale")
         whenever(metadataMapper.getStage(context, "Trophozoite"))
             .thenReturn(MalariaStage.TROPHOZOITE)
-        whenever(metadataMapper.getStageValue(context, MalariaStage.TROPHOZOITE))
-            .thenReturn("Trophozoite")
     }
 
     @Test
@@ -133,7 +131,6 @@ class MetadataPresenterTest {
             verify(view).fillForm(capture())
             assertEquals(expectedSmearType, allValues[0].smearTypeId)
             assertEquals(expectedSpecies, allValues[0].speciesValue)
-            assertEquals(expectedStage, allValues[0].stageValue)
         }
     }
 }

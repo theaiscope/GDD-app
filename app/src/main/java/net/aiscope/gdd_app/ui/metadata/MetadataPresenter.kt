@@ -5,6 +5,7 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.Status
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -15,8 +16,7 @@ data class ViewStateModel(
     val options: List<FieldOption>,
     val required: Boolean = true,
     val smearTypeId: Int? = null,
-    val speciesValue: String? = null,
-    val stageValue: String? = null
+    val speciesValue: String? = null
 )
 
 class MetadataPresenter @Inject constructor(
@@ -42,8 +42,7 @@ class MetadataPresenter @Inject constructor(
                 sample.images.toList(),
                 emptyList(),
                 smearTypeId = lastMetadata?.let { metadataMapper.getSmearTypeId(it.smearType) },
-                speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) },
-                stageValue = lastMetadata?.let { metadataMapper.getStageValue(context, it.stage) }
+                speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) }
             )
         )
     }
@@ -53,18 +52,23 @@ class MetadataPresenter @Inject constructor(
     }
 
     suspend fun save(smearTypeId: Int, speciesValue: String, stageValue: String) {
-        val sample = repository.current()
-            .copy(metadata = SampleMetadata(
+        try {
+            val sample = repository.current()
+                .copy(metadata = SampleMetadata(
                     metadataMapper.getSmearType(smearTypeId),
                     metadataMapper.getSpecies(context, speciesValue),
                     metadataMapper.getStage(context, stageValue)
                 ), status = Status.ReadyToUpload
-            )
-        repository.store(sample)
+                )
+            repository.store(sample)
 
-        remoteStorage.enqueue(sample, context)
-
-        view.finishFlow()
+            remoteStorage.enqueue(sample, context)
+            view.finishFlow()
+        }
+        catch(@Suppress("TooGenericExceptionCaught") error: Throwable) {
+            Timber.e(error, "An error occurred when saving sample")
+            view.showRetryBar()
+        }
     }
 
     suspend fun addImage() {

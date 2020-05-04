@@ -14,4 +14,5 @@
     <color name="malaria_stage_trophozoite">#BFBE52</color>
     <color name="malaria_stage_schizont">#BF6B49</color>
     <color name="malaria_stage_gametocyte">#946FBF</color>
+    <color name="colorError">#FF0000</color>
 </resources>
