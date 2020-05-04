@@ -23,6 +23,6 @@
         android:layout_gravity="center_vertical"
         android:paddingStart="4dp"
         android:paddingEnd="8dp"
-        android:textColor="@color/colorPrimaryDark" />
+        android:textColor="@color/colorPlainText" />
 
 </LinearLayout>
