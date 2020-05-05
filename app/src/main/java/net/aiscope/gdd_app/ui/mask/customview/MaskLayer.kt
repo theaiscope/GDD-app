@@ -123,7 +123,7 @@ class MaskLayer(
         canvas.drawText(text, textX, textY, textPaint)
     }
 
-    private fun pxToDp(px: Int) = (px * context.resources.displayMetrics.density + 0.5f).toInt()
+    private fun pxToDp(px: Int) = (px * context.resources.displayMetrics.density).toInt()
 
     fun onViewSizeChanged(width: Int, height: Int) {
         viewDimensions = width to height
