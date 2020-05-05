@@ -25,6 +25,9 @@ class MaskLayer(
         private const val PATH_STROKE = 80f
         private const val TEXT_SIZE = 48f
         private const val TEXT_STROKE = 12f
+        private const val ALPHA_OPAQUE = 0xFF
+        private const val VERTICAL_PADDING_PX = 4
+
         private val textPaint = Paint().apply {
             color = Color.WHITE
             textSize = TEXT_SIZE
@@ -89,7 +92,7 @@ class MaskLayer(
         for (i in 0 until pathsPaintsAndStagesNames.size - undoPendingPaths) {
             val (path, paint, stageName) = pathsPaintsAndStagesNames[i]
             val paintReviewed =
-                if (removeAlpha) Paint().apply { set(paint); alpha = 0xFF } else paint
+                if (removeAlpha) Paint().apply { set(paint); alpha = ALPHA_OPAQUE } else paint
             canvas.drawPath(path, paintReviewed)
             if (drawStageNames) drawPathText(path, paint, stageName, canvas)
         }
@@ -107,13 +110,13 @@ class MaskLayer(
         val currentScale = currentScale()
         val (firstPointX, firstPointY) = path.firstPoint
         val textX = firstPointX - textBoundsRuler.width() / 2
-        val verticalPadding = pxToDp(8) / currentScale
+        val verticalPadding = pxToDp(VERTICAL_PADDING_PX * 2) / currentScale
         val textY = firstPointY +
                 if (path.verticalDirection > 0) {
                     -(pathPaint.strokeWidth / 2 + verticalPadding)
                 } else {
                     textBoundsRuler.height() + pathPaint.strokeWidth / 2 +
-                            verticalPadding - pxToDp(4) / currentScale
+                            verticalPadding - pxToDp(VERTICAL_PADDING_PX) / currentScale
                 }
 
         canvas.drawText(text, textX, textY, textStrokePaint)

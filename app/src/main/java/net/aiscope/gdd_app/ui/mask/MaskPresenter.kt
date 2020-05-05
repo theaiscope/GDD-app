@@ -56,8 +56,11 @@ class MaskPresenter(
 
         private fun getDiseaseStagesArraysIds(diseaseName: String, resources: Resources) =
             when (diseaseName) {
-                resources.getString(R.string.malaria_name) -> R.array.malaria_stages_names to R.array.malaria_stages_colors
-                else -> throw IllegalArgumentException("$diseaseName not implemented in getDiseaseStagesArraysIds(diseaseName: String)")
+                resources.getString(R.string.malaria_name) ->
+                    R.array.malaria_stages_names to R.array.malaria_stages_colors
+                else ->
+                    throw IllegalArgumentException("$diseaseName not implemented in " +
+                            "getDiseaseStagesArraysIds(diseaseName: String)")
             }
 
         private fun composeBrushDiseaseStagesArray(

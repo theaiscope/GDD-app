@@ -22,6 +22,7 @@ enum class MalariaSpecies(val id: Int) {
     P_KNOWLESI(5)
 }
 
+@Suppress("MagicNumber") // these are IDs
 enum class MalariaStage(val id: Int) {
     RING(1),
     TROPHOZOITE(2),
