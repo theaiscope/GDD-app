@@ -25,7 +25,7 @@ class CaptureImagePresenterTest {
     fun `capture image should store the image`() = coroutinesTestRule.runBlockingTest {
         val view: CaptureImageView = mock()
         val repository: SampleRepository = mock()
-        val sample = Sample("an id", "a facility", "a microscopist")
+        val sample = Sample("an id", "a facility", "a microscopist", "a disease")
         val file = File.createTempFile("temp", ".png")
 
         whenever(repository.current()).thenReturn(sample)
@@ -37,7 +37,7 @@ class CaptureImagePresenterTest {
         }
 
         val presenter = CaptureImagePresenter(view, repository)
-        presenter.handleCaptureImageButton("any", "any")
+        presenter.handleCaptureImageButton("any")
 
         verify(repository).store(sample.copy(images = linkedSetOf(file)))
     }

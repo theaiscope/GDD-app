@@ -1,4 +1,5 @@
 <resources>
+    <style name="AppThemeTemp" parent="Theme.AppCompat"/>
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -18,6 +19,12 @@
         <item name="spinnerDropDownItemStyle">@style/AppTheme.DropDownItem.Spinner</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="android:textColorHint">@color/colorPlainText</item>
+
+        <item name="android:listPopupWindowStyle">@style/AppTheme.ListPopupWindow</item>
+    </style>
+
+    <style name="AppTheme.ListPopupWindow" parent="@style/Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupBackground">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

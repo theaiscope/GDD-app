@@ -3,13 +3,14 @@ package net.aiscope.gdd_app.ui.mask.customview
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
-import android.os.Parcel
+import android.graphics.Rect
 import android.os.Parcelable
 import android.view.ViewConfiguration
 import androidx.core.graphics.withMatrix
-import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.ui.mask.BrushDiseaseStage
 import java.util.*
 import kotlin.math.abs
 
@@ -19,11 +20,26 @@ class MaskLayer(
     private val scaleMatrix: Matrix
 ) {
     companion object {
-        private const val TWENTY = 20.0f
         private const val MATRIX_SIZE = 9
-        private const val MASK_PAINT_ALPHA = 200
+        private const val MASK_PAINT_ALPHA = 0xCC
+        private const val PATH_STROKE = 80f
+        private const val TEXT_SIZE = 48f
+        private const val TEXT_STROKE = 12f
+        private const val ALPHA_OPAQUE = 0xFF
+        private const val VERTICAL_PADDING_PX = 4
 
-        private fun newDefaultPaintBrush(color: Int) = Paint().apply {
+        private val textPaint = Paint().apply {
+            color = Color.WHITE
+            textSize = TEXT_SIZE
+        }
+        private val textStrokePaint = Paint().apply {
+            color = Color.DKGRAY
+            style = Paint.Style.STROKE
+            textSize = TEXT_SIZE
+            strokeWidth = TEXT_STROKE
+        }
+
+        fun newDefaultPaintBrush(color: Int, strokeWidth: Float) = Paint().apply {
             this.isAntiAlias = true
             this.isDither = true
             this.style = Paint.Style.STROKE
@@ -31,19 +47,35 @@ class MaskLayer(
             this.strokeCap = Paint.Cap.ROUND
             this.color = color
             this.alpha = MASK_PAINT_ALPHA
+            this.strokeWidth = strokeWidth
         }
     }
 
-    private var pathsAndPaints: MutableList<Pair<PointToPointPath, Paint>> = LinkedList()
+    private var pathsPaintsAndStagesNames: MutableList<PathPaintAndStageName> = LinkedList()
     private var undoPendingPaths = 0
     private lateinit var currentPath: PointToPointPath
-    private lateinit var currentPaint: Paint
+    private var currentPaintDirty = false
+    var brushDiseaseStage = BrushDiseaseStage(0, "non-initialized", 0)
+        set(value) {
+            currentPaintDirty = currentPaintDirty || field != value
+            field = value
+        }
+    private var currentStrokeWidth = PATH_STROKE
+        set(value) {
+            currentPaintDirty = currentPaintDirty || field != value
+            field = value
+        }
+    private var currentPaint = Paint()
+        get() {
+            if (currentPaintDirty) cleanCurrentPaint()
+            return field
+        }
     private lateinit var viewDimensions: Pair<Int, Int>
     private lateinit var bitmapDimensions: Pair<Int, Int>
 
     fun init(width: Int, height: Int) {
         bitmapDimensions = width to height
-        scaleBrush()
+        scaleBrushAndTextPaints()
     }
 
     fun onDraw(canvas: Canvas) {
@@ -52,25 +84,59 @@ class MaskLayer(
         }
     }
 
-    private fun drawPaths(canvas: Canvas) {
-        for (i in 0 until pathsAndPaints.size - undoPendingPaths) {
-            val (path, paint) = pathsAndPaints[i]
-            canvas.drawPath(path, paint)
+    private fun drawPaths(
+        canvas: Canvas,
+        drawStageNames: Boolean = false,
+        removeAlpha: Boolean = false
+    ) {
+        for (i in 0 until pathsPaintsAndStagesNames.size - undoPendingPaths) {
+            val (path, paint, stageName) = pathsPaintsAndStagesNames[i]
+            val paintReviewed =
+                if (removeAlpha) Paint().apply { set(paint); alpha = ALPHA_OPAQUE } else paint
+            canvas.drawPath(path, paintReviewed)
+            if (drawStageNames) drawPathText(path, paint, stageName, canvas)
         }
     }
 
-    fun onViewSizeChanged(width: Int, height: Int) {
-        viewDimensions = width to height
-        scaleBrush()
+    private fun drawPathText(
+        path: PointToPointPath,
+        pathPaint: Paint,
+        text: String,
+        canvas: Canvas
+    ) {
+        val textBoundsRuler = Rect()
+        textPaint.getTextBounds(text, 0, text.length, textBoundsRuler)
+
+        val currentScale = currentScale()
+        val (firstPointX, firstPointY) = path.firstPoint
+        val textX = firstPointX - textBoundsRuler.width() / 2
+        val verticalPadding = pxToDp(VERTICAL_PADDING_PX * 2) / currentScale
+        val textY = firstPointY +
+                if (path.verticalDirection > 0) {
+                    -(pathPaint.strokeWidth / 2 + verticalPadding)
+                } else {
+                    textBoundsRuler.height() + pathPaint.strokeWidth / 2 +
+                            verticalPadding - pxToDp(VERTICAL_PADDING_PX) / currentScale
+                }
+
+        canvas.drawText(text, textX, textY, textStrokePaint)
+        canvas.drawText(text, textX, textY, textPaint)
     }
 
-    fun onScaleChanged() = scaleBrush()
+    private fun pxToDp(px: Int) = (px * context.resources.displayMetrics.density).toInt()
+
+    fun onViewSizeChanged(width: Int, height: Int) {
+        viewDimensions = width to height
+        scaleBrushAndTextPaints()
+    }
+
+    fun onScaleChanged() = scaleBrushAndTextPaints()
 
     fun undo() = undoPendingPaths++
 
     fun redo() = undoPendingPaths--
 
-    fun undoAvailable() = (pathsAndPaints.size - undoPendingPaths) > 0
+    fun undoAvailable() = (pathsPaintsAndStagesNames.size - undoPendingPaths) > 0
 
     fun redoAvailable() = undoPendingPaths > 0
 
@@ -78,7 +144,7 @@ class MaskLayer(
         val (width, height) = bitmapDimensions
         return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
             val canvas = Canvas(this)
-            drawPaths(canvas)
+            drawPaths(canvas, removeAlpha = true)
         }
     }
 
@@ -90,116 +156,61 @@ class MaskLayer(
         val (latestX, latestY) = currentPath.latestPoint
         val dX = abs(x - latestX)
         val dY = abs(y - latestY)
-        val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop
+        val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale()
         if (dX >= touchTolerance || dY >= touchTolerance) {
             currentPath.quadTo(x, y)
-            if (pathsAndPaints.isEmpty() || currentPath != pathsAndPaints.last().first) {
+            if (pathsPaintsAndStagesNames.isEmpty() || currentPath != pathsPaintsAndStagesNames.last().path) {
                 addPath(currentPath)
             }
         }
     }
 
-    fun onSaveInstanceState() = CustomViewBaseState(pathsAndPaints, undoPendingPaths)
+    fun onSaveInstanceState() =
+        MaskCustomViewBaseState(pathsPaintsAndStagesNames, undoPendingPaths, brushDiseaseStage)
 
     fun onRestoreInstanceState(savedState: Parcelable) {
-        if (savedState is CustomViewBaseState) {
+        if (savedState is MaskCustomViewBaseState) {
             undoPendingPaths = savedState.undoPendingPaths
-            pathsAndPaints.addAll(savedState.composePathsAndPaints())
+            pathsPaintsAndStagesNames.addAll(savedState.reassemblePathsPaintsAndStagesNames())
+            brushDiseaseStage = savedState.currentBrushDiseaseStage
         }
     }
 
     private fun addPath(path: PointToPointPath) {
-        for (i in pathsAndPaints.size - 1 downTo pathsAndPaints.size - undoPendingPaths) {
-            pathsAndPaints.removeAt(i)
+        for (i in pathsPaintsAndStagesNames.size - 1 downTo pathsPaintsAndStagesNames.size - undoPendingPaths) {
+            pathsPaintsAndStagesNames.removeAt(i)
         }
         undoPendingPaths = 0
-        pathsAndPaints.add(path to currentPaint)
+        pathsPaintsAndStagesNames.add(
+            PathPaintAndStageName(
+                path,
+                currentPaint,
+                brushDiseaseStage.name
+            )
+        )
     }
 
-    private fun scaleBrush() {
-        val scale = getScaleFrom(this.scaleMatrix)
+    private fun scaleBrushAndTextPaints() {
+        val currentScale = currentScale()
+        currentStrokeWidth = PATH_STROKE / currentScale
 
-        currentPaint = newDefaultPaintBrush(context.getColor(R.color.colorPrimary)).apply {
-            val (viewWidth, viewHeight) = viewDimensions
-            strokeWidth = viewHeight.coerceAtLeast(viewWidth).toFloat() / (TWENTY * scale)
-        }
+        textPaint.textSize = TEXT_SIZE / currentScale
+        textStrokePaint.textSize = textPaint.textSize
+        textStrokePaint.strokeWidth = TEXT_STROKE / currentScale
     }
 
-    private fun getScaleFrom(m: Matrix): Float {
-        val p = FloatArray(MATRIX_SIZE)
-        m.getValues(p)
+    private fun currentScale() =
+        FloatArray(MATRIX_SIZE).apply {
+            scaleMatrix.getValues(this)
+        }[Matrix.MSCALE_X]
 
-        return p[Matrix.MSCALE_X]
+    private fun cleanCurrentPaint() {
+        currentPaint = newDefaultPaintBrush(brushDiseaseStage.maskColor, currentStrokeWidth)
     }
 
-    class CustomViewBaseState(
-        pathsAndPaints: List<Pair<PointToPointPath, Paint>>,
-        val undoPendingPaths: Int
-    ) : Parcelable {
-
-        companion object CREATOR : Parcelable.Creator<CustomViewBaseState> {
-            override fun createFromParcel(parcel: Parcel): CustomViewBaseState {
-                return CustomViewBaseState(parcel)
-            }
-
-            override fun newArray(size: Int): Array<CustomViewBaseState?> {
-                return arrayOfNulls(size)
-            }
-        }
-
-        val basePathsAndPaintChangesData: MutableList<Pair<PathBaseData, PaintChangeBaseData?>> = LinkedList()
-
-        init {
-            if (pathsAndPaints.isNotEmpty()) {
-                val (firstPath, firstPaint) = pathsAndPaints[0]
-                val firstPathBaseData = PathBaseData(firstPath.getPoints())
-                val firstPaintChangeBaseData =
-                    PaintChangeBaseData(firstPaint.color, firstPaint.strokeWidth)
-                basePathsAndPaintChangesData.add(firstPathBaseData to firstPaintChangeBaseData)
-                var latestPaint: Paint = firstPaint
-                for ((path, paint) in pathsAndPaints.subList(1, pathsAndPaints.size)) {
-                    val pathPoints = path.getPoints()
-                    val pathBaseData = PathBaseData(pathPoints)
-                    val paintBaseChangeData =
-                        if (paint != latestPaint)
-                            PaintChangeBaseData(paint.color, paint.strokeWidth)
-                        else
-                            null
-                    basePathsAndPaintChangesData.add(pathBaseData to paintBaseChangeData)
-                    latestPaint = paint
-                }
-            }
-        }
-
-        constructor(parcel: Parcel) : this(LinkedList<Pair<PointToPointPath, Paint>>().apply {
-            parcel.readList(this as List<*>, Pair::class.java.classLoader)
-        }, parcel.readInt())
-
-        override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeList(basePathsAndPaintChangesData as List<*>)
-            parcel.writeInt(undoPendingPaths)
-        }
-
-        override fun describeContents() = 0
-
-        fun composePathsAndPaints(): List<Pair<PointToPointPath, Paint>> {
-            val result = LinkedList<Pair<PointToPointPath, Paint>>()
-            lateinit var latestPaint: Paint
-            for ((basePath, paintChange) in basePathsAndPaintChangesData) {
-                val path = PointToPointPath(basePath.points)
-                latestPaint =
-                    if (paintChange == null)
-                        latestPaint
-                    else
-                        newDefaultPaintBrush(paintChange.color).apply {
-                            strokeWidth = paintChange.strokeWidth
-                        }
-                result.add(path to latestPaint)
-            }
-            return result
-        }
-    }
-
-    data class PathBaseData(val points: List<Pair<Float, Float>>)
-    data class PaintChangeBaseData(val color: Int, val strokeWidth: Float)
+    data class PathPaintAndStageName(
+        val path: PointToPointPath,
+        val paint: Paint,
+        val diseaseStageName: String
+    )
 }

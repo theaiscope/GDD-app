@@ -8,8 +8,4 @@ interface MaskView {
     fun goToMetadata()
     fun notifyImageCouldNotBeTaken()
     fun loadBitmap(imagePath: String)
-    fun zoomMode()
-    fun drawMode()
-    fun drawUndo()
-    fun drawRedo()
 }

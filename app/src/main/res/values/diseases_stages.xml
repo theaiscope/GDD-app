@@ -1,0 +1,14 @@
+<resources>
+    <array name="malaria_stages_names">
+        <item>@string/malaria_stage_ring</item>
+        <item>@string/malaria_stage_trophozoite</item>
+        <item>@string/malaria_stage_schizont</item>
+        <item>@string/malaria_stage_gametocyte</item>
+    </array>
+    <array name="malaria_stages_colors">
+        <item>@color/malaria_stage_ring</item>
+        <item>@color/malaria_stage_trophozoite</item>
+        <item>@color/malaria_stage_schizont</item>
+        <item>@color/malaria_stage_gametocyte</item>
+    </array>
+</resources>

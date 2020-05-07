@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.dagger
 
 import android.app.Activity
+import android.content.res.Resources
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,11 @@ abstract class MaskModule {
         @Provides
         @PerActivity
         @JvmStatic
-        internal fun providePresenter(view: MaskView, repository: SampleRepository): MaskPresenter=
-            MaskPresenter(view, repository)
+        internal fun providePresenter(
+            view: MaskView,
+            repository: SampleRepository,
+            resources: Resources
+        ): MaskPresenter =
+            MaskPresenter(view, repository, resources)
     }
 }

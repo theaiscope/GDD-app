@@ -2,7 +2,7 @@ package net.aiscope.gdd_app.model
 
 import net.aiscope.gdd_app.extensions.plus
 import java.io.File
-import java.util.Calendar
+import java.util.*
 
 enum class Status(val id: Short) {
     Incomplete(0), ReadyToUpload(1), Uploaded(2)

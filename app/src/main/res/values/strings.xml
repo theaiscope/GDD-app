@@ -39,6 +39,7 @@
     <string name="metadata_snackbar_retry">TRY AGAIN</string>
 
 
+    <string name="malaria_name">Malaria</string>
     <string name="malaria_species_p_falciparum">P. falciparum</string>
     <string name="malaria_species_p_vivax">P. vivax</string>
     <string name="malaria_species_p_ovale">P. ovale</string>
@@ -68,4 +69,8 @@
     </string-array>
     <string name="mask_activity_undo">Undo</string>
     <string name="mask_activity_redo">Redo</string>
+    <string name="mask_activity_stages">Select stage</string>
+    <string name="mask_activity_stages_dialog_title"><font color="#ffffffff">Select a stage</font></string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_ok">OK</string>
 </resources>

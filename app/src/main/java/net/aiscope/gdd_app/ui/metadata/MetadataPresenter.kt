@@ -73,6 +73,6 @@ class MetadataPresenter @Inject constructor(
 
     suspend fun addImage() {
         val current = repository.current()
-        view.captureImage(current.nextImageName(), current.nextMaskName())
+        view.captureImage(current.nextImageName())
     }
 }

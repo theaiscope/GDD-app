@@ -1,8 +1,6 @@
 package net.aiscope.gdd_app.presentation
 
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,24 +48,6 @@ class SelectDiseasePresenterTest {
                 assert(firstValue.disease == DISEASE_NAME)
                 verify(view).showSuccessToast()
             }
-        }
-
-    @Test
-    fun `should call failure toast on the view is name is empty`() =
-        coroutinesTestRule.runBlockingTest {
-            subject.saveDisease("")
-
-            verify(repository, times(0)).store(any())
-            verify(view).showFailureToast()
-        }
-
-    @Test
-    fun `should call failure toast on the view is name is blank`() =
-        coroutinesTestRule.runBlockingTest {
-            subject.saveDisease("    ")
-
-            verify(repository, times(0)).store(any())
-            verify(view).showFailureToast()
         }
 
     companion object {

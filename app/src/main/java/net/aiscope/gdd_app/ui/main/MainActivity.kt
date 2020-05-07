@@ -67,10 +67,9 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         super.onDestroy()
     }
 
-    override fun captureImage(nextImageName: String, nextMaskName: String) {
+    override fun captureImage(nextImageName: String) {
         val intent = Intent(this, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
-        intent.putExtra(CaptureImageActivity.EXTRA_MASK_NAME, nextMaskName)
         this.startActivity(intent)
     }
 

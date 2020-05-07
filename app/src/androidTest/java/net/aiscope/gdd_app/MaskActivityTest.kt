@@ -39,10 +39,12 @@ class MaskActivityTest {
     private fun startActivity() {
         val tempFile = File.createTempFile("img", ".png")
         val outputStream = tempFile.outputStream()
-        getAssetStream(getInstrumentation().targetContext.applicationContext, "photo.png").copyTo(outputStream)
+        val applicationContext = getInstrumentation().targetContext.applicationContext
+        getAssetStream(applicationContext, "photo.png").copyTo(outputStream)
 
         activityTestRule.launchActivity(
             Intent(Intent.ACTION_MAIN)
+                .putExtra(MaskActivity.EXTRA_DISEASE_NAME, applicationContext.resources.getString(R.string.malaria_name))
                 .putExtra(MaskActivity.EXTRA_IMAGE_NAME, tempFile.absolutePath)
                 .putExtra(MaskActivity.EXTRA_MASK_NAME, "mask")
         )
@@ -223,7 +225,7 @@ class MaskActivityTest {
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
+         assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
 
         perform(R.id.undo_btn, click())
 
