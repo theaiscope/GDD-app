@@ -8,6 +8,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
+val VERSION_REGEX = Regex("""^\d+\.\d+\.\d+ \([a-zA-Z0-9]+\)""")
+
 @RunWith(AndroidJUnit4::class)
 class SampleTest {
 
@@ -23,7 +25,7 @@ class SampleTest {
         assertEquals(dto.id, "_id")
         assertEquals(dto.healthFacility,"facility")
         assertEquals(dto.microscopist, "microscopist")
-        assertTrue(dto.appVersion.matches(Regex("""^\d+\.\d+\.\d+ \([a-zA-Z0-9]+\)""")))
+        assertTrue(dto.appVersion.matches(VERSION_REGEX))
         assertNotNull(dto.device)
     }
 }
