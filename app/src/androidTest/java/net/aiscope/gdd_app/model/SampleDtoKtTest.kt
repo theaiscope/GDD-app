@@ -1,7 +1,6 @@
-package net.aiscope.gdd_app
+package net.aiscope.gdd_app.model
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.network.toDto
 import org.junit.Assert
 import org.junit.Test
