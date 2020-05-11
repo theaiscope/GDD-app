@@ -10,7 +10,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
-import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
@@ -77,8 +76,6 @@ class MetadataPresenterTest {
             .thenReturn(MalariaSpecies.P_VIVAX)
         whenever(metadataMapper.getSpeciesValue(context, MalariaSpecies.P_OVALE))
             .thenReturn("P. ovale")
-        whenever(metadataMapper.getStage(context, "Trophozoite"))
-            .thenReturn(MalariaStage.TROPHOZOITE)
     }
 
     @Test
@@ -90,11 +87,10 @@ class MetadataPresenterTest {
     @Test
     fun shouldStoreMetadata() = coroutinesTestRule.runBlockingTest {
         val expected = SampleMetadata(
-            SmearType.THICK, MalariaSpecies.P_VIVAX,
-            MalariaStage.TROPHOZOITE
+            SmearType.THICK, MalariaSpecies.P_VIVAX
         )
 
-        subject.save(R.id.metadata_blood_smear_thick, "P. vivax", "Trophozoite")
+        subject.save(R.id.metadata_blood_smear_thick, "P. vivax")
 
         verify(remote).enqueue(check {
             assertEquals(it.metadata, expected)
@@ -108,7 +104,6 @@ class MetadataPresenterTest {
     fun shouldDefaultToLastMetadata() = coroutinesTestRule.runBlockingTest{
         val expectedSmearType = R.id.metadata_blood_smear_thin
         val expectedSpecies = "P. ovale"
-        val expectedStage = "Trophozoite"
 
         whenever(repository.last()).thenReturn(
             Sample(
@@ -120,8 +115,7 @@ class MetadataPresenterTest {
                 createdOn = java.util.Calendar.getInstance(),
                 metadata = SampleMetadata(
                     SmearType.THIN,
-                    MalariaSpecies.P_OVALE,
-                    MalariaStage.TROPHOZOITE
+                    MalariaSpecies.P_OVALE
                 )
             )
         )

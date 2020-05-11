@@ -51,13 +51,12 @@ class MetadataPresenter @Inject constructor(
         view.showInvalidFormError()
     }
 
-    suspend fun save(smearTypeId: Int, speciesValue: String, stageValue: String) {
+    suspend fun save(smearTypeId: Int, speciesValue: String) {
         try {
             val sample = repository.current()
                 .copy(metadata = SampleMetadata(
                     metadataMapper.getSmearType(smearTypeId),
-                    metadataMapper.getSpecies(context, speciesValue),
-                    metadataMapper.getStage(context, stageValue)
+                    metadataMapper.getSpecies(context, speciesValue)
                 ), status = Status.ReadyToUpload
                 )
             repository.store(sample)

@@ -101,17 +101,11 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun save() {
-        var stage = metadata_stage_spinner.selectedItem.toString()
-        if (stage == this.baseContext.getString(R.string.malaria_stage_prompt)) {
-            metadata_stage_error.text = this.baseContext.getString(R.string.malaria_stage_required)
-        } else {
-            coroutineScope.launch {
-                presenter.save(
-                    metadata_section_smear_type_radio_group.checkedRadioButtonId,
-                    metadata_species_spinner.selectedItem.toString(),
-                    metadata_stage_spinner.selectedItem.toString()
-                )
-            }
+        coroutineScope.launch {
+            presenter.save(
+                metadata_section_smear_type_radio_group.checkedRadioButtonId,
+                metadata_species_spinner.selectedItem.toString()
+            )
         }
     }
 

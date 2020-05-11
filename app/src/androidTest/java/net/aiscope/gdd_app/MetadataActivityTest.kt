@@ -42,12 +42,8 @@ class MetadataActivityTest {
     fun shouldStoreData() {
         // Select bloodType
         Espresso.onView(ViewMatchers.withText(R.string.metadata_blood_smear_thin)).perform(click())
-//        onData(allOf(`is`(instanceOf(String::class.java)), `is`("thin"))).perform(click())
 
         Espresso.onView(ViewMatchers.withId(R.id.metadata_species_spinner)).perform(click())
-        Espresso.onData(anything()).atPosition(1).perform(click())
-
-        Espresso.onView(ViewMatchers.withId(R.id.metadata_stage_spinner)).perform(click())
         Espresso.onData(anything()).atPosition(1).perform(click())
 
         // Save button click

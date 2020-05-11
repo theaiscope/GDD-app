@@ -53,20 +53,11 @@
         <item>@string/malaria_species_p_knowlesi</item>
     </string-array>
 
-    <string name="malaria_stage_required">Select a stage</string>
-    <string name="malaria_stage_prompt">- select -</string>
     <string name="malaria_stage_ring">Ring</string>
     <string name="malaria_stage_trophozoite">Trophozoite</string>
     <string name="malaria_stage_schizont">Schizont</string>
     <string name="malaria_stage_gametocyte">Gametocyte</string>
     <string name="profile">profile</string>
-    <string-array name="metadata_malaria_stages">
-        <item>- select -</item>
-        <item>Ring</item>
-        <item>Trophozoite</item>
-        <item>Schizont</item>
-        <item>Gametocyte</item>
-    </string-array>
     <string name="mask_activity_undo">Undo</string>
     <string name="mask_activity_redo">Redo</string>
     <string name="mask_activity_stages">Select stage</string>

@@ -7,8 +7,7 @@ import net.aiscope.gdd_app.model.Sample
 
 data class SampleMetadataDto(
     @SerializedName("bloodType") val bloodType: Int,
-    @SerializedName("species") val species: Int,
-    @SerializedName("stage") val stage: Int
+    @SerializedName("species") val species: Int
 )
 
 data class SampleDto(
@@ -28,8 +27,7 @@ fun Sample.toDto() = SampleDto(
     disease = disease ?: "",
     metadata = SampleMetadataDto(
         bloodType = metadata.smearType.id,
-        species = metadata.species.id,
-        stage = metadata.stage.id
+        species = metadata.species.id
     ),
     appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
     device = "${Build.MANUFACTURER} ${Build.MODEL}"
