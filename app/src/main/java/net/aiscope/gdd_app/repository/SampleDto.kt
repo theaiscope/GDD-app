@@ -8,7 +8,7 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.model.Status
 import java.io.File
-import java.util.*
+import java.util.Calendar
 
 data class SampleMetadataDto(
     @SerializedName("bloodType") val bloodType: Int,
