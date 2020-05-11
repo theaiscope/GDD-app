@@ -3,7 +3,6 @@ package net.aiscope.gdd_app.ui.metadata
 import android.content.Context
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
-import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.SmearType
 
 object MetadataMapper {
@@ -47,15 +46,4 @@ object MetadataMapper {
         }
     }
 
-    fun getStage(context: Context, stageValue: String): MalariaStage {
-        return when (stageValue) {
-            context.getString(R.string.malaria_stage_ring) -> MalariaStage.RING
-            context.getString(R.string.malaria_stage_trophozoite) -> MalariaStage.TROPHOZOITE
-            context.getString(R.string.malaria_stage_schizont) -> MalariaStage.SCHIZONT
-            context.getString(R.string.malaria_stage_gametocyte) -> MalariaStage.GAMETOCYTE
-            else -> throw IllegalStateException(
-                "$stageValue stage is unknown"
-            )
-        }
-    }
 }

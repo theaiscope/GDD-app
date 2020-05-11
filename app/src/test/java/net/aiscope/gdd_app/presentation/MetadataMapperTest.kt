@@ -4,7 +4,6 @@ import android.content.Context
 import com.nhaarman.mockito_kotlin.whenever
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
-import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import org.junit.Assert.assertEquals
@@ -32,14 +31,6 @@ class MetadataMapperTest {
         whenever(context.getString(R.string.malaria_species_p_knowlesi))
             .thenReturn("P. knowlesi")
 
-        whenever(context.getString(R.string.malaria_stage_ring))
-            .thenReturn("Ring")
-        whenever(context.getString(R.string.malaria_stage_trophozoite))
-            .thenReturn("Trophozoite")
-        whenever(context.getString(R.string.malaria_stage_schizont))
-            .thenReturn("Schizont")
-        whenever(context.getString(R.string.malaria_stage_gametocyte))
-            .thenReturn("Gametocyte")
     }
 
     @Test
@@ -72,11 +63,4 @@ class MetadataMapperTest {
         assertEquals("P. knowlesi", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_KNOWLESI))
     }
 
-    @Test
-    fun shouldReturnStage() {
-        assertEquals(MalariaStage.RING, MetadataMapper.getStage(context, "Ring"))
-        assertEquals(MalariaStage.TROPHOZOITE, MetadataMapper.getStage(context, "Trophozoite"))
-        assertEquals(MalariaStage.SCHIZONT, MetadataMapper.getStage(context, "Schizont"))
-        assertEquals(MalariaStage.GAMETOCYTE, MetadataMapper.getStage(context, "Gametocyte"))
-    }
 }

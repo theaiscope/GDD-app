@@ -22,18 +22,9 @@ enum class MalariaSpecies(val id: Int) {
     P_KNOWLESI(5)
 }
 
-@Suppress("MagicNumber") // these are IDs
-enum class MalariaStage(val id: Int) {
-    RING(1),
-    TROPHOZOITE(2),
-    SCHIZONT(3),
-    GAMETOCYTE(4)
-}
-
 data class SampleMetadata(
     val smearType: SmearType = SmearType.THIN,
-    val species: MalariaSpecies = MalariaSpecies.P_FALCIPARUM,
-    val stage: MalariaStage = MalariaStage.RING
+    val species: MalariaSpecies = MalariaSpecies.P_FALCIPARUM
 )
 
 data class Sample(

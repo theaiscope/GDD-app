@@ -3,7 +3,6 @@ package net.aiscope.gdd_app.repository
 import com.google.gson.annotations.SerializedName
 import net.aiscope.gdd_app.extensions.toLinkedHashSet
 import net.aiscope.gdd_app.model.MalariaSpecies
-import net.aiscope.gdd_app.model.MalariaStage
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
@@ -13,8 +12,7 @@ import java.util.Calendar
 
 data class SampleMetadataDto(
     @SerializedName("bloodType") val bloodType: Int,
-    @SerializedName("species") val species: Int,
-    @SerializedName("stage") val stage: Int
+    @SerializedName("species") val species: Int
 )
 
 data class SampleDto(
@@ -37,8 +35,7 @@ data class SampleDto(
         masks = maskPaths.map { File(it) }.toLinkedHashSet(),
         metadata = SampleMetadata(
             SmearType.values().first { it.id == metadata.bloodType },
-            MalariaSpecies.values().first { it.id == metadata.species },
-            MalariaStage.values().first { it.id == metadata.stage }
+            MalariaSpecies.values().first { it.id == metadata.species }
         ),
         status = Status.values().first { it.id == status },
         createdOn = createdOn
@@ -52,7 +49,7 @@ fun Sample.toDto() = SampleDto(
     disease = disease,
     imagePaths = images.map { it.absolutePath },
     maskPaths = masks.map { it.absolutePath },
-    metadata = SampleMetadataDto(metadata.smearType.id, metadata.species.id, metadata.stage.id),
+    metadata = SampleMetadataDto(metadata.smearType.id, metadata.species.id),
     status = status.id,
     createdOn = createdOn
 )
