@@ -9,7 +9,7 @@
     <include layout="@layout/toolbar" />
 
     <net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
-        android:id="@+id/mask_custom_view"
+        android:id="@+id/photo_mask_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mask_custom_view"
+        app:layout_constraintTop_toBottomOf="@id/photo_mask_view"
         tools:ignore="ContentDescription" />
 
     <RadioGroup
@@ -56,9 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:button="@null"
-            android:drawableStart="@drawable/ic_draw_color"
             android:drawableTint="@color/button_selector"
-            android:padding="12dp" />
+            android:drawableLeft="@drawable/ic_draw_color"
+            android:padding="12dp"
+            tools:ignore="RtlHardcoded" />
 
         <RadioButton
             android:id="@+id/erase_btn"

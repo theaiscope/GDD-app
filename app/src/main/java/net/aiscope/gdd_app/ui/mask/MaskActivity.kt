@@ -41,6 +41,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     private val parentJob = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
     private val brushDiseaseStages by lazy { presenter.brushDiseaseStages }
+    private lateinit var currentDiseaseStage: BrushDiseaseStage
     private val selectStagePopup by lazy { composeSelectStagePopup() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,38 +58,42 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
         presenter.start(diseaseName, imageNameExtra)
 
-        if (savedInstanceState == null) {
-            setBrushDrawableDiseaseStage(brushDiseaseStages[0])
-        }
+        currentDiseaseStage =
+            if (savedInstanceState == null) brushDiseaseStages[0]
+            else savedInstanceState.getParcelable("currentDiseaseStage")!!
+        refreshBrushDrawableColor()
+        photo_mask_view.initBrushDiseaseStage(currentDiseaseStage)
 
         tools_radio_group.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                draw_btn.id -> mask_custom_view.drawMode()
-                zoom_btn.id -> mask_custom_view.zoomMode()
+                draw_btn.id -> photo_mask_view.drawMode()
+                zoom_btn.id -> photo_mask_view.zoomMode()
+                erase_btn.id -> photo_mask_view.eraseMode()
             }
         }
 
         undo_btn.setOnClickListener {
-            mask_custom_view.undo()
-            setEnabled(undo_btn, mask_custom_view.undoAvailable())
+            photo_mask_view.undo()
+            setEnabled(undo_btn, photo_mask_view.undoAvailable())
             setEnabled(redo_btn, true)
         }
 
         redo_btn.setOnClickListener {
-            mask_custom_view.redo()
+            photo_mask_view.redo()
             setEnabled(undo_btn, true)
-            setEnabled(redo_btn, mask_custom_view.redoAvailable())
+            setEnabled(redo_btn, photo_mask_view.redoAvailable())
         }
 
         stages_btn.setOnClickListener { selectStagePopup.show() }
 
         get_bitmap_btn.setOnClickListener { presenter.handleCaptureBitmap(maskNameExtra) }
 
-        mask_custom_view.setOnTouchListener { _, _ ->
-            setEnabled(undo_btn, mask_custom_view.undoAvailable())
-            setEnabled(redo_btn, mask_custom_view.redoAvailable())
+        photo_mask_view.onTouchActionUpListener = View.OnTouchListener { _, _ ->
+            setEnabled(undo_btn, photo_mask_view.undoAvailable())
+            setEnabled(redo_btn, photo_mask_view.redoAvailable())
             false
         }
+
     }
 
     override fun onDestroy() {
@@ -97,7 +102,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
-        val bmp = mask_custom_view.getMaskBitmap()
+        val bmp = photo_mask_view.getMaskBitmap()
         coroutineScope.launch {
             val dest = File(this@MaskActivity.filesDir, "${maskName}.jpg")
             bmp.writeToFile(dest)
@@ -116,30 +121,31 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             .show()
     }
 
-    override fun loadBitmap(imagePath: String) {
+    override fun initPhotoMaskView(imagePath: String) {
         coroutineScope.launch {
             val bmp = readImage(imagePath)
-            mask_custom_view.setImageBitmap(bmp)
+            photo_mask_view.setImageBitmap(bmp)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("draw_btn-color", mask_custom_view.getCurrentBrushDiseaseStage().maskColor)
+        outState.putParcelable("currentDiseaseStage", currentDiseaseStage)
         outState.putInt("undo_btn-visibility", undo_btn.visibility)
         outState.putInt("redo_btn-visibility", redo_btn.visibility)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        setBrushDrawableColor(savedInstanceState.getInt("draw_btn-color"))
+        currentDiseaseStage = savedInstanceState.getParcelable("currentDiseaseStage")!!
         undo_btn.visibility = savedInstanceState.getInt("undo_btn-visibility", View.INVISIBLE)
         redo_btn.visibility = savedInstanceState.getInt("redo_btn-visibility", View.INVISIBLE)
     }
 
-    private fun setBrushDrawableDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
-        setBrushDrawableColor(brushDiseaseStage.maskColor)
-        mask_custom_view.setCurrentBrushDiseaseStage(brushDiseaseStage)
+    private fun setDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
+        currentDiseaseStage = brushDiseaseStage
+        refreshBrushDrawableColor()
+        photo_mask_view.setBrushDiseaseStage(brushDiseaseStage)
     }
 
     private fun composeSelectStagePopup(): SelectStagePopup {
@@ -148,14 +154,15 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             presenter.brushDiseaseStages,
             stages_btn,
             AdapterView.OnItemClickListener() { _, _, position, _ ->
-                setBrushDrawableDiseaseStage(presenter.brushDiseaseStages[position])
+                setDiseaseStage(presenter.brushDiseaseStages[position])
             }).apply {
             setDropDownGravity(Gravity.TOP)
         }
     }
 
-    private fun setBrushDrawableColor(color: Int) {
-        val stageBtnDrawable = draw_btn.compoundDrawables[1] as LayerDrawable
+    private fun refreshBrushDrawableColor() {
+        val color = currentDiseaseStage.maskColor
+        val stageBtnDrawable = draw_btn.compoundDrawables[0] as LayerDrawable
         stageBtnDrawable.getDrawable(0).apply {
             setTint(color)
         }

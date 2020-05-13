@@ -6,7 +6,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.os.Parcelable
 import android.view.ViewConfiguration
 import androidx.core.graphics.withMatrix
@@ -15,29 +16,17 @@ import java.util.*
 import kotlin.math.abs
 
 @Suppress("TooManyFunctions")
+//TODO("Rename to MaskLayerController")
 class MaskLayer(
     private val context: Context,
-    private val scaleMatrix: Matrix
+    private val imageMatrix: Matrix
 ) {
     companion object {
-        private const val MATRIX_SIZE = 9
-        private const val MASK_PAINT_ALPHA = 0xCC
-        private const val PATH_STROKE = 80f
-        private const val TEXT_SIZE = 48f
-        private const val TEXT_STROKE = 12f
         private const val ALPHA_OPAQUE = 0xFF
-        private const val VERTICAL_PADDING_PX = 4
-
-        private val textPaint = Paint().apply {
-            color = Color.WHITE
-            textSize = TEXT_SIZE
-        }
-        private val textStrokePaint = Paint().apply {
-            color = Color.DKGRAY
-            style = Paint.Style.STROKE
-            textSize = TEXT_SIZE
-            strokeWidth = TEXT_STROKE
-        }
+        private const val MASK_PAINT_ALPHA = .8
+        private const val PATH_STROKE_WIDTH = 80f
+        private val BITMAP_TRANSFER_PAINT = Paint()
+        val ERASER_XFER_MODE = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
 
         fun newDefaultPaintBrush(color: Int, strokeWidth: Float) = Paint().apply {
             this.isAntiAlias = true
@@ -46,171 +35,225 @@ class MaskLayer(
             this.strokeJoin = Paint.Join.ROUND
             this.strokeCap = Paint.Cap.ROUND
             this.color = color
-            this.alpha = MASK_PAINT_ALPHA
+            this.alpha = (ALPHA_OPAQUE * MASK_PAINT_ALPHA).toInt()
+            this.strokeWidth = strokeWidth
+        }
+
+        fun newDefaultPaintEraser(strokeWidth: Float) = Paint().apply {
+            this.xfermode = ERASER_XFER_MODE
+            this.isAntiAlias = true
+            this.isDither = true
+            this.style = Paint.Style.STROKE
+            this.strokeJoin = Paint.Join.ROUND
+            this.strokeCap = Paint.Cap.ROUND
             this.strokeWidth = strokeWidth
         }
     }
 
-    private var pathsPaintsAndStagesNames: MutableList<PathPaintAndStageName> = LinkedList()
-    private var undoPendingPaths = 0
-    private lateinit var currentPath: PointToPointPath
-    private var currentPaintDirty = false
-    var brushDiseaseStage = BrushDiseaseStage(0, "non-initialized", 0)
+    //fields lazily initialized
+    private var _width: Int? = null
+    private var _height: Int? = null
+    var currentScale = 1f
         set(value) {
-            currentPaintDirty = currentPaintDirty || field != value
             field = value
+            paintBrushPendingRecreation = true
+            paintEraserPendingRecreation = true
         }
-    private var currentStrokeWidth = PATH_STROKE
-        set(value) {
-            currentPaintDirty = currentPaintDirty || field != value
-            field = value
-        }
-    private var currentPaint = Paint()
-        get() {
-            if (currentPaintDirty) cleanCurrentPaint()
-            return field
-        }
-    private lateinit var viewDimensions: Pair<Int, Int>
-    private lateinit var bitmapDimensions: Pair<Int, Int>
 
-    fun init(width: Int, height: Int) {
-        bitmapDimensions = width to height
-        scaleBrushAndTextPaints()
+    //fields depending on init of dimensions
+    private val width by lazy { _width!! }
+    private val height by lazy { _height!! }
+    private val latestChangeBitmap by lazy {
+        Bitmap.createBitmap(
+            width,
+            height,
+            Bitmap.Config.ARGB_8888
+        )
+    }
+    private val latestChangeBitmapCanvas by lazy { Canvas(latestChangeBitmap) }
+    private val currentStateBitmap by lazy {
+        Bitmap.createBitmap(
+            width,
+            height,
+            Bitmap.Config.ARGB_8888
+        )
+    }
+    private val currentStateBitmapCanvas by lazy { Canvas(currentStateBitmap) }
+
+    //fields depending on init of stage
+    private lateinit var currentDiseaseStage: BrushDiseaseStage
+    private lateinit var currentPaintBrush: Paint
+    private lateinit var currentPaintEraser: Paint
+    private lateinit var currentPaint: Paint
+
+    //init independent fields
+    private var paintBrushPendingRecreation = true
+    private var paintEraserPendingRecreation = true
+    private var pathsAndPaints: MutableList<PathAndPaint> = LinkedList()
+    private var undoPendingPaths = 0
+    private var currentPath: PointToPointPath? = null
+    private var currentMode: MaskCustomView.Mode = MaskCustomView.Mode.Draw
+        set(value) {
+            require(arrayOf(MaskCustomView.Mode.Draw, MaskCustomView.Mode.Erase).contains(value))
+            field = value
+        }
+
+    fun initDimensions(width: Int, height: Int) {
+        require(_width == null && _height == null) { "Dimensions were initialized already!" }
+        _width = width
+        _height = height
     }
 
-    fun onDraw(canvas: Canvas) {
-        canvas.withMatrix(scaleMatrix) {
-            drawPaths(this)
+    fun initDiseaseStage(diseaseStage: BrushDiseaseStage) {
+        require(!diseaseStageInitialized()) { "Disease stage was initialized already!" }
+        currentDiseaseStage = diseaseStage
+    }
+
+    fun setDiseaseStage(diseaseStage: BrushDiseaseStage) {
+        require(diseaseStageInitialized()) { "Disease stage was not initialized yet!" }
+        currentDiseaseStage = diseaseStage
+        paintBrushPendingRecreation = true
+    }
+
+    private fun dimensionsInitialized() = _width != null && _height != null
+
+    private fun diseaseStageInitialized() = this::currentDiseaseStage.isInitialized
+
+    fun draw(canvas: Canvas) {
+        if (!dimensionsInitialized()) return
+        composeCurrentStateBitmap()
+        if (!pathBeingDrawn()) keepLatestChangeBitmap()
+        canvas.withMatrix(imageMatrix) {
+            this.drawBitmap(currentStateBitmap, 0f, 0f, BITMAP_TRANSFER_PAINT)
         }
+    }
+
+    private fun pathBeingDrawn() = currentPath != null
+
+    private fun composeCurrentStateBitmap() {
+        currentStateBitmap.eraseColor(Color.TRANSPARENT)
+        drawPaths(currentStateBitmapCanvas)
     }
 
     private fun drawPaths(
         canvas: Canvas,
-        drawStageNames: Boolean = false,
         removeAlpha: Boolean = false
     ) {
-        for (i in 0 until pathsPaintsAndStagesNames.size - undoPendingPaths) {
-            val (path, paint, stageName) = pathsPaintsAndStagesNames[i]
+        for (i in 0 until pathsAndPaints.size - undoPendingPaths) {
+            val (path, paint) = pathsAndPaints[i]
             val paintReviewed =
-                if (removeAlpha) Paint().apply { set(paint); alpha = ALPHA_OPAQUE } else paint
+                if (removeAlpha) Paint(paint).apply { alpha = ALPHA_OPAQUE } else paint
             canvas.drawPath(path, paintReviewed)
-            if (drawStageNames) drawPathText(path, paint, stageName, canvas)
+        }
+        currentPath?.let {
+            canvas.drawPath(it, currentPaint)
         }
     }
 
-    private fun drawPathText(
-        path: PointToPointPath,
-        pathPaint: Paint,
-        text: String,
-        canvas: Canvas
-    ) {
-        val textBoundsRuler = Rect()
-        textPaint.getTextBounds(text, 0, text.length, textBoundsRuler)
+    private fun calculateCurrentStrokeWidth() = PATH_STROKE_WIDTH / currentScale
 
-        val currentScale = currentScale()
-        val (firstPointX, firstPointY) = path.firstPoint
-        val textX = firstPointX - textBoundsRuler.width() / 2
-        val verticalPadding = pxToDp(VERTICAL_PADDING_PX * 2) / currentScale
-        val textY = firstPointY +
-                if (path.verticalDirection > 0) {
-                    -(pathPaint.strokeWidth / 2 + verticalPadding)
-                } else {
-                    textBoundsRuler.height() + pathPaint.strokeWidth / 2 +
-                            verticalPadding - pxToDp(VERTICAL_PADDING_PX) / currentScale
-                }
-
-        canvas.drawText(text, textX, textY, textStrokePaint)
-        canvas.drawText(text, textX, textY, textPaint)
+    private fun refreshPaintBrush() {
+        currentPaintBrush =
+            newDefaultPaintBrush(currentDiseaseStage.maskColor, calculateCurrentStrokeWidth())
+        paintBrushPendingRecreation = false
     }
 
-    private fun pxToDp(px: Int) = (px * context.resources.displayMetrics.density).toInt()
-
-    fun onViewSizeChanged(width: Int, height: Int) {
-        viewDimensions = width to height
-        scaleBrushAndTextPaints()
+    private fun refreshPaintEraser() {
+        currentPaintEraser = newDefaultPaintEraser(calculateCurrentStrokeWidth())
+        paintEraserPendingRecreation = false
     }
 
-    fun onScaleChanged() = scaleBrushAndTextPaints()
+    private fun resolveCurrentPaint() {
+        currentPaint = if (isCurrentModeDraw()) currentPaintBrush else currentPaintEraser
+    }
+
+    fun drawMode() {
+        currentMode = MaskCustomView.Mode.Draw
+    }
+
+    fun eraseMode() {
+        currentMode = MaskCustomView.Mode.Erase
+    }
 
     fun undo() = undoPendingPaths++
 
     fun redo() = undoPendingPaths--
 
-    fun undoAvailable() = (pathsPaintsAndStagesNames.size - undoPendingPaths) > 0
+    fun undoAvailable() = (pathsAndPaints.size - undoPendingPaths) > 0
 
     fun redoAvailable() = undoPendingPaths > 0
 
     fun getBitmap(): Bitmap {
-        val (width, height) = bitmapDimensions
-        return Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888).apply {
+        return Bitmap.createBitmap(
+            currentStateBitmap.width,
+            currentStateBitmap.height,
+            Bitmap.Config.ARGB_8888
+        ).apply {
             val canvas = Canvas(this)
             drawPaths(canvas, removeAlpha = true)
         }
     }
 
     fun drawStart(x: Float, y: Float) {
+        refreshPaints()
         currentPath = PointToPointPath(x, y)
     }
 
+    private fun refreshPaints() {
+        if (paintBrushPendingRecreation) refreshPaintBrush()
+        if (paintEraserPendingRecreation) refreshPaintEraser()
+        resolveCurrentPaint()
+    }
+
     fun drawMove(x: Float, y: Float) {
-        val (latestX, latestY) = currentPath.latestPoint
+        val (latestX, latestY) = currentPath!!.latestPoint
         val dX = abs(x - latestX)
         val dY = abs(y - latestY)
-        val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale()
+        val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale
         if (dX >= touchTolerance || dY >= touchTolerance) {
-            currentPath.quadTo(x, y)
-            if (pathsPaintsAndStagesNames.isEmpty() || currentPath != pathsPaintsAndStagesNames.last().path) {
-                addPath(currentPath)
-            }
+            currentPath!!.quadTo(x, y)
         }
     }
 
-    fun onSaveInstanceState() =
-        MaskCustomViewBaseState(pathsPaintsAndStagesNames, undoPendingPaths, brushDiseaseStage)
+    fun drawEnd() {
+        val visibleChange: Boolean =
+            if (isCurrentModeDraw()) currentPath!!.hasMultiplePoints()
+            else !latestChangeBitmap.sameAs(currentStateBitmap)
+        if (visibleChange) {
+            keepLatestChangeBitmap()
+            flushPendingUndos()
+            pathsAndPaints.add(PathAndPaint(currentPath!!, currentPaint))
+        }
+        currentPath = null
+    }
 
-    fun onRestoreInstanceState(savedState: Parcelable) {
+    private fun isCurrentModeDraw() = currentMode == MaskCustomView.Mode.Draw
+
+    private fun keepLatestChangeBitmap() {
+        latestChangeBitmap.eraseColor(Color.TRANSPARENT)
+        latestChangeBitmapCanvas.drawBitmap(currentStateBitmap, 0f, 0f, BITMAP_TRANSFER_PAINT)
+    }
+
+    fun getInstanceState() =
+        MaskCustomViewBaseState(pathsAndPaints, undoPendingPaths, currentDiseaseStage)
+
+    fun restoreInstanceState(savedState: Parcelable?) {
         if (savedState is MaskCustomViewBaseState) {
             undoPendingPaths = savedState.undoPendingPaths
-            pathsPaintsAndStagesNames.addAll(savedState.reassemblePathsPaintsAndStagesNames())
-            brushDiseaseStage = savedState.currentBrushDiseaseStage
+            pathsAndPaints.addAll(savedState.reassemblePathsPaintsAndStagesNames())
+            currentDiseaseStage = savedState.currentBrushDiseaseStage
         }
     }
 
-    private fun addPath(path: PointToPointPath) {
-        for (i in pathsPaintsAndStagesNames.size - 1 downTo pathsPaintsAndStagesNames.size - undoPendingPaths) {
-            pathsPaintsAndStagesNames.removeAt(i)
+    private fun flushPendingUndos() {
+        for (i in pathsAndPaints.size - 1 downTo pathsAndPaints.size - undoPendingPaths) {
+            pathsAndPaints.removeAt(i)
         }
         undoPendingPaths = 0
-        pathsPaintsAndStagesNames.add(
-            PathPaintAndStageName(
-                path,
-                currentPaint,
-                brushDiseaseStage.name
-            )
-        )
     }
 
-    private fun scaleBrushAndTextPaints() {
-        val currentScale = currentScale()
-        currentStrokeWidth = PATH_STROKE / currentScale
-
-        textPaint.textSize = TEXT_SIZE / currentScale
-        textStrokePaint.textSize = textPaint.textSize
-        textStrokePaint.strokeWidth = TEXT_STROKE / currentScale
-    }
-
-    private fun currentScale() =
-        FloatArray(MATRIX_SIZE).apply {
-            scaleMatrix.getValues(this)
-        }[Matrix.MSCALE_X]
-
-    private fun cleanCurrentPaint() {
-        currentPaint = newDefaultPaintBrush(brushDiseaseStage.maskColor, currentStrokeWidth)
-    }
-
-    data class PathPaintAndStageName(
+    data class PathAndPaint(
         val path: PointToPointPath,
-        val paint: Paint,
-        val diseaseStageName: String
+        val paint: Paint
     )
 }

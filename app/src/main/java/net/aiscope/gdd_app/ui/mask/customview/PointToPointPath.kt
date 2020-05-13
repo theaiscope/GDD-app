@@ -8,7 +8,6 @@ class PointToPointPath(x: Float, y: Float) : Path() {
     val points: List<Pair<Float, Float>> = LinkedList()
     val firstPoint: Pair<Float, Float> = x to y
     var latestPoint: Pair<Float, Float> = firstPoint
-    val verticalDirection: Int by lazy { if (points[1].second > points[0].second) 1 else -1 }
 
     init {
         moveTo(x, y)
@@ -31,6 +30,8 @@ class PointToPointPath(x: Float, y: Float) : Path() {
         latestPoint = xTo to yTo
         addPoint(latestPoint)
     }
+
+    fun hasMultiplePoints() = points.size > 1
 
     private fun addPoint(point: Pair<Float, Float>) = (points as MutableList).add(point)
 
