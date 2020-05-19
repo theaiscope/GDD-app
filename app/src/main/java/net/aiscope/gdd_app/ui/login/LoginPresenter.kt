@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.ui.login
 
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import net.aiscope.gdd_app.network.FirebaseAuthenticator
 import net.aiscope.gdd_app.repository.HealthFacilityRepository
 import javax.inject.Inject
@@ -22,16 +23,16 @@ class LoginPresenter @Inject constructor(
         }
     }
 
-    fun start() {
+    fun start(logIn: ActivityResultLauncher<Intent>) {
         if (firebaseAuthenticator.isUserSignedIn()) {
             healthFacilityRepository.cacheHealthFacility()
             view.goIn()
         } else {
-            firebaseAuthenticator.startFirebaseAuthSignIn(callback)
+            firebaseAuthenticator.startFirebaseAuthSignIn(logIn, callback)
         }
     }
 
-    fun checkActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        firebaseAuthenticator.checkForSignInResult(requestCode, resultCode, data)
+    fun checkActivityResult(resultCode: Int, data: Intent?) {
+        firebaseAuthenticator.checkForSignInResult(resultCode, data)
     }
 }
