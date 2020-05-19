@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
     }
 
     private fun askCameraPermission() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermission(Manifest.permission.CAMERA)
             .withListener(NoOpPermissionListener)
             .onSameThread()
