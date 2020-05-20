@@ -1,5 +1,4 @@
 <resources>
-
     <style name="AppTheme" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -122,5 +121,7 @@
         <item name="android:itemBackground">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorPlainText</item>
     </style>
+
+
 
 </resources>

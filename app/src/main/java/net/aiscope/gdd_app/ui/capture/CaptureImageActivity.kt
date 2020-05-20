@@ -3,6 +3,7 @@ package net.aiscope.gdd_app.ui.capture
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
@@ -86,6 +87,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     }
 
     override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
+        capture_image_loading_modal.visibility = View.VISIBLE
         val result = fotoapparat.takePicture()
         val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
@@ -103,6 +105,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     override fun notifyImageCouldNotBeTaken() {
         val message = getString(R.string.image_could_not_be_taken)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        capture_image_loading_modal.visibility = View.GONE
     }
 
     override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String) {
@@ -112,5 +115,10 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         intent.putExtra(MaskActivity.EXTRA_MASK_NAME, nextMaskName)
 
         startActivity(intent)
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        capture_image_loading_modal.visibility = View.GONE
     }
 }

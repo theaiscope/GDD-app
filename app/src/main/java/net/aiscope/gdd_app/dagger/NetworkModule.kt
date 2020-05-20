@@ -11,11 +11,9 @@ import net.aiscope.gdd_app.network.RemoteStorage
 object NetworkModule {
 
     @Provides
-    @JvmStatic
     fun gson(): Gson = Gson()
 
     @Provides
-    @JvmStatic
     fun remoteStorage(firebaseStorageUploader: FirebaseStorageUploader, gson: Gson): RemoteStorage =
         FirebaseRemoteStorage(firebaseStorageUploader, gson)
 }
