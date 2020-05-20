@@ -3,13 +3,12 @@ package net.aiscope.gdd_app.ui.mask.customview
 import android.graphics.Paint
 import android.os.Parcel
 import android.os.Parcelable
-import net.aiscope.gdd_app.ui.mask.BrushDiseaseStage
-import java.util.*
+import java.util.LinkedList
 
 class MaskCustomViewBaseState(
     pathsPaintsAndStagesNames: List<MaskLayer.PathAndPaint>,
     val undoPendingPaths: Int,
-    val currentBrushDiseaseStage: BrushDiseaseStage
+    val currentBrushColor: Int
 ) : Parcelable {
 
     companion object CREATOR : Parcelable.Creator<MaskCustomViewBaseState> {
@@ -61,13 +60,13 @@ class MaskCustomViewBaseState(
             parcel.readList(this as List<*>, Pair::class.java.classLoader)
         },
         parcel.readInt(),
-        parcel.readTypedObject(BrushDiseaseStage.CREATOR)!!
+        parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeList(basePathsAndPaintChangesData as List<*>)
         parcel.writeInt(undoPendingPaths)
-        parcel.writeTypedObject(currentBrushDiseaseStage, flags)
+        parcel.writeInt(currentBrushColor)
     }
 
     override fun describeContents() = 0

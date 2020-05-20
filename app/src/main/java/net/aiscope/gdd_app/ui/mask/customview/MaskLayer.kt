@@ -11,12 +11,10 @@ import android.graphics.PorterDuffXfermode
 import android.os.Parcelable
 import android.view.ViewConfiguration
 import androidx.core.graphics.withMatrix
-import net.aiscope.gdd_app.ui.mask.BrushDiseaseStage
-import java.util.*
+import java.util.LinkedList
 import kotlin.math.abs
 
 @Suppress("TooManyFunctions")
-//TODO("Rename to MaskLayerController")
 class MaskLayer(
     private val context: Context,
     private val imageMatrix: Matrix
@@ -81,7 +79,7 @@ class MaskLayer(
     private val currentStateBitmapCanvas by lazy { Canvas(currentStateBitmap) }
 
     //fields depending on init of stage
-    private lateinit var currentDiseaseStage: BrushDiseaseStage
+    private var currentBrushColor: Int = 0
     private lateinit var currentPaintBrush: Paint
     private lateinit var currentPaintEraser: Paint
     private lateinit var currentPaint: Paint
@@ -104,20 +102,20 @@ class MaskLayer(
         _height = height
     }
 
-    fun initDiseaseStage(diseaseStage: BrushDiseaseStage) {
-        require(!diseaseStageInitialized()) { "Disease stage was initialized already!" }
-        currentDiseaseStage = diseaseStage
+    fun initBrushColor(color: Int) {
+        require(!brushColorInitialized()) { "Brush color was initialized already!" }
+        currentBrushColor = color
     }
 
-    fun setDiseaseStage(diseaseStage: BrushDiseaseStage) {
-        require(diseaseStageInitialized()) { "Disease stage was not initialized yet!" }
-        currentDiseaseStage = diseaseStage
+    fun setBrushColor(color: Int) {
+        require(brushColorInitialized()) { "Brush color was not initialized yet!" }
+        currentBrushColor = color
         paintBrushPendingRecreation = true
     }
 
     private fun dimensionsInitialized() = _width != null && _height != null
 
-    private fun diseaseStageInitialized() = this::currentDiseaseStage.isInitialized
+    private fun brushColorInitialized() = currentBrushColor != 0
 
     fun draw(canvas: Canvas) {
         if (!dimensionsInitialized()) return
@@ -154,7 +152,7 @@ class MaskLayer(
 
     private fun refreshPaintBrush() {
         currentPaintBrush =
-            newDefaultPaintBrush(currentDiseaseStage.maskColor, calculateCurrentStrokeWidth())
+            newDefaultPaintBrush(currentBrushColor, calculateCurrentStrokeWidth())
         paintBrushPendingRecreation = false
     }
 
@@ -235,13 +233,13 @@ class MaskLayer(
     }
 
     fun getInstanceState() =
-        MaskCustomViewBaseState(pathsAndPaints, undoPendingPaths, currentDiseaseStage)
+        MaskCustomViewBaseState(pathsAndPaints, undoPendingPaths, currentBrushColor)
 
     fun restoreInstanceState(savedState: Parcelable?) {
         if (savedState is MaskCustomViewBaseState) {
             undoPendingPaths = savedState.undoPendingPaths
             pathsAndPaints.addAll(savedState.reassemblePathsPaintsAndStagesNames())
-            currentDiseaseStage = savedState.currentBrushDiseaseStage
+            currentBrushColor = savedState.currentBrushColor
         }
     }
 

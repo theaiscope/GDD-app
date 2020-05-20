@@ -3,7 +3,6 @@ package net.aiscope.gdd_app.ui.mask.customview
 import android.graphics.Paint
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import net.aiscope.gdd_app.ui.mask.BrushDiseaseStage
 import net.aiscope.gdd_app.ui.mask.customview.MaskCustomViewBaseState.BaseData
 import net.aiscope.gdd_app.ui.mask.customview.MaskCustomViewBaseState.PaintChangeBaseData
 import net.aiscope.gdd_app.ui.mask.customview.MaskCustomViewBaseState.PathBaseData
@@ -34,8 +33,7 @@ class MaskLayerMaskCustomViewBaseStateTest {
             MaskLayer.PathAndPaint(mockPointToPointPath(points2), paint3),
             MaskLayer.PathAndPaint(mockPointToPointPath(points3), paint3)
         )
-        val customViewBaseState =
-            MaskCustomViewBaseState(input, 0, BrushDiseaseStage(0, "Some disease", 0))
+        val customViewBaseState = MaskCustomViewBaseState(input, 0, 0)
         val actualOutput = customViewBaseState.basePathsAndPaintChangesData
         val expectedOutput = listOf(
             BaseData(PathBaseData(points1), paintChangeBaseData1),
