@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.sample_preparation.SamplePreparationActivity">
+
+    <include
+        layout="@layout/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="16dp"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/sample_preparation_continue_button">
+
+        <TextView
+            android:id="@+id/sample_preparation_water_type_title"
+            style="@style/TextView.SectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_preparation_water_type_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/sample_preparation_water_type_spinner"
+            style="@style/App.Widget.Spinner"
+            android:layout_width="164dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:entries="@array/sample_preparation_water_types"
+            app:layout_constraintStart_toStartOf="@id/sample_preparation_water_type_title"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_water_type_title" />
+
+        <TextView
+            android:id="@+id/sample_preparation_water_type_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mandatory_field_error"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/sample_preparation_water_type_spinner"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_water_type_spinner"
+            android:textColor="@color/colorError" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sample_preparation_giemsa_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_preparation_giemsa_title"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_water_type_error" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sample_preparation_giemsa_fp_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_preparation_giemsa_fp_title"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_giemsa_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sample_preparation_pbs_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_preparation_pbs_title"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_giemsa_fp_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sample_preparation_alcohol_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_preparation_alcohol_title"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_pbs_switch" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sample_preparation_slides_reuse_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_preparation_slides_reuse_title"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_alcohol_switch" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/sample_preparation_continue_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/sample_preparation_continue"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

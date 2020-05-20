@@ -6,18 +6,43 @@
     <string name="error_message_field_empty">Field cannot be empty</string>
     <string name="error_message_logout_failure">Error when during logout process</string>
     <string name="confirmation_message_saved">Saved</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_ok">OK</string>
+    <string name="profile">profile</string>
+    <string name="spinner_empty_option">- select -</string>
     <!--select disease-->
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="text_logout">Logout</string>
     <string name="logout_flow_exit_dialog_message">You will logout and go back to login screen.</string>
+    <!-- SamplePreparation -->
+    <string name="sample_preparation_activity_title">Sample preparation</string>
+    <string name="sample_preparation_water_type_title">Water</string>
+    <string name="sample_preparation_giemsa_title">Uses Giemsa</string>
+    <string name="sample_preparation_giemsa_fp_title">Giemsa filtering or precipitating</string>
+    <string name="sample_preparation_pbs_title">Uses PBS</string>
+    <string name="sample_preparation_alcohol_title">Uses alcohol to fix the sample</string>
+    <string name="sample_preparation_slides_reuse_title">Reuses slides</string>
+    <string name="sample_preparation_continue">continue</string>
+    <string name="sample_preparation_snackbar_error">An error occurred while saving your sample preparation data. Please try again.</string>
+    <string name="sample_preparation_snackbar_retry">TRY AGAIN</string>
+    <string name="water_type_bottled">bottled</string>
+    <string name="water_type_distilled">distilled</string>
+    <string name="water_type_tap">tap</string>
+    <string name="water_type_well">well</string>
+    <!-- MicroscopeQuality -->
+    <string name="microscope_quality_activity_title">Microscope quality</string>
+    <string name="microscope_quality_snackbar_error">An error occurred while saving your microscope quality data. Please try again.</string>
+    <string name="microscope_quality_snackbar_retry">TRY AGAIN</string>
     <!-- CaptureImage -->
     <string name="capture_activity_title">Capture photo</string>
     <string name="image_could_not_be_taken">Image could not be taken</string>
-
     <!-- Mask -->
     <string name="mask_activity_title">Highlight</string>
     <string name="button_done_text">Done</string>
-
+    <string name="mask_activity_undo">Undo</string>
+    <string name="mask_activity_redo">Redo</string>
+    <string name="mask_activity_stages">Select stage</string>
+    <string name="mask_activity_stages_dialog_title"><font color="#ffffffff">Select a stage</font></string>
     <!-- Metadata -->
     <string name="metadata_activity_title">Add data</string>
     <string name="metadata_sample_add_image">Add image</string>
@@ -37,8 +62,7 @@
     <string name="metadata_snackbar_success">Sample saved successfully!</string>
     <string name="metadata_snackbar_error">An error occurred while saving your sample. Please try again.</string>
     <string name="metadata_snackbar_retry">TRY AGAIN</string>
-
-
+    <!-- Malaria -->
     <string name="malaria_name">Malaria</string>
     <string name="malaria_species_p_falciparum">P. falciparum</string>
     <string name="malaria_species_p_vivax">P. vivax</string>
@@ -52,16 +76,13 @@
         <item>@string/malaria_species_p_malariae</item>
         <item>@string/malaria_species_p_knowlesi</item>
     </string-array>
-
     <string name="malaria_stage_ring">Ring</string>
     <string name="malaria_stage_trophozoite">Trophozoite</string>
     <string name="malaria_stage_schizont">Schizont</string>
     <string name="malaria_stage_gametocyte">Gametocyte</string>
-    <string name="profile">profile</string>
-    <string name="mask_activity_undo">Undo</string>
-    <string name="mask_activity_redo">Redo</string>
-    <string name="mask_activity_stages">Select stage</string>
-    <string name="mask_activity_stages_dialog_title"><font color="#ffffffff">Select a stage</font></string>
-    <string name="button_cancel">Cancel</string>
-    <string name="button_ok">OK</string>
+    <string name="microscope_quality_damaged_title">Microscope damaged/malfunctioning</string>
+    <string name="microscope_quality_magnification_title">Magnification</string>
+    <string name="microscope_quality_magnification_edit_text_hint">Enter a number between 0 and 2000</string>
+    <string name="mandatory_field_error">mandatory field</string>
+    <string name="microscope_quality_magnification_error">enter a number between 0 and 2000</string>
 </resources>

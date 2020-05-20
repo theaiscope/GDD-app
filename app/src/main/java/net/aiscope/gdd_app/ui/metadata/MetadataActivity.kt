@@ -3,19 +3,22 @@ package net.aiscope.gdd_app.ui.metadata
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AbsSpinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_metadata.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_metadata.metadata_blood_sample_images
+import kotlinx.android.synthetic.main.activity_metadata.metadata_save_sample
+import kotlinx.android.synthetic.main.activity_metadata.metadata_section_smear_type_radio_group
+import kotlinx.android.synthetic.main.activity_metadata.metadata_species_spinner
+import kotlinx.android.synthetic.main.toolbar.toolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
@@ -58,12 +61,6 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         }
     }
 
-    private fun selectSpinnerValue(spinner: AbsSpinner, value: String) {
-        (0 until spinner.adapter.count)
-            .firstOrNull { spinner.adapter.getItem(it) == value }
-            ?.let { spinner.setSelection(it) }
-    }
-
     override fun onDestroy() {
         parentJob.cancel()
         super.onDestroy()
@@ -72,7 +69,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
         model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
-        model.speciesValue?.let { selectSpinnerValue(metadata_species_spinner, it) }
+        model.speciesValue?.let { metadata_species_spinner.select(it) }
     }
 
     override fun showInvalidFormError() {

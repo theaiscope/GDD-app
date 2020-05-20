@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@+id/start_message" />
 
     <Button
-        android:id="@+id/button_go_to_capture"
+        android:id="@+id/main_continue_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"

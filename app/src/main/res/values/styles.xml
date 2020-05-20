@@ -1,6 +1,6 @@
 <resources>
-    <style name="AppThemeTemp" parent="Theme.AppCompat"/>
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+
+    <style name="AppTheme" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -20,16 +20,30 @@
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="android:textColorHint">@color/colorPlainText</item>
 
-        <item name="android:listPopupWindowStyle">@style/AppTheme.ListPopupWindow</item>
-    </style>
-
-    <style name="AppTheme.ListPopupWindow" parent="@style/Widget.AppCompat.ListPopupWindow">
-        <item name="android:popupBackground">@color/colorPrimaryDark</item>
+        <item name="android:listPopupWindowStyle">@style/ListPopupWindow</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.SamplePreparationActivity">
+        <item name="switchStyle">@style/Switch</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.MicroscopeQualityActivity">
+        <item name="switchStyle">@style/Switch</item>
+    </style>
+
+    <style name="Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:textSize">20sp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+    </style>
+
+    <style name="ListPopupWindow" parent="@style/Widget.AppCompat.ListPopupWindow">
+        <item name="android:popupBackground">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
@@ -108,7 +122,5 @@
         <item name="android:itemBackground">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorPlainText</item>
     </style>
-
-
 
 </resources>

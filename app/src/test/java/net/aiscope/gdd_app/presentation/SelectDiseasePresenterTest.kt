@@ -38,7 +38,7 @@ class SelectDiseasePresenterTest {
     lateinit var subject: SelectDiseasePresenter
 
     @Test
-    fun `should store a disease with a name in the repository and call success toast on the view`() =
+    fun `should store a disease with a name in the repository`() =
         coroutinesTestRule.runBlockingTest {
             whenever(repository.create()).thenReturn(Sample("id", "hospital", "a microscopist"))
             subject.saveDisease(DISEASE_NAME)
@@ -46,7 +46,6 @@ class SelectDiseasePresenterTest {
             argumentCaptor<Sample>().apply {
                 verify(repository).store(capture())
                 assert(firstValue.disease == DISEASE_NAME)
-                verify(view).showSuccessToast()
             }
         }
 

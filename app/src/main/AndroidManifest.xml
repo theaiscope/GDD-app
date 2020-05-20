@@ -28,6 +28,14 @@
         </activity>
         <activity android:name=".ui.main.MainActivity" />
         <activity
+            android:name=".ui.sample_preparation.SamplePreparationActivity"
+            android:theme="@style/AppTheme.NoActionBar.SamplePreparationActivity"
+            android:label="@string/sample_preparation_activity_title" />
+        <activity
+            android:name=".ui.microscope_quality.MicroscopeQualityActivity"
+            android:theme="@style/AppTheme.NoActionBar.MicroscopeQualityActivity"
+            android:label="@string/microscope_quality_activity_title" />
+        <activity
             android:name=".ui.capture.CaptureImageActivity"
             android:label="@string/capture_activity_title" />
         <activity

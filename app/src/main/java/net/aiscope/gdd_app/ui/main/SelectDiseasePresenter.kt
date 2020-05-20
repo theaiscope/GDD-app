@@ -24,8 +24,7 @@ class SelectDiseasePresenter @Inject constructor(
         val sample = repository.create().copy(disease = diseaseName)
         repository.store(sample)
 
-        view.captureImage(sample.nextImageName())
-        view.showSuccessToast()
+        view.goToSamplePreparation()
     }
 
     fun logout() {

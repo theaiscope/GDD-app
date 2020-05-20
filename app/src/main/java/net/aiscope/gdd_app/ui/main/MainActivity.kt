@@ -11,14 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.dropdown_select_disease
+import kotlinx.android.synthetic.main.activity_main.main_continue_button
+import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
+import net.aiscope.gdd_app.ui.sample_preparation.SamplePreparationActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import javax.inject.Inject
 
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
 
         askCameraPermission()
 
-        button_go_to_capture.setOnClickListener {
+        main_continue_button.setOnClickListener {
             coroutineScope.launch {
                 presenter.saveDisease(dropdown_select_disease.selectedItem.toString())
             }
@@ -67,18 +69,9 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         super.onDestroy()
     }
 
-    override fun captureImage(nextImageName: String) {
-        val intent = Intent(this, CaptureImageActivity::class.java)
-        intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
+    override fun goToSamplePreparation() {
+        val intent = Intent(this, SamplePreparationActivity::class.java)
         this.startActivity(intent)
-    }
-
-    override fun showSuccessToast() {
-        Toast.makeText(this, R.string.confirmation_message_saved, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showFailureToast() {
-        Toast.makeText(this, R.string.error_message_field_empty, Toast.LENGTH_SHORT).show()
     }
 
     override fun logout(success: Boolean) = if (success) {
@@ -104,7 +97,5 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         }
     }
 
-    override fun logoutAction() {
-        this.presenter.logout()
-    }
+    override fun logoutAction() = this.presenter.logout()
 }
