@@ -13,6 +13,7 @@ import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
+import net.aiscope.gdd_app.ui.policy.PrivacyPolicyActivity
 
 @Module
 abstract class BuildersModule {
@@ -20,6 +21,10 @@ abstract class BuildersModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [LoginModule::class])
     abstract fun contributesLoginActivityAndroidInjector(): LoginActivity
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [PrivacyPolicyModule::class])
+    abstract fun contributesPrivacyPolicyActivityAndroidInjector(): PrivacyPolicyActivity
 
     @PerActivity
     @ContributesAndroidInjector(modules = [MainModule::class])

@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Privacy Policy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body style="background-color:#282E3E;color:rgba(255,255,255,0.87);">
+<script type="text/javascript">
+fetch('https://aiscope.net/wp-json/wp/v2/pages/289')
+    .then(result => result.json())
+    .then(result => {
+            document.querySelector('#app').innerHTML = result.content.rendered.replace(new RegExp('<p>&nbsp;</p>', 'gi'), '');
+            callback.policyLoaded();
+    })
+    .catch((err) => {
+        callback.error(err.message);
+    });
+</script>
+<div id="app"></div>
+</body>
+
+</html>

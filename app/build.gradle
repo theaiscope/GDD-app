@@ -30,6 +30,10 @@ android {
         buildConfigString 'SMARTLOOK_API_KEY', buildProperties.secrets['SMARTLOOK_API_KEY'].or(buildProperties.env['SMARTLOOK_API_KEY']).or("")
     }
 
+    viewBinding {
+        enabled = true
+    }
+
     signingConfigs {
         release {
             storeFile file("../gdd.jks")
