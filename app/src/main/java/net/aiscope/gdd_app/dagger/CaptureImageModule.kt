@@ -20,11 +20,9 @@ abstract class CaptureImageModule {
     @PerActivity
     internal abstract fun activity(activity: CaptureImageActivity): Activity
 
-    @Module
     companion object {
         @Provides
         @PerActivity
-        @JvmStatic
         internal fun providePresenter(view: CaptureImageView, repository: SampleRepository): CaptureImagePresenter =
             CaptureImagePresenter(view, repository)
     }

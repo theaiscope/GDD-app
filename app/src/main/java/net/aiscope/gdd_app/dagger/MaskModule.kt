@@ -21,11 +21,9 @@ abstract class MaskModule {
     @PerActivity
     internal abstract fun activity(activity: MaskActivity): Activity
 
-    @Module
     companion object {
         @Provides
         @PerActivity
-        @JvmStatic
         internal fun providePresenter(
             view: MaskView,
             repository: SampleRepository,
