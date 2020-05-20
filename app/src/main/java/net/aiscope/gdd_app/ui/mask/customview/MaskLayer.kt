@@ -89,7 +89,7 @@ class MaskLayer(
     //init independent fields
     private var paintBrushPendingRecreation = true
     private var paintEraserPendingRecreation = true
-    private var pathsAndPaints: MutableList<PathAndPaint> = LinkedList()
+    private val pathsAndPaints: MutableList<PathAndPaint> = LinkedList()
     private var undoPendingPaths = 0
     private var currentPath: PointToPointPath? = null
     private var currentMode: MaskCustomView.Mode = MaskCustomView.Mode.Draw

@@ -88,7 +88,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
         get_bitmap_btn.setOnClickListener { presenter.handleCaptureBitmap(maskNameExtra) }
 
-        photo_mask_view.onTouchActionUpListener = View.OnTouchListener { _, _ ->
+        photo_mask_view.onPathCompletedListener = View.OnTouchListener { _, _ ->
             setEnabled(undo_btn, photo_mask_view.undoAvailable())
             setEnabled(redo_btn, photo_mask_view.redoAvailable())
             false

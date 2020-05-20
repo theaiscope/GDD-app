@@ -30,7 +30,7 @@ class MaskCustomView @JvmOverloads constructor(
         Erase
     }
 
-    var onTouchActionUpListener: OnTouchListener? = null
+    var onPathCompletedListener: OnTouchListener? = null
     private val maskLayerController = MaskLayer(context, imageMatrix)
     private var currentMode: Mode = Mode.Draw
     private lateinit var drawableDimensions: Pair<Int, Int>
@@ -62,7 +62,7 @@ class MaskCustomView @JvmOverloads constructor(
         val (drawableWidth, drawableHeight) = drawableDimensions
         if (event.action == MotionEvent.ACTION_UP) {
             maskLayerController.drawEnd()
-            onTouchActionUpListener?.onTouch(this, event)
+            onPathCompletedListener?.onTouch(this, event)
             invalidate()
         } else {
             val xOffBounds = 0 > x || x > drawableWidth
