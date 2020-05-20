@@ -25,10 +25,10 @@
     <string name="sample_preparation_continue">continue</string>
     <string name="sample_preparation_snackbar_error">An error occurred while saving your sample preparation data. Please try again.</string>
     <string name="sample_preparation_snackbar_retry">TRY AGAIN</string>
-    <string name="water_type_bottled">bottled</string>
-    <string name="water_type_distilled">distilled</string>
-    <string name="water_type_tap">tap</string>
-    <string name="water_type_well">well</string>
+    <string name="water_type_bottled">Bottled</string>
+    <string name="water_type_distilled">Distilled</string>
+    <string name="water_type_tap">Tap</string>
+    <string name="water_type_well">Well</string>
     <!-- MicroscopeQuality -->
     <string name="microscope_quality_activity_title">Microscope quality</string>
     <string name="microscope_quality_snackbar_error">An error occurred while saving your microscope quality data. Please try again.</string>
@@ -83,6 +83,6 @@
     <string name="microscope_quality_damaged_title">Microscope damaged/malfunctioning</string>
     <string name="microscope_quality_magnification_title">Magnification</string>
     <string name="microscope_quality_magnification_edit_text_hint">Enter a number between 0 and 2000</string>
-    <string name="mandatory_field_error">mandatory field</string>
-    <string name="microscope_quality_magnification_error">enter a number between 0 and 2000</string>
+    <string name="mandatory_field_error">Mandatory field</string>
+    <string name="microscope_quality_magnification_error">Enter a number between 0 and 2000</string>
 </resources>
