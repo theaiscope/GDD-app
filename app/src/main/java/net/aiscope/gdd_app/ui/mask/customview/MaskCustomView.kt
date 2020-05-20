@@ -148,6 +148,5 @@ class MaskCustomView @JvmOverloads constructor(
     class MaskCustomViewSavedState(
         superState: Parcelable?,
         val maskLayerControllerState: Parcelable
-    ) :
-        BaseSavedState(superState)
+    ) : BaseSavedState(superState)
 }

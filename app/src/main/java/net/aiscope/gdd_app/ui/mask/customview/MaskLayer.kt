@@ -48,6 +48,11 @@ class MaskLayer(
         }
     }
 
+    enum class Mode {
+        Draw,
+        Erase
+    }
+
     //fields lazily initialized
     private var _width: Int? = null
     private var _height: Int? = null
@@ -90,11 +95,7 @@ class MaskLayer(
     private val pathsAndPaints: MutableList<PathAndPaint> = LinkedList()
     private var undoPendingPaths = 0
     private var currentPath: PointToPointPath? = null
-    private var currentMode: MaskCustomView.Mode = MaskCustomView.Mode.Draw
-        set(value) {
-            require(arrayOf(MaskCustomView.Mode.Draw, MaskCustomView.Mode.Erase).contains(value))
-            field = value
-        }
+    private var currentMode: Mode = Mode.Draw
 
     fun initDimensions(width: Int, height: Int) {
         require(_width == null && _height == null) { "Dimensions were initialized already!" }
@@ -166,11 +167,11 @@ class MaskLayer(
     }
 
     fun drawMode() {
-        currentMode = MaskCustomView.Mode.Draw
+        currentMode = Mode.Draw
     }
 
     fun eraseMode() {
-        currentMode = MaskCustomView.Mode.Erase
+        currentMode = Mode.Erase
     }
 
     fun undo() = undoPendingPaths++
@@ -225,7 +226,7 @@ class MaskLayer(
         currentPath = null
     }
 
-    private fun isCurrentModeDraw() = currentMode == MaskCustomView.Mode.Draw
+    private fun isCurrentModeDraw() = currentMode == Mode.Draw
 
     private fun keepLatestChangeBitmap() {
         latestChangeBitmap.eraseColor(Color.TRANSPARENT)
