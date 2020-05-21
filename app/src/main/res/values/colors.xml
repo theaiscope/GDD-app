@@ -16,4 +16,6 @@
     <color name="malaria_stage_gametocyte">#946FBF</color>
     <color name="colorError">#FF0000</color>
     <color name="ic_launcher_background">@color/colorPrimaryDark</color>
+    <color name="buttonSelectorChecked">#FFFFFFFF</color>
+    <color name="buttonSelectorUnchecked">#33FFFFFF</color>
 </resources>

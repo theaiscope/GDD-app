@@ -7,11 +7,15 @@ import android.graphics.Matrix
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Size
 import android.view.MotionEvent
+import androidx.core.util.component1
+import androidx.core.util.component2
 import com.github.chrisbanes.photoview.PhotoView
-import net.aiscope.gdd_app.ui.mask.BrushDiseaseStage
+import net.aiscope.gdd_app.extensions.x
 
 @Suppress("TooManyFunctions")
+//TODO("Rename to PhotoMaskView")
 class MaskCustomView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -19,22 +23,31 @@ class MaskCustomView @JvmOverloads constructor(
 ) : PhotoView(context, attrs, defStyleAttr) {
 
     companion object {
-        const val MAX_SCALE = 5f
+        private const val MAX_SCALE = 5f
+        private const val MATRIX_SIZE = 9
     }
 
     enum class Mode {
         Zoom,
-        Draw
+        Draw,
+        Erase
     }
 
-    private val maskLayer: MaskLayer = MaskLayer(context, imageMatrix)
+    var onMaskingActionFinishedListener: OnTouchListener? = null
+    private val maskLayer = MaskLayer(context, imageMatrix)
     private var currentMode: Mode = Mode.Draw
-    private lateinit var drawableDimensions: Pair<Int, Int>
+    private lateinit var drawableSize: Size
 
     init {
         maximumScale = MAX_SCALE
 
-        setOnMatrixChangeListener { maskLayer.onScaleChanged() }
+        setOnMatrixChangeListener { _ ->
+            val imageMatrixArray = FloatArray(MATRIX_SIZE).apply { imageMatrix.getValues(this) }
+            val scale = imageMatrixArray[Matrix.MSCALE_X]
+            maskLayer.currentScale = scale
+        }
+
+        setOnTouchListener { _, event -> onTouchEvent(event) }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -42,22 +55,28 @@ class MaskCustomView @JvmOverloads constructor(
         super.onTouchEvent(event) ||
                 when (currentMode) {
                     Mode.Zoom -> onTouchMove(event)
-                    Mode.Draw -> onTouchDraw(event)
+                    Mode.Draw, Mode.Erase -> onTouchDraw(event)
                 }
 
     private fun onTouchMove(event: MotionEvent) = attacher.onTouch(this, event)
 
     private fun onTouchDraw(event: MotionEvent): Boolean {
-        val (x, y) = invert(event.x, event.y)
-        val (drawableWidth, drawableHeight) = drawableDimensions
-        val xOffBounds = 0 > x || x > drawableWidth
-        val yOffBounds = 0 > y || y > drawableHeight
-        if (xOffBounds || yOffBounds) return false
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> maskLayer.drawStart(x, y)
-            MotionEvent.ACTION_MOVE -> {
-                maskLayer.drawMove(x, y)
-                invalidate()
+        if (event.action == MotionEvent.ACTION_UP) {
+            maskLayer.drawEnd()
+            onMaskingActionFinishedListener?.onTouch(this, event)
+            invalidate()
+        } else {
+            val (x, y) = invert(event.x, event.y)
+            val (drawableWidth, drawableHeight) = drawableSize
+            val xOffBounds = 0 > x || x > drawableWidth
+            val yOffBounds = 0 > y || y > drawableHeight
+            if (xOffBounds || yOffBounds) return false
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> maskLayer.drawStart(x, y)
+                MotionEvent.ACTION_MOVE -> {
+                    maskLayer.drawMove(x, y)
+                    invalidate()
+                }
             }
         }
         return true
@@ -71,36 +90,25 @@ class MaskCustomView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        maskLayer.onDraw(canvas)
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(width, height)
-        maskLayer.onViewSizeChanged(width, height)
-    }
-
-    override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
-        super.onSizeChanged(width, height, oldWidth, oldHeight)
-        maskLayer.onViewSizeChanged(width, height)
+        maskLayer.draw(canvas)
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
-        drawableDimensions = (drawable?.intrinsicWidth ?: 0) to (drawable?.intrinsicHeight ?: 0)
-        val (drawableWidth, drawableHeight) = drawableDimensions
-        maskLayer.init(drawableWidth, drawableHeight)
+        drawableSize = (drawable?.intrinsicWidth ?: 0) x (drawable?.intrinsicHeight ?: 0)
+        maskLayer.initSize(drawableSize)
     }
 
     override fun onSaveInstanceState(): Parcelable? =
         MaskCustomViewSavedState(
             super.onSaveInstanceState(),
-            maskLayer.onSaveInstanceState()
+            maskLayer.getInstanceState()
         )
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         super.onRestoreInstanceState(state)
         if (state is MaskCustomViewSavedState) {
-            maskLayer.onRestoreInstanceState(state.maskLayerState)
+            maskLayer.restoreInstanceState(state.maskLayerState)
         }
     }
 
@@ -109,14 +117,20 @@ class MaskCustomView @JvmOverloads constructor(
     }
 
     fun drawMode() {
+        maskLayer.drawMode()
         currentMode = Mode.Draw
     }
 
-    fun getCurrentBrushDiseaseStage() = maskLayer.brushDiseaseStage
-
-    fun setCurrentBrushDiseaseStage(brushDiseaseStage: BrushDiseaseStage) {
-        maskLayer.brushDiseaseStage = brushDiseaseStage
+    fun eraseMode() {
+        maskLayer.eraseMode()
+        currentMode = Mode.Erase
     }
+
+    fun initBrushColor(color: Int) =
+        maskLayer.initBrushColor(color)
+
+    fun setBrushColor(color: Int) =
+        maskLayer.setBrushColor(color)
 
     fun getMaskBitmap() = maskLayer.getBitmap()
 

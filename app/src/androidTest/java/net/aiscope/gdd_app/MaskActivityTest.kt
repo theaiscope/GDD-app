@@ -105,13 +105,13 @@ class MaskActivityTest {
     fun shouldKeepMaskOnRotation() {
         startActivity()
 
-        perform(R.id.mask_custom_view, swipeLeft())
+        perform(R.id.photo_mask_view, swipeLeft())
 
         val captureBeforeRotation = captureMaskCustomView()
 
-        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
 
-        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.photo_mask_view)
 
         val captureAfterRotation = captureMaskCustomView()
 
@@ -122,23 +122,23 @@ class MaskActivityTest {
     fun shouldKeepUndoAndRedoOnRotation() {
         startActivity()
 
-        perform(R.id.mask_custom_view, swipeLeft())
-        perform(R.id.mask_custom_view, swipeUp())
+        perform(R.id.photo_mask_view, swipeLeft())
+        perform(R.id.photo_mask_view, swipeUp())
 
         perform(R.id.undo_btn, click())
 
-        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
 
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.photo_mask_view)
 
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
     }
 
-    private fun captureMaskCustomView() = Screenshot.capture(activityTestRule.activity.mask_custom_view)
+    private fun captureMaskCustomView() = Screenshot.capture(activityTestRule.activity.photo_mask_view)
 
     @Test
     fun shouldUndoAndRedoProperly() {
@@ -149,14 +149,14 @@ class MaskActivityTest {
 
         val captureStart = captureMaskCustomView()
 
-        perform(R.id.mask_custom_view, swipeLeft())
+        perform(R.id.photo_mask_view, swipeLeft())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
         val captureFirstPath = captureMaskCustomView()
 
-        perform(R.id.mask_custom_view, swipeUp())
+        perform(R.id.photo_mask_view, swipeUp())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
@@ -202,25 +202,25 @@ class MaskActivityTest {
 
         val captureStart = captureMaskCustomView()
 
-        perform(R.id.mask_custom_view, swipeLeft())
+        perform(R.id.photo_mask_view, swipeLeft())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
         val captureFirstPath = captureMaskCustomView()
 
-        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.mask_custom_view)
-        perform(R.id.mask_custom_view, swipeUp())
-        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
+        perform(R.id.photo_mask_view, swipeUp())
+        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.photo_mask_view)
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
         val captureSecondPath = captureMaskCustomView()
 
-        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
         perform(R.id.undo_btn, click())
-        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.photo_mask_view)
 
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
@@ -234,9 +234,9 @@ class MaskActivityTest {
 
         assertTrue(captureMaskCustomView().bitmap.sameAs(captureStart.bitmap))
 
-        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
         perform(R.id.redo_btn, click())
-        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.mask_custom_view)
+        rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.photo_mask_view)
 
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)

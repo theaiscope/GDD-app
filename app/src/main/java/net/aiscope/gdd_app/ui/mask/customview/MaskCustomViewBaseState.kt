@@ -3,13 +3,12 @@ package net.aiscope.gdd_app.ui.mask.customview
 import android.graphics.Paint
 import android.os.Parcel
 import android.os.Parcelable
-import net.aiscope.gdd_app.ui.mask.BrushDiseaseStage
-import java.util.*
+import java.util.LinkedList
 
 class MaskCustomViewBaseState(
-    pathsPaintsAndStagesNames: List<MaskLayer.PathPaintAndStageName>,
+    pathsPaintsAndStagesNames: List<MaskLayer.PathAndPaint>,
     val undoPendingPaths: Int,
-    val currentBrushDiseaseStage: BrushDiseaseStage
+    val currentBrushColor: Int
 ) : Parcelable {
 
     companion object CREATOR : Parcelable.Creator<MaskCustomViewBaseState> {
@@ -24,24 +23,32 @@ class MaskCustomViewBaseState(
 
     internal val basePathsAndPaintChangesData = extractBaseData(pathsPaintsAndStagesNames)
 
-    private fun extractBaseData(inputList: List<MaskLayer.PathPaintAndStageName>): List<BaseData> {
+    private fun extractBaseData(inputList: List<MaskLayer.PathAndPaint>): List<BaseData> {
         val result = LinkedList<BaseData>()
         if (inputList.isNotEmpty()) {
-            val (firstPath, firstPaint, firstStageName) = inputList[0]
+            val (firstPath, firstPaint) = inputList[0]
             val firstPathBaseData = PathBaseData(firstPath.points)
             val firstPaintChangeBaseData =
-                PaintChangeBaseData(firstPaint.color, firstPaint.strokeWidth)
-            result.add(BaseData(firstPathBaseData, firstPaintChangeBaseData, firstStageName))
+                PaintChangeBaseData(
+                    firstPaint.color,
+                    firstPaint.strokeWidth,
+                    firstPaint.xfermode == MaskLayer.ERASER_XFER_MODE
+                )
+            result.add(BaseData(firstPathBaseData, firstPaintChangeBaseData))
             var latestPaint: Paint = firstPaint
-            for ((path, paint, stageName) in inputList.subList(1, inputList.size)) {
+            for ((path, paint) in inputList.subList(1, inputList.size)) {
                 val pathPoints = path.points
                 val pathBaseData = PathBaseData(pathPoints)
                 val paintBaseChangeData =
-                    if (paint != latestPaint)
-                        PaintChangeBaseData(paint.color, paint.strokeWidth)
-                    else
+                    if (paint == latestPaint)
                         null
-                result.add(BaseData(pathBaseData, paintBaseChangeData, stageName))
+                    else
+                        PaintChangeBaseData(
+                            paint.color,
+                            paint.strokeWidth,
+                            paint.xfermode == MaskLayer.ERASER_XFER_MODE
+                        )
+                result.add(BaseData(pathBaseData, paintBaseChangeData))
                 latestPaint = paint
             }
         }
@@ -49,43 +56,43 @@ class MaskCustomViewBaseState(
     }
 
     constructor(parcel: Parcel) : this(
-        LinkedList<MaskLayer.PathPaintAndStageName>().apply {
+        LinkedList<MaskLayer.PathAndPaint>().apply {
             parcel.readList(this as List<*>, Pair::class.java.classLoader)
         },
         parcel.readInt(),
-        parcel.readTypedObject(BrushDiseaseStage.CREATOR)!!
+        parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeList(basePathsAndPaintChangesData as List<*>)
         parcel.writeInt(undoPendingPaths)
-        parcel.writeTypedObject(currentBrushDiseaseStage, flags)
+        parcel.writeInt(currentBrushColor)
     }
 
     override fun describeContents() = 0
 
-    fun reassemblePathsPaintsAndStagesNames(): List<MaskLayer.PathPaintAndStageName> {
-        val result = LinkedList<MaskLayer.PathPaintAndStageName>()
+    fun reassemblePathsPaintsAndStagesNames(): List<MaskLayer.PathAndPaint> {
+        val result = LinkedList<MaskLayer.PathAndPaint>()
         lateinit var latestPaint: Paint
-        for ((basePath, paintChange, stageName) in basePathsAndPaintChangesData) {
+        for ((basePath, paintChange) in basePathsAndPaintChangesData) {
             val path = PointToPointPath(basePath.points)
             latestPaint =
-                if (paintChange == null)
-                    latestPaint
-                else
-                    MaskLayer.newDefaultPaintBrush(paintChange.color, paintChange.strokeWidth)
-            result.add(MaskLayer.PathPaintAndStageName(path, latestPaint, stageName))
+                when {
+                    paintChange == null -> latestPaint
+                    paintChange.isEraser -> MaskLayer.newDefaultPaintEraser(paintChange.strokeWidth)
+                    else -> MaskLayer.newDefaultPaintBrush(paintChange.color, paintChange.strokeWidth)
+                }
+            result.add(MaskLayer.PathAndPaint(path, latestPaint))
         }
         return result
     }
 
     data class BaseData(
         val pathBaseData: PathBaseData,
-        val paintChangeBaseData: PaintChangeBaseData?,
-        val diseaseStageName: String
+        val paintChangeBaseData: PaintChangeBaseData?
     )
 
     data class PathBaseData(val points: List<Pair<Float, Float>>)
 
-    data class PaintChangeBaseData(val color: Int, val strokeWidth: Float)
+    data class PaintChangeBaseData(val color: Int, val strokeWidth: Float, val isEraser: Boolean)
 }
