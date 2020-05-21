@@ -204,25 +204,29 @@ class MaskLayer(
     }
 
     fun drawMove(x: Float, y: Float) {
-        val (latestX, latestY) = currentPath!!.latestPoint
-        val dX = abs(x - latestX)
-        val dY = abs(y - latestY)
-        val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale
-        if (dX >= touchTolerance || dY >= touchTolerance) {
-            currentPath!!.quadTo(x, y)
+        currentPath?.run {
+            val (latestX, latestY) = latestPoint
+            val dX = abs(x - latestX)
+            val dY = abs(y - latestY)
+            val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale
+            if (dX >= touchTolerance || dY >= touchTolerance) {
+                quadTo(x, y)
+            }
         }
     }
 
     fun drawEnd() {
-        val visibleChange: Boolean =
-            if (isCurrentModeDraw()) currentPath!!.hasMultiplePoints()
-            else !latestChangeBitmap.sameAs(currentStateBitmap)
-        if (visibleChange) {
-            keepLatestChangeBitmap()
-            flushPendingUndos()
-            pathsAndPaints.add(PathAndPaint(currentPath!!, currentPaint))
+        currentPath?.run {
+            val visibleChange: Boolean =
+                if (isCurrentModeDraw()) hasMultiplePoints()
+                else !latestChangeBitmap.sameAs(currentStateBitmap)
+            if (visibleChange) {
+                keepLatestChangeBitmap()
+                flushPendingUndos()
+                pathsAndPaints.add(PathAndPaint(this, currentPaint))
+            }
+            currentPath = null
         }
-        currentPath = null
     }
 
     private fun isCurrentModeDraw() = currentMode == Mode.Draw
