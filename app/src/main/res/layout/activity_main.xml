@@ -16,16 +16,29 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:title="AI Scope" />
 
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:src="@drawable/ic_aiscope_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/welcome_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:gravity="center_horizontal"
         android:text="@string/welcome_msg"
         android:textColor="@color/colorTextSubtitle"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/icon" />
 
     <TextView
         android:id="@+id/start_message"
@@ -57,5 +70,14 @@
         android:layout_marginEnd="36dp"
         android:text="@string/button_start_capturing"
         app:layout_constraintTop_toBottomOf="@+id/dropdown_select_disease" />
+
+    <TextView
+        android:id="@+id/main_version_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextSubtitle"
+        android:layout_margin="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

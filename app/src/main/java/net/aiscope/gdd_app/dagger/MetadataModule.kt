@@ -19,11 +19,9 @@ abstract class MetadataModule {
     @PerActivity
     internal abstract fun activity(activity: MetadataActivity): Activity
 
-    @Module
     companion object {
         @Provides
         @PerActivity
-        @JvmStatic
         internal fun provideMetadataMapper(): MetadataMapper = MetadataMapper
     }
 }
