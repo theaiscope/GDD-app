@@ -34,7 +34,7 @@ class MaskPresenter(
 
     fun start(diseaseName: String, imagePath: String) {
         this.diseaseName = diseaseName
-        view.loadBitmap(imagePath)
+        view.initPhotoMaskView(imagePath)
     }
 
     companion object {
