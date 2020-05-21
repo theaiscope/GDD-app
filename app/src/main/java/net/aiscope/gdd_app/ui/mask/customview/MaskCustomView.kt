@@ -47,7 +47,7 @@ class MaskCustomView @JvmOverloads constructor(
             maskLayer.currentScale = scale
         }
 
-        setOnTouchListener { _, event ->  onTouchEvent(event) }
+        setOnTouchListener { _, event -> onTouchEvent(event) }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -148,8 +148,6 @@ class MaskCustomView @JvmOverloads constructor(
 
     fun redoAvailable() = maskLayer.redoAvailable()
 
-    class MaskCustomViewSavedState(
-        superState: Parcelable?,
-        val maskLayerState: Parcelable
-    ) : BaseSavedState(superState)
+    class MaskCustomViewSavedState(superState: Parcelable?, val maskLayerState: Parcelable) :
+        BaseSavedState(superState)
 }

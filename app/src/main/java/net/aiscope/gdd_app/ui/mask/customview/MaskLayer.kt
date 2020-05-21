@@ -12,7 +12,7 @@ import android.os.Parcelable
 import android.util.Size
 import android.view.ViewConfiguration
 import androidx.core.graphics.withMatrix
-import java.util.LinkedList
+import java.util.*
 import kotlin.math.abs
 
 @Suppress("TooManyFunctions")
@@ -22,7 +22,7 @@ class MaskLayer(
 ) {
     companion object {
         private const val ALPHA_OPAQUE = 0xFF
-        private const val MASK_PAINT_ALPHA = .8
+        private const val MASK_PAINT_OPACITY = .8
         private const val PATH_STROKE_WIDTH = 80f
         private val BITMAP_TRANSFER_PAINT = Paint()
         val ERASER_XFER_MODE = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
@@ -34,7 +34,7 @@ class MaskLayer(
             this.strokeJoin = Paint.Join.ROUND
             this.strokeCap = Paint.Cap.ROUND
             this.color = color
-            this.alpha = (ALPHA_OPAQUE * MASK_PAINT_ALPHA).toInt()
+            this.alpha = (ALPHA_OPAQUE * MASK_PAINT_OPACITY).toInt()
             this.strokeWidth = strokeWidth
         }
 
