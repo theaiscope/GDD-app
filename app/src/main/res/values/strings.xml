@@ -10,6 +10,7 @@
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="text_logout">Logout</string>
     <string name="logout_flow_exit_dialog_message">You will logout and go back to login screen.</string>
+    <string name="main_version">v%1$s</string>
     <!-- CaptureImage -->
     <string name="capture_activity_title">Capture photo</string>
     <string name="image_could_not_be_taken">Image could not be taken</string>
