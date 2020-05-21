@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.ui.main
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -16,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import net.aiscope.gdd_app.BuildConfig
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
@@ -35,6 +37,9 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        @SuppressLint("SetTextI18n")
+        main_version_text.text = "v${BuildConfig.VERSION_NAME}"
 
         askCameraPermission()
 
