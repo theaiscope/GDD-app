@@ -1,7 +1,6 @@
 package net.aiscope.gdd_app.ui.main
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -38,8 +37,7 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        @SuppressLint("SetTextI18n")
-        main_version_text.text = "v${BuildConfig.VERSION_NAME}"
+        main_version_text.text = getString(R.string.main_version, BuildConfig.VERSION_NAME)
 
         askCameraPermission()
 
