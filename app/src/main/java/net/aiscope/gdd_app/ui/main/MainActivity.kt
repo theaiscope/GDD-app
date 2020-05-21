@@ -11,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_main.dropdown_select_disease
-import kotlinx.android.synthetic.main.activity_main.main_continue_button
-import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.toolbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
