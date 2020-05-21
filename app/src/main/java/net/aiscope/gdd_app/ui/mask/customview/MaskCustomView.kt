@@ -108,7 +108,7 @@ class MaskCustomView @JvmOverloads constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         super.onRestoreInstanceState(state)
         if (state is MaskCustomViewSavedState) {
-            maskLayer.restoreInstanceState(state.maskLayerControllerState)
+            maskLayer.restoreInstanceState(state.maskLayerState)
         }
     }
 
@@ -150,6 +150,6 @@ class MaskCustomView @JvmOverloads constructor(
 
     class MaskCustomViewSavedState(
         superState: Parcelable?,
-        val maskLayerControllerState: Parcelable
+        val maskLayerState: Parcelable
     ) : BaseSavedState(superState)
 }
