@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.os.Parcelable
+import android.util.Size
 import android.view.ViewConfiguration
 import androidx.core.graphics.withMatrix
 import java.util.LinkedList
@@ -54,8 +55,7 @@ class MaskLayer(
     }
 
     //fields lazily initialized
-    private var _width: Int? = null
-    private var _height: Int? = null
+    private lateinit var size: Size
     var currentScale = 1f
         set(value) {
             field = value
@@ -63,21 +63,18 @@ class MaskLayer(
             paintEraserPendingRecreation = true
         }
 
-    //fields depending on init of dimensions
-    private val width by lazy { _width!! }
-    private val height by lazy { _height!! }
     private val latestChangeBitmap by lazy {
         Bitmap.createBitmap(
-            width,
-            height,
+            size.width,
+            size.height,
             Bitmap.Config.ARGB_8888
         )
     }
     private val latestChangeBitmapCanvas by lazy { Canvas(latestChangeBitmap) }
     private val currentStateBitmap by lazy {
         Bitmap.createBitmap(
-            width,
-            height,
+            size.width,
+            size.height,
             Bitmap.Config.ARGB_8888
         )
     }
@@ -97,10 +94,9 @@ class MaskLayer(
     private var currentPath: PointToPointPath? = null
     private var currentMode: Mode = Mode.Draw
 
-    fun initDimensions(width: Int, height: Int) {
-        require(_width == null && _height == null) { "Dimensions were initialized already!" }
-        _width = width
-        _height = height
+    fun initSize(size: Size) {
+        require(!sizeInitialized()) { "Size was initialized already!" }
+        this.size = size
     }
 
     fun initBrushColor(color: Int) {
@@ -114,14 +110,17 @@ class MaskLayer(
         paintBrushPendingRecreation = true
     }
 
-    private fun dimensionsInitialized() = _width != null && _height != null
+    private fun sizeInitialized() = this::size.isInitialized
 
     private fun brushColorInitialized() = currentBrushColor != 0
 
     fun draw(canvas: Canvas) {
-        if (!dimensionsInitialized()) return
+        if (!sizeInitialized()) return
+
         composeCurrentStateBitmap()
-        if (!pathBeingDrawn()) keepLatestChangeBitmap()
+        if (!pathBeingDrawn()) {
+            keepLatestChangeBitmap()
+        }
         canvas.withMatrix(imageMatrix) {
             this.drawBitmap(currentStateBitmap, 0f, 0f, BITMAP_TRANSFER_PAINT)
         }
@@ -205,25 +204,29 @@ class MaskLayer(
     }
 
     fun drawMove(x: Float, y: Float) {
-        val (latestX, latestY) = currentPath!!.latestPoint
-        val dX = abs(x - latestX)
-        val dY = abs(y - latestY)
-        val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale
-        if (dX >= touchTolerance || dY >= touchTolerance) {
-            currentPath!!.quadTo(x, y)
+        currentPath?.run {
+            val (latestX, latestY) = latestPoint
+            val dX = abs(x - latestX)
+            val dY = abs(y - latestY)
+            val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale
+            if (dX >= touchTolerance || dY >= touchTolerance) {
+                quadTo(x, y)
+            }
         }
     }
 
     fun drawEnd() {
-        val visibleChange: Boolean =
-            if (isCurrentModeDraw()) currentPath!!.hasMultiplePoints()
-            else !latestChangeBitmap.sameAs(currentStateBitmap)
-        if (visibleChange) {
-            keepLatestChangeBitmap()
-            flushPendingUndos()
-            pathsAndPaints.add(PathAndPaint(currentPath!!, currentPaint))
+        currentPath?.run {
+            val visibleChange: Boolean =
+                if (isCurrentModeDraw()) hasMultiplePoints()
+                else !latestChangeBitmap.sameAs(currentStateBitmap)
+            if (visibleChange) {
+                keepLatestChangeBitmap()
+                flushPendingUndos()
+                pathsAndPaints.add(PathAndPaint(this, currentPaint))
+            }
+            currentPath = null
         }
-        currentPath = null
     }
 
     private fun isCurrentModeDraw() = currentMode == Mode.Draw

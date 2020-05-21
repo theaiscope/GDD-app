@@ -7,8 +7,12 @@ import android.graphics.Matrix
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Size
 import android.view.MotionEvent
+import androidx.core.util.component1
+import androidx.core.util.component2
 import com.github.chrisbanes.photoview.PhotoView
+import net.aiscope.gdd_app.extensions.x
 
 @Suppress("TooManyFunctions")
 //TODO("Rename to PhotoMaskView")
@@ -32,7 +36,7 @@ class MaskCustomView @JvmOverloads constructor(
     var onMaskingActionFinishedListener: OnTouchListener? = null
     private val maskLayer = MaskLayer(context, imageMatrix)
     private var currentMode: Mode = Mode.Draw
-    private lateinit var drawableDimensions: Pair<Int, Int>
+    private lateinit var drawableSize: Size
 
     init {
         maximumScale = MAX_SCALE
@@ -57,13 +61,13 @@ class MaskCustomView @JvmOverloads constructor(
     private fun onTouchMove(event: MotionEvent) = attacher.onTouch(this, event)
 
     private fun onTouchDraw(event: MotionEvent): Boolean {
-        val (x, y) = invert(event.x, event.y)
-        val (drawableWidth, drawableHeight) = drawableDimensions
         if (event.action == MotionEvent.ACTION_UP) {
             maskLayer.drawEnd()
             onMaskingActionFinishedListener?.onTouch(this, event)
             invalidate()
         } else {
+            val (x, y) = invert(event.x, event.y)
+            val (drawableWidth, drawableHeight) = drawableSize
             val xOffBounds = 0 > x || x > drawableWidth
             val yOffBounds = 0 > y || y > drawableHeight
             if (xOffBounds || yOffBounds) return false
@@ -91,9 +95,8 @@ class MaskCustomView @JvmOverloads constructor(
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
-        val (width, height) = (drawable?.intrinsicWidth ?: 0) to (drawable?.intrinsicHeight ?: 0)
-        maskLayer.initDimensions(width, height)
-        drawableDimensions = width to height
+        drawableSize = (drawable?.intrinsicWidth ?: 0) x (drawable?.intrinsicHeight ?: 0)
+        maskLayer.initSize(drawableSize)
     }
 
     override fun onSaveInstanceState(): Parcelable? =
