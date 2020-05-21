@@ -71,4 +71,13 @@
         android:text="@string/button_start_capturing"
         app:layout_constraintTop_toBottomOf="@+id/dropdown_select_disease" />
 
+    <TextView
+        android:id="@+id/main_version_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextSubtitle"
+        android:layout_margin="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

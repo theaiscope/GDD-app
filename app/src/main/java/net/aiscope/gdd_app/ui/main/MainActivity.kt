@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import net.aiscope.gdd_app.BuildConfig
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.sample_preparation.SamplePreparationActivity
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        main_version_text.text = getString(R.string.main_version, BuildConfig.VERSION_NAME)
 
         askCameraPermission()
 

@@ -14,6 +14,7 @@
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="text_logout">Logout</string>
     <string name="logout_flow_exit_dialog_message">You will logout and go back to login screen.</string>
+    <string name="main_version">v%1$s</string>
     <!-- SamplePreparation -->
     <string name="sample_preparation_activity_title">Sample preparation</string>
     <string name="sample_preparation_water_type_title">Water</string>
