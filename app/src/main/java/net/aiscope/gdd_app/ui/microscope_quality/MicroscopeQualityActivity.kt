@@ -6,11 +6,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_microscope_quality.microscope_quality_continue_button
-import kotlinx.android.synthetic.main.activity_microscope_quality.microscope_quality_damaged_switch
-import kotlinx.android.synthetic.main.activity_microscope_quality.microscope_quality_magnification_edit_text
-import kotlinx.android.synthetic.main.activity_microscope_quality.microscope_quality_magnification_error
-import kotlinx.android.synthetic.main.toolbar.toolbar
+import kotlinx.android.synthetic.main.activity_microscope_quality.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

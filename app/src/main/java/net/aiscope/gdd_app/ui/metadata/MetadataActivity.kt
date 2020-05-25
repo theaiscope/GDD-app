@@ -8,11 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_metadata.metadata_blood_sample_images
-import kotlinx.android.synthetic.main.activity_metadata.metadata_save_sample
-import kotlinx.android.synthetic.main.activity_metadata.metadata_section_smear_type_radio_group
-import kotlinx.android.synthetic.main.activity_metadata.metadata_species_spinner
-import kotlinx.android.synthetic.main.toolbar.toolbar
+import kotlinx.android.synthetic.main.activity_metadata.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

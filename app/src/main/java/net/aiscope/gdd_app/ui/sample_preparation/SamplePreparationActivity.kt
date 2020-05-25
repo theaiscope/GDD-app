@@ -6,15 +6,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_alcohol_switch
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_continue_button
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_giemsa_fp_switch
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_giemsa_switch
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_pbs_switch
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_slides_reuse_switch
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_water_type_error
-import kotlinx.android.synthetic.main.activity_sample_preparation.sample_preparation_water_type_spinner
-import kotlinx.android.synthetic.main.toolbar.toolbar
+import kotlinx.android.synthetic.main.activity_sample_preparation.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

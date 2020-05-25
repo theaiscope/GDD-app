@@ -7,7 +7,6 @@ import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.ui.main.MainActivity
 import javax.inject.Inject
 
-
 class LoginActivity : AppCompatActivity(), LoginView {
 
     @Inject
