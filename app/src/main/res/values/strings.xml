@@ -6,8 +6,6 @@
     <string name="error_message_field_empty">Field cannot be empty</string>
     <string name="error_message_logout_failure">Error when during logout process</string>
     <string name="confirmation_message_saved">Saved</string>
-    <string name="button_cancel">Cancel</string>
-    <string name="button_ok">OK</string>
     <string name="profile">profile</string>
     <string name="spinner_empty_option">- select -</string>
     <!--select disease-->

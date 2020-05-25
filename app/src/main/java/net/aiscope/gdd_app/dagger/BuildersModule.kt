@@ -27,17 +27,13 @@ abstract class BuildersModule {
     @ContributesAndroidInjector(modules = [MainModule::class])
     abstract fun contributesMainActivityAndroidInjector(): MainActivity
 
-    @Binds
-    @IntoMap
-    @ClassKey(SamplePreparationActivity::class)
-    abstract fun bindSamplePreparationActivityInjectorFactory(factory: SamplePreparationSubComponents.Factory):
-            AndroidInjector.Factory<*>
+    @PerActivity
+    @ContributesAndroidInjector(modules = [SamplePreparationModule::class])
+    abstract fun contributesSamplePreparationActivityAndroidInjector(): SamplePreparationActivity
 
-    @Binds
-    @IntoMap
-    @ClassKey(MicroscopeQualityActivity::class)
-    abstract fun bindMicroscopeQualityActivityInjectorFactory(factory: MicroscopeQualitySubComponents.Factory):
-            AndroidInjector.Factory<*>
+    @PerActivity
+    @ContributesAndroidInjector(modules = [MicroscopeQualityModule::class])
+    abstract fun contributesMicroscopeQualityActivityAndroidInjector(): MicroscopeQualityActivity
 
     @Binds
     @IntoMap

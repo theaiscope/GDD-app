@@ -1,5 +1,5 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
@@ -36,6 +36,7 @@
     </style>
 
     <style name="Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:textColor">@color/colorPlainText</item>
         <item name="android:textSize">20sp</item>
         <item name="android:paddingTop">24dp</item>
         <item name="android:paddingBottom">24dp</item>

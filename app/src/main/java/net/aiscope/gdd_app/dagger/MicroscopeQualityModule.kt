@@ -1,6 +1,5 @@
 package net.aiscope.gdd_app.dagger
 
-import android.app.Activity
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -15,15 +14,9 @@ abstract class MicroscopeQualityModule {
     @PerActivity
     internal abstract fun provideView(view: MicroscopeQualityActivity): MicroscopeQualityView
 
-    @Binds
-    @PerActivity
-    internal abstract fun activity(activity: MicroscopeQualityActivity): Activity
-
-    @Module
     companion object {
         @Provides
         @PerActivity
-        @JvmStatic
         internal fun provideMapper(): MicroscopeQualityMapper = MicroscopeQualityMapper
     }
 }

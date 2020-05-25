@@ -19,11 +19,9 @@ abstract class SamplePreparationModule {
     @PerActivity
     internal abstract fun activity(activity: SamplePreparationActivity): Activity
 
-    @Module
     companion object {
         @Provides
         @PerActivity
-        @JvmStatic
         internal fun provideMapper(): SamplePreparationMapper = SamplePreparationMapper
     }
 }
