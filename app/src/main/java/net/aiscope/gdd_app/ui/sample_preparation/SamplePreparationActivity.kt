@@ -59,12 +59,14 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
 
     override fun fillForm(model: SamplePreparationViewStateModel?) {
         val formData = model ?: defaultFormData
-        sample_preparation_water_type_spinner.select(formData.waterType)
-        sample_preparation_giemsa_switch.isChecked = formData.usesGiemsa
-        sample_preparation_giemsa_fp_switch.isChecked = formData.giemsaFP
-        sample_preparation_pbs_switch.isChecked = formData.usesPbs
-        sample_preparation_alcohol_switch.isChecked = formData.usesAlcohol
-        sample_preparation_slides_reuse_switch.isChecked = formData.reusesSlides
+        with(formData) {
+            sample_preparation_water_type_spinner.select(waterType)
+            sample_preparation_giemsa_switch.isChecked = usesGiemsa
+            sample_preparation_giemsa_fp_switch.isChecked = giemsaFP
+            sample_preparation_pbs_switch.isChecked = usesPbs
+            sample_preparation_alcohol_switch.isChecked = usesAlcohol
+            sample_preparation_slides_reuse_switch.isChecked = reusesSlides
+        }
     }
 
     private fun validateForm(): Boolean {
