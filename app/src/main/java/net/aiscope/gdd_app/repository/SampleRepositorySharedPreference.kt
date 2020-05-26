@@ -43,7 +43,7 @@ class SampleRepositorySharedPreference @Inject constructor(
     }
 
     override fun all(): List<Sample> {
-        val jsons = store.all()
+        val jsons = store.all().filter { it != "true" }
 
         return jsons.map {
             gson.fromJson<SampleDto>(it).toDomain()
