@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.network
 
 import android.app.Activity
 import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -15,17 +16,16 @@ class FirebaseAuthenticator @Inject constructor(
     private val auth: FirebaseAuth
 ) {
 
-    companion object {
-        const val RC_SIGN_IN = 1234
-    }
-
     private var callback: Callback? = null
 
     fun isUserSignedIn() = auth.currentUser != null
 
-    fun startFirebaseAuthSignIn(callback: Callback) {
+    fun startFirebaseAuthSignIn(
+        logIn: ActivityResultLauncher<Intent>,
+        callback: Callback
+    ) {
         this.callback = callback
-        activity.startActivityForResult(
+        logIn.launch(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(
@@ -34,18 +34,11 @@ class FirebaseAuthenticator @Inject constructor(
                     )
                 )
                 .setTheme(R.style.AppTheme)
-                .build(),
-            RC_SIGN_IN
+                .build()
         )
     }
 
-    fun checkForSignInResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            RC_SIGN_IN -> checkSignInResult(resultCode, data)
-        }
-    }
-
-    private fun checkSignInResult(resultCode: Int, data: Intent?) {
+    fun checkForSignInResult(resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
             callback?.onSignInSuccess()
         } else {
@@ -62,7 +55,7 @@ class FirebaseAuthenticator @Inject constructor(
         callback = null
     }
 
-    fun singOut(logoutCallBack: LogoutCallBack) {
+    fun signOut(logoutCallBack: LogoutCallBack) {
         AuthUI.getInstance()
             .signOut(activity)
             .addOnFailureListener {

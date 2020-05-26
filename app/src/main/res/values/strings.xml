@@ -65,4 +65,10 @@
     <string name="mask_activity_stages_dialog_title"><font color="#ffffffff">Select a stage</font></string>
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
+
+    <!-- Privacy Policy -->
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_error_message">There was an error\n\n[%s]\n\nClick to retry.</string>
+    <string name="privacy_policy_i_agree">I agree</string>
+    <string name="privacy_policy_cancel">Cancel</string>
 </resources>
