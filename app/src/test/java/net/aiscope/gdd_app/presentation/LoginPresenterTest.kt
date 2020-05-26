@@ -15,7 +15,7 @@ class LoginPresenterTest {
 
     companion object {
         val microscopistThatAgreedPrivacyPolicy = Microscopist("1", true)
-        val microscopistThatDidntAgreedPrivacyPolicy = Microscopist("1", false)
+        val microscopistThatHasntAgreedPrivacyPolicy = Microscopist("1", false)
     }
 
     private val viewMock: LoginView = mock()
