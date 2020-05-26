@@ -68,7 +68,7 @@ class PrivacyPolicyActivity : AppCompatActivity(), PrivacyPolicyView {
                     return true
                 }
             }
-            addJavascriptInterface(Callback(presenter), "callback")
+            addJavascriptInterface(PrivacyPolicyLoadCallback(presenter), "privacyPolicyLoadCallback")
         }
     }
 
@@ -99,7 +99,7 @@ class PrivacyPolicyActivity : AppCompatActivity(), PrivacyPolicyView {
     }
 }
 
-class Callback(val presenter: PrivacyPolicyPresenter) {
+class PrivacyPolicyLoadCallback(val presenter: PrivacyPolicyPresenter) {
 
     @JavascriptInterface
     @WorkerThread

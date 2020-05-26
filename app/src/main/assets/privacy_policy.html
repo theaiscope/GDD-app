@@ -11,10 +11,10 @@ fetch('https://aiscope.net/wp-json/wp/v2/pages/289')
     .then(result => result.json())
     .then(result => {
             document.querySelector('#app').innerHTML = result.content.rendered.replace(new RegExp('<p>&nbsp;</p>', 'gi'), '');
-            callback.policyLoaded();
+            privacyPolicyLoadCallback.policyLoaded();
     })
     .catch((err) => {
-        callback.error(err.message);
+        privacyPolicyLoadCallback.error(err.message);
     });
 </script>
 <div id="app"></div>
