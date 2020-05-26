@@ -41,7 +41,6 @@
     <string name="mask_activity_undo">Undo</string>
     <string name="mask_activity_redo">Redo</string>
     <string name="mask_activity_stages">Select stage</string>
-    <string name="mask_activity_stages_dialog_title"><font color="#ffffffff">Select a stage</font></string>
     <!-- Metadata -->
     <string name="metadata_activity_title">Add data</string>
     <string name="metadata_sample_add_image">Add image</string>

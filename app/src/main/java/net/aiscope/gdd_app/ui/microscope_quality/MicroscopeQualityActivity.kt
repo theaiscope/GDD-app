@@ -63,19 +63,19 @@ class MicroscopeQualityActivity : AppCompatActivity(), MicroscopeQualityView, Ca
             magnification = model.magnification
         }
         microscope_quality_damaged_switch.isChecked = isDamaged
-        microscope_quality_magnification_edit_text.setText(magnification.toString())
+        microscope_quality_magnification_input.setText(magnification.toString())
     }
 
     private fun validateForm(): Boolean {
-        val magnificationValue = microscope_quality_magnification_edit_text.text
+        val magnificationValue = microscope_quality_magnification_input.text
         val isMagnificationValid = try {
             val magnificationInt = magnificationValue.toString().toInt()
             magnificationInt in MAGNIFICATION_MIN..MAGNIFICATION_MAX
         } catch (e: NumberFormatException) {
             false
         }
-        microscope_quality_magnification_error.visibility =
-            if (isMagnificationValid) View.GONE else View.VISIBLE
+        microscope_quality_magnification_layout.error =
+            if (isMagnificationValid) null else getString(R.string.microscope_quality_magnification_error)
         return isMagnificationValid
     }
 
@@ -84,7 +84,7 @@ class MicroscopeQualityActivity : AppCompatActivity(), MicroscopeQualityView, Ca
         coroutineScope.launch {
             val viewModel = MicroscopeQualityViewStateModel(
                 microscope_quality_damaged_switch.isChecked,
-                microscope_quality_magnification_edit_text.text.toString().toInt()
+                microscope_quality_magnification_input.text.toString().toInt()
             )
             presenter.save(viewModel)
         }

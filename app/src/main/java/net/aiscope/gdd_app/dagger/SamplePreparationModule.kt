@@ -1,6 +1,5 @@
 package net.aiscope.gdd_app.dagger
 
-import android.app.Activity
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -14,10 +13,6 @@ abstract class SamplePreparationModule {
     @Binds
     @PerActivity
     internal abstract fun provideView(view: SamplePreparationActivity): SamplePreparationView
-
-    @Binds
-    @PerActivity
-    internal abstract fun activity(activity: SamplePreparationActivity): Activity
 
     companion object {
         @Provides

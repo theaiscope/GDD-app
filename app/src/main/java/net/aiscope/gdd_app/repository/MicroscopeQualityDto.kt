@@ -12,3 +12,8 @@ data class MicroscopeQualityDto(
         magnification
     )
 }
+
+fun MicroscopeQuality.toDto() = MicroscopeQualityDto(
+    isDamaged,
+    magnification
+)

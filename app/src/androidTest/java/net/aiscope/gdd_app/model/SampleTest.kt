@@ -15,23 +15,37 @@ val VERSION_REGEX = Regex("""^\d+\.\d+\.\d+ \([a-zA-Z0-9]+\)""")
 @RunWith(AndroidJUnit4::class)
 class SampleTest {
 
+    companion object {
+        private const val ID = "_id"
+        private const val FACILITY = "facility"
+        private const val MICROSCOPIST = "microscopist"
+
+        private val WATER_TYPE = WaterType.TAP
+        private const val USES_GIEMSA = true
+        private const val GIEMSA_FP = true
+        private const val USES_PBS = true
+        private const val USES_ALCOHOL = true
+        private const val REUSES_SLIDES = true
+
+        private const val IS_DAMAGED = true
+        private const val MAGNIFICATION = 1240
+    }
+
     @Test
     fun shouldFillExpectedFields() {
         val samplePreparation = SamplePreparation(
-            WaterType.TAP,
-            usesGiemsa = true,
-            giemsaFP = false,
-            usesPbs = true,
-            usesAlcohol = false,
-            reusesSlides = true
+            WATER_TYPE,
+            USES_GIEMSA,
+            GIEMSA_FP,
+            USES_PBS,
+            USES_ALCOHOL,
+            REUSES_SLIDES
         )
-        val microscopeQuality = MicroscopeQuality(
-            true,
-            1240
-        )
-        val sample = Sample("_id",
-            "facility",
-            "microscopist",
+        val microscopeQuality = MicroscopeQuality(IS_DAMAGED, MAGNIFICATION)
+        val sample = Sample(
+            ID,
+            FACILITY,
+            MICROSCOPIST,
             preparation = samplePreparation,
             microscopeQuality = microscopeQuality
         )
@@ -40,22 +54,19 @@ class SampleTest {
         val dto = sample.toDto()
 
         val expectedSamplePreparationDto = SamplePreparationDto(
-            WaterType.TAP.id,
-            usesGiemsa = true,
-            giemsaFP = false,
-            usesPbs = true,
-            usesAlcohol = false,
-            reusesSlides = true
+            WATER_TYPE.id,
+            USES_GIEMSA,
+            GIEMSA_FP,
+            USES_PBS,
+            USES_ALCOHOL,
+            REUSES_SLIDES
         )
 
-        val expectedMicroscopeQualityDto = MicroscopeQualityDto(
-            true,
-            1240
-        )
+        val expectedMicroscopeQualityDto = MicroscopeQualityDto(IS_DAMAGED, MAGNIFICATION)
 
-        assertEquals("_id", dto.id)
-        assertEquals("facility", dto.healthFacility)
-        assertEquals("microscopist", dto.microscopist)
+        assertEquals(ID, dto.id)
+        assertEquals(FACILITY, dto.healthFacility)
+        assertEquals(MICROSCOPIST, dto.microscopist)
         assertEquals(expectedSamplePreparationDto, dto.preparation)
         assertEquals(expectedMicroscopeQualityDto, dto.microscopeQuality)
         assertTrue(dto.appVersion.matches(VERSION_REGEX))

@@ -20,19 +20,12 @@
         <item name="android:textColorHint">@color/colorPlainText</item>
 
         <item name="android:listPopupWindowStyle">@style/ListPopupWindow</item>
+        <item name="switchStyle">@style/Switch</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar.SamplePreparationActivity">
-        <item name="switchStyle">@style/Switch</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar.MicroscopeQualityActivity">
-        <item name="switchStyle">@style/Switch</item>
     </style>
 
     <style name="Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">

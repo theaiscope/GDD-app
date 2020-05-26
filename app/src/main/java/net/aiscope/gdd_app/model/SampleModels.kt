@@ -5,8 +5,6 @@ import java.io.File
 import java.util.Calendar
 import java.util.LinkedHashSet
 
-data class Disease(val name: String)
-
 data class HealthFacility(val name: String, val id: String, val microscopist: String)
 
 data class Sample(

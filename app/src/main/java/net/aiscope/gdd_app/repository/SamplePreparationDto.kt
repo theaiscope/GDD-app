@@ -21,3 +21,12 @@ data class SamplePreparationDto(
         reusesSlides
     )
 }
+
+fun SamplePreparation.toDto() = SamplePreparationDto(
+    waterType.id,
+    usesGiemsa,
+    giemsaFP,
+    usesPbs,
+    usesAlcohol,
+    reusesSlides
+)
