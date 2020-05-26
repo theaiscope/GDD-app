@@ -1,9 +1,9 @@
 package net.aiscope.gdd_app.model
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import net.aiscope.gdd_app.network.MicroscopeQualityDto
+import net.aiscope.gdd_app.network.SamplePreparationDto
 import net.aiscope.gdd_app.network.toDto
-import net.aiscope.gdd_app.repository.MicroscopeQualityDto
-import net.aiscope.gdd_app.repository.SamplePreparationDto
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
