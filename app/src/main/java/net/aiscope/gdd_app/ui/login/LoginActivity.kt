@@ -9,7 +9,6 @@ import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.policy.PrivacyPolicyActivity
 import javax.inject.Inject
 
-
 class LoginActivity : AppCompatActivity(), LoginView {
 
     @Inject

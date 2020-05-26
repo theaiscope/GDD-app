@@ -11,9 +11,9 @@ import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 
 @Module(subcomponents = [
-    (MetadataSubComponents::class),
     (CaptureImageSubComponents::class),
-    (MaskSubComponents::class)
+    (MaskSubComponents::class),
+    (MetadataSubComponents::class)
 ])
 object AppModule {
 

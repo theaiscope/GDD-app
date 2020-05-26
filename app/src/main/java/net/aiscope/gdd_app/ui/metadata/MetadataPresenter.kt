@@ -2,7 +2,7 @@ package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Context
 import net.aiscope.gdd_app.model.SampleMetadata
-import net.aiscope.gdd_app.model.Status
+import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import timber.log.Timber
@@ -57,7 +57,7 @@ class MetadataPresenter @Inject constructor(
                 .copy(metadata = SampleMetadata(
                     metadataMapper.getSmearType(smearTypeId),
                     metadataMapper.getSpecies(context, speciesValue)
-                ), status = Status.ReadyToUpload
+                ), status = SampleStatus.ReadyToUpload
                 )
             repository.store(sample)
 

@@ -3,19 +3,17 @@ package net.aiscope.gdd_app.ui.metadata
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AbsSpinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
@@ -28,10 +26,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
     @Inject lateinit var presenter: MetadataPresenter
 
-    private val parentJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
-
-    private val imagesAdapter = SampleImagesAdapter(coroutineScope, this::onAddImageClicked)
+    private val imagesAdapter = SampleImagesAdapter(lifecycleScope, this::onAddImageClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -47,32 +42,21 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
             adapter = imagesAdapter
         }
 
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.showScreen()
         }
 
         metadata_save_sample.setOnClickListener {
-            coroutineScope.launch {
+            lifecycleScope.launch {
                 save()
             }
         }
     }
 
-    private fun selectSpinnerValue(spinner: AbsSpinner, value: String) {
-        (0 until spinner.adapter.count)
-            .firstOrNull { spinner.adapter.getItem(it) == value }
-            ?.let { spinner.setSelection(it) }
-    }
-
-    override fun onDestroy() {
-        parentJob.cancel()
-        super.onDestroy()
-    }
-
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
         model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
-        model.speciesValue?.let { selectSpinnerValue(metadata_species_spinner, it) }
+        model.speciesValue?.let { metadata_species_spinner.select(it) }
     }
 
     override fun showInvalidFormError() {
@@ -101,7 +85,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun save() {
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.save(
                 metadata_section_smear_type_radio_group.checkedRadioButtonId,
                 metadata_species_spinner.selectedItem.toString()
@@ -110,7 +94,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun onAddImageClicked() {
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.addImage()
         }
     }

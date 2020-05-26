@@ -64,7 +64,7 @@ class MainActivityTest {
     fun shouldRedirectToCaptureImageActivity() {
         selectFirstItem()
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_go_to_capture))
+        Espresso.onView(ViewMatchers.withId(R.id.main_continue_button))
             .perform(click())
 
         intended(hasComponent(CaptureImageActivity::class.java.name))
@@ -75,7 +75,7 @@ class MainActivityTest {
     fun shouldShowConfirmationMessageIfDiseaseIsValid() {
         selectFirstItem()
 
-        Espresso.onView(ViewMatchers.withId(R.id.button_go_to_capture))
+        Espresso.onView(ViewMatchers.withId(R.id.main_continue_button))
             .perform(click())
 
         Espresso.onView(ViewMatchers.withText(R.string.confirmation_message_saved))

@@ -1,12 +1,16 @@
 package net.aiscope.gdd_app.repository
 
 import com.google.gson.Gson
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.model.HealthFacility
 import net.aiscope.gdd_app.model.Sample
-import net.aiscope.gdd_app.model.Status
+import net.aiscope.gdd_app.model.SampleStatus
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -120,12 +124,12 @@ class SampleRepositorySharedPreferenceTest {
         val todayId = "1112"
         val yesterdayId = "1113"
         val today = Calendar.getInstance()
-        var yesterday = Calendar.getInstance()
+        val yesterday = Calendar.getInstance()
         yesterday.add(Calendar.DAY_OF_YEAR, -1)
 
-        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, status = Status.ReadyToUpload, createdOn = today)
+        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, status = SampleStatus.ReadyToUpload, createdOn = today)
         val todaySampleJson = """{"id":"1112","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$today"}"""
-        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, status = Status.ReadyToUpload, createdOn = yesterday)
+        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, status = SampleStatus.ReadyToUpload, createdOn = yesterday)
         val yesterdaySampleJson = """{"id":"1113","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$yesterday"}"""
 
         whenever(gson.fromJson<SampleDto>(eq(todaySampleJson), any<Type>())).thenReturn(todaySample.toDto())

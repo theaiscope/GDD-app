@@ -3,7 +3,7 @@ package net.aiscope.gdd_app.repository
 import com.github.salomonbrys.kotson.fromJson
 import com.google.gson.Gson
 import net.aiscope.gdd_app.model.Sample
-import net.aiscope.gdd_app.model.Status
+import net.aiscope.gdd_app.model.SampleStatus
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -54,7 +54,7 @@ class SampleRepositorySharedPreference @Inject constructor(
         val allStores = all()
         return allStores
             .filter{s -> s.createdOn != null
-                        && s.status != Status.Incomplete}
+                        && s.status != SampleStatus.Incomplete}
             .sortedBy { it.createdOn }.lastOrNull()
     }
 }

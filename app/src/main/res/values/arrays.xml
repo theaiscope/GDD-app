@@ -3,4 +3,11 @@
     <string-array name="diseases">
         <item>@string/malaria_name</item>
     </string-array>
+    <string-array name="sample_preparation_water_types">
+        <item>@string/spinner_empty_option</item>
+        <item>@string/water_type_bottled</item>
+        <item>@string/water_type_distilled</item>
+        <item>@string/water_type_tap</item>
+        <item>@string/water_type_well</item>
+    </string-array>
 </resources>
