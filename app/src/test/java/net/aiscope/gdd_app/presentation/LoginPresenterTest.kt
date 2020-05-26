@@ -38,7 +38,7 @@ class LoginPresenterTest {
 
     @Test
     fun `goes to the privacy policy when the microscopist hasn't agreed it`() {
-        whenever(microscopistRepository.load()) doReturn microscopistThatDidntAgreedPrivacyPolicy
+        whenever(microscopistRepository.load()) doReturn microscopistThatHasntAgreedPrivacyPolicy
 
         presenter.start(mock())
 
