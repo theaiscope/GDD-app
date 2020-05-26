@@ -1,9 +1,11 @@
 package net.aiscope.gdd_app.ui.policy
 
+import net.aiscope.gdd_app.repository.MicroscopistRepository
 import javax.inject.Inject
 
 class PrivacyPolicyPresenter @Inject constructor(
-    private val view: PrivacyPolicyView
+    private val view: PrivacyPolicyView,
+    private val microscopistRepository: MicroscopistRepository
 ) {
 
     fun start() {
@@ -20,7 +22,14 @@ class PrivacyPolicyPresenter @Inject constructor(
     }
 
     fun onPolicyAgreed() {
-        TODO("Not yet implemented")
+        saveAgreement()
+        view.goToMain()
+    }
+
+    private fun saveAgreement() {
+        microscopistRepository.store(
+            microscopistRepository.load().copy(hasAcceptedPrivacyPolicy = true)
+        )
     }
 
     fun onRetryClicked() {

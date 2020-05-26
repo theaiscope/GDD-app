@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityPrivacyPolicyBinding
+import net.aiscope.gdd_app.ui.main.MainActivity
 import javax.inject.Inject
 
 
@@ -49,6 +50,11 @@ class PrivacyPolicyActivity : AppCompatActivity(), PrivacyPolicyView {
         cancelButton.setOnClickListener {
             finish()
         }
+    }
+
+    override fun goToMain() {
+        finish()
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun setUpWebView() {

@@ -14,12 +14,4 @@ abstract class PrivacyPolicyModule {
     @PerActivity
     internal abstract fun provideView(view: PrivacyPolicyActivity): PrivacyPolicyView
 
-    companion object {
-        @Provides
-        @PerActivity
-        internal fun providePresenter(
-            view: PrivacyPolicyView
-        ): PrivacyPolicyPresenter =
-            PrivacyPolicyPresenter(view)
-    }
 }

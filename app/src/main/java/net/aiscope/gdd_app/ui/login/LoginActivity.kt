@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.ui.main.MainActivity
+import net.aiscope.gdd_app.ui.policy.PrivacyPolicyActivity
 import javax.inject.Inject
 
 
@@ -26,11 +27,16 @@ class LoginActivity : AppCompatActivity(), LoginView {
         presenter.start(logIn)
     }
 
+    override fun goToPrivacyPolicy() {
+        finish()
+        startActivity(Intent(this, PrivacyPolicyActivity::class.java))
+    }
+
     override fun exit() {
         finish()
     }
 
-    override fun goIn() {
+    override fun goToMain() {
         finish()
         startActivity(Intent(this, MainActivity::class.java))
     }

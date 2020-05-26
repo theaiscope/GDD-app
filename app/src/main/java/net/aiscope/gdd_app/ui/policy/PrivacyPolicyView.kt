@@ -5,4 +5,5 @@ interface PrivacyPolicyView {
     fun showLoading()
     fun showLoaded()
     fun showError(errorMessage: String?)
+    fun goToMain()
 }
