@@ -25,8 +25,7 @@ class MicroscopeQualityActivity : AppCompatActivity(), MicroscopeQualityView, Ca
     companion object {
         private const val MAGNIFICATION_MIN = 0
         private const val MAGNIFICATION_MAX = 2000
-        private const val DEFAULT_DAMAGED = false
-        private const val DEFAULT_MAGNIFICATION = 1000
+        private val DEFAULT_FORM_DATA = MicroscopeQualityViewStateModel(false, 1000)
     }
 
     @Inject
@@ -53,17 +52,9 @@ class MicroscopeQualityActivity : AppCompatActivity(), MicroscopeQualityView, Ca
     }
 
     override fun fillForm(model: MicroscopeQualityViewStateModel?) {
-        val isDamaged: Boolean
-        val magnification: Int
-        if (model == null) {
-            isDamaged = DEFAULT_DAMAGED
-            magnification = DEFAULT_MAGNIFICATION
-        } else {
-            isDamaged = model.isDamaged
-            magnification = model.magnification
-        }
-        microscope_quality_damaged_switch.isChecked = isDamaged
-        microscope_quality_magnification_input.setText(magnification.toString())
+        val formData = model ?: DEFAULT_FORM_DATA
+        microscope_quality_damaged_switch.isChecked = formData.isDamaged
+        microscope_quality_magnification_input.setText(formData.magnification.toString())
     }
 
     private fun validateForm(): Boolean {

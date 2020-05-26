@@ -23,6 +23,17 @@ import javax.inject.Inject
 
 class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, CaptureFlow {
 
+    private val defaultFormData: SamplePreparationViewStateModel by lazy {
+        SamplePreparationViewStateModel(
+            getString(R.string.spinner_empty_option),
+            usesGiemsa = true,
+            giemsaFP = true,
+            usesPbs = true,
+            usesAlcohol = true,
+            reusesSlides = false
+        )
+    }
+
     @Inject
     lateinit var presenter: SamplePreparationPresenter
 
@@ -47,38 +58,18 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     }
 
     override fun fillForm(model: SamplePreparationViewStateModel?) {
-        val waterType: String
-        val usesGiemsa: Boolean
-        val giemsaFP: Boolean
-        val usesPbs: Boolean
-        val usesAlcohol: Boolean
-        val reusesSlides: Boolean
-        if (model == null) {
-            waterType = applicationContext.getString(R.string.spinner_empty_option)
-            usesGiemsa = true
-            giemsaFP = true
-            usesPbs = true
-            usesAlcohol = true
-            reusesSlides = false
-        } else {
-            waterType = model.waterType
-            usesGiemsa = model.usesGiemsa
-            giemsaFP = model.giemsaFP
-            usesPbs = model.usesPbs
-            usesAlcohol = model.usesAlcohol
-            reusesSlides = model.reusesSlides
-        }
-        sample_preparation_water_type_spinner.select(waterType)
-        sample_preparation_giemsa_switch.isChecked = usesGiemsa
-        sample_preparation_giemsa_fp_switch.isChecked = giemsaFP
-        sample_preparation_pbs_switch.isChecked = usesPbs
-        sample_preparation_alcohol_switch.isChecked = usesAlcohol
-        sample_preparation_slides_reuse_switch.isChecked = reusesSlides
+        val formData = model ?: defaultFormData
+        sample_preparation_water_type_spinner.select(formData.waterType)
+        sample_preparation_giemsa_switch.isChecked = formData.usesGiemsa
+        sample_preparation_giemsa_fp_switch.isChecked = formData.giemsaFP
+        sample_preparation_pbs_switch.isChecked = formData.usesPbs
+        sample_preparation_alcohol_switch.isChecked = formData.usesAlcohol
+        sample_preparation_slides_reuse_switch.isChecked = formData.reusesSlides
     }
 
     private fun validateForm(): Boolean {
         val isWaterTypeValid = sample_preparation_water_type_spinner.selectedItem.toString() !=
-                applicationContext.getString(R.string.spinner_empty_option)
+                getString(R.string.spinner_empty_option)
         sample_preparation_water_type_error.visibility =
             if (isWaterTypeValid) View.GONE else View.VISIBLE
         return isWaterTypeValid
