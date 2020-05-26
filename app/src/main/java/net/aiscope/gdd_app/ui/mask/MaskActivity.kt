@@ -10,12 +10,11 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_mask.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
@@ -38,8 +37,6 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     @Inject
     lateinit var presenter: MaskPresenter
 
-    private val parentJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
     private val brushDiseaseStages by lazy { presenter.brushDiseaseStages }
     private var currentBrushColor: Int = 0
     private val selectStagePopup by lazy { composeSelectStagePopup() }
@@ -95,14 +92,9 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
     }
 
-    override fun onDestroy() {
-        parentJob.cancel()
-        super.onDestroy()
-    }
-
     override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
         val bmp = photo_mask_view.getMaskBitmap()
-        coroutineScope.launch {
+        lifecycleScope.launch {
             val dest = File(this@MaskActivity.filesDir, "${maskName}.jpg")
             bmp.writeToFile(dest)
 
@@ -121,7 +113,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     override fun initPhotoMaskView(imagePath: String) {
-        coroutineScope.launch {
+        lifecycleScope.launch {
             val bmp = readImage(imagePath)
             photo_mask_view.setImageBitmap(bmp)
         }

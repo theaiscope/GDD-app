@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_sample_preparation.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.select
@@ -37,15 +35,12 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     @Inject
     lateinit var presenter: SamplePreparationPresenter
 
-    private val parentJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample_preparation)
 
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.showScreen()
         }
 
@@ -79,7 +74,7 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
 
     private fun save() {
         if (!validateForm()) return
-        coroutineScope.launch {
+        lifecycleScope.launch {
             val viewModel = SamplePreparationViewStateModel(
                 sample_preparation_water_type_spinner.selectedItem.toString(),
                 sample_preparation_giemsa_switch.isChecked,

@@ -5,14 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_metadata.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.select
@@ -28,10 +26,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
     @Inject lateinit var presenter: MetadataPresenter
 
-    private val parentJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
-
-    private val imagesAdapter = SampleImagesAdapter(coroutineScope, this::onAddImageClicked)
+    private val imagesAdapter = SampleImagesAdapter(lifecycleScope, this::onAddImageClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -47,20 +42,15 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
             adapter = imagesAdapter
         }
 
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.showScreen()
         }
 
         metadata_save_sample.setOnClickListener {
-            coroutineScope.launch {
+            lifecycleScope.launch {
                 save()
             }
         }
-    }
-
-    override fun onDestroy() {
-        parentJob.cancel()
-        super.onDestroy()
     }
 
     override fun fillForm(model: ViewStateModel) {
@@ -95,7 +85,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun save() {
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.save(
                 metadata_section_smear_type_radio_group.checkedRadioButtonId,
                 metadata_species_spinner.selectedItem.toString()
@@ -104,7 +94,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
     }
 
     private fun onAddImageClicked() {
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.addImage()
         }
     }

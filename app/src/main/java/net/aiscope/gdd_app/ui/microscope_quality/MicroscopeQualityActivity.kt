@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_microscope_quality.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.ui.CaptureFlow
@@ -31,15 +29,12 @@ class MicroscopeQualityActivity : AppCompatActivity(), MicroscopeQualityView, Ca
     @Inject
     lateinit var presenter: MicroscopeQualityPresenter
 
-    private val parentJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_microscope_quality)
 
-        coroutineScope.launch {
+        lifecycleScope.launch {
             presenter.showScreen()
         }
 
@@ -72,7 +67,7 @@ class MicroscopeQualityActivity : AppCompatActivity(), MicroscopeQualityView, Ca
 
     private fun save() {
         if (!validateForm()) return
-        coroutineScope.launch {
+        lifecycleScope.launch {
             val viewModel = MicroscopeQualityViewStateModel(
                 microscope_quality_damaged_switch.isChecked,
                 microscope_quality_magnification_input.text.toString().toInt()

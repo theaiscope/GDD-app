@@ -8,14 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.toolbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.BuildConfig
 import net.aiscope.gdd_app.R
@@ -29,9 +27,6 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
     @Inject
     lateinit var presenter: SelectDiseasePresenter
 
-    private val parentJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -43,7 +38,7 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         askCameraPermission()
 
         main_continue_button.setOnClickListener {
-            coroutineScope.launch {
+            lifecycleScope.launch {
                 presenter.saveDisease(dropdown_select_disease.selectedItem.toString())
             }
         }
@@ -64,11 +59,6 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
             .withListener(NoOpPermissionListener)
             .onSameThread()
             .check()
-    }
-
-    override fun onDestroy() {
-        parentJob.cancel()
-        super.onDestroy()
     }
 
     override fun goToSamplePreparation() {

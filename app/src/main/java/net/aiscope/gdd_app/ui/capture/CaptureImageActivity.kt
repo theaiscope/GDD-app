@@ -6,13 +6,11 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
 import kotlinx.android.synthetic.main.activity_capture_image.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.rotate
@@ -34,9 +32,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
 
     @Inject
     lateinit var presenter: CaptureImagePresenter
-
-    private val parentJob = Job()
-    private val coroutineScope = CoroutineScope(Dispatchers.Main + parentJob)
 
     private lateinit var fotoapparat: Fotoapparat
     private lateinit var zoomController: ZoomController
@@ -81,11 +76,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         super.onStop()
     }
 
-    override fun onDestroy() {
-        parentJob.cancel()
-        super.onDestroy()
-    }
-
     override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
         capture_image_loading_modal.visibility = View.VISIBLE
         val result = fotoapparat.takePicture()
@@ -93,7 +83,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         result.toBitmap().whenAvailable {
             it?.let {
                 val degrees = (-it.rotationDegrees) % THREE_SIXTY_DEGREES
-                coroutineScope.launch {
+                lifecycleScope.launch {
                     val bmp = it.bitmap.rotate(degrees.toFloat())
                     bmp.writeToFileAsync(dest)
                     onPhotoReceived(dest)
