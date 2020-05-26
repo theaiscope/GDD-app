@@ -1,9 +1,9 @@
 package net.aiscope.gdd_app.network
 
+import android.os.Build
 import com.google.gson.annotations.SerializedName
-import net.aiscope.gdd_app.repository.MicroscopeQualityDto
-import net.aiscope.gdd_app.repository.SampleMetadataDto
-import net.aiscope.gdd_app.repository.SamplePreparationDto
+import net.aiscope.gdd_app.BuildConfig
+import net.aiscope.gdd_app.model.Sample
 
 data class SampleDto(
     @SerializedName("id") val id: String,
@@ -15,4 +15,19 @@ data class SampleDto(
     @SerializedName("metadata") val metadata: SampleMetadataDto,
     @SerializedName("appVersion") val appVersion: String,
     @SerializedName("device") val device: String
+)
+
+fun Sample.toDto() = SampleDto(
+    id = id,
+    healthFacility = healthFacility,
+    microscopist = microscopist,
+    disease = disease ?: "",
+    preparation = preparation?.toDto(),
+    microscopeQuality = microscopeQuality?.toDto(),
+    metadata = SampleMetadataDto(
+        bloodType = metadata.smearType.id,
+        species = metadata.species.id
+    ),
+    appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
+    device = "${Build.MANUFACTURER} ${Build.MODEL}"
 )

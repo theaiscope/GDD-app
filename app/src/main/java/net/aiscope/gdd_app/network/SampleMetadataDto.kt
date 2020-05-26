@@ -1,12 +1,13 @@
-package net.aiscope.gdd_app.repository
+package net.aiscope.gdd_app.network
 
+import com.google.gson.annotations.SerializedName
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 
 data class SampleMetadataDto(
-    val bloodType: Int,
-    val species: Int
+    @SerializedName("bloodType") val bloodType: Int,
+    @SerializedName("species") val species: Int
 ) {
     fun toDomain() = SampleMetadata(
         SmearType.values().first { it.id == this.bloodType },
