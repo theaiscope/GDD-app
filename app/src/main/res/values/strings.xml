@@ -8,7 +8,13 @@
     <string name="confirmation_message_saved">Saved</string>
     <string name="profile">profile</string>
     <string name="spinner_empty_option">- select -</string>
-    <!--select disease-->
+    <string name="mandatory_field_error">Mandatory field</string>
+    <!-- PrivacyPolicy -->
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_error_message">There was an error\n\n[%s]\n\nClick to retry.</string>
+    <string name="privacy_policy_i_agree">I agree</string>
+    <string name="privacy_policy_cancel">Cancel</string>
+    <!-- SelectDisease -->
     <string name="text_select_disease_spinner_hint">Select a disease</string>
     <string name="text_logout">Logout</string>
     <string name="logout_flow_exit_dialog_message">You will logout and go back to login screen.</string>
@@ -30,6 +36,9 @@
     <string name="water_type_well">Well</string>
     <!-- MicroscopeQuality -->
     <string name="microscope_quality_activity_title">Microscope quality</string>
+    <string name="microscope_quality_damaged_title">Microscope damaged/malfunctioning</string>
+    <string name="microscope_quality_magnification_title">Magnification</string>
+    <string name="microscope_quality_magnification_error">Enter a number between 0 and 2000</string>
     <string name="microscope_quality_snackbar_error">An error occurred while saving your microscope quality data. Please try again.</string>
     <string name="microscope_quality_snackbar_retry">TRY AGAIN</string>
     <!-- CaptureImage -->
@@ -78,9 +87,4 @@
     <string name="malaria_stage_trophozoite">Trophozoite</string>
     <string name="malaria_stage_schizont">Schizont</string>
     <string name="malaria_stage_gametocyte">Gametocyte</string>
-    <string name="microscope_quality_damaged_title">Microscope damaged/malfunctioning</string>
-    <string name="microscope_quality_magnification_title">Magnification</string>
-    <string name="microscope_quality_magnification_edit_text_hint">Enter a number between 0 and 2000</string>
-    <string name="mandatory_field_error">Mandatory field</string>
-    <string name="microscope_quality_magnification_error">Enter a number between 0 and 2000</string>
 </resources>

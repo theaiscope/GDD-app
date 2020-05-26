@@ -28,6 +28,6 @@ class SelectDiseasePresenter @Inject constructor(
     }
 
     fun logout() {
-        firebaseAuth.singOut(logoutCallBack)
+        firebaseAuth.signOut(logoutCallBack)
     }
 }
