@@ -2,7 +2,6 @@ package net.aiscope.gdd_app.network
 
 import android.app.Activity
 import android.content.Intent
-import androidx.activity.invoke
 import androidx.activity.result.ActivityResultLauncher
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
@@ -26,7 +25,7 @@ class FirebaseAuthenticator @Inject constructor(
         callback: Callback
     ) {
         this.callback = callback
-        logIn(
+        logIn.launch(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(
