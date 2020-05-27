@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.repository
 
+import com.google.gson.annotations.SerializedName
 import net.aiscope.gdd_app.extensions.toLinkedHashSet
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MicroscopeQuality
@@ -13,17 +14,17 @@ import java.io.File
 import java.util.Calendar
 
 data class SampleDto(
-    val id: String,
-    val healthFacility: String,
-    val microscopist: String,
-    val disease: String? = null,
-    val preparation: SamplePreparationDto?,
-    val microscopeQuality: MicroscopeQualityDto?,
-    val imagePaths: List<String>,
-    val maskPaths: List<String>,
-    val metadata: SampleMetadataDto,
-    val status: Short,
-    val createdOn: Calendar? = null
+    @SerializedName("id") val id: String,
+    @SerializedName("healthFacility") val healthFacility: String,
+    @SerializedName("microscopist") val microscopist: String,
+    @SerializedName("disease") val disease: String? = null,
+    @SerializedName("preparation") val preparation: SamplePreparationDto?,
+    @SerializedName("microscopeQuality") val microscopeQuality: MicroscopeQualityDto?,
+    @SerializedName("imagePaths") val imagePaths: List<String>,
+    @SerializedName("maskPaths") val maskPaths: List<String>,
+    @SerializedName("metadata") val metadata: SampleMetadataDto,
+    @SerializedName("status") val status: Short,
+    @SerializedName("createdOn") val createdOn: Calendar? = null
 ) {
     fun toDomain(): Sample = Sample(
         id = id,
@@ -41,12 +42,12 @@ data class SampleDto(
 }
 
 data class SamplePreparationDto(
-    val waterType: Int,
-    val usesGiemsa: Boolean,
-    val giemsaFP: Boolean,
-    val usesPbs: Boolean,
-    val usesAlcohol: Boolean,
-    val reusesSlides: Boolean
+    @SerializedName("waterType") val waterType: Int,
+    @SerializedName("usesGiemsa") val usesGiemsa: Boolean,
+    @SerializedName("giemsaFP") val giemsaFP: Boolean,
+    @SerializedName("usesPbs") val usesPbs: Boolean,
+    @SerializedName("usesAlcohol") val usesAlcohol: Boolean,
+    @SerializedName("reusesSlides") val reusesSlides: Boolean
 ) {
     fun toDomain() = SamplePreparation(
         WaterType.values().first { it.id == waterType },
@@ -59,8 +60,8 @@ data class SamplePreparationDto(
 }
 
 data class MicroscopeQualityDto(
-    val isDamaged: Boolean,
-    val magnification: Int
+    @SerializedName("isDamaged") val isDamaged: Boolean,
+    @SerializedName("magnification") val magnification: Int
 ) {
     fun toDomain() = MicroscopeQuality(
         isDamaged,
@@ -69,8 +70,8 @@ data class MicroscopeQualityDto(
 }
 
 data class SampleMetadataDto(
-    val bloodType: Int,
-    val species: Int
+    @SerializedName("bloodType") val bloodType: Int,
+    @SerializedName("species") val species: Int
 ) {
     fun toDomain() = SampleMetadata(
         SmearType.values().first { it.id == this.bloodType },
