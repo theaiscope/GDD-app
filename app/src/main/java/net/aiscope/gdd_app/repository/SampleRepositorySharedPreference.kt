@@ -46,8 +46,10 @@ class SampleRepositorySharedPreference @Inject constructor(
         val jsons = store.all().filter { it != "true" }
 
         return jsons.map {
-            gson.fromJson<SampleDto>(it).toDomain()
-        }.toList()
+            kotlin.runCatching {
+                gson.fromJson<SampleDto>(it).toDomain()
+            }.getOrNull()
+        }.filterNotNull()
     }
 
     override suspend fun last(): Sample? {
