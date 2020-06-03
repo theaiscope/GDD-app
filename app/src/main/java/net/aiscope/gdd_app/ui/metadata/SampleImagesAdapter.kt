@@ -54,7 +54,7 @@ class SampleImagesAdapter(
 
     fun setImages(images: List<File>) {
         this.images.clear()
-        this.images.addAll(images)
+        this.images.addAll(images.reversed())
         this.notifyDataSetChanged()
     }
 }
