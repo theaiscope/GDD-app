@@ -10,8 +10,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 
-val VERSION_REGEX = Regex("""^\d+\.\d+\.\d+ \([a-zA-Z0-9]+\)""")
-
 @RunWith(AndroidJUnit4::class)
 class SampleTest {
 
@@ -19,6 +17,9 @@ class SampleTest {
         private const val ID = "_id"
         private const val FACILITY = "facility"
         private const val MICROSCOPIST = "microscopist"
+
+        private val VERSION_REGEX = Regex("""^\d+\.\d+\.\d+ \([a-zA-Z0-9]+\)""")
+        private val ISO_REGEX = Regex("""^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d[0-5]\d|Z)""")
 
         private val WATER_TYPE = WaterType.TAP
         private const val USES_GIEMSA = true
@@ -70,6 +71,7 @@ class SampleTest {
         assertEquals(expectedSamplePreparationDto, dto.preparation)
         assertEquals(expectedMicroscopeQualityDto, dto.microscopeQuality)
         assertTrue(dto.appVersion.matches(VERSION_REGEX))
+        assertTrue(dto.lastModified.matches(ISO_REGEX))
         assertNotNull(dto.device)
     }
 }
