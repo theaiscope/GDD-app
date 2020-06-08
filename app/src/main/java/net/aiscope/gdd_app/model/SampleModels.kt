@@ -16,7 +16,8 @@ data class Sample(
     val masks: LinkedHashSet<File> = linkedSetOf(),
     val metadata: SampleMetadata = SampleMetadata(),
     val status: SampleStatus = SampleStatus.Incomplete,
-    val createdOn: Calendar? = null
+    val createdOn: Calendar? = null,
+    var lastModified: Calendar? = null
 ) {
     fun addImage(path: File) = copy(images = images + path)
 

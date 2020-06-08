@@ -30,6 +30,7 @@ class SampleRepositorySharedPreference @Inject constructor(
     }
 
     override fun store(sample: Sample) {
+        sample.lastModified = Calendar.getInstance()
         store.store(sample.id, gson.toJson(sample.toDto()))
         currentSample = sample
     }
