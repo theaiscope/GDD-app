@@ -204,15 +204,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
     }
 
     fun drawMove(x: Float, y: Float) {
-        currentPath?.run {
-            val (latestX, latestY) = latestPoint
-            val dX = abs(x - latestX)
-            val dY = abs(y - latestY)
-            val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop / currentScale
-            if (dX >= touchTolerance || dY >= touchTolerance) {
-                quadTo(x, y)
-            }
-        }
+        currentPath?.quadTo(x, y)
     }
 
     fun drawEnd() {
