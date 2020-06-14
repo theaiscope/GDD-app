@@ -1,6 +1,5 @@
 package net.aiscope.gdd_app.ui.mask.customview
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
@@ -10,16 +9,11 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.os.Parcelable
 import android.util.Size
-import android.view.ViewConfiguration
 import androidx.core.graphics.withMatrix
 import java.util.*
-import kotlin.math.abs
 
 @Suppress("TooManyFunctions")
-class MaskLayer(
-    private val context: Context,
-    private val imageMatrix: Matrix
-) {
+class MaskLayer(private val imageMatrix: Matrix) {
     companion object {
         private const val ALPHA_OPAQUE = 0xFF
         private const val MASK_PAINT_OPACITY = .8
@@ -141,10 +135,16 @@ class MaskLayer(
             val (path, paint) = pathsAndPaints[i]
             val paintReviewed =
                 if (removeAlpha) Paint(paint).apply { alpha = ALPHA_OPAQUE } else paint
-            canvas.drawPath(path, paintReviewed)
+            path.draw(canvas, paintReviewed)
         }
-        currentPath?.let {
-            canvas.drawPath(it, currentPaint)
+        currentPath?.draw(canvas, currentPaint)
+    }
+
+    private fun PointToPointPath.draw(canvas: Canvas, paint: Paint) {
+        if (!hasMultiplePoints()) {
+            canvas.drawPoint(firstPoint.first, firstPoint.second, paint)
+        } else {
+            canvas.drawPath(this, paint)
         }
     }
 
@@ -217,9 +217,7 @@ class MaskLayer(
 
     fun drawEnd() {
         currentPath?.run {
-            val visibleChange: Boolean =
-                if (isCurrentModeDraw()) hasMultiplePoints()
-                else !latestChangeBitmap.sameAs(currentStateBitmap)
+            val visibleChange: Boolean = !latestChangeBitmap.sameAs(currentStateBitmap)
             if (visibleChange) {
                 keepLatestChangeBitmap()
                 flushPendingUndos()

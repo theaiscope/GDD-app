@@ -34,7 +34,7 @@ class MaskCustomView @JvmOverloads constructor(
     }
 
     var onMaskingActionFinishedListener: OnTouchListener? = null
-    private val maskLayer = MaskLayer(context, imageMatrix)
+    private val maskLayer = MaskLayer(imageMatrix)
     private var currentMode: Mode = Mode.Draw
     private lateinit var drawableSize: Size
 

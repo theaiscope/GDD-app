@@ -5,9 +5,10 @@ import java.util.*
 
 class PointToPointPath(x: Float, y: Float) : Path() {
 
-    val points: List<Pair<Float, Float>> = LinkedList()
-    val firstPoint: Pair<Float, Float> = x to y
-    var latestPoint: Pair<Float, Float> = firstPoint
+    internal val points: List<Pair<Float, Float>> = LinkedList()
+    internal val firstPoint: Pair<Float, Float> = x to y
+
+    private var latestPoint: Pair<Float, Float> = firstPoint
 
     init {
         moveTo(x, y)
@@ -15,7 +16,6 @@ class PointToPointPath(x: Float, y: Float) : Path() {
     }
 
     constructor(points: List<Pair<Float, Float>>) : this(points[0].first, points[0].second) {
-        require(points.size > 1)
         for ((x, y) in points.subList(1, points.size)) {
             quadTo(x, y)
         }
