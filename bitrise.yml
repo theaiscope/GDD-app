@@ -20,30 +20,30 @@ workflows:
                 bitrise run "${BITRISE_TRIGGERED_WORKFLOW_ID}"
   primary:
     steps:
-    - cache-pull@2.0.1: {}
-    - install-missing-android-tools@2.3.7:
+    - cache-pull@2.1.4: {}
+    - install-missing-android-tools@2.3.8:
         inputs:
         - gradlew_path: "$PROJECT_LOCATION/gradlew"
-    - android-lint@0.9.6:
+    - android-lint@0.9.7:
         inputs:
         - project_location: "$PROJECT_LOCATION/"
         - module: "$MODULE"
         - variant: "$VARIANT"
-    - android-detekt@0.0.2: {}
-    - android-unit-test@0.11.1:
+    - android-detekt@0.0.3: {}
+    - android-unit-test@1.0.1:
         inputs:
         - project_location: "$PROJECT_LOCATION/"
         - module: "$MODULE"
         - variant: "$VARIANT"
-    - android-build-for-ui-testing@0.1.1:
+    - android-build-for-ui-testing@0.1.2:
         inputs:
         - project_location: "$PROJECT_LOCATION/"
         - variant: debug
         - module: app
-    - virtual-device-testing-for-android@1.0.6: {}
-    - deploy-to-bitrise-io@1.7.0:
+    - virtual-device-testing-for-android@1.1.2: {}
+    - deploy-to-bitrise-io@1.10.0:
         is_always_run: false
-    - cache-push@2.2.0: {}
+    - cache-push@2.3.0: {}
 app:
   envs:
   - opts:
