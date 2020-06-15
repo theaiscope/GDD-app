@@ -23,7 +23,13 @@ class SampleRepositorySharedPreference @Inject constructor(
     override suspend fun create(): Sample {
         val uuid = uuid.generateUUID()
         val facility = healthFacilityRepository.load()
-        val sample = Sample(uuid, facility.id, facility.microscopist, createdOn = Calendar.getInstance(), lastModified = Calendar.getInstance())
+        val sample = Sample(
+            uuid,
+            facility.id,
+            facility.microscopist,
+            createdOn = Calendar.getInstance(),
+            lastModified = Calendar.getInstance()
+        )
 
         currentSample = sample
         return sample
@@ -56,8 +62,10 @@ class SampleRepositorySharedPreference @Inject constructor(
     override suspend fun last(): Sample? {
         val allStores = all()
         return allStores
-            .filter{s -> s.createdOn != null
-                        && s.status != SampleStatus.Incomplete}
+            .filter { s ->
+                s.createdOn != null
+                        && s.status != SampleStatus.Incomplete
+            }
             .sortedBy { it.createdOn }.lastOrNull()
     }
 }
