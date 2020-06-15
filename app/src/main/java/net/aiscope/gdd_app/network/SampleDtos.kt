@@ -22,6 +22,7 @@ data class SampleDto(
     @SerializedName("metadata") val metadata: SampleMetadataDto,
     @SerializedName("appVersion") val appVersion: String,
     @SerializedName("device") val device: String,
+    @SerializedName("createdOn") val createdOn: String,
     @SerializedName("lastModified") val lastModified: String
 )
 
@@ -54,7 +55,8 @@ fun Sample.toDto() = SampleDto(
     metadata = metadata.toDto(),
     appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
     device = "${Build.MANUFACTURER} ${Build.MODEL}",
-    lastModified = ISO_FORMAT.format(lastModified?.time)
+    createdOn = formatCalendarOrNull(createdOn),
+    lastModified = formatCalendarOrNull(lastModified)
 )
 
 fun SamplePreparation.toDto() = SamplePreparationDto(
@@ -72,3 +74,10 @@ fun MicroscopeQuality.toDto() = MicroscopeQualityDto(
 )
 
 fun SampleMetadata.toDto() = SampleMetadataDto(smearType.id, species.id)
+
+fun formatCalendarOrNull(calendarOrNull: Calendar?) : String {
+    if(calendarOrNull == null){
+        return ""
+    }
+    return ISO_FORMAT.format(calendarOrNull.time)
+}

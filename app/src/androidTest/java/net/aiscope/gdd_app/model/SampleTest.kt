@@ -71,6 +71,7 @@ class SampleTest {
         assertEquals(expectedSamplePreparationDto, dto.preparation)
         assertEquals(expectedMicroscopeQualityDto, dto.microscopeQuality)
         assertTrue(dto.appVersion.matches(VERSION_REGEX))
+        assertTrue(dto.createdOn.matches(ISO_REGEX))
         assertTrue(dto.lastModified.matches(ISO_REGEX))
         assertNotNull(dto.device)
     }
