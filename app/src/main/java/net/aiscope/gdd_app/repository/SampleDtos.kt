@@ -24,7 +24,8 @@ data class SampleDto(
     @SerializedName("maskPaths") val maskPaths: List<String>,
     @SerializedName("metadata") val metadata: SampleMetadataDto,
     @SerializedName("status") val status: Short,
-    @SerializedName("createdOn") val createdOn: Calendar? = null
+    @SerializedName("createdOn") val createdOn: Calendar? = null,
+    @SerializedName("lastModified") val lastModified : Calendar? = null
 ) {
     fun toDomain(): Sample = Sample(
         id = id,
@@ -37,7 +38,8 @@ data class SampleDto(
         masks = maskPaths.map { File(it) }.toLinkedHashSet(),
         metadata = metadata.toDomain(),
         status = SampleStatus.values().first { it.id == status },
-        createdOn = createdOn
+        createdOn = createdOn,
+        lastModified = lastModified
     )
 }
 
@@ -90,7 +92,8 @@ fun Sample.toDto() = SampleDto(
     maskPaths = masks.map { it.absolutePath },
     metadata = metadata.toDto(),
     status = status.id,
-    createdOn = createdOn
+    createdOn = createdOn,
+    lastModified = lastModified
 )
 
 fun SamplePreparation.toDto() = SamplePreparationDto(

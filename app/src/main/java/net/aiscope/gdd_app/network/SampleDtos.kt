@@ -54,7 +54,7 @@ fun Sample.toDto() = SampleDto(
     metadata = metadata.toDto(),
     appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
     device = "${Build.MANUFACTURER} ${Build.MODEL}",
-    lastModified = ISO_FORMAT.format((lastModified ?: Calendar.getInstance()).time)
+    lastModified = ISO_FORMAT.format(lastModified?.time)
 )
 
 fun SamplePreparation.toDto() = SamplePreparationDto(

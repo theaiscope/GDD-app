@@ -17,7 +17,7 @@ data class Sample(
     val metadata: SampleMetadata = SampleMetadata(),
     val status: SampleStatus = SampleStatus.Incomplete,
     val createdOn: Calendar? = null,
-    var lastModified: Calendar? = null
+    val lastModified: Calendar? = null
 ) {
     fun addImage(path: File) = copy(images = images + path)
 
