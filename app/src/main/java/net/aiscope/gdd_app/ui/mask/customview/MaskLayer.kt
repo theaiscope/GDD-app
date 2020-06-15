@@ -209,8 +209,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     fun drawEnd() {
         currentPath?.run {
-            val visibleChange: Boolean = !latestChangeBitmap.sameAs(currentStateBitmap)
-            if (visibleChange) {
+            if (!latestChangeBitmap.sameAs(currentStateBitmap)) {
                 keepLatestChangeBitmap()
                 flushPendingUndos()
                 pathsAndPaints.add(PathAndPaint(this, currentPaint))
