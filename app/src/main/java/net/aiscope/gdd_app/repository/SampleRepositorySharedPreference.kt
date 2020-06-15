@@ -30,24 +30,9 @@ class SampleRepositorySharedPreference @Inject constructor(
     }
 
     override fun store(sample: Sample) {
-        //Wait. The 'toDto' misses the lastmodified. That just means it gets set later on upload.
-        //Which is not what we want really
         val newSample = sample.copy(lastModified = Calendar.getInstance())
-        println(newSample)
-        val newDto = newSample.toDto()
-        println(newDto)
-        println(sample.toDto())
-        val json = gson.toJson(sample.toDto())
-        println("regular json")
-        println(json)
-
-        val newJson = gson.toJson(newDto)
-
-        println("new json")
-        println(newJson)
-        store.store(sample.id, gson.toJson(newSample.toDto()))
-//        store.store(sample.id, gson.toJson(sample.toDto()))
-        currentSample = sample.copy(lastModified = Calendar.getInstance())
+        store.store(newSample.id, gson.toJson(newSample.toDto()))
+        currentSample = newSample
     }
 
     override fun load(id: String): Sample {

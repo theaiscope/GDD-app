@@ -54,7 +54,7 @@ class SampleRepositorySharedPreferenceTest {
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
         whenever(healthFacilityRepository.load()).thenReturn(HealthFacility(HOSPITAL_NAME, HOSPITAL_ID, MICROSCOPIST))
-        whenever(gson.toJson(sampleOnlyRequired.toDto())).thenReturn(sampleOnlyRequiredJson)
+        whenever(gson.toJson(any<SampleDto>())).thenReturn(sampleOnlyRequiredJson)
         whenever(gson.fromJson<SampleDto>(eq(sampleOnlyRequiredJson), any<Type>())).thenReturn(sampleOnlyRequired.toDto())
     }
 
