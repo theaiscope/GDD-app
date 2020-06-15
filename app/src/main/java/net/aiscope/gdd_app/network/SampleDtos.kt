@@ -76,8 +76,6 @@ fun MicroscopeQuality.toDto() = MicroscopeQualityDto(
 fun SampleMetadata.toDto() = SampleMetadataDto(smearType.id, species.id)
 
 fun formatCalendarOrNull(calendarOrNull: Calendar?) : String {
-    if(calendarOrNull == null){
-        return ""
-    }
-    return ISO_FORMAT.format(calendarOrNull.time)
+    calendarOrNull?.let{ return ISO_FORMAT.format(calendarOrNull.time) }
+    return ""
 }
