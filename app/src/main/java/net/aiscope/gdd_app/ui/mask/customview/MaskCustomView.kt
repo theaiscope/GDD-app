@@ -23,7 +23,7 @@ class MaskCustomView @JvmOverloads constructor(
 ) : PhotoView(context, attrs, defStyleAttr) {
 
     companion object {
-        private const val MAX_SCALE = 5f
+        private const val MAX_SCALE = 10f
         private const val MATRIX_SIZE = 9
     }
 
