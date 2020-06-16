@@ -7,6 +7,10 @@ import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
+val ISO_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
 
 data class SampleDto(
     @SerializedName("id") val id: String,
@@ -17,7 +21,9 @@ data class SampleDto(
     @SerializedName("microscopeQuality") val microscopeQuality: MicroscopeQualityDto?,
     @SerializedName("metadata") val metadata: SampleMetadataDto,
     @SerializedName("appVersion") val appVersion: String,
-    @SerializedName("device") val device: String
+    @SerializedName("device") val device: String,
+    @SerializedName("createdOn") val createdOn: String,
+    @SerializedName("lastModified") val lastModified: String
 )
 
 data class SamplePreparationDto(
@@ -48,7 +54,9 @@ fun Sample.toDto() = SampleDto(
     microscopeQuality = microscopeQuality?.toDto(),
     metadata = metadata.toDto(),
     appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
-    device = "${Build.MANUFACTURER} ${Build.MODEL}"
+    device = "${Build.MANUFACTURER} ${Build.MODEL}",
+    createdOn = ISO_FORMAT.format(createdOn.time),
+    lastModified = ISO_FORMAT.format(lastModified.time)
 )
 
 fun SamplePreparation.toDto() = SamplePreparationDto(

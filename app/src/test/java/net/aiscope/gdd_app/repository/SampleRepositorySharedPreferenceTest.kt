@@ -54,18 +54,24 @@ class SampleRepositorySharedPreferenceTest {
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
         whenever(healthFacilityRepository.load()).thenReturn(HealthFacility(HOSPITAL_NAME, HOSPITAL_ID, MICROSCOPIST))
-        whenever(gson.toJson(sampleOnlyRequired.toDto())).thenReturn(sampleOnlyRequiredJson)
+        whenever(gson.toJson(any<SampleDto>())).thenReturn(sampleOnlyRequiredJson)
         whenever(gson.fromJson<SampleDto>(eq(sampleOnlyRequiredJson), any<Type>())).thenReturn(sampleOnlyRequired.toDto())
     }
 
     @Test
     fun `should store a sample with required fields`() {
-        subject.store(sampleOnlyRequired)
+        val beforeCreate = Calendar.getInstance()
+        beforeCreate.add(Calendar.SECOND, -1)
+
+        val stored = subject.store(sampleOnlyRequired)
 
         argumentCaptor<String>().apply {
             verify(store).store(eq(ID), capture())
             assert(firstValue == sampleOnlyRequiredJson)
         }
+
+        assert(stored.lastModified.after(beforeCreate))
+        assert(stored.lastModified.after(stored.createdOn))
     }
 
     @Test
@@ -79,13 +85,23 @@ class SampleRepositorySharedPreferenceTest {
 
     @Test
     fun `should create a new sample`() = coroutinesTestRule.runBlockingTest {
+        val beforeCreate = Calendar.getInstance()
+        beforeCreate.add(Calendar.SECOND, -1)
+
         val uuid = "d9255e5d-5c68-4245-b7c9-da0964116cce"
         whenever(uuidGenerator.generateUUID()).thenReturn(uuid)
 
         val sample = subject.create()
 
+        val afterCreate = Calendar.getInstance()
+        afterCreate.add(Calendar.SECOND, 1)
+
         assert(sample.healthFacility == HOSPITAL_ID)
         assert(sample.id == uuid)
+        assert(sample.createdOn.after(beforeCreate))
+        assert(sample.createdOn.before(afterCreate))
+        assert(sample.lastModified.after(beforeCreate))
+        assert(sample.lastModified.before(afterCreate))
     }
 
     @Test
