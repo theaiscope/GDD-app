@@ -24,8 +24,8 @@ data class SampleDto(
     @SerializedName("maskPaths") val maskPaths: List<String>,
     @SerializedName("metadata") val metadata: SampleMetadataDto,
     @SerializedName("status") val status: Short,
-    @SerializedName("createdOn") val createdOn: Calendar? = null,
-    @SerializedName("lastModified") val lastModified : Calendar? = null
+    @SerializedName("createdOn") val createdOn: Calendar = Calendar.getInstance(),
+    @SerializedName("lastModified") val lastModified : Calendar = Calendar.getInstance()
 ) {
     fun toDomain(): Sample = Sample(
         id = id,

@@ -62,10 +62,7 @@ class SampleRepositorySharedPreference @Inject constructor(
     override suspend fun last(): Sample? {
         val allStores = all()
         return allStores
-            .filter { s ->
-                s.createdOn != null
-                        && s.status != SampleStatus.Incomplete
-            }
+            .filter { s -> s.status != SampleStatus.Incomplete }
             .sortedBy { it.createdOn }.lastOrNull()
     }
 }

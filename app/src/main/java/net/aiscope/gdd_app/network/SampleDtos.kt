@@ -55,8 +55,8 @@ fun Sample.toDto() = SampleDto(
     metadata = metadata.toDto(),
     appVersion = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})",
     device = "${Build.MANUFACTURER} ${Build.MODEL}",
-    createdOn = formatCalendarOrNull(createdOn),
-    lastModified = formatCalendarOrNull(lastModified)
+    createdOn = ISO_FORMAT.format(createdOn.time),
+    lastModified = ISO_FORMAT.format(lastModified.time)
 )
 
 fun SamplePreparation.toDto() = SamplePreparationDto(
@@ -74,8 +74,3 @@ fun MicroscopeQuality.toDto() = MicroscopeQualityDto(
 )
 
 fun SampleMetadata.toDto() = SampleMetadataDto(smearType.id, species.id)
-
-fun formatCalendarOrNull(calendarOrNull: Calendar?) : String {
-    calendarOrNull?.let{ return ISO_FORMAT.format(calendarOrNull.time) }
-    return ""
-}
