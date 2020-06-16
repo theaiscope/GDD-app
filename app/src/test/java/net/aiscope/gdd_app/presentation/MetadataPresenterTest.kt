@@ -86,6 +86,8 @@ class MetadataPresenterTest {
 
     @Test
     fun shouldStoreMetadata() = coroutinesTestRule.runBlockingTest {
+        whenever(repository.store(any())).then{i -> i.arguments[0]}
+
         val expected = SampleMetadata(
             SmearType.THICK, MalariaSpecies.P_VIVAX
         )
