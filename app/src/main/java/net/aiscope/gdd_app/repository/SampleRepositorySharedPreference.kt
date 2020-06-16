@@ -35,10 +35,11 @@ class SampleRepositorySharedPreference @Inject constructor(
         return sample
     }
 
-    override fun store(sample: Sample) {
-        val newSample = sample.copy(lastModified = Calendar.getInstance())
-        store.store(newSample.id, gson.toJson(newSample.toDto()))
-        currentSample = newSample
+    override fun store(sample: Sample) : Sample {
+        val updatedSample = sample.copy(lastModified = Calendar.getInstance())
+        store.store(updatedSample.id, gson.toJson(updatedSample.toDto()))
+        currentSample = updatedSample
+        return updatedSample
     }
 
     override fun load(id: String): Sample {

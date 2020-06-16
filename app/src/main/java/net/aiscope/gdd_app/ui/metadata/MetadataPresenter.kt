@@ -59,9 +59,9 @@ class MetadataPresenter @Inject constructor(
                     metadataMapper.getSpecies(context, speciesValue)
                 ), status = SampleStatus.ReadyToUpload
                 )
-            repository.store(sample)
+            val storedSample = repository.store(sample)
 
-            remoteStorage.enqueue(sample, context)
+            remoteStorage.enqueue(storedSample, context)
             view.finishFlow()
         }
         catch(@Suppress("TooGenericExceptionCaught") error: Throwable) {
