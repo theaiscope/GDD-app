@@ -72,7 +72,10 @@ class MaskCustomView @JvmOverloads constructor(
             val yOffBounds = 0 > y || y > drawableHeight
             if (xOffBounds || yOffBounds) return false
             when (event.action) {
-                MotionEvent.ACTION_DOWN -> maskLayer.drawStart(x, y)
+                MotionEvent.ACTION_DOWN -> {
+                    maskLayer.drawStart(x, y)
+                    invalidate()
+                }
                 MotionEvent.ACTION_MOVE -> {
                     maskLayer.drawMove(x, y)
                     invalidate()
