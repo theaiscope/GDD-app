@@ -18,7 +18,8 @@ import java.io.File
 
 class SampleImagesAdapter(
     private val uiScope: CoroutineScope,
-    private val onAddImageClicked: () -> Unit
+    private val onAddImageClicked: () -> Unit,
+    private val onImageClicked: () -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -28,7 +29,8 @@ class SampleImagesAdapter(
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.item_metadata_add_image -> AddImageViewHolder(view, onAddImageClicked)
-            R.layout.item_metadata_sample_image -> ImageViewHolder(view as ImageView, uiScope)
+            //So this thing gets an action?
+            R.layout.item_metadata_sample_image -> ImageViewHolder(view as ImageView, uiScope, onImageClicked)
             else -> throw IllegalArgumentException("View type $viewType not known")
         }
     }
@@ -36,6 +38,7 @@ class SampleImagesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AddImageViewHolder -> {}
+            //Sooo this holder should be able to give us the image?
             is ImageViewHolder -> holder.bind(images[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
@@ -68,7 +71,7 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 }
 
 private class ImageViewHolder(
-    view: ImageView, private val uiScope: CoroutineScope
+    view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: () -> Unit
 ) : RecyclerView.ViewHolder(view) {
     fun bind(image: File) {
         (itemView.tag as? Job)?.cancel()
@@ -80,6 +83,8 @@ private class ImageViewHolder(
                 itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height)
             )
             itemView.setImageBitmap(bitmap)
+            //Should we just pass the image here??
+            itemView.setOnClickListener { onImageClicked() }
         }
     }
 }

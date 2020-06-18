@@ -18,15 +18,19 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
+import java.io.File
 import javax.inject.Inject
 
-class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
+class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
-    @Inject lateinit var presenter: MetadataPresenter
+    @Inject
+    lateinit var presenter: MetadataPresenter
 
-    private val imagesAdapter = SampleImagesAdapter(lifecycleScope, this::onAddImageClicked)
+    private val imagesAdapter =
+        SampleImagesAdapter(lifecycleScope, this::onAddImageClicked, this::onImageClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -38,7 +42,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
         metadata_blood_sample_images.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@MetadataActivity, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(this@MetadataActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = imagesAdapter
         }
 
@@ -67,8 +72,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         CustomSnackbar.make(
             findViewById(android.R.id.content),
             getString(R.string.metadata_snackbar_error),
-            Snackbar.LENGTH_INDEFINITE,null,
-            CustomSnackbarAction(getString(R.string.metadata_snackbar_retry),View.OnClickListener {
+            Snackbar.LENGTH_INDEFINITE, null,
+            CustomSnackbarAction(getString(R.string.metadata_snackbar_retry), View.OnClickListener {
                 save()
             })
         ).show()
@@ -82,6 +87,18 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         val intent = Intent(this, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
         this.startActivity(intent)
+    }
+
+    override fun editImage(disease: String, image: File, mask: File){
+        val intent = Intent(this, MaskActivity::class.java)
+        //FIXME: where do I get this??
+        intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
+        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, image.absolutePath)
+
+        //Doesn't seem to pick up on this
+        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, mask.absolutePath)
+
+        startActivity(intent)
     }
 
     private fun save() {
@@ -98,4 +115,11 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
             presenter.addImage()
         }
     }
+
+    private fun onImageClicked() {
+        lifecycleScope.launch {
+            presenter.editImage()
+        }
+    }
+
 }

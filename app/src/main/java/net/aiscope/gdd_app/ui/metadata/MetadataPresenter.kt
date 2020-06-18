@@ -74,4 +74,14 @@ class MetadataPresenter @Inject constructor(
         val current = repository.current()
         view.captureImage(current.nextImageName())
     }
+
+    //Soo I guess we can call this... with WHAT param exactly??
+    suspend fun editImage() {
+        val current = repository.current()
+        //The sample has images. What I need is an index??
+        val image = current.images
+        val mask = current.masks
+        //TODO: get the right index
+        view.editImage(current.disease!!, image.elementAt(0), mask.elementAt(0))
+    }
 }
