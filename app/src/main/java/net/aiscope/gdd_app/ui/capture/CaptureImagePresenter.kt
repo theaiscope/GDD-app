@@ -19,7 +19,7 @@ class CaptureImagePresenter(
                 val sample = repository.current().addImage(file)
                 repository.store(sample)
 
-                view.goToMask(sample.disease ?: "FAKE_DISEASE", file.absolutePath, sample.nextMaskName())
+                view.goToMask(sample.disease!!, file.absolutePath, sample.nextMaskName())
             }
         }
     }

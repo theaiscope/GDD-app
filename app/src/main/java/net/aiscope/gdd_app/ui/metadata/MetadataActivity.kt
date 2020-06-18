@@ -96,7 +96,7 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, image.absolutePath)
 
         //Doesn't seem to pick up on this
-        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, mask.absolutePath)
+        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, mask.name)
 
         startActivity(intent)
     }
