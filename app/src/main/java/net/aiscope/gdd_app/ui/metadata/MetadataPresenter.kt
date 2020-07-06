@@ -75,13 +75,12 @@ class MetadataPresenter @Inject constructor(
         view.captureImage(current.nextImageName())
     }
 
-    //Soo I guess we can call this... with WHAT param exactly??
     suspend fun editImage(index: Int) {
         val current = repository.current()
-        //The sample has images. What I need is an index??
-        val image = current.images
-        val mask = current.masks
-        //TODO: This seems to get the wrong ones. Maybe because we show them in reverse order?
-        view.editImage(current.disease!!, image.elementAt(index), mask.elementAt(index))
+        val images = current.images
+        val masks = current.masks
+
+        //Since the samples are displayed in reverse order, we need to get the image and mask in reverse order too
+        view.editImage(current.disease!!, images.reversed().elementAt(index), masks.reversed().elementAt(index))
     }
 }
