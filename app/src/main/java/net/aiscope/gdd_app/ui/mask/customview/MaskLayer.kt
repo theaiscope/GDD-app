@@ -212,7 +212,6 @@ class MaskLayer(private val imageMatrix: Matrix) {
     }
 
     fun drawEnd() {
-        //So this is when it all suddenly shows?
         currentPath?.run {
             if (!latestChangeBitmap.sameAs(currentStateBitmap)) {
                 keepLatestChangeBitmap()

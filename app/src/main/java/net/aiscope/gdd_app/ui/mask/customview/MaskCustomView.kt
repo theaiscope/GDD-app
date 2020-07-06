@@ -141,6 +141,7 @@ class MaskCustomView @JvmOverloads constructor(
 
     fun setMaskBitmap(bitmap: Bitmap) {
         maskLayer.setMaskBitmap(bitmap)
+        invalidate()
     }
 
     fun undo() {
