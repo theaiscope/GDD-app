@@ -19,7 +19,7 @@ import java.io.File
 class SampleImagesAdapter(
     private val uiScope: CoroutineScope,
     private val onAddImageClicked: () -> Unit,
-    private val onImageClicked: () -> Unit
+    private val onImageClicked: (Int) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -39,7 +39,7 @@ class SampleImagesAdapter(
         when (holder) {
             is AddImageViewHolder -> {}
             //Sooo this holder should be able to give us the image?
-            is ImageViewHolder -> holder.bind(images[position - 1])
+            is ImageViewHolder -> holder.bind(images[position - 1], position - 1)
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -71,9 +71,9 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 }
 
 private class ImageViewHolder(
-    view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: () -> Unit
+    view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: (Int) -> Unit
 ) : RecyclerView.ViewHolder(view) {
-    fun bind(image: File) {
+    fun bind(image: File, index: Int) {
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
             (itemView as ImageView).setImageBitmap(null)
@@ -84,7 +84,7 @@ private class ImageViewHolder(
             )
             itemView.setImageBitmap(bitmap)
             //Should we just pass the image here??
-            itemView.setOnClickListener { onImageClicked() }
+            itemView.setOnClickListener { onImageClicked(index) }
         }
     }
 }

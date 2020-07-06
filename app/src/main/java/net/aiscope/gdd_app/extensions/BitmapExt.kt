@@ -11,7 +11,7 @@ const val MAX_QUALITY = 100
 
 fun Bitmap.writeToFile(file: File) {
     val out = FileOutputStream(file)
-    this.compress(Bitmap.CompressFormat.JPEG, MAX_QUALITY, out)
+    this.compress(Bitmap.CompressFormat.PNG, MAX_QUALITY, out)
 }
 
 suspend fun Bitmap.writeToFileAsync(file: File) = withContext(Dispatchers.IO) {

@@ -91,12 +91,13 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
     override fun editImage(disease: String, image: File, mask: File){
         val intent = Intent(this, MaskActivity::class.java)
-        //FIXME: where do I get this??
         intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, image.absolutePath)
 
-        //Doesn't seem to pick up on this
-        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, mask.name)
+        //Remove file extension
+        val maskName = mask.name.removeSuffix(".png")
+        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
+        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, mask.path)
 
         startActivity(intent)
     }
@@ -116,9 +117,9 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         }
     }
 
-    private fun onImageClicked() {
+    private fun onImageClicked(index: Int) {
         lifecycleScope.launch {
-            presenter.editImage()
+            presenter.editImage(index)
         }
     }
 
