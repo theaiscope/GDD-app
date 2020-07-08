@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.ui.mask.customview
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PorterDuff
@@ -64,6 +65,9 @@ class MaskLayer(private val imageMatrix: Matrix) {
         )
     }
     private val latestChangeBitmapCanvas by lazy { Canvas(latestChangeBitmap) }
+
+    private var initialBitmap :Bitmap? = null
+
     private lateinit var currentStateBitmap :Bitmap
 
     private lateinit var currentStateBitmapCanvas :Canvas
@@ -124,6 +128,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     fun setMaskBitmap(bitmap: Bitmap){
         require(sizeInitialized()) { "Size was not initialized yet" }
+        initialBitmap = bitmap
         currentStateBitmap = Bitmap.createScaledBitmap(bitmap, size.width, size.height, false)
         currentStateBitmapCanvas = Canvas(currentStateBitmap)
         draw(currentStateBitmapCanvas)
@@ -132,8 +137,12 @@ class MaskLayer(private val imageMatrix: Matrix) {
     private fun pathBeingDrawn() = currentPath != null
 
     private fun composeCurrentStateBitmap() {
-        //So this removes it all again??
-        //currentStateBitmap.eraseColor(Color.TRANSPARENT)
+        currentStateBitmap.eraseColor(Color.TRANSPARENT)
+
+        //So it may make sense to just reset it to 'init' state instead of erasing???
+        initialBitmap?.let{
+            currentStateBitmap = Bitmap.createScaledBitmap(it, size.width, size.height, false)
+        }
 
         drawPaths(currentStateBitmapCanvas)
     }
