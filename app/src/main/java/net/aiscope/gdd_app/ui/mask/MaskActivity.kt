@@ -178,7 +178,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
     private suspend fun readMask(filepath: String): Bitmap? = withContext(Dispatchers.IO) {
         val bitmap = BitmapFactory.decodeFile(filepath)
-        //FIXME: Should be a better way to get a mutable map
+        //FIXME: Should be a better way to get a mutable bitmap
         bitmap.copy(Bitmap.Config.ARGB_8888, true)
     }
 

@@ -139,9 +139,9 @@ class MaskLayer(private val imageMatrix: Matrix) {
     private fun composeCurrentStateBitmap() {
         currentStateBitmap.eraseColor(Color.TRANSPARENT)
 
-        //So it may make sense to just reset it to 'init' state instead of erasing???
         initialBitmap?.let{
             currentStateBitmap = Bitmap.createScaledBitmap(it, size.width, size.height, false)
+            currentStateBitmapCanvas = Canvas(currentStateBitmap)
         }
 
         drawPaths(currentStateBitmapCanvas)
