@@ -13,7 +13,7 @@ export const onNewUserCreated = functions
     .onCreate((user, _) => {
         return saveMicroscopistToFirestore(user)
             .catch(error => {
-                console.error("Error writing document: ", error);
+                functions.logger.error("Error writing document: ", error);
             });
     });
 
@@ -23,7 +23,7 @@ const saveMicroscopistToFirestore = (user: UserRecord) => db.collection("microsc
         enabled: false
     })
     .then(function () {
-        console.log("Document successfully written!");
+        functions.logger.log("Document successfully written!");
     });
 
  export const onNewFacilityCreated = functions
@@ -36,9 +36,9 @@ const saveMicroscopistToFirestore = (user: UserRecord) => db.collection("microsc
       name: "___NAME HERE___"
     })
       .then(function () {
-        console.log("Document successfully written!");
+        functions.logger.log("Document successfully written!");
       })
       .catch(error => {
-        console.error("Error writing document: ", error);
+        functions.logger.error("Error writing document: ", error);
       });
   });
