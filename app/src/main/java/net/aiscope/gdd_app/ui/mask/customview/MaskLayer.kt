@@ -234,7 +234,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
     private fun isCurrentModeDraw() = currentMode == Mode.Draw
 
     private fun keepLatestChangeBitmap() {
-        //latestChangeBitmap.eraseColor(Color.TRANSPARENT)
+        latestChangeBitmap.eraseColor(Color.TRANSPARENT)
         latestChangeBitmapCanvas.drawBitmap(currentStateBitmap, 0f, 0f, BITMAP_TRANSFER_PAINT)
     }
 

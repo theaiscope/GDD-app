@@ -3,7 +3,6 @@ package net.aiscope.gdd_app.ui.mask
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.Gravity
