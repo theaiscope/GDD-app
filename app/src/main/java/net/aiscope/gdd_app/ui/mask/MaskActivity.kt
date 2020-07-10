@@ -180,5 +180,4 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         //Converts to a mutable bitmap
         bitmap.copy(Bitmap.Config.ARGB_8888, true)
     }
-
 }
