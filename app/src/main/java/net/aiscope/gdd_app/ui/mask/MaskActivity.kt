@@ -120,8 +120,8 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             photo_mask_view.setImageBitmap(bmp)
 
             maskPath?.let {
-                var draw = readMask(maskPath)
-                draw?.let {  photo_mask_view.setMaskBitmap(draw) }
+                val mask = readMask(maskPath)
+                mask?.let {  photo_mask_view.setMaskBitmap(it) }
             }
         }
     }
