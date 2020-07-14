@@ -61,6 +61,18 @@
             android:padding="12dp"
             tools:ignore="RtlHardcoded" />
 
+        <ImageButton
+            android:id="@+id/stages_btn"
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/mask_activity_stages"
+            android:padding="12dp"
+            android:src="@drawable/ic_color"
+            app:layout_constraintBottom_toBottomOf="@id/tools_panel"
+            app:layout_constraintStart_toEndOf="@id/draw_btn"
+            app:layout_constraintTop_toTopOf="@id/tools_panel" />
+
         <RadioButton
             android:id="@+id/erase_btn"
             android:layout_width="wrap_content"
@@ -68,21 +80,10 @@
             android:button="@null"
             android:drawableStart="@drawable/ic_erase"
             android:drawableTint="@color/button_selector"
-            android:padding="12dp" />
+            android:padding="12dp"
+            app:layout_constraintStart_toEndOf="@id/stages_btn"/>
 
     </RadioGroup>
-
-    <ImageButton
-        android:id="@+id/stages_btn"
-        android:background="@color/colorPrimaryDark"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:contentDescription="@string/mask_activity_stages"
-        android:padding="12dp"
-        android:src="@drawable/ic_color"
-        app:layout_constraintTop_toTopOf="@id/tools_panel"
-        app:layout_constraintBottom_toBottomOf="@id/tools_panel"
-        app:layout_constraintStart_toEndOf="@id/tools_radio_group" />
 
     <ImageButton
         android:id="@+id/undo_btn"
@@ -97,7 +98,7 @@
         android:visibility="invisible"
         app:layout_constraintTop_toTopOf="@id/tools_panel"
         app:layout_constraintBottom_toBottomOf="@id/tools_panel"
-        app:layout_constraintStart_toEndOf="@id/stages_btn" />
+        app:layout_constraintStart_toEndOf="@id/tools_radio_group" />
 
     <ImageButton
         android:id="@+id/redo_btn"
