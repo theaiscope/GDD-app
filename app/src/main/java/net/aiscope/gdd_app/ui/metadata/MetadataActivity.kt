@@ -26,6 +26,7 @@ import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import java.io.File
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
     @Inject
@@ -123,7 +124,7 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
     }
-    
+
     private fun save() {
         lifecycleScope.launch {
             presenter.save(
