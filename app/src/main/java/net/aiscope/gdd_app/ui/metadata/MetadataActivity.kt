@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
@@ -101,7 +103,27 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
         startActivity(intent)
     }
+    
+    override fun onBackPressed() {
+        with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
+            setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
+                goToHome()
+            }
+            setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
+                // do nothing
+            }
+            setMessage(getString(R.string.capture_flow_exit_dialog_message))
+            setTitle(getText(R.string.capture_flow_exit_dialog_title))
+            create()
+        }.show()
+    }
 
+    fun <T> T.goToHome() where T : AppCompatActivity, T : CaptureFlow {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+    }
+    
     private fun save() {
         lifecycleScope.launch {
             presenter.save(
