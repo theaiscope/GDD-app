@@ -26,6 +26,7 @@ import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import java.io.File
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
     @Inject
