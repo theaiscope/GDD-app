@@ -18,15 +18,14 @@ import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
+import net.aiscope.gdd_app.ui.goToHome
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
-import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import java.io.File
 import javax.inject.Inject
 
-@Suppress("TooManyFunctions")
 class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
     @Inject
@@ -117,12 +116,6 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
             setTitle(getText(R.string.capture_flow_exit_dialog_title))
             create()
         }.show()
-    }
-
-    fun <T> T.goToHome() where T : AppCompatActivity, T : CaptureFlow {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
     }
 
     private fun save() {
