@@ -12,18 +12,22 @@ interface CaptureFlow
 fun <T> T.attachCaptureFlowToolbar(toolbar: androidx.appcompat.widget.Toolbar)
         where T : AppCompatActivity, T : CaptureFlow {
     toolbar.setNavigationOnClickListener {
-        with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
-            setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
-                goToHome()
-            }
-            setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
-                // do nothing
-            }
-            setMessage(getString(R.string.capture_flow_exit_dialog_message))
-            setTitle(getText(R.string.capture_flow_exit_dialog_title))
-            create()
-        }.show()
+        showConfirmExitDialog()
     }
+}
+
+fun <T> T.showConfirmExitDialog() where T : AppCompatActivity, T : CaptureFlow {
+    with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
+        setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
+            goToHome()
+        }
+        setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
+            // do nothing
+        }
+        setMessage(getString(R.string.capture_flow_exit_dialog_message))
+        setTitle(getText(R.string.capture_flow_exit_dialog_title))
+        create()
+    }.show()
 }
 
 fun <T> T.goToHomeAndConfirmSaved() where T : AppCompatActivity, T : CaptureFlow {

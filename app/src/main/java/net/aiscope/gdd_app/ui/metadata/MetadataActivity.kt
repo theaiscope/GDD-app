@@ -21,6 +21,7 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHome
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
 import net.aiscope.gdd_app.ui.mask.MaskActivity
+import net.aiscope.gdd_app.ui.showConfirmExitDialog
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import java.io.File
@@ -106,17 +107,7 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
     }
     
     override fun onBackPressed() {
-        with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
-            setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
-                goToHome()
-            }
-            setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
-                // do nothing
-            }
-            setMessage(getString(R.string.capture_flow_exit_dialog_message))
-            setTitle(getText(R.string.capture_flow_exit_dialog_title))
-            create()
-        }.show()
+        showConfirmExitDialog()
     }
 
     private fun save() {
