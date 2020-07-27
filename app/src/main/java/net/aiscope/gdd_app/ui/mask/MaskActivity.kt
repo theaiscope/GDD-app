@@ -122,7 +122,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             photo_mask_view.setImageBitmap(bmp)
 
             maskPath?.let {
-                val mask = readMask(maskPath)
+                val mask = readMutableImage(maskPath)
                 mask?.let {  photo_mask_view.setMaskBitmap(it) }
             }
         }
@@ -177,9 +177,11 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         BitmapFactory.decodeFile(filepath, options)
     }
 
-    private suspend fun readMask(filepath: String): Bitmap? = withContext(Dispatchers.IO) {
-        val bitmap = BitmapFactory.decodeFile(filepath)
-        //Converts to a mutable bitmap
-        bitmap.copy(Bitmap.Config.ARGB_8888, true)
+    private suspend fun readMutableImage(filepath: String): Bitmap = withContext(Dispatchers.IO) {
+        val options = BitmapFactory.Options()
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888
+        options.inMutable = true
+
+        BitmapFactory.decodeFile(filepath, options)
     }
 }
