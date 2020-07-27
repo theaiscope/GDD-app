@@ -202,7 +202,14 @@ class MaskLayer(private val imageMatrix: Matrix) {
     fun redoAvailable() = undoPendingPaths > 0
 
     fun getBitmap(): Bitmap {
-        return currentStateBitmap.apply { drawPaths(currentStateBitmapCanvas, removeAlpha = true) }
+        val backgroundBitMap = initialBitmap ?: Bitmap.createBitmap(
+            currentStateBitmap.width,
+            currentStateBitmap.height,
+            Bitmap.Config.ARGB_8888)
+
+        return backgroundBitMap.apply {
+            val canvas = Canvas(this)
+            drawPaths(canvas, removeAlpha = true) }
     }
 
     fun drawStart(x: Float, y: Float) {
