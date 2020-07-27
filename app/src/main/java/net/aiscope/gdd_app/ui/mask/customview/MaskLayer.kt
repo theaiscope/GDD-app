@@ -209,7 +209,8 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
         return backgroundBitMap.apply {
             val canvas = Canvas(this)
-            drawPaths(canvas, removeAlpha = true) }
+            drawPaths(canvas, removeAlpha = true)
+        }
     }
 
     fun drawStart(x: Float, y: Float) {

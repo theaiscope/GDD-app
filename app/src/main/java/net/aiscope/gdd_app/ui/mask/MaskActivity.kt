@@ -181,7 +181,6 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         val options = BitmapFactory.Options()
         options.inPreferredConfig = Bitmap.Config.ARGB_8888
         options.inMutable = true
-
         BitmapFactory.decodeFile(filepath, options)
     }
 }
