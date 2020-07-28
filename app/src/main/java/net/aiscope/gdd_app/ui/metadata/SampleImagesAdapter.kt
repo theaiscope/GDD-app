@@ -79,7 +79,17 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 private class ImageViewHolder(
     view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: (File, File) -> Unit
 ) : RecyclerView.ViewHolder(view) {
+    private lateinit var imageFile: File
+    private lateinit var maskFile: File
+
+    init {
+        itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
+    }
+
     fun bind(image: File, mask: File) {
+        imageFile = image
+        maskFile = mask
+
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
             (itemView as ImageView).setImageBitmap(null)
@@ -89,7 +99,6 @@ private class ImageViewHolder(
                 itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height)
             )
             itemView.setImageBitmap(bitmap)
-            itemView.setOnClickListener { onImageClicked(image, mask) }
         }
     }
 }
