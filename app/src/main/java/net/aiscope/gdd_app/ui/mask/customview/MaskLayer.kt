@@ -19,6 +19,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
         private const val MASK_PAINT_OPACITY = .8
         private const val PATH_STROKE_WIDTH = 80f
         private val BITMAP_TRANSFER_PAINT = Paint()
+        private val EMPTY_MATRIX = Matrix()
         val ERASER_XFER_MODE = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
 
         fun newDefaultPaintBrush(color: Int, strokeWidth: Float) = Paint().apply {
@@ -113,7 +114,6 @@ class MaskLayer(private val imageMatrix: Matrix) {
     private fun sizeInitialized() = this::size.isInitialized
 
     private fun brushColorInitialized() = currentBrushColor != 0
-
     fun draw(canvas: Canvas) {
         if (!sizeInitialized()) return
 
@@ -129,9 +129,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
     fun setMaskBitmap(bitmap: Bitmap){
         require(sizeInitialized()) { "Size was not initialized yet" }
         initialBitmap = bitmap
-        currentStateBitmap = Bitmap.createScaledBitmap(bitmap, size.width, size.height, false)
-        currentStateBitmapCanvas = Canvas(currentStateBitmap)
-        draw(currentStateBitmapCanvas)
+        currentStateBitmapCanvas.drawBitmap(bitmap, EMPTY_MATRIX, null)
     }
 
     private fun pathBeingDrawn() = currentPath != null
@@ -140,8 +138,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
         currentStateBitmap.eraseColor(Color.TRANSPARENT)
 
         initialBitmap?.let{
-            currentStateBitmap = Bitmap.createScaledBitmap(it, size.width, size.height, false)
-            currentStateBitmapCanvas = Canvas(currentStateBitmap)
+            currentStateBitmapCanvas.drawBitmap(it, EMPTY_MATRIX, null)
         }
 
         drawPaths(currentStateBitmapCanvas)
