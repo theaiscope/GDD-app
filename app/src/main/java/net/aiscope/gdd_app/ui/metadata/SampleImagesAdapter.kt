@@ -79,7 +79,6 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 private class ImageViewHolder(
     view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: (File, File) -> Unit
 ) : RecyclerView.ViewHolder(view) {
-    //So this bind should happen with a file for the mask too??
     fun bind(image: File, mask: File) {
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
