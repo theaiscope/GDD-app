@@ -13,6 +13,7 @@ data class FieldOption(val id: Long, val title: Int)
 data class ViewStateModel(
     val disease: String,
     val images: List<File>,
+    val masks: List<File>,
     val options: List<FieldOption>,
     val required: Boolean = true,
     val smearTypeId: Int? = null,
@@ -40,6 +41,7 @@ class MetadataPresenter @Inject constructor(
             ViewStateModel(
                 sample.disease,
                 sample.images.toList(),
+                sample.masks.toList(),
                 emptyList(),
                 smearTypeId = lastMetadata?.let { metadataMapper.getSmearTypeId(it.smearType) },
                 speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) }
@@ -75,12 +77,8 @@ class MetadataPresenter @Inject constructor(
         view.captureImage(current.nextImageName())
     }
 
-    suspend fun editImage(index: Int) {
+    suspend fun editImage(image: File, mask: File) {
         val current = repository.current()
-        val images = current.images
-        val masks = current.masks
-
-        //Since the samples are displayed in reverse order, we need to get the image and mask in reverse order too
-        view.editImage(current.disease!!, images.reversed().elementAt(index), masks.reversed().elementAt(index))
+        view.editImage(current.disease!!, image, mask)
     }
 }

@@ -19,11 +19,12 @@ import java.io.File
 class SampleImagesAdapter(
     private val uiScope: CoroutineScope,
     private val onAddImageClicked: () -> Unit,
-    private val onImageClicked: (Int) -> Unit
+    private val onImageClicked: (File, File) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val images: MutableList<File> = mutableListOf()
+    private val masks: MutableList<File> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
@@ -37,7 +38,7 @@ class SampleImagesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AddImageViewHolder -> {}
-            is ImageViewHolder -> holder.bind(images[position - 1], position - 1)
+            is ImageViewHolder -> holder.bind(images[position - 1], masks[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -58,6 +59,13 @@ class SampleImagesAdapter(
         this.images.addAll(images.reversed())
         this.notifyDataSetChanged()
     }
+
+    fun setMasks(masks: List<File>) {
+        this.masks.clear()
+        this.masks.addAll(masks.reversed())
+        this.notifyDataSetChanged()
+    }
+
 }
 
 private class AddImageViewHolder(view: View, private val onAddImageClicked: () -> Unit) :
@@ -69,9 +77,10 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 }
 
 private class ImageViewHolder(
-    view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: (Int) -> Unit
+    view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: (File, File) -> Unit
 ) : RecyclerView.ViewHolder(view) {
-    fun bind(image: File, index: Int) {
+    //So this bind should happen with a file for the mask too??
+    fun bind(image: File, mask: File) {
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
             (itemView as ImageView).setImageBitmap(null)
@@ -81,7 +90,7 @@ private class ImageViewHolder(
                 itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height)
             )
             itemView.setImageBitmap(bitmap)
-            itemView.setOnClickListener { onImageClicked(index) }
+            itemView.setOnClickListener { onImageClicked(image, mask) }
         }
     }
 }

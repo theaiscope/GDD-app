@@ -62,6 +62,7 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
+        imagesAdapter.setMasks(model.masks)
         model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
         model.speciesValue?.let { metadata_species_spinner.select(it) }
     }
@@ -123,9 +124,9 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         }
     }
 
-    private fun onImageClicked(index: Int) {
+    private fun onImageClicked(image: File, mask: File) {
         lifecycleScope.launch {
-            presenter.editImage(index)
+            presenter.editImage(image, mask)
         }
     }
 
