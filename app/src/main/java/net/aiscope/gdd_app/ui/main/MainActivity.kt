@@ -12,11 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.toolbar.toolbar
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.BuildConfig
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.databinding.ActivityMainBinding
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.sample_preparation.SamplePreparationActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
@@ -27,19 +26,25 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
     @Inject
     lateinit var presenter: SelectDiseasePresenter
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
-        main_version_text.text = getString(R.string.main_version, BuildConfig.VERSION_NAME)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        with(binding) {
+            setContentView(root)
+            setSupportActionBar(toolbar)
 
-        askCameraPermission()
+            mainVersionText.text = getString(R.string.main_version, BuildConfig.VERSION_NAME)
 
-        main_continue_button.setOnClickListener {
-            lifecycleScope.launch {
-                presenter.saveDisease(dropdown_select_disease.selectedItem.toString())
+            askCameraPermission()
+
+            mainContinueButton.setOnClickListener {
+                lifecycleScope.launch {
+                    presenter.saveDisease(dropdownSelectDisease.selectedItem.toString())
+                }
             }
         }
 

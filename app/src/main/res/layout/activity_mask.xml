@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.mask.MaskActivity">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
 
     <net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
         android:id="@+id/photo_mask_view"

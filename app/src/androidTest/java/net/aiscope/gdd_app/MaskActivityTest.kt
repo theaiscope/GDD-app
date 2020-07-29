@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
@@ -20,7 +21,6 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.screenshot.Screenshot
 import com.azimolabs.conditionwatcher.ConditionWatcher
 import com.azimolabs.conditionwatcher.Instruction
-import kotlinx.android.synthetic.main.activity_mask.*
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -138,7 +138,7 @@ class MaskActivityTest {
         checkIsVisible(R.id.redo_btn)
     }
 
-    private fun captureMaskCustomView() = Screenshot.capture(activityTestRule.activity.photo_mask_view)
+    private fun captureMaskCustomView() = Screenshot.capture(activityTestRule.activity.findViewById<View>(R.id.photo_mask_view))
 
     @Test
     fun shouldUndoAndRedoProperly() {
