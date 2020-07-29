@@ -77,7 +77,7 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 }
 
 private class ImageViewHolder(
-    view: ImageView, private val uiScope: CoroutineScope, private val onImageClicked: (File, File) -> Unit
+    view: ImageView, private val uiScope: CoroutineScope, onImageClicked: (File, File) -> Unit
 ) : RecyclerView.ViewHolder(view) {
     private lateinit var imageFile: File
     private lateinit var maskFile: File

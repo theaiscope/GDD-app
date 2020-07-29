@@ -67,10 +67,9 @@ class MaskLayer(private val imageMatrix: Matrix) {
     }
     private val latestChangeBitmapCanvas by lazy { Canvas(latestChangeBitmap) }
 
-    private var initialBitmap :Bitmap? = null
+    private var initialBitmap: Bitmap? = null
 
-    private lateinit var currentStateBitmap :Bitmap
-
+    private lateinit var currentStateBitmap: Bitmap
     private lateinit var currentStateBitmapCanvas :Canvas
 
     //fields depending on init of stage
@@ -199,12 +198,12 @@ class MaskLayer(private val imageMatrix: Matrix) {
     fun redoAvailable() = undoPendingPaths > 0
 
     fun getBitmap(): Bitmap {
-        val backgroundBitMap = initialBitmap ?: Bitmap.createBitmap(
+        val backgroundBitmap = initialBitmap ?: Bitmap.createBitmap(
             currentStateBitmap.width,
             currentStateBitmap.height,
             Bitmap.Config.ARGB_8888)
 
-        return backgroundBitMap.apply {
+        return backgroundBitmap.apply {
             val canvas = Canvas(this)
             drawPaths(canvas, removeAlpha = true)
         }
