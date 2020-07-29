@@ -13,10 +13,15 @@
         android:id="@+id/toolbar_layout"
         layout="@layout/toolbar" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:fillViewport="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="16dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
         <TextView
@@ -86,6 +91,8 @@
             app:layout_constraintTop_toBottomOf="@id/sample_preparation_alcohol_switch" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/sample_preparation_continue_button"
