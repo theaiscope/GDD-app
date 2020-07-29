@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.ui.CaptureFlow
 
 interface LogoutFLow {
     fun logoutAction()

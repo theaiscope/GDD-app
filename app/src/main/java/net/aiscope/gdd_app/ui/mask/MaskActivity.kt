@@ -32,6 +32,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         const val EXTRA_DISEASE_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_DISEASE_NAME"
         const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_IMAGE_NAME"
         const val EXTRA_MASK_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_MASK_NAME"
+        const val EXTRA_MASK_PATH = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_MASK_PATH"
     }
 
     @Inject
@@ -52,8 +53,9 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         val diseaseName = checkNotNull(intent.getStringExtra(EXTRA_DISEASE_NAME))
         val imageNameExtra = checkNotNull(intent.getStringExtra(EXTRA_IMAGE_NAME))
         val maskNameExtra = checkNotNull(intent.getStringExtra(EXTRA_MASK_NAME))
+        val maskPathExtra = intent.getStringExtra(EXTRA_MASK_PATH)
 
-        presenter.start(diseaseName, imageNameExtra)
+        presenter.start(diseaseName, imageNameExtra, maskPathExtra)
 
         currentBrushColor = savedInstanceState?.getInt("currentBrushColor")
             ?: brushDiseaseStages[0].maskColor
@@ -95,7 +97,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
         val bmp = photo_mask_view.getMaskBitmap()
         lifecycleScope.launch {
-            val dest = File(this@MaskActivity.filesDir, "${maskName}.jpg")
+            val dest = File(this@MaskActivity.filesDir, "${maskName}.png")
             bmp.writeToFile(dest)
 
             onPhotoReceived(dest)
@@ -105,6 +107,8 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     override fun goToMetadata() {
         val intent = Intent(this, MetadataActivity::class.java)
         startActivity(intent)
+        //Finish the activity to avoid keeping all the bitmaps in memory
+        finish()
     }
 
     override fun notifyImageCouldNotBeTaken() {
@@ -112,10 +116,15 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             .show()
     }
 
-    override fun initPhotoMaskView(imagePath: String) {
+    override fun initPhotoMaskView(imagePath: String, maskPath: String?) {
         lifecycleScope.launch {
             val bmp = readImage(imagePath)
             photo_mask_view.setImageBitmap(bmp)
+
+            maskPath?.let {
+                val mask = readMutableImage(maskPath)
+                mask?.let {  photo_mask_view.setMaskBitmap(it) }
+            }
         }
     }
 
@@ -165,6 +174,13 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     private suspend fun readImage(filepath: String): Bitmap = withContext(Dispatchers.IO) {
         val options = BitmapFactory.Options()
         options.inPreferredConfig = Bitmap.Config.ARGB_8888
+        BitmapFactory.decodeFile(filepath, options)
+    }
+
+    private suspend fun readMutableImage(filepath: String): Bitmap = withContext(Dispatchers.IO) {
+        val options = BitmapFactory.Options()
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888
+        options.inMutable = true
         BitmapFactory.decodeFile(filepath, options)
     }
 }

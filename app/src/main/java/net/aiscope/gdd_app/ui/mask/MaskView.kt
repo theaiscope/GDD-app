@@ -7,5 +7,5 @@ interface MaskView {
     fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit)
     fun goToMetadata()
     fun notifyImageCouldNotBeTaken()
-    fun initPhotoMaskView(imagePath: String)
+    fun initPhotoMaskView(imagePath: String, maskPath: String?)
 }

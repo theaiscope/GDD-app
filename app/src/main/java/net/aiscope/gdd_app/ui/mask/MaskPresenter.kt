@@ -32,9 +32,9 @@ class MaskPresenter(
         }
     }
 
-    fun start(diseaseName: String, imagePath: String) {
+    fun start(diseaseName: String, imagePath: String, maskPath: String?) {
         this.diseaseName = diseaseName
-        view.initPhotoMaskView(imagePath)
+        view.initPhotoMaskView(imagePath, maskPath)
     }
 
     companion object {

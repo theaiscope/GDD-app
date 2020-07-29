@@ -10,7 +10,7 @@ import android.graphics.PorterDuffXfermode
 import android.os.Parcelable
 import android.util.Size
 import androidx.core.graphics.withMatrix
-import java.util.*
+import java.util.LinkedList
 
 @Suppress("TooManyFunctions")
 class MaskLayer(private val imageMatrix: Matrix) {
@@ -19,6 +19,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
         private const val MASK_PAINT_OPACITY = .8
         private const val PATH_STROKE_WIDTH = 80f
         private val BITMAP_TRANSFER_PAINT = Paint()
+        private val EMPTY_MATRIX = Matrix()
         val ERASER_XFER_MODE = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
 
         fun newDefaultPaintBrush(color: Int, strokeWidth: Float) = Paint().apply {
@@ -65,14 +66,12 @@ class MaskLayer(private val imageMatrix: Matrix) {
         )
     }
     private val latestChangeBitmapCanvas by lazy { Canvas(latestChangeBitmap) }
-    private val currentStateBitmap by lazy {
-        Bitmap.createBitmap(
-            size.width,
-            size.height,
-            Bitmap.Config.ARGB_8888
-        )
-    }
-    private val currentStateBitmapCanvas by lazy { Canvas(currentStateBitmap) }
+
+    private var initialBitmap :Bitmap? = null
+
+    private lateinit var currentStateBitmap :Bitmap
+
+    private lateinit var currentStateBitmapCanvas :Canvas
 
     //fields depending on init of stage
     private var currentBrushColor: Int = 0
@@ -91,6 +90,14 @@ class MaskLayer(private val imageMatrix: Matrix) {
     fun initSize(size: Size) {
         require(!sizeInitialized()) { "Size was initialized already!" }
         this.size = size
+
+        currentStateBitmap = Bitmap.createBitmap(
+            size.width,
+            size.height,
+            Bitmap.Config.ARGB_8888
+        )
+
+        currentStateBitmapCanvas = Canvas(currentStateBitmap)
     }
 
     fun initBrushColor(color: Int) {
@@ -107,7 +114,6 @@ class MaskLayer(private val imageMatrix: Matrix) {
     private fun sizeInitialized() = this::size.isInitialized
 
     private fun brushColorInitialized() = currentBrushColor != 0
-
     fun draw(canvas: Canvas) {
         if (!sizeInitialized()) return
 
@@ -120,10 +126,21 @@ class MaskLayer(private val imageMatrix: Matrix) {
         }
     }
 
+    fun setMaskBitmap(bitmap: Bitmap){
+        require(sizeInitialized()) { "Size was not initialized yet" }
+        initialBitmap = bitmap
+        currentStateBitmapCanvas.drawBitmap(bitmap, EMPTY_MATRIX, null)
+    }
+
     private fun pathBeingDrawn() = currentPath != null
 
     private fun composeCurrentStateBitmap() {
         currentStateBitmap.eraseColor(Color.TRANSPARENT)
+
+        initialBitmap?.let{
+            currentStateBitmapCanvas.drawBitmap(it, EMPTY_MATRIX, null)
+        }
+
         drawPaths(currentStateBitmapCanvas)
     }
 
@@ -182,11 +199,12 @@ class MaskLayer(private val imageMatrix: Matrix) {
     fun redoAvailable() = undoPendingPaths > 0
 
     fun getBitmap(): Bitmap {
-        return Bitmap.createBitmap(
+        val backgroundBitMap = initialBitmap ?: Bitmap.createBitmap(
             currentStateBitmap.width,
             currentStateBitmap.height,
-            Bitmap.Config.ARGB_8888
-        ).apply {
+            Bitmap.Config.ARGB_8888)
+
+        return backgroundBitMap.apply {
             val canvas = Canvas(this)
             drawPaths(canvas, removeAlpha = true)
         }

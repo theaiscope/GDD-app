@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.ui.mask.customview
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.drawable.Drawable
@@ -136,6 +137,11 @@ class MaskCustomView @JvmOverloads constructor(
         maskLayer.setBrushColor(color)
 
     fun getMaskBitmap() = maskLayer.getBitmap()
+
+    fun setMaskBitmap(bitmap: Bitmap) {
+        maskLayer.setMaskBitmap(bitmap)
+        invalidate()
+    }
 
     fun undo() {
         maskLayer.undo()

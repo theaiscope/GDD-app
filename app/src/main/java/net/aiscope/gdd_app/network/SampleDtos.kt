@@ -8,7 +8,6 @@ import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import java.text.SimpleDateFormat
-import java.util.Calendar
 
 val ISO_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
 

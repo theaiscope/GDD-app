@@ -11,11 +11,11 @@ class FirebaseRemoteStorage(private val uploader: FirebaseStorageUploader, priva
         uploader.upload(gson.toJson(sample.toDto()), jsonKey)
 
         sample.images.forEachIndexed { index, image ->
-            uploader.upload(image, "${sample.id}/image_${index}.jpg")
+            uploader.upload(image, "${sample.id}/image_${index}.png")
         }
 
         sample.masks.forEachIndexed { index, mask ->
-            uploader.upload(mask, "${sample.id}/mask_${index}.jpg")
+            uploader.upload(mask, "${sample.id}/mask_${index}.png")
         }
     }
 }

@@ -18,15 +18,21 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.mask.MaskActivity
+import net.aiscope.gdd_app.ui.showConfirmExitDialog
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
+import java.io.File
 import javax.inject.Inject
 
-class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
+@Suppress("TooManyFunctions")
+class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
 
-    @Inject lateinit var presenter: MetadataPresenter
+    @Inject
+    lateinit var presenter: MetadataPresenter
 
-    private val imagesAdapter = SampleImagesAdapter(lifecycleScope, this::onAddImageClicked)
+    private val imagesAdapter =
+        SampleImagesAdapter(lifecycleScope, this::onAddImageClicked, this::onImageClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -38,7 +44,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
         metadata_blood_sample_images.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(this@MetadataActivity, LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(this@MetadataActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = imagesAdapter
         }
 
@@ -55,6 +62,7 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
 
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
+        imagesAdapter.setMasks(model.masks)
         model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
         model.speciesValue?.let { metadata_species_spinner.select(it) }
     }
@@ -67,8 +75,8 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         CustomSnackbar.make(
             findViewById(android.R.id.content),
             getString(R.string.metadata_snackbar_error),
-            Snackbar.LENGTH_INDEFINITE,null,
-            CustomSnackbarAction(getString(R.string.metadata_snackbar_retry),View.OnClickListener {
+            Snackbar.LENGTH_INDEFINITE, null,
+            CustomSnackbarAction(getString(R.string.metadata_snackbar_retry), View.OnClickListener {
                 save()
             })
         ).show()
@@ -82,6 +90,23 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
         val intent = Intent(this, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
         this.startActivity(intent)
+    }
+
+    override fun editImage(disease: String, image: File, mask: File){
+        val intent = Intent(this, MaskActivity::class.java)
+        intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
+        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, image.absolutePath)
+
+        //Remove file extension
+        val maskName = mask.name.removeSuffix(".png")
+        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
+        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, mask.path)
+
+        startActivity(intent)
+    }
+    
+    override fun onBackPressed() {
+        showConfirmExitDialog()
     }
 
     private fun save() {
@@ -98,4 +123,11 @@ class MetadataActivity : AppCompatActivity() , MetadataView, CaptureFlow {
             presenter.addImage()
         }
     }
+
+    private fun onImageClicked(image: File, mask: File) {
+        lifecycleScope.launch {
+            presenter.editImage(image, mask)
+        }
+    }
+
 }

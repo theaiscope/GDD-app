@@ -79,7 +79,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
         capture_image_loading_modal.visibility = View.VISIBLE
         val result = fotoapparat.takePicture()
-        val dest = File(this.filesDir, "${imageName}.jpg")
+        val dest = File(this.filesDir, "${imageName}.png")
         result.toBitmap().whenAvailable {
             it?.let {
                 val degrees = (-it.rotationDegrees) % THREE_SIXTY_DEGREES
