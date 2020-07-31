@@ -1,23 +1,28 @@
 package net.aiscope.gdd_app.ui.mask.customview
 
 import android.graphics.Path
-import java.util.*
+import android.graphics.PointF
+import android.os.Parcelable
+import androidx.core.graphics.component1
+import androidx.core.graphics.component2
+import kotlinx.android.parcel.Parcelize
 
-class PointToPointPath(x: Float, y: Float) : Path() {
+@Parcelize
+@Suppress("DataClassPrivateConstructor")
+data class PointToPointPath internal constructor(private val points: MutableList<PointF>) : Path(), Parcelable {
 
-    internal val points: List<Pair<Float, Float>> = LinkedList()
-    internal val firstPoint: Pair<Float, Float> = x to y
-
-    private var latestPoint: Pair<Float, Float> = firstPoint
-
-    init {
-        moveTo(x, y)
-        addPoint(firstPoint)
+    companion object {
+        fun createWithStartingPoint(point: PointF) = PointToPointPath(mutableListOf(point))
+        fun createFromPoints(points: List<PointF>) = PointToPointPath(points.toMutableList())
     }
 
-    constructor(points: List<Pair<Float, Float>>) : this(points[0].first, points[0].second) {
+    init {
+        if (points.isEmpty()) {
+            error("`points` cannot be empty")
+        }
+        moveTo(points[0].x, points[0].y)
         for ((x, y) in points.subList(1, points.size)) {
-            quadTo(x, y)
+            superQuadTo(x, y)
         }
     }
 
@@ -25,14 +30,20 @@ class PointToPointPath(x: Float, y: Float) : Path() {
         error("Use quadTo(x, y) instead")
 
     fun quadTo(xTo: Float, yTo: Float) {
+        superQuadTo(xTo, yTo)
+        addPoint(PointF(xTo, yTo))
+    }
+
+    private fun superQuadTo(xTo: Float, yTo: Float) {
+        val latestPoint = points.last()
         val (xFrom, yFrom) = latestPoint
         super.quadTo(xFrom, yFrom, xTo, yTo)
-        latestPoint = xTo to yTo
-        addPoint(latestPoint)
     }
 
     fun hasMultiplePoints() = points.size > 1
 
-    private fun addPoint(point: Pair<Float, Float>) = (points as MutableList).add(point)
+    fun firstPoint() = points.first()
+
+    private fun addPoint(point: PointF) = points.add(point)
 
 }
