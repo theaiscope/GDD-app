@@ -44,8 +44,8 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         binding = ActivityCaptureImageBinding.inflate(layoutInflater)
         with(binding) {
             setContentView(root)
-            setSupportActionBar(toolbar.toolbar)
-            attachCaptureFlowToolbar(toolbar.toolbar)
+            setSupportActionBar(toolbarLayout.toolbar)
+            attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
             fotoapparat = Fotoapparat(
                 context = this@CaptureImageActivity,

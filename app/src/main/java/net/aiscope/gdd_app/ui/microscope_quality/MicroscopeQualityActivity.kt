@@ -38,8 +38,8 @@ class MicroscopeQualityActivity : AppCompatActivity(), MicroscopeQualityView, Ca
         with(binding) {
             setContentView(root)
 
-            setSupportActionBar(toolbar.toolbar)
-            attachCaptureFlowToolbar(toolbar.toolbar)
+            setSupportActionBar(toolbarLayout.toolbar)
+            attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
             microscopeQualityContinueButton.setOnClickListener { save() }
         }

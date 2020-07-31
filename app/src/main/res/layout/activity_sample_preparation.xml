@@ -10,7 +10,7 @@
     tools:context=".ui.sample_preparation.SamplePreparationActivity">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_layout"
         layout="@layout/toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

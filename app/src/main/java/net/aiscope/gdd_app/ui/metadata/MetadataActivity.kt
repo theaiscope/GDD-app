@@ -42,8 +42,8 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         binding = ActivityMetadataBinding.inflate(layoutInflater)
         with(binding) {
             setContentView(root)
-            setSupportActionBar(toolbar.toolbar)
-            attachCaptureFlowToolbar(toolbar.toolbar)
+            setSupportActionBar(toolbarLayout.toolbar)
+            attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
             metadataBloodSampleImages.apply {
                 setHasFixedSize(true)

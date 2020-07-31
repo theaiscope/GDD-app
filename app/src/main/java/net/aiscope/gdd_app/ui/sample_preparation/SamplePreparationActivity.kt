@@ -44,8 +44,8 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
         with(binding) {
             setContentView(root)
 
-            setSupportActionBar(toolbar.toolbar)
-            attachCaptureFlowToolbar(toolbar.toolbar)
+            setSupportActionBar(toolbarLayout.toolbar)
+            attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
             samplePreparationContinueButton.setOnClickListener { save() }
         }
