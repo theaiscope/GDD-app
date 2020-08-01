@@ -9,10 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
-import kotlinx.android.synthetic.main.activity_capture_image.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.databinding.ActivityCaptureImageBinding
 import net.aiscope.gdd_app.extensions.rotate
 import net.aiscope.gdd_app.extensions.writeToFileAsync
 import net.aiscope.gdd_app.ui.CaptureFlow
@@ -36,22 +35,28 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     private lateinit var fotoapparat: Fotoapparat
     private lateinit var zoomController: ZoomController
 
+    private lateinit var binding: ActivityCaptureImageBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_capture_image)
-        setSupportActionBar(toolbar)
-        attachCaptureFlowToolbar(toolbar)
 
-        fotoapparat = Fotoapparat(
-            context = this,
-            view = camera_view,
-            cameraErrorCallback = { presenter.onCaptureError(it) }
-        )
-        zoomController = ZoomController(fotoapparat, camera_zoom_level, camera_view)
+        binding = ActivityCaptureImageBinding.inflate(layoutInflater)
+        with(binding) {
+            setContentView(root)
+            setSupportActionBar(toolbarLayout.toolbar)
+            attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
-        capture_image_button.setOnClickListener {
-            presenter.handleCaptureImageButton(extractImageNameExtra())
+            fotoapparat = Fotoapparat(
+                context = this@CaptureImageActivity,
+                view = cameraView,
+                cameraErrorCallback = { presenter.onCaptureError(it) }
+            )
+            zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView)
+
+            captureImageButton.setOnClickListener {
+                presenter.handleCaptureImageButton(extractImageNameExtra())
+            }
         }
     }
 
@@ -77,7 +82,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     }
 
     override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
-        capture_image_loading_modal.visibility = View.VISIBLE
+        binding.captureImageLoadingModal.visibility = View.VISIBLE
         val result = fotoapparat.takePicture()
         val dest = File(this.filesDir, "${imageName}.png")
         result.toBitmap().whenAvailable {
@@ -95,7 +100,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     override fun notifyImageCouldNotBeTaken() {
         val message = getString(R.string.image_could_not_be_taken)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        capture_image_loading_modal.visibility = View.GONE
+        binding.captureImageLoadingModal.visibility = View.GONE
     }
 
     override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String) {
@@ -109,6 +114,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
 
     override fun onRestart() {
         super.onRestart()
-        capture_image_loading_modal.visibility = View.GONE
+        binding.captureImageLoadingModal.visibility = View.GONE
     }
 }

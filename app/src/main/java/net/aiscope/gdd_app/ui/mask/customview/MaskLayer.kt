@@ -5,43 +5,20 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
+import android.graphics.PointF
 import android.os.Parcelable
 import android.util.Size
+import androidx.core.graphics.component1
+import androidx.core.graphics.component2
 import androidx.core.graphics.withMatrix
-import java.util.LinkedList
 
 @Suppress("TooManyFunctions")
 class MaskLayer(private val imageMatrix: Matrix) {
+
     companion object {
-        private const val ALPHA_OPAQUE = 0xFF
-        private const val MASK_PAINT_OPACITY = .8
         private const val PATH_STROKE_WIDTH = 80f
         private val BITMAP_TRANSFER_PAINT = Paint()
         private val EMPTY_MATRIX = Matrix()
-        val ERASER_XFER_MODE = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-
-        fun newDefaultPaintBrush(color: Int, strokeWidth: Float) = Paint().apply {
-            this.isAntiAlias = true
-            this.isDither = true
-            this.style = Paint.Style.STROKE
-            this.strokeJoin = Paint.Join.ROUND
-            this.strokeCap = Paint.Cap.ROUND
-            this.color = color
-            this.alpha = (ALPHA_OPAQUE * MASK_PAINT_OPACITY).toInt()
-            this.strokeWidth = strokeWidth
-        }
-
-        fun newDefaultPaintEraser(strokeWidth: Float) = Paint().apply {
-            this.xfermode = ERASER_XFER_MODE
-            this.isAntiAlias = true
-            this.isDither = true
-            this.style = Paint.Style.STROKE
-            this.strokeJoin = Paint.Join.ROUND
-            this.strokeCap = Paint.Cap.ROUND
-            this.strokeWidth = strokeWidth
-        }
     }
 
     enum class Mode {
@@ -81,7 +58,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
     //init independent fields
     private var paintBrushPendingRecreation = true
     private var paintEraserPendingRecreation = true
-    private val pathsAndPaints: MutableList<PathAndPaint> = LinkedList()
+    private val pathsAndPaints = mutableListOf<PathAndPaint>()
     private var undoPendingPaths = 0
     private var currentPath: PointToPointPath? = null
     private var currentMode: Mode = Mode.Draw
@@ -150,7 +127,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
         for (i in 0 until pathsAndPaints.size - undoPendingPaths) {
             val (path, paint) = pathsAndPaints[i]
             val paintReviewed =
-                if (removeAlpha) Paint(paint).apply { alpha = ALPHA_OPAQUE } else paint
+                if (removeAlpha) Paint(paint).apply { alpha = PaintFactory.ALPHA_OPAQUE } else paint
             path.draw(canvas, paintReviewed)
         }
         currentPath?.draw(canvas, currentPaint)
@@ -158,7 +135,8 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     private fun PointToPointPath.draw(canvas: Canvas, paint: Paint) {
         if (!hasMultiplePoints()) {
-            canvas.drawPoint(firstPoint.first, firstPoint.second, paint)
+            val (x, y) = firstPoint()
+            canvas.drawPoint(x, y, paint)
         } else {
             canvas.drawPath(this, paint)
         }
@@ -168,12 +146,12 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     private fun refreshPaintBrush() {
         currentPaintBrush =
-            newDefaultPaintBrush(currentBrushColor, calculateCurrentStrokeWidth())
+            PaintFactory.newDefaultPaintBrush(currentBrushColor, calculateCurrentStrokeWidth())
         paintBrushPendingRecreation = false
     }
 
     private fun refreshPaintEraser() {
-        currentPaintEraser = newDefaultPaintEraser(calculateCurrentStrokeWidth())
+        currentPaintEraser = PaintFactory.newDefaultPaintEraser(calculateCurrentStrokeWidth())
         paintEraserPendingRecreation = false
     }
 
@@ -211,7 +189,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     fun drawStart(x: Float, y: Float) {
         refreshPaints()
-        currentPath = PointToPointPath(x, y)
+        currentPath = PointToPointPath.createWithStartingPoint(PointF(x, y))
     }
 
     private fun refreshPaints() {
@@ -248,7 +226,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
     fun restoreInstanceState(savedState: Parcelable?) {
         if (savedState is MaskCustomViewBaseState) {
             undoPendingPaths = savedState.undoPendingPaths
-            pathsAndPaints.addAll(savedState.reassemblePathsPaintsAndStagesNames())
+            pathsAndPaints.addAll(savedState.pathsPaintsAndStagesNames)
             currentBrushColor = savedState.currentBrushColor
         }
     }
@@ -259,9 +237,4 @@ class MaskLayer(private val imageMatrix: Matrix) {
         }
         undoPendingPaths = 0
     }
-
-    data class PathAndPaint(
-        val path: PointToPointPath,
-        val paint: Paint
-    )
 }

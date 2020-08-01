@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.mask.MaskActivity">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/toolbar_layout"
+        layout="@layout/toolbar" />
 
     <net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
         android:id="@+id/photo_mask_view"
@@ -14,7 +16,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tools_panel"
         app:layout_constraintStart_toStartOf="parent" />

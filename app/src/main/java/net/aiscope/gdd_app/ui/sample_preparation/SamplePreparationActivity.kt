@@ -7,10 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_sample_preparation.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.databinding.ActivitySamplePreparationBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
@@ -35,39 +34,43 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     @Inject
     lateinit var presenter: SamplePreparationPresenter
 
+    private lateinit var binding: ActivitySamplePreparationBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sample_preparation)
+
+        binding = ActivitySamplePreparationBinding.inflate(layoutInflater)
+        with(binding) {
+            setContentView(root)
+
+            setSupportActionBar(toolbarLayout.toolbar)
+            attachCaptureFlowToolbar(toolbarLayout.toolbar)
+
+            samplePreparationContinueButton.setOnClickListener { save() }
+        }
 
         lifecycleScope.launch {
             presenter.showScreen()
         }
-
-        setSupportActionBar(toolbar)
-        attachCaptureFlowToolbar(toolbar)
-
-        sample_preparation_continue_button.setOnClickListener {
-            save()
-        }
     }
 
-    override fun fillForm(model: SamplePreparationViewStateModel?) {
+    override fun fillForm(model: SamplePreparationViewStateModel?) = with(binding) {
         val formData = model ?: defaultFormData
         with(formData) {
-            sample_preparation_water_type_spinner.select(waterType)
-            sample_preparation_giemsa_switch.isChecked = usesGiemsa
-            sample_preparation_giemsa_fp_switch.isChecked = giemsaFP
-            sample_preparation_pbs_switch.isChecked = usesPbs
-            sample_preparation_alcohol_switch.isChecked = usesAlcohol
-            sample_preparation_slides_reuse_switch.isChecked = reusesSlides
+            samplePreparationWaterTypeSpinner.select(waterType)
+            samplePreparationGiemsaSwitch.isChecked = usesGiemsa
+            samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
+            samplePreparationPbsSwitch.isChecked = usesPbs
+            samplePreparationAlcoholSwitch.isChecked = usesAlcohol
+            samplePreparationSlidesReuseSwitch.isChecked = reusesSlides
         }
     }
 
-    private fun validateForm(): Boolean {
-        val isWaterTypeValid = sample_preparation_water_type_spinner.selectedItem.toString() !=
+    private fun validateForm(): Boolean = with(binding) {
+        val isWaterTypeValid = samplePreparationWaterTypeSpinner.selectedItem.toString() !=
                 getString(R.string.spinner_empty_option)
-        sample_preparation_water_type_error.visibility =
+        samplePreparationWaterTypeError.visibility =
             if (isWaterTypeValid) View.GONE else View.VISIBLE
         return isWaterTypeValid
     }
@@ -75,14 +78,16 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     private fun save() {
         if (!validateForm()) return
         lifecycleScope.launch {
-            val viewModel = SamplePreparationViewStateModel(
-                sample_preparation_water_type_spinner.selectedItem.toString(),
-                sample_preparation_giemsa_switch.isChecked,
-                sample_preparation_giemsa_fp_switch.isChecked,
-                sample_preparation_pbs_switch.isChecked,
-                sample_preparation_alcohol_switch.isChecked,
-                sample_preparation_slides_reuse_switch.isChecked
-            )
+            val viewModel = with(binding) {
+                 SamplePreparationViewStateModel(
+                    samplePreparationWaterTypeSpinner.selectedItem.toString(),
+                    samplePreparationGiemsaSwitch.isChecked,
+                    samplePreparationGiemsaFpSwitch.isChecked,
+                    samplePreparationPbsSwitch.isChecked,
+                    samplePreparationAlcoholSwitch.isChecked,
+                    samplePreparationSlidesReuseSwitch.isChecked
+                )
+            }
             presenter.save(viewModel)
         }
     }

@@ -9,10 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_metadata.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.databinding.ActivityMetadataBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
@@ -34,28 +33,37 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
     private val imagesAdapter =
         SampleImagesAdapter(lifecycleScope, this::onAddImageClicked, this::onImageClicked)
 
+    private lateinit var binding: ActivityMetadataBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_metadata)
 
-        setSupportActionBar(toolbar)
-        attachCaptureFlowToolbar(toolbar)
+        binding = ActivityMetadataBinding.inflate(layoutInflater)
+        with(binding) {
+            setContentView(root)
+            setSupportActionBar(toolbarLayout.toolbar)
+            attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
-        metadata_blood_sample_images.apply {
-            setHasFixedSize(true)
-            layoutManager =
-                LinearLayoutManager(this@MetadataActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = imagesAdapter
-        }
+            metadataBloodSampleImages.apply {
+                setHasFixedSize(true)
+                layoutManager =
+                    LinearLayoutManager(
+                        this@MetadataActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                adapter = imagesAdapter
+            }
 
-        lifecycleScope.launch {
-            presenter.showScreen()
-        }
-
-        metadata_save_sample.setOnClickListener {
             lifecycleScope.launch {
-                save()
+                presenter.showScreen()
+            }
+
+            metadataSaveSample.setOnClickListener {
+                lifecycleScope.launch {
+                    save()
+                }
             }
         }
     }
@@ -63,8 +71,8 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
         imagesAdapter.setMasks(model.masks)
-        model.smearTypeId?.let { metadata_section_smear_type_radio_group.check(it) }
-        model.speciesValue?.let { metadata_species_spinner.select(it) }
+        model.smearTypeId?.let { binding.metadataSectionSmearTypeRadioGroup.check(it) }
+        model.speciesValue?.let { binding.metadataSpeciesSpinner.select(it) }
     }
 
     override fun showInvalidFormError() {
@@ -112,8 +120,8 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
     private fun save() {
         lifecycleScope.launch {
             presenter.save(
-                metadata_section_smear_type_radio_group.checkedRadioButtonId,
-                metadata_species_spinner.selectedItem.toString()
+                binding.metadataSectionSmearTypeRadioGroup.checkedRadioButtonId,
+                binding.metadataSpeciesSpinner.selectedItem.toString()
             )
         }
     }
