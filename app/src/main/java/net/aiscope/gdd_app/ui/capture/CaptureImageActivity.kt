@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCaptureImageBinding
 import net.aiscope.gdd_app.extensions.rotate
-import net.aiscope.gdd_app.extensions.writeToFileAsync
+import net.aiscope.gdd_app.extensions.writeToJpgFileAsync
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.mask.MaskActivity
@@ -84,13 +84,13 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
         binding.captureImageLoadingModal.visibility = View.VISIBLE
         val result = fotoapparat.takePicture()
-        val dest = File(this.filesDir, "${imageName}.png")
+        val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
             it?.let {
                 val degrees = (-it.rotationDegrees) % THREE_SIXTY_DEGREES
                 lifecycleScope.launch {
                     val bmp = it.bitmap.rotate(degrees.toFloat())
-                    bmp.writeToFileAsync(dest)
+                    bmp.writeToJpgFileAsync(dest)
                     onPhotoReceived(dest)
                 }
             } ?: notifyImageCouldNotBeTaken()

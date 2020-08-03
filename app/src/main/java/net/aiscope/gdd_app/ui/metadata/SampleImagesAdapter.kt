@@ -13,7 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.extensions.writeToJpgFile
 import java.io.File
 
 class SampleImagesAdapter(
@@ -128,7 +128,7 @@ suspend fun decodeSampledBitmapFromResource(
 
         val bitmap = BitmapFactory.decodeFile(image.absolutePath, this)
 
-        bitmap.writeToFile(cachedImage)
+        bitmap.writeToJpgFile(cachedImage)
 
         bitmap
     }
