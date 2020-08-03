@@ -128,7 +128,7 @@ suspend fun decodeSampledBitmapFromResource(
 
         val bitmap = BitmapFactory.decodeFile(image.absolutePath, this)
 
-        bitmap.writeToFile(cachedImage)
+        bitmap.writeToFile(cachedImage, Bitmap.CompressFormat.JPEG)
 
         bitmap
     }

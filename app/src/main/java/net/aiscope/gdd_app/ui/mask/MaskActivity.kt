@@ -103,7 +103,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         val bmp = binding.photoMaskView.getMaskBitmap()
         lifecycleScope.launch {
             val dest = File(this@MaskActivity.filesDir, "${maskName}.png")
-            bmp.writeToFile(dest)
+            bmp.writeToFile(dest, Bitmap.CompressFormat.PNG)
 
             onPhotoReceived(dest)
         }

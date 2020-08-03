@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.ui.capture
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -84,13 +85,13 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
         binding.captureImageLoadingModal.visibility = View.VISIBLE
         val result = fotoapparat.takePicture()
-        val dest = File(this.filesDir, "${imageName}.png")
+        val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
             it?.let {
                 val degrees = (-it.rotationDegrees) % THREE_SIXTY_DEGREES
                 lifecycleScope.launch {
                     val bmp = it.bitmap.rotate(degrees.toFloat())
-                    bmp.writeToFileAsync(dest)
+                    bmp.writeToFileAsync(dest, Bitmap.CompressFormat.JPEG)
                     onPhotoReceived(dest)
                 }
             } ?: notifyImageCouldNotBeTaken()

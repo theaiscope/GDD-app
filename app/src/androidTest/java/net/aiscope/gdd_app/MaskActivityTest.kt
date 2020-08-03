@@ -37,10 +37,10 @@ class MaskActivityTest {
     private val activityTestRule = ActivityTestRule(MaskActivity::class.java, true, false)
 
     private fun startActivity() {
-        val tempFile = File.createTempFile("img", ".png")
+        val tempFile = File.createTempFile("img", ".jpg")
         val outputStream = tempFile.outputStream()
         val applicationContext = getInstrumentation().targetContext.applicationContext
-        getAssetStream(applicationContext, "photo.png").copyTo(outputStream)
+        getAssetStream(applicationContext, "photo.jpg").copyTo(outputStream)
 
         activityTestRule.launchActivity(
             Intent(Intent.ACTION_MAIN)

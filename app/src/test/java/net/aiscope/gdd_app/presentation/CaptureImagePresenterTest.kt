@@ -26,7 +26,7 @@ class CaptureImagePresenterTest {
         val view: CaptureImageView = mock()
         val repository: SampleRepository = mock()
         val sample = Sample("an id", "a facility", "a microscopist", "a disease")
-        val file = File.createTempFile("temp", ".png")
+        val file = File.createTempFile("temp", ".jpg")
 
         whenever(repository.current()).thenReturn(sample)
 

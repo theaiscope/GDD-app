@@ -9,13 +9,13 @@ import java.io.FileOutputStream
 
 const val MAX_QUALITY = 100
 
-fun Bitmap.writeToFile(file: File) {
+fun Bitmap.writeToFile(file: File, format: Bitmap.CompressFormat) {
     val out = FileOutputStream(file)
-    this.compress(Bitmap.CompressFormat.PNG, MAX_QUALITY, out)
+    this.compress(format, MAX_QUALITY, out)
 }
 
-suspend fun Bitmap.writeToFileAsync(file: File) = withContext(Dispatchers.IO) {
-    writeToFile(file)
+suspend fun Bitmap.writeToFileAsync(file: File, format: Bitmap.CompressFormat) = withContext(Dispatchers.IO) {
+    writeToFile(file, format)
 }
 
 suspend fun Bitmap.rotate(degrees: Float): Bitmap = withContext(Dispatchers.Default) {
