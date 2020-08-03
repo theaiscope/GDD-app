@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityMaskBinding
-import net.aiscope.gdd_app.extensions.writeToPngFile
+import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
@@ -103,7 +103,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         val bmp = binding.photoMaskView.getMaskBitmap()
         lifecycleScope.launch {
             val dest = File(this@MaskActivity.filesDir, "${maskName}.png")
-            bmp.writeToPngFile(dest)
+            bmp.writeToFile(dest, Bitmap.CompressFormat.PNG)
 
             onPhotoReceived(dest)
         }
