@@ -13,15 +13,20 @@
         android:id="@+id/toolbar_layout"
         layout="@layout/toolbar" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:padding="16dp"
-        android:layout_height="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_weight="1"
+        android:layout_height="0dp"
+        android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
         <TextView
             android:id="@+id/sample_preparation_water_type_title"
             style="@style/TextView.SectionTitle"
+            android:layout_marginStart="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sample_preparation_water_type_title"
@@ -33,6 +38,7 @@
         <Spinner
             android:id="@+id/sample_preparation_water_type_spinner"
             style="@style/App.Widget.Spinner"
+            android:layout_marginStart="16dp"
             android:layout_width="164dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -42,6 +48,7 @@
 
         <TextView
             android:id="@+id/sample_preparation_water_type_error"
+            android:layout_marginStart="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mandatory_field_error"
@@ -52,6 +59,7 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sample_preparation_giemsa_switch"
+            android:layout_marginStart="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_preparation_giemsa_title"
@@ -59,6 +67,7 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sample_preparation_giemsa_fp_switch"
+            android:layout_marginStart="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_preparation_giemsa_fp_title"
@@ -66,6 +75,7 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sample_preparation_pbs_switch"
+            android:layout_marginStart="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_preparation_pbs_title"
@@ -73,6 +83,7 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sample_preparation_alcohol_switch"
+            android:layout_marginStart="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_preparation_alcohol_title"
@@ -80,18 +91,25 @@
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/sample_preparation_slides_reuse_switch"
+            android:layout_marginStart="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sample_preparation_slides_reuse_title"
             app:layout_constraintTop_toBottomOf="@id/sample_preparation_alcohol_switch" />
 
+        <Button
+            android:id="@+id/sample_preparation_continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/sample_preparation_continue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_slides_reuse_switch" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/sample_preparation_continue_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/sample_preparation_continue" />
+    </ScrollView>
+
 
 </LinearLayout>
