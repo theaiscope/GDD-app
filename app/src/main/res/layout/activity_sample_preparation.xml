@@ -90,15 +90,17 @@
             android:text="@string/sample_preparation_slides_reuse_title"
             app:layout_constraintTop_toBottomOf="@id/sample_preparation_alcohol_switch" />
 
+        <Button
+            android:id="@+id/sample_preparation_continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/sample_preparation_continue"
+            app:layout_constraintTop_toBottomOf="@id/sample_preparation_slides_reuse_switch" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/sample_preparation_continue_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/sample_preparation_continue" />
 
 </LinearLayout>
