@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/sample_preparation_water_type_title"
-                style="@style/TextView.SectionTitle"
+                style="@style/TextAppearance.AiScope.TextView.SectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sample_preparation_water_type_title"
@@ -50,7 +50,6 @@
 
             <Spinner
                 android:id="@+id/sample_preparation_water_type_spinner"
-                style="@style/App.Widget.Spinner"
                 android:layout_width="164dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
