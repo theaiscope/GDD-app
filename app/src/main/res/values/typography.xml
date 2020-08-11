@@ -10,7 +10,6 @@
         <item name="android:lineSpacingMultiplier">1.43</item>
     </style>
 
-
     <style name="TextAppearance.AiScope.RadioButton" parent="TextAppearance.AiScope.TextView.SectionTitle">
         <item name="android:textColor">@color/selector_radio_button_text_color</item>
         <item name="android:textColorSecondary">#61ffffff</item>
