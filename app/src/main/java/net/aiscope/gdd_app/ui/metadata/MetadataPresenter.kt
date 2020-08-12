@@ -55,7 +55,7 @@ class MetadataPresenter @Inject constructor(
         view.showInvalidFormError()
     }
 
-    suspend fun save(smearTypeId: Int, speciesValue: String, comments: String?) {
+    suspend fun save(smearTypeId: Int, speciesValue: String, comments: String) {
         try {
             val sample = repository.current()
                 .copy(metadata = SampleMetadata(

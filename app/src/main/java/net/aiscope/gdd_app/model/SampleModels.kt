@@ -59,7 +59,7 @@ data class MicroscopeQuality(
 data class SampleMetadata(
     val smearType: SmearType = SmearType.THIN,
     val species: MalariaSpecies = MalariaSpecies.P_FALCIPARUM,
-    val comments: String? = null
+    val comments: String = ""
 )
 
 @Suppress("MagicNumber") // these are IDs
