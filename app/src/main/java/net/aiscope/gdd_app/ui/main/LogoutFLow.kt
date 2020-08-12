@@ -13,7 +13,7 @@ interface LogoutFLow {
 }
 
 fun <T> T. showLogoutDialog(itemView: View) where T : AppCompatActivity, T : LogoutFLow {
-    val context = ContextThemeWrapper(this, R.style.PopupLogoutMenu)
+    val context = ContextThemeWrapper(this, R.style.ThemeOverlay_AiScope_PopupMenu)
     val popup = PopupMenu(context, itemView)
     val inflater: MenuInflater = popup.menuInflater
     inflater.inflate(R.menu.menu_options, popup.menu)
@@ -30,7 +30,7 @@ fun <T> T. showLogoutDialog(itemView: View) where T : AppCompatActivity, T : Log
 }
 
 fun <T> T.showLogoutDialog() where T : AppCompatActivity, T : LogoutFLow {
-    with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
+    with(AlertDialog.Builder(this, R.style.Theme_AiScope_Dialog)) {
         setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
             logoutAction()
         }

@@ -8,10 +8,8 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/AppTheme.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:contentInsetStart="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +57,7 @@
 
     <Button
         android:id="@+id/agree_button"
-        style="@style/AppTheme.Button"
+        style="@style/Widget.AiScope.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
@@ -70,7 +68,7 @@
 
     <Button
         android:id="@+id/cancel_button"
-        style="@style/AppTheme.Button.Borderless"
+        style="@style/Widget.AiScope.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"

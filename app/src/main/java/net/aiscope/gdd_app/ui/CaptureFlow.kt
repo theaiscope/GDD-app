@@ -17,7 +17,7 @@ fun <T> T.attachCaptureFlowToolbar(toolbar: androidx.appcompat.widget.Toolbar)
 }
 
 fun <T> T.showConfirmExitDialog() where T : AppCompatActivity, T : CaptureFlow {
-    with(AlertDialog.Builder(this, R.style.AppTheme_Dialog)) {
+    with(AlertDialog.Builder(this, R.style.Theme_AiScope_Dialog)) {
         setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
             goToHome()
         }
