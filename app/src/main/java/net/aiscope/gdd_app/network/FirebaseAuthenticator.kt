@@ -33,7 +33,7 @@ class FirebaseAuthenticator @Inject constructor(
                         AuthUI.IdpConfig.EmailBuilder().setAllowNewAccounts(false).build()
                     )
                 )
-                .setTheme(R.style.AppTheme)
+                .setTheme(R.style.Theme_AiScope)
                 .build()
         )
     }

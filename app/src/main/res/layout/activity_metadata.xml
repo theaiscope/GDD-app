@@ -27,7 +27,7 @@
 
         <TextView
                 android:id="@+id/metadata_section_blood_sample"
-                style="@style/TextView.SectionTitle"
+                style="@style/TextAppearance.AiScope.TextView.SectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -73,7 +73,7 @@
 
             <TextView
                 android:id="@+id/metadata_section_smear_type"
-                style="@style/TextView.SectionTitle"
+                style="@style/TextAppearance.AiScope.TextView.SectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -99,7 +99,7 @@
 
                 <RadioButton
                     android:id="@+id/metadata_blood_smear_thick"
-                    style="@style/RadioButtonText"
+                    style="@style/TextAppearance.AiScope.RadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -108,7 +108,7 @@
 
                 <RadioButton
                     android:id="@+id/metadata_blood_smear_thin"
-                    style="@style/RadioButtonText"
+                    style="@style/TextAppearance.AiScope.RadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/metadata_blood_smear_thin" />
@@ -131,7 +131,7 @@
 
             <TextView
                 android:id="@+id/metadata_species_title"
-                style="@style/TextView.SectionTitle"
+                style="@style/TextAppearance.AiScope.TextView.SectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -146,7 +146,6 @@
 
             <Spinner
                 android:id="@+id/metadata_species_spinner"
-                style="@style/App.Widget.Spinner"
                 android:layout_width="164dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

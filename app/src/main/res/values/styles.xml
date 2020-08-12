@@ -1,45 +1,17 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorButtonNormal">@color/colorPrimary</item>
-        <item name="android:colorAccent">@color/colorPrimary</item>
-        <item name="android:windowBackground">@color/colorPrimaryDark</item>
 
-        <item name="android:editTextColor">@color/colorPlainText</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/colorPlainText</item>
-
-        <item name="android:textViewStyle">@style/TextView</item>
-        <item name="buttonStyle">@style/AppTheme.Button</item>
-        <item name="spinnerStyle">@style/AppTheme.Spinner</item>
-        <item name="android:spinnerItemStyle">@style/AppTheme.DropDownItem.Spinner</item>
-        <item name="spinnerDropDownItemStyle">@style/AppTheme.DropDownItem.Spinner</item>
-        <item name="colorControlNormal">@color/colorControlNormal</item>
-        <item name="android:textColorHint">@color/colorPlainText</item>
-
-        <item name="android:listPopupWindowStyle">@style/ListPopupWindow</item>
-        <item name="switchStyle">@style/Switch</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+    <style name="Widget.AiScope.CompoundButton.Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
         <item name="android:textColor">@color/colorPlainText</item>
         <item name="android:textSize">20sp</item>
         <item name="android:paddingTop">24dp</item>
         <item name="android:paddingBottom">24dp</item>
     </style>
 
-    <style name="ListPopupWindow" parent="@style/Widget.AppCompat.ListPopupWindow">
+    <style name="Widget.AiScope.ListPopupWindow" parent="@style/Widget.AppCompat.ListPopupWindow">
         <item name="android:popupBackground">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
+    <style name="Widget.AiScope.Button" parent="Widget.AppCompat.Button">
         <item name="android:fontFamily">roboto</item>
         <item name="android:minHeight">56dp</item> <!-- 48 + 4 + 4 -->
         <item name="android:backgroundTint">@color/colorPrimary</item>
@@ -48,74 +20,32 @@
         <item name="android:drawableTint">@color/colorButtonAboveText</item>
     </style>
 
-    <style name="AppTheme.Button.Borderless" parent="Widget.AppCompat.Button.Borderless">
+    <style name="Widget.AiScope.Button.Borderless" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:fontFamily">roboto</item>
         <item name="android:textColor">@color/colorPlainText</item>
         <item name="android:minHeight">56dp</item> <!-- 48 + 4 + 4 -->
         <item name="android:backgroundTint">@color/colorPrimary</item>
     </style>
 
-    <style name="TextView">
-        <item name="android:fontFamily">roboto</item>
-    </style>
-
-    <style name="TextView.SectionTitle">
-        <item name="android:textColor">@color/colorTextSubtitle</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:lineSpacingMultiplier">1.43</item>
-    </style>
-
-    <style name="AppTheme.Spinner" parent="Widget.AppCompat.Spinner">
+    <style name="Widget.AiScope.Spinner" parent="Widget.AppCompat.Spinner">
         <item name="android:padding">12dp</item>
         <item name="android:background">@drawable/spinner_background</item>
         <item name="android:popupBackground">@color/colorSpinnerPopupBackground</item>
         <item name="android:colorAccent">@color/colorPlainText</item>
         <item name="android:textColor">@color/colorPlainText</item>
         <item name="android:textColorPrimary">@color/colorPlainText</item>
-        <item name="android:textAppearance">@style/TextView.SectionTitle</item>
+        <item name="android:textAppearance">@style/TextAppearance.AiScope.TextView.SectionTitle</item>
     </style>
 
-    <style name="App.Widget.Spinner" parent="AppTheme">
-        <item name="android:textColor">@color/colorPlainText</item>
-        <item name="android:spinnerMode">dropdown</item>
-    </style>
-
-    <style name="AppTheme.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
+    <style name="Widget.AiScope.DropDownItem.Spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:textColor">@color/colorPlainText</item>
     </style>
 
-    <style name="RadioButtonText" parent="TextView.SectionTitle">
-        <item name="android:textColor">@color/selector_radio_button_text_color</item>
-        <item name="android:textColorSecondary">#61ffffff</item>
-        <item name="colorControlNormal">#61ffffff</item>
-    </style>
-
-    <style name="AppTheme.Toolbar" parent="Widget.AppCompat.ActionBar">
+    <style name="Widget.AiScope.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="contentInsetStart">@dimen/nine_grid_unit</item>
         <item name="android:elevation">@dimen/one_grid_unit</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
-
-    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Dialog.Alert">
-        <!-- Used for the buttons -->
-        <item name="colorAccent">@color/colorPrimary</item>
-        <!-- Used for the title and text -->
-        <item name="android:textColorPrimary">@color/colorPlainText</item>
-        <item name="title">@color/colorPlainText</item>
-        <!-- Used for the background -->
-        <item name="android:background">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="SplashScreenTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_screen_background</item>
-    </style>
-
-    <style name="PopupLogoutMenu">
-        <item name="android:itemBackground">@color/colorPrimaryDark</item>
-        <item name="android:textColor">@color/colorPlainText</item>
-    </style>
-
-
 
 </resources>
