@@ -21,6 +21,7 @@ import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
+import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import java.io.File
 import javax.inject.Inject
 
@@ -145,6 +146,10 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         currentBrushColor = savedInstanceState.getInt("currentBrushColor")
         binding.undoBtn.visibility = savedInstanceState.getInt("undo_btn-visibility", View.INVISIBLE)
         binding.redoBtn.visibility = savedInstanceState.getInt("redo_btn-visibility", View.INVISIBLE)
+    }
+
+    override fun onBackPressed() {
+        showConfirmBackDialog()
     }
 
     private fun setBrushColor(color: Int) {

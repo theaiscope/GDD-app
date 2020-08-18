@@ -30,6 +30,20 @@ fun <T> T.showConfirmExitDialog() where T : AppCompatActivity, T : CaptureFlow {
     }.show()
 }
 
+fun <T> T.showConfirmBackDialog() where T : AppCompatActivity, T : CaptureFlow {
+    with(AlertDialog.Builder(this, R.style.Theme_AiScope_Dialog)) {
+        setPositiveButton(R.string.capture_flow_exit_dialog_exit) { _, _ ->
+            finish()
+        }
+        setNegativeButton(R.string.capture_flow_exit_dialog_stay) { _, _ ->
+            // do nothing
+        }
+        setMessage(getString(R.string.capture_flow_exit_dialog_back_message))
+        setTitle(getText(R.string.capture_flow_exit_dialog_title))
+        create()
+    }.show()
+}
+
 fun <T> T.goToHomeAndConfirmSaved() where T : AppCompatActivity, T : CaptureFlow {
     val intent = Intent(this, MainActivity::class.java)
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
