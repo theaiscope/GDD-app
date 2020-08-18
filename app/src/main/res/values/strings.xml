@@ -62,6 +62,7 @@
     <string name="metadata_invalid_form">Not all required fields are filled</string>
     <string name="capture_flow_exit_dialog_title"><font color="#ffffffff">Warning</font></string>
     <string name="capture_flow_exit_dialog_message">Are you sure you want to exit? Your sample data will be lost.</string>
+    <string name="capture_flow_exit_dialog_back_message">Are you sure you want to go back to the previous step? Your image data will be lost.</string>
     <string name="capture_flow_exit_dialog_stay">No, stay</string>
     <string name="capture_flow_exit_dialog_exit">Yes, exit</string>
     <string name="metadata_species_title">Species</string>
