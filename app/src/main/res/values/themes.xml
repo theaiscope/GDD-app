@@ -1,0 +1,49 @@
+<resources>
+
+    <style name="Theme.AiScope" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="toolbarStyle">@style/Widget.AiScope.Toolbar</item>
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+
+        <item name="android:editTextColor">@color/colorPlainText</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPlainText</item>
+
+        <item name="android:textViewStyle">@style/TextAppearance.AiScope.TextView</item>
+        <item name="buttonStyle">@style/Widget.AiScope.Button</item>
+        <item name="spinnerStyle">@style/Widget.AiScope.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Widget.AiScope.DropDownItem.Spinner</item>
+        <item name="spinnerDropDownItemStyle">@style/Widget.AiScope.DropDownItem.Spinner</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="android:textColorHint">@color/colorPlainText</item>
+
+        <item name="android:listPopupWindowStyle">@style/Widget.AiScope.ListPopupWindow</item>
+        <item name="switchStyle">@style/Widget.AiScope.CompoundButton.Switch</item>
+    </style>
+
+    <style name="Theme.AiScope.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AiScope.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPlainText</item>
+        <item name="title">@color/colorPlainText</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="Theme.AiScope.SplashScreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+    </style>
+
+    <style name="ThemeOverlay.AiScope.PopupMenu" parent="">
+        <item name="android:itemBackground">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPlainText</item>
+    </style>
+
+</resources>
