@@ -88,11 +88,12 @@ class MetadataPresenterTest {
     fun shouldStoreMetadata() = coroutinesTestRule.runBlockingTest {
         whenever(repository.store(any())).then{i -> i.arguments[0]}
 
+        val comments = "some-comment"
         val expected = SampleMetadata(
-            SmearType.THICK, MalariaSpecies.P_VIVAX
+            SmearType.THICK, MalariaSpecies.P_VIVAX, comments
         )
 
-        subject.save(R.id.metadata_blood_smear_thick, "P. vivax")
+        subject.save(R.id.metadata_blood_smear_thick, "P. vivax", comments)
 
         verify(remote).enqueue(check {
             assertEquals(it.metadata, expected)

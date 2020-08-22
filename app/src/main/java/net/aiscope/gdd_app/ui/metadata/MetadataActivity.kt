@@ -121,7 +121,8 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         lifecycleScope.launch {
             presenter.save(
                 binding.metadataSectionSmearTypeRadioGroup.checkedRadioButtonId,
-                binding.metadataSpeciesSpinner.selectedItem.toString()
+                binding.metadataSpeciesSpinner.selectedItem.toString(),
+                binding.metadataCommentsInput.text.toString()
             )
         }
     }

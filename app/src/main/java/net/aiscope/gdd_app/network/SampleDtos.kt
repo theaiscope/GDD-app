@@ -41,7 +41,8 @@ data class MicroscopeQualityDto(
 
 data class SampleMetadataDto(
     @SerializedName("bloodType") val bloodType: Int,
-    @SerializedName("species") val species: Int
+    @SerializedName("species") val species: Int,
+    @SerializedName("comments") val comments: String
 )
 
 fun Sample.toDto() = SampleDto(
@@ -72,4 +73,4 @@ fun MicroscopeQuality.toDto() = MicroscopeQualityDto(
     magnification
 )
 
-fun SampleMetadata.toDto() = SampleMetadataDto(smearType.id, species.id)
+fun SampleMetadata.toDto() = SampleMetadataDto(smearType.id, species.id, comments)

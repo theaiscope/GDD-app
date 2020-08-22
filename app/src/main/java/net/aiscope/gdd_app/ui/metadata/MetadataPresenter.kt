@@ -17,7 +17,8 @@ data class ViewStateModel(
     val options: List<FieldOption>,
     val required: Boolean = true,
     val smearTypeId: Int? = null,
-    val speciesValue: String? = null
+    val speciesValue: String? = null,
+    val comments: String? = null
 )
 
 class MetadataPresenter @Inject constructor(
@@ -44,7 +45,8 @@ class MetadataPresenter @Inject constructor(
                 sample.masks.toList(),
                 emptyList(),
                 smearTypeId = lastMetadata?.let { metadataMapper.getSmearTypeId(it.smearType) },
-                speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) }
+                speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) },
+                comments = lastMetadata?.comments
             )
         )
     }
@@ -53,12 +55,13 @@ class MetadataPresenter @Inject constructor(
         view.showInvalidFormError()
     }
 
-    suspend fun save(smearTypeId: Int, speciesValue: String) {
+    suspend fun save(smearTypeId: Int, speciesValue: String, comments: String) {
         try {
             val sample = repository.current()
                 .copy(metadata = SampleMetadata(
                     metadataMapper.getSmearType(smearTypeId),
-                    metadataMapper.getSpecies(context, speciesValue)
+                    metadataMapper.getSpecies(context, speciesValue),
+                    comments
                 ), status = SampleStatus.ReadyToUpload
                 )
             val storedSample = repository.store(sample)
