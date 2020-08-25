@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.ui.util.BitmapReader
 import java.io.File
 
 class SampleImagesAdapter(
@@ -38,7 +39,7 @@ class SampleImagesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AddImageViewHolder -> {}
-            is ImageViewHolder -> holder.bind(images[position - 1], masks[position - 1])
+            is ImageViewHolder -> holder.bind(images[position - 1], masks[position - 1], holder.itemView.context.cacheDir)
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -86,73 +87,43 @@ private class ImageViewHolder(
         itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
     }
 
-    fun bind(image: File, mask: File) {
+    fun bind(image: File, mask: File, cacheDir: File) {
         imageFile = image
         maskFile = mask
 
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
             (itemView as ImageView).setImageBitmap(null)
-            val bitmap = decodeSampledBitmapFromResource(
+            val bitmap = decodeSampledBitmapAndCache(
                 image,
                 itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
-                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height)
+                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
+                itemView.context.cacheDir
             )
             itemView.setImageBitmap(bitmap)
         }
     }
 }
 
-suspend fun decodeSampledBitmapFromResource(
+suspend fun decodeSampledBitmapAndCache(
     image: File,
     reqWidth: Int,
-    reqHeight: Int
+    reqHeight: Int,
+    cacheDir: File
 ): Bitmap = withContext(Dispatchers.IO) {
     val cachedImage = File(
-        image.parent,
+        cacheDir,
         "${image.nameWithoutExtension}_${reqWidth}x${reqHeight}.${image.extension}"
     )
     if (cachedImage.exists()) {
         return@withContext BitmapFactory.decodeFile(cachedImage.absolutePath)
     }
-    // First decode with inJustDecodeBounds=true to check dimensions
-    BitmapFactory.Options().run {
-        inJustDecodeBounds = true
-        BitmapFactory.decodeFile(image.absolutePath, this)
+    val bitmap = BitmapReader.decodeSampledBitmapFromResource(image, reqWidth, reqHeight, false)
 
-        // Calculate inSampleSize
-        inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+    //Write to cache for future access
+    bitmap.writeToFile(cachedImage, Bitmap.CompressFormat.JPEG)
 
-        // Decode bitmap with inSampleSize set
-        inJustDecodeBounds = false
-
-        val bitmap = BitmapFactory.decodeFile(image.absolutePath, this)
-
-        bitmap.writeToFile(cachedImage, Bitmap.CompressFormat.JPEG)
-
-        bitmap
-    }
+    bitmap
 }
 
-suspend fun calculateInSampleSize(
-    options: BitmapFactory.Options,
-    reqWidth: Int,
-    reqHeight: Int
-): Int = withContext(Dispatchers.Default) {
-    // Raw height and width of image
-    val (height: Int, width: Int) = options.run { outHeight to outWidth }
-    var inSampleSize = 1
 
-    if (height > reqHeight || width > reqWidth) {
-
-        val halfHeight: Int = height / 2
-        val halfWidth: Int = width / 2
-
-        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-        // height and width larger than the requested height and width.
-        while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
-            inSampleSize *= 2
-        }
-    }
-    return@withContext inSampleSize
-}
