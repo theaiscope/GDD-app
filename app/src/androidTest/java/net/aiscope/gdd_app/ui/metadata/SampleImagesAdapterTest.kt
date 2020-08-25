@@ -40,6 +40,8 @@ class SampleImagesAdapterTest {
         assertTrue(cachedFiles.any { file -> file.name.equals("test_20x20.bmp", true) })
         assertTrue(b.height < 50)
         assertTrue(b.width < 50)
+        assertTrue(b.height > 20)
+        assertTrue(b.width > 20)
     }
 
     @Test
