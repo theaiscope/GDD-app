@@ -24,6 +24,8 @@ import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
+import net.aiscope.gdd_app.ui.util.DownSamplingRequest
+import net.aiscope.gdd_app.ui.util.MaximumSizeDownSampling
 import java.io.File
 import javax.inject.Inject
 
@@ -189,6 +191,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         val maxWidth = canvas.maximumBitmapWidth
         val maxHeight = canvas.maximumBitmapHeight
 
-        BitmapReader.decodeSampledBitmapToMaximum(File(filepath), maxWidth, maxHeight, mutable)
+
+        BitmapReader.decodeSampledBitmapFromResource(File(filepath), mutable, MaximumSizeDownSampling(maxWidth, maxHeight))
     }
 }

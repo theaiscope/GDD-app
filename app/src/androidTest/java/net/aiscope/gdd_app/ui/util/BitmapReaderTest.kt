@@ -3,6 +3,7 @@ package net.aiscope.gdd_app.ui.util
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +31,7 @@ class BitmapReaderTest {
     @Test
     fun shouldReduceToRequestedSize() {
         val b = runBlocking {
-                BitmapReader.decodeSampledBitmapFromResource(targetFile, 20, 20, true)
+                BitmapReader.decodeSampledBitmapFromResource(targetFile, false, MinimumSizeDownSampling(20, 20))
         }
 
         //So the determining the sample size happens in a way that leaves both height and width BIGGER than the
@@ -39,17 +40,19 @@ class BitmapReaderTest {
         assertTrue(b.width < 50)
         assertTrue(b.height > 20)
         assertTrue(b.width > 20)
+        assertFalse(b.isMutable)
     }
 
     @Test
     fun shouldReduceToMaximumSize() {
         val b = runBlocking {
-            BitmapReader.decodeSampledBitmapToMaximum(targetFile, 50, 50, true)
+            BitmapReader.decodeSampledBitmapFromResource(targetFile, true, MaximumSizeDownSampling(50, 50))
         }
 
         //So here we want the dimensions to be smaller than the requested size
         assertTrue(b.height < 50)
         assertTrue(b.width < 50)
+        assertTrue(b.isMutable)
     }
 
     private fun InputStream.toFile(file: File) {

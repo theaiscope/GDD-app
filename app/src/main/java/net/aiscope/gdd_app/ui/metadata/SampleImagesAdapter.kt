@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.util.BitmapReader
+import net.aiscope.gdd_app.ui.util.MinimumSizeDownSampling
 import java.io.File
 
 class SampleImagesAdapter(
@@ -119,7 +120,11 @@ suspend fun decodeSampledBitmapAndCache(
     if (cachedImage.exists()) {
         return@withContext BitmapFactory.decodeFile(cachedImage.absolutePath)
     }
-    val bitmap = BitmapReader.decodeSampledBitmapFromResource(image, reqWidth, reqHeight, false)
+    val bitmap = BitmapReader.decodeSampledBitmapFromResource(
+        image,
+        false,
+        MinimumSizeDownSampling(reqWidth, reqHeight)
+    )
 
     //Write to cache for future access
     bitmap.writeToFile(cachedImage, Bitmap.CompressFormat.JPEG)
