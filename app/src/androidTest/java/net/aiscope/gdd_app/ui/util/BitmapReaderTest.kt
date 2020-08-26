@@ -34,7 +34,7 @@ class BitmapReaderTest {
                 BitmapReader.decodeSampledBitmapFromResource(targetFile, false, MinimumSizeDownSampling(20, 20))
         }
 
-        //So the determining the sample size happens in a way that leaves both height and width BIGGER than the
+        //Determining the sample size happens in a way that leaves both height and width BIGGER than the
         //requested size...
         assertTrue(b.height < 50)
         assertTrue(b.width < 50)
@@ -49,7 +49,7 @@ class BitmapReaderTest {
             BitmapReader.decodeSampledBitmapFromResource(targetFile, true, MaximumSizeDownSampling(50, 50))
         }
 
-        //So here we want the dimensions to be smaller than the requested size
+        //Here we want the dimensions to be smaller than the requested size
         assertTrue(b.height < 50)
         assertTrue(b.width < 50)
         assertTrue(b.isMutable)
