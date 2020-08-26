@@ -192,6 +192,10 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         val maxHeight = canvas.maximumBitmapHeight
 
 
-        BitmapReader.decodeSampledBitmapFromResource(File(filepath), mutable, MaximumSizeDownSampling(maxWidth, maxHeight))
+        BitmapReader.decodeSampledBitmapFromResource(
+            File(filepath),
+            mutable,
+            MaximumSizeDownSampling(maxWidth, maxHeight)
+        )
     }
 }
