@@ -54,7 +54,7 @@ suspend fun calculateInSampleSize(
             is MaximumSizeDownSampling -> {
                 // Calculate the largest inSampleSize value that is a power of 2 and keeps both
                 // height and width SMALLER than the maximum height and width.
-                while (halfHeight / inSampleSize >= downSamplingRequest.height || halfWidth / inSampleSize >= downSamplingRequest.width) {
+                while (halfHeight / inSampleSize > downSamplingRequest.height || halfWidth / inSampleSize > downSamplingRequest.width) {
                     inSampleSize *= 2
                 }
                 //And once more so we end up beneath the maximum
