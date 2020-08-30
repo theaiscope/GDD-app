@@ -41,7 +41,7 @@ class SampleImagesAdapter(
         when (holder) {
             is AddImageViewHolder -> {}
             is ImageViewHolder ->
-                holder.bind(images[position - 1], masks[position - 1], holder.itemView.context.cacheDir)
+                holder.bind(images[position - 1], masks[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -89,7 +89,7 @@ private class ImageViewHolder(
         itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
     }
 
-    fun bind(image: File, mask: File, cacheDir: File) {
+    fun bind(image: File, mask: File) {
         imageFile = image
         maskFile = mask
 
