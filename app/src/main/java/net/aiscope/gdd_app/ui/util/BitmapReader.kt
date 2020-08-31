@@ -10,8 +10,8 @@ import java.io.File
 object BitmapReader {
     suspend fun decodeSampledBitmapFromResource(
         image: File,
-        mutable: Boolean,
-        request: DownSamplingRequest
+        request: DownSamplingRequest,
+        mutable: Boolean
     ): Bitmap = BitmapFactory.Options().run {
         // First decode with inJustDecodeBounds=true to check dimensions
         inJustDecodeBounds = true
@@ -46,8 +46,8 @@ object BitmapReader {
         }
         val bitmap = BitmapReader.decodeSampledBitmapFromResource(
             image,
-            false,
-            MinimumSizeDownSampling(reqWidth, reqHeight)
+            MinimumSizeDownSampling(reqWidth, reqHeight),
+            mutable = false
         )
 
         //Write to cache for future access

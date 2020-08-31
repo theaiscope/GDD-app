@@ -193,8 +193,8 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
         BitmapReader.decodeSampledBitmapFromResource(
             File(filepath),
-            mutable,
-            MaximumSizeDownSampling(maxWidth, maxHeight)
+            MaximumSizeDownSampling(maxWidth, maxHeight),
+            mutable = mutable
         )
     }
 }

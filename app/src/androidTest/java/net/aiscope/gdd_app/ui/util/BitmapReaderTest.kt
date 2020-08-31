@@ -32,7 +32,7 @@ class BitmapReaderTest {
     @Test
     fun shouldReduceToRequestedSize() {
         val b = runBlocking {
-                BitmapReader.decodeSampledBitmapFromResource(targetFile, false, MinimumSizeDownSampling(20, 20))
+                BitmapReader.decodeSampledBitmapFromResource(targetFile, MinimumSizeDownSampling(20, 20), mutable = false)
         }
 
         //Determining the sample size happens in a way that leaves both height and width BIGGER than the
@@ -47,7 +47,7 @@ class BitmapReaderTest {
     @Test
     fun shouldReduceToMaximumSize() {
         val b = runBlocking {
-            BitmapReader.decodeSampledBitmapFromResource(targetFile, true, MaximumSizeDownSampling(50, 50))
+            BitmapReader.decodeSampledBitmapFromResource(targetFile, MaximumSizeDownSampling(50, 50), mutable = true)
         }
 
         //Here we want the dimensions to be smaller than the requested size
