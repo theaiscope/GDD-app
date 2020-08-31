@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import net.aiscope.gdd_app.extensions.writeToFile
 import java.io.File
 
 object BitmapReader {
@@ -26,6 +27,31 @@ object BitmapReader {
         inJustDecodeBounds = false
 
         val bitmap = BitmapFactory.decodeFile(image.absolutePath, this)
+
+        bitmap
+    }
+
+    suspend fun decodeSampledBitmapAndCache(
+        image: File,
+        reqWidth: Int,
+        reqHeight: Int,
+        cacheDir: File
+    ): Bitmap = withContext(Dispatchers.IO) {
+        val cachedImage = File(
+            cacheDir,
+            "${image.nameWithoutExtension}_${reqWidth}x${reqHeight}.${image.extension}"
+        )
+        if (cachedImage.exists()) {
+            return@withContext BitmapFactory.decodeFile(cachedImage.absolutePath)
+        }
+        val bitmap = BitmapReader.decodeSampledBitmapFromResource(
+            image,
+            false,
+            MinimumSizeDownSampling(reqWidth, reqHeight)
+        )
+
+        //Write to cache for future access
+        bitmap.writeToFile(cachedImage, Bitmap.CompressFormat.JPEG)
 
         bitmap
     }

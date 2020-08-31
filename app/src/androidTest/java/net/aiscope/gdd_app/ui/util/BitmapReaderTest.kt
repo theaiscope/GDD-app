@@ -3,6 +3,7 @@ package net.aiscope.gdd_app.ui.util
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -53,6 +54,41 @@ class BitmapReaderTest {
         assertTrue(b.height < 50)
         assertTrue(b.width < 50)
         assertTrue(b.isMutable)
+    }
+
+    @Test
+    fun shouldWriteToCache() {
+        val b = runBlocking {
+            BitmapReader.decodeSampledBitmapAndCache(targetFile, 20, 20, cacheDir)
+        }
+
+        assertTrue(cacheDir.isDirectory)
+        val cachedFiles = cacheDir.listFiles()
+
+        assertTrue(cachedFiles.any { file -> file.name.equals("test_20x20.bmp", true) })
+        assertTrue(b.height < 50)
+        assertTrue(b.width < 50)
+        assertTrue(b.height > 20)
+        assertTrue(b.width > 20)
+    }
+
+    @Test
+    fun shouldNotWriteToCacheTwice() {
+        runBlocking {
+            BitmapReader.decodeSampledBitmapAndCache(targetFile, 20, 20, cacheDir)
+        }
+
+        assertTrue(cacheDir.isDirectory)
+        val cacheFile = File(cacheDir, "test_20x20.bmp")
+        assertTrue(cacheFile.exists())
+        val timestamp = cacheFile.lastModified()
+
+        //Run for the second time. this should not write to cache again.
+        runBlocking {
+            BitmapReader.decodeSampledBitmapAndCache(targetFile, 20, 20, cacheDir)
+        }
+
+        assertEquals(timestamp, cacheFile.lastModified())
     }
 
     private fun InputStream.toFile(file: File) {
