@@ -39,8 +39,8 @@ class BitmapReaderTest {
         //requested size...
         assertTrue(b.height < 50)
         assertTrue(b.width < 50)
-        assertTrue(b.height > 20)
-        assertTrue(b.width > 20)
+        assertTrue(b.height >= 20)
+        assertTrue(b.width >= 20)
         assertFalse(b.isMutable)
     }
 
@@ -51,8 +51,8 @@ class BitmapReaderTest {
         }
 
         //Here we want the dimensions to be smaller than the requested size
-        assertTrue(b.height < 50)
-        assertTrue(b.width < 50)
+        assertTrue(b.height <= 50)
+        assertTrue(b.width <= 50)
         assertTrue(b.isMutable)
     }
 
