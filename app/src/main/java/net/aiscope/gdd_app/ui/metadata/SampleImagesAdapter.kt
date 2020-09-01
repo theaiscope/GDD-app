@@ -59,7 +59,8 @@ class SampleImagesAdapter(
         return when (position) {
             0 -> R.layout.item_metadata_add_image
             else -> {
-                if (masks[position - 1].length().toInt() > EMPTY_MASK_LENGTH) R.layout.item_metadata_sample_image_with_mask
+                if (masks[position - 1].length().toInt() > EMPTY_MASK_LENGTH)
+                    R.layout.item_metadata_sample_image_with_mask
                 else R.layout.item_metadata_sample_image
             }
         }
