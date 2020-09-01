@@ -3,7 +3,7 @@ package net.aiscope.gdd_app.ui.util
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
-import net.aiscope.gdd_app.getAssetStream
+import net.aiscope.gdd_app.test.extensions.getAssetStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

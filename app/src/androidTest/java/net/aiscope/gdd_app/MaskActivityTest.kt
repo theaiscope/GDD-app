@@ -21,6 +21,7 @@ import androidx.test.runner.screenshot.Screenshot
 import com.azimolabs.conditionwatcher.ConditionWatcher
 import com.azimolabs.conditionwatcher.Instruction
 import net.aiscope.gdd_app.ui.mask.MaskActivity
+import net.aiscope.gdd_app.test.extensions.getAssetStream
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,14 +47,6 @@ class MaskActivityTest {
                 .putExtra(MaskActivity.EXTRA_MASK_NAME, "mask")
         )
     }
-
-//    private fun getAssetStream(context: Context, fileName: String): InputStream {
-//        return try {
-//            context.resources.assets.open(fileName)
-//        } catch (ex: FileNotFoundException) {
-//            javaClass.classLoader!!.getResourceAsStream("assets" + File.separator + fileName)
-//        }
-//    }
 
     private fun rotateAndWaitViewDisplay(orientation: Orientation, viewId: Int) {
         rotate(orientation) {activityTestRule.activity}

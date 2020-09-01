@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app.ui.mask.customview
+package net.aiscope.gdd_app.test.extensions
 
 import android.os.Bundle
 import android.os.Parcel

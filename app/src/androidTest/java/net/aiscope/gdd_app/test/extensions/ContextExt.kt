@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app
+package net.aiscope.gdd_app.test.extensions
 
 import android.content.Context
 import java.io.File
