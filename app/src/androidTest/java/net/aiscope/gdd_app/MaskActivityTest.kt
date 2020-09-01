@@ -1,7 +1,6 @@
 package net.aiscope.gdd_app
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
@@ -26,8 +25,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.InputStream
 
 //FIXME("Some tests will fail depending on the device's screen aspect ratio - swipes won't start/end
 // in the picture, so their expected results will not happen")
@@ -37,10 +34,10 @@ class MaskActivityTest {
     private val activityTestRule = ActivityTestRule(MaskActivity::class.java, true, false)
 
     private fun startActivity() {
-        val tempFile = File.createTempFile("img", ".jpg")
+        val tempFile = File.createTempFile("img", ".png")
         val outputStream = tempFile.outputStream()
         val applicationContext = getInstrumentation().targetContext.applicationContext
-        getAssetStream(applicationContext, "photo.jpg").copyTo(outputStream)
+        applicationContext.getAssetStream("photo.png").copyTo(outputStream)
 
         activityTestRule.launchActivity(
             Intent(Intent.ACTION_MAIN)
@@ -50,13 +47,13 @@ class MaskActivityTest {
         )
     }
 
-    private fun getAssetStream(context: Context, fileName: String): InputStream {
-        return try {
-            context.resources.assets.open(fileName)
-        } catch (ex: FileNotFoundException) {
-            javaClass.classLoader!!.getResourceAsStream("assets" + File.separator + fileName)
-        }
-    }
+//    private fun getAssetStream(context: Context, fileName: String): InputStream {
+//        return try {
+//            context.resources.assets.open(fileName)
+//        } catch (ex: FileNotFoundException) {
+//            javaClass.classLoader!!.getResourceAsStream("assets" + File.separator + fileName)
+//        }
+//    }
 
     private fun rotateAndWaitViewDisplay(orientation: Orientation, viewId: Int) {
         rotate(orientation) {activityTestRule.activity}

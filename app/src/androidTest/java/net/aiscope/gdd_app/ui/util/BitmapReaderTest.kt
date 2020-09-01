@@ -3,6 +3,7 @@ package net.aiscope.gdd_app.ui.util
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
+import net.aiscope.gdd_app.getAssetStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -21,11 +22,10 @@ class BitmapReaderTest {
 
     @Before
     fun setup() {
-        targetFile = File(targetContext.filesDir, "test.bmp");
+        targetFile = File(targetContext.filesDir, "test.bmp")
         targetFile.createNewFile()
 
-        val stream = testContext.assets.open("w3c_home.bmp");
-        stream.toFile(targetFile)
+        testContext.getAssetStream("w3c_home.bmp").toFile(targetFile)
     }
 
 
@@ -82,6 +82,10 @@ class BitmapReaderTest {
         val cacheFile = File(cacheDir, "test_20x20.bmp")
         assertTrue(cacheFile.exists())
         val timestamp = cacheFile.lastModified()
+
+        // Since the lastmodified is in seconds, make sure we would get a new value
+        // if the write occurs
+        Thread.sleep(2000)
 
         //Run for the second time. this should not write to cache again.
         runBlocking {
