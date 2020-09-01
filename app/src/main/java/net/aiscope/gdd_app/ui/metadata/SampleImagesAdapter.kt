@@ -19,6 +19,10 @@ class SampleImagesAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    companion object {
+        private const val EMPTY_MASK_LENGTH = 4885
+    }
+
     private val images: MutableList<File> = mutableListOf()
     private val masks: MutableList<File> = mutableListOf()
 
@@ -55,7 +59,7 @@ class SampleImagesAdapter(
         return when (position) {
             0 -> R.layout.item_metadata_add_image
             else -> {
-                if (masks[position - 1].length().toInt() > 4885) R.layout.item_metadata_sample_image_with_mask
+                if (masks[position - 1].length().toInt() > EMPTY_MASK_LENGTH) R.layout.item_metadata_sample_image_with_mask
                 else R.layout.item_metadata_sample_image
             }
         }
