@@ -3,27 +3,45 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="8dp"
+    android:layout_marginStart="3dp"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
+    android:layout_width="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingTop="6dp"
+    android:paddingEnd="5dp"
+    android:paddingStart="0dp">
 
-    <ImageView
-        android:id="@+id/sample_image"
-        android:layout_width="@dimen/sample_image_thumbnail_width"
-        android:layout_height="@dimen/sample_image_thumbnail_height"
-        android:background="@drawable/item_metadata_add_image_background"
-        android:contentDescription="@string/metadata_sample_image_content_description"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/ic_add_photo_rounded"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
 
-    <ImageView
-        android:id="@+id/mask_dot"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_dot"/>
+        <ImageView
+            android:id="@+id/sample_image"
+            android:layout_width="@dimen/sample_image_thumbnail_width"
+            android:layout_height="@dimen/sample_image_thumbnail_height"
+            android:background="@drawable/item_metadata_add_image_background"
+            android:contentDescription="@string/metadata_sample_image_content_description"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_add_photo_rounded"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/mask_dot"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_dot"
+            android:contentDescription="@string/metadata_sample_mask_dot_description"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

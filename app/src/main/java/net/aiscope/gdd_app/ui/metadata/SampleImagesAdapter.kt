@@ -31,11 +31,11 @@ class SampleImagesAdapter(
         return when (viewType) {
             R.layout.item_metadata_add_image -> AddImageViewHolder(view, onAddImageClicked)
             R.layout.item_metadata_sample_image -> ImageViewHolder(
-                view as ImageView,
+                view,
                 uiScope,
                 onImageClicked
             )
-            R.layout.item_metadata_sample_image_with_mask -> ImageWithMaskViewHolder(
+            R.layout.item_metadata_sample_image_with_mask -> ImageViewHolder(
                 view,
                 uiScope,
                 onImageClicked
@@ -47,8 +47,6 @@ class SampleImagesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AddImageViewHolder -> {}
-            is ImageWithMaskViewHolder ->
-                holder.bind(images[position - 1], masks[position - 1])
             is ImageViewHolder ->
                 holder.bind(images[position - 1], masks[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
@@ -93,34 +91,6 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 }
 
 private class ImageViewHolder(
-    view: ImageView, private val uiScope: CoroutineScope, onImageClicked: (File, File) -> Unit
-) : RecyclerView.ViewHolder(view) {
-    private lateinit var imageFile: File
-    private lateinit var maskFile: File
-
-    init {
-        itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
-    }
-
-    fun bind(image: File, mask: File) {
-        imageFile = image
-        maskFile = mask
-
-        (itemView.tag as? Job)?.cancel()
-        itemView.tag = uiScope.launch {
-            (itemView as ImageView).setImageBitmap(null)
-            val bitmap = BitmapReader.decodeSampledBitmapAndCache(
-                image,
-                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
-                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
-                itemView.context.cacheDir
-            )
-            itemView.setImageBitmap(bitmap)
-        }
-    }
-}
-
-private class ImageWithMaskViewHolder(
     view: View, private val uiScope: CoroutineScope, onImageClicked: (File, File) -> Unit
 ) : RecyclerView.ViewHolder(view) {
     private lateinit var imageFile: File

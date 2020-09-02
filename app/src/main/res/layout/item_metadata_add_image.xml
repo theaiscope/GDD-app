@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="72dp"
-    android:layout_height="104dp"
-    android:background="@drawable/item_metadata_add_image_background"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:layout_marginStart="3dp"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingEnd="5dp"
+    android:paddingStart="0dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="1dp"
-        android:src="@drawable/ic_add_photo_rounded"
-        tools:ignore="RtlSymmetry"
-        android:importantForAccessibility="no" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+    <LinearLayout
+        android:layout_width="72dp"
+        android:layout_height="104dp"
+        android:background="@drawable/item_metadata_add_image_background"
         android:gravity="center"
-        android:text="@string/metadata_sample_add_image"
-        android:textAllCaps="true" />
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="1dp"
+            android:src="@drawable/ic_add_photo_rounded"
+            tools:ignore="RtlSymmetry"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/metadata_sample_add_image"
+            android:textAllCaps="true" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

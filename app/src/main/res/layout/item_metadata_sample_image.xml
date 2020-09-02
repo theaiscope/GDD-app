@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/sample_image_thumbnail_width"
-    android:layout_height="@dimen/sample_image_thumbnail_height"
-    android:layout_marginStart="8dp"
-    android:background="@drawable/item_metadata_add_image_background"
-    android:contentDescription="@string/metadata_sample_image_content_description"
-    android:scaleType="centerCrop"
-    tools:src="@drawable/ic_add_photo_rounded" />
+    android:layout_marginStart="3dp"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingEnd="5dp"
+    android:paddingStart="0dp">
+
+    <ImageView
+        android:id="@+id/sample_image"
+        android:layout_width="@dimen/sample_image_thumbnail_width"
+        android:layout_height="@dimen/sample_image_thumbnail_height"
+        android:background="@drawable/item_metadata_add_image_background"
+        android:contentDescription="@string/metadata_sample_image_content_description"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:src="@drawable/ic_add_photo_rounded" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
