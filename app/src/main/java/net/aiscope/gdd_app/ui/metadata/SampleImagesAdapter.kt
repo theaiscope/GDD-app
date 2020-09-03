@@ -19,12 +19,9 @@ class SampleImagesAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    companion object {
-        private const val EMPTY_MASK_LENGTH = 4885
-    }
-
     private val images: MutableList<File> = mutableListOf()
     private val masks: MutableList<File> = mutableListOf()
+    private val hasMask: MutableList<Boolean> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
@@ -57,7 +54,7 @@ class SampleImagesAdapter(
         return when (position) {
             0 -> R.layout.item_metadata_add_image
             else -> {
-                if (masks[position - 1].length().toInt() > EMPTY_MASK_LENGTH)
+                if (hasMask[position - 1])
                     R.layout.item_metadata_sample_image_with_mask
                 else R.layout.item_metadata_sample_image
             }
@@ -77,6 +74,12 @@ class SampleImagesAdapter(
     fun setMasks(masks: List<File>) {
         this.masks.clear()
         this.masks.addAll(masks.reversed())
+        this.notifyDataSetChanged()
+    }
+
+    fun setHasMask(hasMask: List<Boolean>) {
+        this.hasMask.clear()
+        this.hasMask.addAll(hasMask.reversed())
         this.notifyDataSetChanged()
     }
 

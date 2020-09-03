@@ -91,7 +91,9 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
             stagesBtn.setOnClickListener { selectStagePopup.show() }
 
-            getBitmapBtn.setOnClickListener { presenter.handleCaptureBitmap(maskNameExtra) }
+            getBitmapBtn.setOnClickListener {
+                presenter.handleCaptureBitmap(maskNameExtra, isEmptyMaskBitmap())
+            }
 
             photoMaskView.onMaskingActionFinishedListener = View.OnTouchListener { _, _ ->
                 setEnabled(undoBtn, photoMaskView.undoAvailable())
@@ -189,5 +191,12 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             MaximumSizeDownSampling(MAX_TEXTURE_SIZE, MAX_TEXTURE_SIZE),
             mutable = mutable
         )
+    }
+
+    private fun isEmptyMaskBitmap(): Boolean {
+        val maskBitmap = binding.photoMaskView.getMaskBitmap()
+        val emptyBitmap: Bitmap =
+            Bitmap.createBitmap(maskBitmap.width, maskBitmap.height, maskBitmap.config);
+        return !maskBitmap.sameAs(emptyBitmap)
     }
 }

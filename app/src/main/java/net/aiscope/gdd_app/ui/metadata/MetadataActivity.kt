@@ -71,6 +71,7 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
     override fun fillForm(model: ViewStateModel) {
         imagesAdapter.setImages(model.images)
         imagesAdapter.setMasks(model.masks)
+        imagesAdapter.setHasMask(model.hasMask)
         model.smearTypeId?.let { binding.metadataSectionSmearTypeRadioGroup.check(it) }
         model.speciesValue?.let { binding.metadataSpeciesSpinner.select(it) }
     }

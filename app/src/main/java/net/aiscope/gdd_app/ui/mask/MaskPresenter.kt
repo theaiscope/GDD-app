@@ -19,12 +19,12 @@ class MaskPresenter(
         )
     }
 
-    fun handleCaptureBitmap(maskName: String) {
+    fun handleCaptureBitmap(maskName: String, isEmptyMask: Boolean) {
         view.takeMask(maskName) { file ->
             if (file == null) {
                 view.notifyImageCouldNotBeTaken()
             } else {
-                val sample = repository.current().addMask(file)
+                val sample = repository.current().addMask(file, isEmptyMask).addHasMask(file, isEmptyMask)
                 repository.store(sample)
 
                 view.goToMetadata()
@@ -38,7 +38,6 @@ class MaskPresenter(
     }
 
     companion object {
-
         private fun composeBrushDiseaseStagesArray(
             diseaseName: String,
             resources: Resources

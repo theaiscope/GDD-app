@@ -14,6 +14,7 @@ data class Sample(
     val microscopeQuality: MicroscopeQuality? = null,
     val images: LinkedHashSet<File> = linkedSetOf(),
     val masks: LinkedHashSet<File> = linkedSetOf(),
+    val hasMask: MutableList<Boolean> = mutableListOf(),
     val metadata: SampleMetadata = SampleMetadata(),
     val status: SampleStatus = SampleStatus.Incomplete,
     val createdOn: Calendar = Calendar.getInstance(),
@@ -21,11 +22,18 @@ data class Sample(
 ) {
     fun addImage(path: File) = copy(images = images + path)
 
-    fun addMask(path: File) = copy(masks = masks + path)
+    fun addMask(path: File, isEmpty: Boolean) = copy(masks = masks + path)
 
     fun nextImageName(): String = "${id}_image_${images.size}"
 
     fun nextMaskName(): String = "${id}_mask_${images.size}"
+
+    fun addHasMask(path: File, isEmpty: Boolean): Sample {
+        val maskIndex = masks.indexOf(path)
+        if (hasMask.size > maskIndex) hasMask[maskIndex] = isEmpty
+        else hasMask.add(isEmpty)
+        return this
+    }
 }
 
 enum class SampleStatus(val id: Short) {
