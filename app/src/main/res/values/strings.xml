@@ -52,7 +52,7 @@
     <string name="mask_activity_stages">Select stage</string>
     <!-- Metadata -->
     <string name="metadata_activity_title">Add data</string>
-    <string name="metadata_comments_helper">Please, don\'t include any sensitive information.</string>
+    <string name="metadata_comments_helper">Please do not include any patient personal information</string>
     <string name="metadata_comments_hint">Comments (optional)</string>
     <string name="metadata_sample_add_image">Add image</string>
     <string name="metadata_sample_image_content_description">Sample image</string>
