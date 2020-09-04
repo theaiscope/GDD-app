@@ -44,7 +44,7 @@ object BitmapReader {
         if (cachedImage.exists()) {
             return@withContext BitmapFactory.decodeFile(cachedImage.absolutePath)
         }
-        val bitmap = BitmapReader.decodeSampledBitmapFromResource(
+        val bitmap = decodeSampledBitmapFromResource(
             image,
             MinimumSizeDownSampling(reqWidth, reqHeight),
             mutable = false

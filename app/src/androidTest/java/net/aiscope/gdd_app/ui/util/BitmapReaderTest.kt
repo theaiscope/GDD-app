@@ -22,10 +22,13 @@ class BitmapReaderTest {
 
     @Before
     fun setup() {
-        targetFile = File(targetContext.filesDir, "test.bmp")
+        targetFile = File(targetContext.filesDir, "test.png")
         targetFile.createNewFile()
 
-        testContext.getAssetStream("w3c_home.bmp").toFile(targetFile)
+        testContext.getAssetStream("photo.png").toFile(targetFile)
+
+        //Clear cache dir
+        targetContext.cacheDir.listFiles().forEach { file -> file.deleteRecursively() }
     }
 
 
@@ -37,11 +40,11 @@ class BitmapReaderTest {
 
         //Determining the sample size happens in a way that leaves both height and width BIGGER than the
         //requested size...
-        assertTrue(b.height < 50)
-        assertTrue(b.width < 50)
-        assertTrue(b.height >= 20)
-        assertTrue(b.width >= 20)
-        assertFalse(b.isMutable)
+        assertTrue("Dimensions bigger than expected", b.height < 50)
+        assertTrue("Dimensions bigger than expected", b.width < 50)
+        assertTrue("Dimensions smaller than expected", b.height >= 20)
+        assertTrue("Dimensions smaller than expected", b.width >= 20)
+        assertFalse("Expected to be immutable", b.isMutable)
     }
 
     @Test
@@ -51,9 +54,9 @@ class BitmapReaderTest {
         }
 
         //Here we want the dimensions to be smaller than the requested size
-        assertTrue(b.height <= 50)
-        assertTrue(b.width <= 50)
-        assertTrue(b.isMutable)
+        assertTrue("Dimensions bigger than expected", b.height <= 50)
+        assertTrue("Dimensions bigger than expected", b.width <= 50)
+        assertTrue("Expected to be mutable", b.isMutable)
     }
 
     @Test
@@ -65,11 +68,11 @@ class BitmapReaderTest {
         assertTrue(cacheDir.isDirectory)
         val cachedFiles = cacheDir.listFiles()
 
-        assertTrue(cachedFiles.any { file -> file.name.equals("test_20x20.bmp", true) })
-        assertTrue(b.height < 50)
-        assertTrue(b.width < 50)
-        assertTrue(b.height > 20)
-        assertTrue(b.width > 20)
+        assertTrue("Cache file not found", cachedFiles.any { file -> file.name.equals("test_20x20.png", true) })
+        assertTrue("Dimensions bigger than expected",  b.height < 50)
+        assertTrue("Dimensions bigger than expected", b.width < 50)
+        assertTrue("Dimensions smaller than expected", b.height >= 20)
+        assertTrue("Dimensions smaller than expected", b.width >= 20)
     }
 
     @Test
@@ -79,8 +82,8 @@ class BitmapReaderTest {
         }
 
         assertTrue(cacheDir.isDirectory)
-        val cacheFile = File(cacheDir, "test_20x20.bmp")
-        assertTrue(cacheFile.exists())
+        val cacheFile = File(cacheDir, "test_20x20.png")
+        assertTrue("Cache file not found", cacheFile.exists())
         val timestamp = cacheFile.lastModified()
 
         // Since the lastmodified is in seconds, make sure we would get a new value
@@ -92,7 +95,7 @@ class BitmapReaderTest {
             BitmapReader.decodeSampledBitmapAndCache(targetFile, 20, 20, cacheDir)
         }
 
-        assertEquals(timestamp, cacheFile.lastModified())
+        assertEquals("Cache file should not be modified", timestamp, cacheFile.lastModified())
     }
 
     private fun InputStream.toFile(file: File) {
