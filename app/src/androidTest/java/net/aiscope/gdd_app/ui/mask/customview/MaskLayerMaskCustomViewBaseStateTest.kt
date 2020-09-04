@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.PointF
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import net.aiscope.gdd_app.test.extensions.testParcel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotSame
 import org.junit.Test
