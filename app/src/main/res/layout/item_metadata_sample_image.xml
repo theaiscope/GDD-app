@@ -18,8 +18,6 @@
         android:background="@drawable/item_metadata_add_image_background"
         android:contentDescription="@string/metadata_sample_image_content_description"
         android:scaleType="centerCrop"
-        android:paddingEnd="5dp"
-        android:paddingStart="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:src="@drawable/ic_add_photo_rounded" />

@@ -5,11 +5,13 @@ import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.databinding.ItemMetadataSampleImageBinding
 import net.aiscope.gdd_app.ui.util.BitmapReader
 import java.io.File
 
@@ -24,12 +26,17 @@ class SampleImagesAdapter(
     private val masks: MutableList<File> = mutableListOf()
     private val hasMask: MutableList<Boolean> = mutableListOf()
 
+    private lateinit var binding: ItemMetadataSampleImageBinding
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view = layoutInflater.inflate(viewType, parent, false)
+        binding = ItemMetadataSampleImageBinding.inflate(layoutInflater, parent, false)
+
         return when (viewType) {
             R.layout.item_metadata_add_image -> AddImageViewHolder(view, onAddImageClicked)
             R.layout.item_metadata_sample_image -> ImageViewHolder(
-                view,
+                binding.root,
                 uiScope,
                 onImageClicked
             )
@@ -41,7 +48,12 @@ class SampleImagesAdapter(
         when (holder) {
             is AddImageViewHolder -> {}
             is ImageViewHolder ->
-                holder.bind(images[position - 1], masks[position - 1], hasMask[position - 1])
+                holder.bind(
+                    images[position - 1],
+                    masks[position - 1],
+                    hasMask[position - 1],
+                    binding
+                )
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -95,12 +107,12 @@ private class ImageViewHolder(
         itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
     }
 
-    fun bind(image: File, mask: File, hasMask: Boolean) {
+    fun bind(image: File, mask: File, hasMask: Boolean, binding: ItemMetadataSampleImageBinding) {
         imageFile = image
         maskFile = mask
 
-        val sampleImage: ImageView = itemView.findViewById(R.id.sample_image)
-        val maskDotImage: ImageView = itemView.findViewById(R.id.mask_dot)
+        val sampleImage: ImageView = binding.sampleImage
+        val maskDotImage: ImageView = binding.maskDot
 
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
