@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.ui.metadata
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -32,11 +33,6 @@ class SampleImagesAdapter(
                 uiScope,
                 onImageClicked
             )
-            R.layout.item_metadata_sample_image_with_mask -> ImageViewHolder(
-                view,
-                uiScope,
-                onImageClicked
-            )
             else -> throw IllegalArgumentException("View type $viewType not known")
         }
     }
@@ -45,7 +41,7 @@ class SampleImagesAdapter(
         when (holder) {
             is AddImageViewHolder -> {}
             is ImageViewHolder ->
-                holder.bind(images[position - 1], masks[position - 1])
+                holder.bind(images[position - 1], masks[position - 1], hasMask[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -53,11 +49,7 @@ class SampleImagesAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             0 -> R.layout.item_metadata_add_image
-            else -> {
-                if (hasMask[position - 1])
-                    R.layout.item_metadata_sample_image_with_mask
-                else R.layout.item_metadata_sample_image
-            }
+            else -> R.layout.item_metadata_sample_image
         }
     }
 
@@ -103,22 +95,25 @@ private class ImageViewHolder(
         itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
     }
 
-    fun bind(image: File, mask: File) {
+    fun bind(image: File, mask: File, hasMask: Boolean) {
         imageFile = image
         maskFile = mask
 
-        val img: ImageView = itemView.findViewById(R.id.sample_image)
+        val sampleImage: ImageView = itemView.findViewById(R.id.sample_image)
+        val maskDotImage: ImageView = itemView.findViewById(R.id.mask_dot)
 
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
-            img.setImageBitmap(null)
+            sampleImage.setImageBitmap(null)
             val bitmap = BitmapReader.decodeSampledBitmapAndCache(
                 image,
-                img.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
-                img.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
-                img.context.cacheDir
+                sampleImage.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
+                sampleImage.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
+                sampleImage.context.cacheDir
             )
-            img.setImageBitmap(bitmap)
+            sampleImage.setImageBitmap(bitmap)
+
+            if (hasMask) maskDotImage.visibility = VISIBLE
         }
     }
 }
