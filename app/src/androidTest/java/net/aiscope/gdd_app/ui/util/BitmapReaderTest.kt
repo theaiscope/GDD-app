@@ -86,9 +86,9 @@ class BitmapReaderTest {
         assertTrue("Cache file not found", cacheFile.exists())
         val timestamp = cacheFile.lastModified()
 
-        // Since the lastmodified is in seconds, make sure we would get a new value
-        // if the write occurs
-        Thread.sleep(2000)
+        // Since the lastModified is in seconds, make sure we would get a new value
+        // if the write occurs.
+        Thread.sleep(1200)
 
         //Run for the second time. this should not write to cache again.
         runBlocking {
