@@ -125,7 +125,7 @@ private class ImageViewHolder(
             )
             sampleImage.setImageBitmap(bitmap)
 
-            if (hasMask) maskDotImage.visibility = VISIBLE
+            maskDotImage.isVisible = hasMask
         }
     }
 }
