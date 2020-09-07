@@ -2,10 +2,9 @@ package net.aiscope.gdd_app.ui.metadata
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.marginStart
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
