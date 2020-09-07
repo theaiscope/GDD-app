@@ -2,6 +2,8 @@
 <resources>
     <dimen name="sample_image_thumbnail_width">72dp</dimen>
     <dimen name="sample_image_thumbnail_height">104dp</dimen>
+    <dimen name="sample_image_dot_size">16dp</dimen>
+    <dimen name="sample_image_dot_displacement">6dp</dimen>
 
     <dimen name="activity_main_icon_margin_top">80dp</dimen>
     <dimen name="activity_main_welcome_message_margin_top">60dp</dimen>

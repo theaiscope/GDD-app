@@ -9,7 +9,7 @@
     android:layout_width="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingTop="6dp">
+    android:paddingTop="@dimen/sample_image_dot_displacement">
 
     <ImageView
         android:id="@+id/sample_image"
@@ -24,8 +24,8 @@
 
     <ImageView
         android:id="@+id/mask_dot"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="@dimen/sample_image_dot_size"
+        android:layout_height="@dimen/sample_image_dot_size"
         android:src="@drawable/ic_dot"
         android:contentDescription="@string/metadata_sample_mask_dot_description"
         android:visibility="invisible"

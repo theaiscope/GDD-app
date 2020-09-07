@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="3dp"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    android:paddingTop="6dp">
+    android:layout_width="@dimen/sample_image_thumbnail_width"
+    android:layout_height="@dimen/sample_image_thumbnail_height"
+    android:layout_marginTop="@dimen/sample_image_dot_displacement"
+    android:background="@drawable/item_metadata_add_image_background"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="72dp"
-        android:layout_height="104dp"
-        android:background="@drawable/item_metadata_add_image_background"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="1dp"
+        android:src="@drawable/ic_add_photo_rounded"
+        android:importantForAccessibility="no"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:text="@string/metadata_sample_add_image"
+        android:textAllCaps="true" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="1dp"
-            android:src="@drawable/ic_add_photo_rounded"
-            tools:ignore="RtlSymmetry"
-            android:importantForAccessibility="no" />
+</LinearLayout>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:text="@string/metadata_sample_add_image"
-            android:textAllCaps="true" />
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
