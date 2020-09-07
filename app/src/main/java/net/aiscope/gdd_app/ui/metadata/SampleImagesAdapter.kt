@@ -25,20 +25,22 @@ class SampleImagesAdapter(
     private val masks: MutableList<File> = mutableListOf()
     private val hasMask: MutableList<Boolean> = mutableListOf()
 
-    private lateinit var binding: ItemMetadataSampleImageBinding
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(viewType, parent, false)
-        binding = ItemMetadataSampleImageBinding.inflate(layoutInflater, parent, false)
 
         return when (viewType) {
             R.layout.item_metadata_add_image -> AddImageViewHolder(view, onAddImageClicked)
-            R.layout.item_metadata_sample_image -> ImageViewHolder(
-                binding.root,
-                uiScope,
-                onImageClicked
-            )
+            R.layout.item_metadata_sample_image -> {
+                val binding = ItemMetadataSampleImageBinding.inflate(layoutInflater, parent, false)
+                ImageViewHolder(
+                    view = binding.root,
+                    binding = binding,
+                    uiScope = uiScope,
+                    onImageClicked = onImageClicked
+                )
+
+            }
             else -> throw IllegalArgumentException("View type $viewType not known")
         }
     }
@@ -47,12 +49,7 @@ class SampleImagesAdapter(
         when (holder) {
             is AddImageViewHolder -> {}
             is ImageViewHolder ->
-                holder.bind(
-                    images[position - 1],
-                    masks[position - 1],
-                    hasMask[position - 1],
-                    binding
-                )
+                holder.bind(images[position - 1], masks[position - 1], hasMask[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -97,7 +94,7 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 }
 
 private class ImageViewHolder(
-    view: View, private val uiScope: CoroutineScope, onImageClicked: (File, File) -> Unit
+    view: View, private val binding: ItemMetadataSampleImageBinding, private val uiScope: CoroutineScope, onImageClicked: (File, File) -> Unit
 ) : RecyclerView.ViewHolder(view) {
     private lateinit var imageFile: File
     private lateinit var maskFile: File
@@ -106,7 +103,7 @@ private class ImageViewHolder(
         itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
     }
 
-    fun bind(image: File, mask: File, hasMask: Boolean, binding: ItemMetadataSampleImageBinding) {
+    fun bind(image: File, mask: File, hasMask: Boolean) {
         imageFile = image
         maskFile = mask
 
@@ -118,9 +115,9 @@ private class ImageViewHolder(
             sampleImage.setImageBitmap(null)
             val bitmap = BitmapReader.decodeSampledBitmapAndCache(
                 image,
-                sampleImage.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
-                sampleImage.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
-                sampleImage.context.cacheDir
+                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
+                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
+                itemView.context.cacheDir
             )
             sampleImage.setImageBitmap(bitmap)
 
