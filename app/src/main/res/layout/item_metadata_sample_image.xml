@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="8dp"
-    android:layout_height="wrap_content"
     android:layout_width="wrap_content"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:paddingTop="@dimen/sample_image_dot_displacement">
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:layout_marginStart="2dp"
+    tools:ignore="RtlSymmetry">
 
     <ImageView
         android:id="@+id/sample_image"
         android:layout_width="@dimen/sample_image_thumbnail_width"
         android:layout_height="@dimen/sample_image_thumbnail_height"
+        android:layout_gravity="bottom|start"
+        android:layout_marginTop="@dimen/sample_image_dot_displacement"
+        android:layout_marginEnd="@dimen/sample_image_dot_displacement"
         android:background="@drawable/item_metadata_add_image_background"
         android:contentDescription="@string/metadata_sample_image_content_description"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:src="@drawable/ic_add_photo_rounded" />
 
     <ImageView
         android:id="@+id/mask_dot"
         android:layout_width="@dimen/sample_image_dot_size"
         android:layout_height="@dimen/sample_image_dot_size"
-        android:src="@drawable/ic_dot"
+        android:layout_gravity="top|end"
         android:contentDescription="@string/metadata_sample_mask_dot_description"
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:src="@drawable/ic_dot"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
 
 
