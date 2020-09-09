@@ -22,6 +22,7 @@ import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
+import net.aiscope.gdd_app.ui.util.BitmapReader.MAX_TEXTURE_SIZE
 import net.aiscope.gdd_app.ui.util.MaximumSizeDownSampling
 import java.io.File
 import javax.inject.Inject
@@ -42,7 +43,6 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     private val brushDiseaseStages by lazy { presenter.brushDiseaseStages }
     private var currentBrushColor: Int = 0
     private val selectStagePopup by lazy { composeSelectStagePopup() }
-    private val maxTextureSize by lazy { BitmapReader.getMaxTextureSize() }
 
     private lateinit var binding: ActivityMaskBinding
 
@@ -186,7 +186,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     private suspend fun readImage(filepath: String, mutable: Boolean = false): Bitmap = withContext( Dispatchers.IO) {
         BitmapReader.decodeSampledBitmapFromResource(
             File(filepath),
-            MaximumSizeDownSampling(maxTextureSize, maxTextureSize),
+            MaximumSizeDownSampling(MAX_TEXTURE_SIZE, MAX_TEXTURE_SIZE),
             mutable = mutable
         )
     }

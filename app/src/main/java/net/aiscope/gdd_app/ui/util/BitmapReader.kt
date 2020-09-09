@@ -14,7 +14,9 @@ import kotlin.math.max
 
 object BitmapReader {
     // Texture size should never be smaller than this
-    private const val MIN_TEXTURE_SIZE = 2048
+    private const val DEFAULT_MIN_TEXTURE_SIZE = 2048
+
+    val MAX_TEXTURE_SIZE by lazy { getMaxTextureSize() }
 
     suspend fun decodeSampledBitmapFromResource(
         image: File,
@@ -64,7 +66,7 @@ object BitmapReader {
         bitmap
     }
 
-    fun getMaxTextureSize(): Int {
+    private fun getMaxTextureSize(): Int {
         // Get EGL Display
         val egl = EGLContext.getEGL() as EGL10
         val display: EGLDisplay = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY)
@@ -101,7 +103,7 @@ object BitmapReader {
         egl.eglTerminate(display)
 
         // Return largest texture size found, or default
-        return max(maximumTextureSize, MIN_TEXTURE_SIZE)
+        return max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)
     }
 }
 
