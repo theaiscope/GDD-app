@@ -2,8 +2,6 @@ package net.aiscope.gdd_app.ui.mask
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.Gravity
@@ -24,7 +22,7 @@ import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
-import net.aiscope.gdd_app.ui.util.DownSamplingRequest
+import net.aiscope.gdd_app.ui.util.BitmapReader.MAX_TEXTURE_SIZE
 import net.aiscope.gdd_app.ui.util.MaximumSizeDownSampling
 import java.io.File
 import javax.inject.Inject
@@ -185,15 +183,10 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         view.visibility = if (enabled) View.VISIBLE else View.INVISIBLE
     }
 
-    private suspend fun readImage(filepath: String, mutable: Boolean = false): Bitmap = withContext(Dispatchers.IO) {
-        //Create a canvas as maxwidth & maxwidth are not static methods
-        val canvas = Canvas()
-        val maxWidth = canvas.maximumBitmapWidth
-        val maxHeight = canvas.maximumBitmapHeight
-
+    private suspend fun readImage(filepath: String, mutable: Boolean = false): Bitmap = withContext( Dispatchers.IO) {
         BitmapReader.decodeSampledBitmapFromResource(
             File(filepath),
-            MaximumSizeDownSampling(maxWidth, maxHeight),
+            MaximumSizeDownSampling(MAX_TEXTURE_SIZE, MAX_TEXTURE_SIZE),
             mutable = mutable
         )
     }

@@ -6,8 +6,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.extensions.writeToFile
 import java.io.File
+import javax.microedition.khronos.egl.EGL10
+import javax.microedition.khronos.egl.EGLConfig
+import javax.microedition.khronos.egl.EGLContext
+import javax.microedition.khronos.egl.EGLDisplay
+import kotlin.math.max
 
 object BitmapReader {
+    // Texture size should never be smaller than this
+    private const val DEFAULT_MIN_TEXTURE_SIZE = 2048
+    
+    val MAX_TEXTURE_SIZE by lazy { getMaxTextureSize() }
+
     suspend fun decodeSampledBitmapFromResource(
         image: File,
         request: DownSamplingRequest,
@@ -54,6 +64,46 @@ object BitmapReader {
         bitmap.writeToFile(cachedImage, Bitmap.CompressFormat.JPEG)
 
         bitmap
+    }
+
+    private fun getMaxTextureSize(): Int {
+        // Get EGL Display
+        val egl = EGLContext.getEGL() as EGL10
+        val display: EGLDisplay = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY)
+
+        // Initialise
+        val version = IntArray(2)
+        egl.eglInitialize(display, version)
+
+        // Query total number of configurations
+        val totalConfigurations = IntArray(1)
+        egl.eglGetConfigs(display, null, 0, totalConfigurations)
+
+        // Query actual list configurations
+        val configurationsList: Array<EGLConfig?> = arrayOfNulls(totalConfigurations[0])
+        egl.eglGetConfigs(display, configurationsList, totalConfigurations[0], totalConfigurations)
+        val textureSize = IntArray(1)
+        var maximumTextureSize = 0
+
+        // Iterate through all the configurations to located the maximum texture size
+        for (i in 0 until totalConfigurations[0]) {
+            // Only need to check for width since opengl textures are always squared
+            egl.eglGetConfigAttrib(
+                display,
+                configurationsList[i],
+                EGL10.EGL_MAX_PBUFFER_WIDTH,
+                textureSize
+            )
+
+            // Keep track of the maximum texture size
+            if (maximumTextureSize < textureSize[0]) maximumTextureSize = textureSize[0]
+        }
+
+        // Release
+        egl.eglTerminate(display)
+
+        // Return largest texture size found, or default
+        return max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)
     }
 }
 
