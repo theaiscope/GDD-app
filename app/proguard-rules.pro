@@ -20,20 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# https://github.com/aws-amplify/aws-sdk-android/blob/master/Proguard.md
-# Class names are needed in reflection
--keepnames class com.amazonaws.**
--keepnames class com.amazon.**
-# Request handlers defined in request.handlers
-
--keep class com.amazonaws.services.**.*Handler
-
 # Crashlytics
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
--keep class com.crashlytics.** { *; }
--dontwarn com.crashlytics.**
-
-# AWS
--keep class com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkConnectionType {*;}
