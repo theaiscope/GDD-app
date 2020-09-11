@@ -15,7 +15,7 @@ import kotlin.math.max
 object BitmapReader {
     // Texture size should never be smaller than this
     private const val DEFAULT_MIN_TEXTURE_SIZE = 2048
-    
+
     val MAX_TEXTURE_SIZE by lazy { getMaxTextureSize() }
 
     suspend fun decodeSampledBitmapFromResource(

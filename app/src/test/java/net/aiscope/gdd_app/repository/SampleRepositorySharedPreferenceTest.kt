@@ -47,9 +47,10 @@ class SampleRepositorySharedPreferenceTest {
     private val HOSPITAL_NAME = "H. St. Pau"
     private val HOSPITAL_ID = "H_St_Pau"
     private val MICROSCOPIST = "a microscopist"
+    private val DISEASE = "malaria"
 
-    private val sampleOnlyRequired = Sample(ID, HOSPITAL_ID, MICROSCOPIST)
-    private val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H_St_Pau","status":"Incomplete"""
+    private val sampleOnlyRequired = Sample(ID, HOSPITAL_ID, MICROSCOPIST, DISEASE)
+    private val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H_St_Pau","status":"Incomplete","disease":"malaria"""
 
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
@@ -91,12 +92,13 @@ class SampleRepositorySharedPreferenceTest {
         val uuid = "d9255e5d-5c68-4245-b7c9-da0964116cce"
         whenever(uuidGenerator.generateUUID()).thenReturn(uuid)
 
-        val sample = subject.create()
+        val sample = subject.create(DISEASE)
 
         val afterCreate = Calendar.getInstance()
         afterCreate.add(Calendar.SECOND, 1)
 
         assert(sample.healthFacility == HOSPITAL_ID)
+        assert(sample.disease == DISEASE)
         assert(sample.id == uuid)
         assert(sample.createdOn.after(beforeCreate))
         assert(sample.createdOn.before(afterCreate))
@@ -110,7 +112,7 @@ class SampleRepositorySharedPreferenceTest {
 
         whenever(uuidGenerator.generateUUID()).thenReturn(uuid)
 
-        subject.create()
+        subject.create(DISEASE)
         val sample = subject.current()
 
         assert(sample.id == uuid)
@@ -143,9 +145,9 @@ class SampleRepositorySharedPreferenceTest {
         val yesterday = Calendar.getInstance()
         yesterday.add(Calendar.DAY_OF_YEAR, -1)
 
-        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, status = SampleStatus.ReadyToUpload, createdOn = today)
+        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.ReadyToUpload, createdOn = today)
         val todaySampleJson = """{"id":"1112","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$today"}"""
-        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, status = SampleStatus.ReadyToUpload, createdOn = yesterday)
+        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.ReadyToUpload, createdOn = yesterday)
         val yesterdaySampleJson = """{"id":"1113","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$yesterday"}"""
 
         whenever(gson.fromJson<SampleDto>(eq(todaySampleJson), any<Type>())).thenReturn(todaySample.toDto())
@@ -153,7 +155,7 @@ class SampleRepositorySharedPreferenceTest {
 
         whenever(store.all()).thenReturn(listOf(sampleOnlyRequiredJson, todaySampleJson, yesterdaySampleJson))
 
-        val sample = subject.last()
+        val sample = subject.lastSaved()
 
         assert(sample == todaySample)
     }

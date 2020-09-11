@@ -13,6 +13,7 @@ import net.aiscope.gdd_app.ui.main.SelectDiseaseView
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -40,7 +41,15 @@ class SelectDiseasePresenterTest {
     @Test
     fun `should store a disease with a name in the repository`() =
         coroutinesTestRule.runBlockingTest {
-            whenever(repository.create()).thenReturn(Sample("id", "hospital", "a microscopist"))
+            whenever(repository.create(anyString())).thenReturn(
+                Sample(
+                    "id",
+                    "hospital",
+                    "a microscopist",
+                    DISEASE_NAME
+                )
+            )
+
             subject.saveDisease(DISEASE_NAME)
 
             argumentCaptor<Sample>().apply {

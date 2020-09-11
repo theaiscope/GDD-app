@@ -9,7 +9,7 @@ data class Sample(
     val id: String,
     val healthFacility: String,
     val microscopist: String,
-    val disease: String? = null,
+    val disease: String,
     val preparation: SamplePreparation? = null,
     val microscopeQuality: MicroscopeQuality? = null,
     val images: LinkedHashSet<File> = linkedSetOf(),

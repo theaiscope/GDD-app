@@ -108,7 +108,7 @@ class MetadataPresenterTest {
         val expectedSmearType = R.id.metadata_blood_smear_thin
         val expectedSpecies = "P. ovale"
 
-        whenever(repository.last()).thenReturn(
+        whenever(repository.lastSaved()).thenReturn(
             Sample(
                 id = "idlast",
                 healthFacility = "StPau",

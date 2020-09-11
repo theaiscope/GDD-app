@@ -17,7 +17,7 @@ data class SampleDto(
     @SerializedName("id") val id: String,
     @SerializedName("healthFacility") val healthFacility: String,
     @SerializedName("microscopist") val microscopist: String,
-    @SerializedName("disease") val disease: String? = null,
+    @SerializedName("disease") val disease: String,
     @SerializedName("preparation") val preparation: SamplePreparationDto?,
     @SerializedName("microscopeQuality") val microscopeQuality: MicroscopeQualityDto?,
     @SerializedName("imagePaths") val imagePaths: List<String>,

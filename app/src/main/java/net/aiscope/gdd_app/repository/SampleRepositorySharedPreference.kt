@@ -17,16 +17,17 @@ class SampleRepositorySharedPreference @Inject constructor(
     private var currentSample: Sample? = null
 
     override suspend fun current(): Sample {
-        return currentSample ?: create()
+        return currentSample ?: lastIncomplete() ?: throw SampleRepositoryException("Current sample could not be retrieved")
     }
 
-    override suspend fun create(): Sample {
+    override suspend fun create(disease: String): Sample {
         val uuid = uuid.generateUUID()
         val facility = healthFacilityRepository.load()
         val sample = Sample(
             uuid,
             facility.id,
             facility.microscopist,
+            disease,
             createdOn = Calendar.getInstance(),
             lastModified = Calendar.getInstance()
         )
@@ -60,10 +61,18 @@ class SampleRepositorySharedPreference @Inject constructor(
         }.filterNotNull()
     }
 
-    override suspend fun last(): Sample? {
+    override suspend fun lastSaved(): Sample? {
         val allStores = all()
         return allStores
             .filter { s -> s.status != SampleStatus.Incomplete }
             .sortedBy { it.createdOn }.lastOrNull()
     }
+
+    fun lastIncomplete(): Sample? {
+        val allStores = all()
+        return allStores
+            .filter { s -> s.status == SampleStatus.Incomplete }
+            .sortedBy { it.createdOn }.lastOrNull()
+    }
+
 }
