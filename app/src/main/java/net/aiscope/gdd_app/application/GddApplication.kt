@@ -1,17 +1,17 @@
 package net.aiscope.gdd_app.application
 
 import android.app.Application
+import android.util.Log
 import android.view.TextureView
 import androidx.work.Configuration
 import androidx.work.WorkManager
 import androidx.work.WorkerFactory
-import com.crashlytics.android.Crashlytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.smartlook.sdk.smartlook.Smartlook
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import net.aiscope.gdd_app.BuildConfig
 import net.aiscope.gdd_app.dagger.DaggerAppComponent
-import org.jetbrains.annotations.NotNull
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,9 +45,18 @@ class GddApplication : Application(), HasAndroidInjector {
 }
 
 /** A tree which logs information for crashlytics reporting. */
-class CrashlyticsReportingTree : @NotNull Timber.Tree() {
+class CrashlyticsReportingTree : Timber.Tree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        Crashlytics.log(priority, tag, message)
-        t?.also { Crashlytics.logException(it) }
+        val level = when (priority) {
+            Log.VERBOSE -> "V"
+            Log.DEBUG -> "D"
+            Log.INFO -> "I"
+            Log.WARN -> "W"
+            Log.ERROR -> "E"
+            Log.ASSERT -> "A"
+            else -> "?"
+        }
+        FirebaseCrashlytics.getInstance().log("$level${tag?.let {"/$it"}}: $message")
+        t?.also { FirebaseCrashlytics.getInstance().recordException(it) }
     }
 }
