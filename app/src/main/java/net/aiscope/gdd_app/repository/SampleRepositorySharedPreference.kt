@@ -17,7 +17,8 @@ class SampleRepositorySharedPreference @Inject constructor(
     private var currentSample: Sample? = null
 
     override suspend fun current(): Sample {
-        return currentSample ?: lastIncomplete() ?: throw SampleRepositoryException("Current sample could not be retrieved")
+        return currentSample ?: lastIncomplete()
+        ?: throw SampleRepositoryException("Current sample could not be retrieved")
     }
 
     override suspend fun create(disease: String): Sample {
