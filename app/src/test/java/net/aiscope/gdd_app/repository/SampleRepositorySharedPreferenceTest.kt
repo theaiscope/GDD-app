@@ -159,4 +159,33 @@ class SampleRepositorySharedPreferenceTest {
 
         assert(sample == todaySample)
     }
+
+    @Test
+    fun `should give last unfinished sample`() = coroutinesTestRule.runBlockingTest {
+        val todayId = "1112"
+        val yesterdayId = "1113"
+        val twoDaysId = "1114"
+        val today = Calendar.getInstance()
+        val yesterday = Calendar.getInstance()
+        yesterday.add(Calendar.DAY_OF_YEAR, -1)
+        val twoDays = Calendar.getInstance()
+        twoDays.add(Calendar.DAY_OF_YEAR, -2)
+
+        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.ReadyToUpload, createdOn = today)
+        val todaySampleJson = """{"id":"1112","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$today"}"""
+        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.Incomplete, createdOn = yesterday)
+        val yesterdaySampleJson = """{"id":"1113","healthFacility":"H_St_Pau","status":"Incomplete","createdOn":"$yesterday"}"""
+        val twoDaysSample = Sample(twoDaysId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.Incomplete, createdOn = twoDays)
+        val twoDaysSampleJson = """{"id":"1114","healthFacility":"H_St_Pau","status":"Incomplete","createdOn":"$twoDays"}"""
+
+        whenever(gson.fromJson<SampleDto>(eq(todaySampleJson), any<Type>())).thenReturn(todaySample.toDto())
+        whenever(gson.fromJson<SampleDto>(eq(yesterdaySampleJson), any<Type>())).thenReturn(yesterdaySample.toDto())
+        whenever(gson.fromJson<SampleDto>(eq(twoDaysSampleJson), any<Type>())).thenReturn(twoDaysSample.toDto())
+
+        whenever(store.all()).thenReturn(listOf(todaySampleJson, yesterdaySampleJson, twoDaysSampleJson))
+
+        val sample = subject.lastIncomplete()
+
+        assert(sample == yesterdaySample)
+    }
 }
