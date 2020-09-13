@@ -28,16 +28,6 @@ class MetadataActivityTest {
     }
 
     @Test
-    @Ignore("Blood type is preselected")
-    fun shouldShowErrorMessageIfNoBloodTypeSelected() {
-        Espresso.onView(ViewMatchers.withText(R.string.metadata_save_sample)).perform(click())
-
-        Espresso.onView(ViewMatchers.withText(R.string.metadata_invalid_form))
-            .inRoot(RootMatchers.withDecorView(Matchers.not(intentsMetadataTestRule.activity.window.decorView)))
-            .check(matches(ViewMatchers.isDisplayed()))
-    }
-
-    @Test
     @Ignore("needs to have firebase auth current user stubbed")
     fun shouldStoreData() {
         // Select bloodType

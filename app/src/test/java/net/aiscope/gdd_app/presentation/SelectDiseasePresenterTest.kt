@@ -41,7 +41,7 @@ class SelectDiseasePresenterTest {
     @Test
     fun `should store a disease with a name in the repository`() =
         coroutinesTestRule.runBlockingTest {
-            whenever(repository.create(anyString())).thenReturn(
+            whenever(repository.create(DISEASE_NAME)).thenReturn(
                 Sample(
                     "id",
                     "hospital",

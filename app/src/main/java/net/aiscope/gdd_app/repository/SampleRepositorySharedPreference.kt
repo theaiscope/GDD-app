@@ -65,15 +65,13 @@ class SampleRepositorySharedPreference @Inject constructor(
     override suspend fun lastSaved(): Sample? {
         val allStores = all()
         return allStores
-            .filter { s -> s.status != SampleStatus.Incomplete }
-            .sortedBy { it.createdOn }.lastOrNull()
+            .filter { s -> s.status != SampleStatus.Incomplete }.maxBy { it.createdOn }
     }
 
-    fun lastIncomplete(): Sample? {
+    private fun lastIncomplete(): Sample? {
         val allStores = all()
         return allStores
-            .filter { s -> s.status == SampleStatus.Incomplete }
-            .sortedBy { it.createdOn }.lastOrNull()
+            .filter { s -> s.status == SampleStatus.Incomplete }.maxBy { it.createdOn }
     }
 
 }

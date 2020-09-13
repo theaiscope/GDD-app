@@ -46,10 +46,6 @@ class MetadataPresenter @Inject constructor(
         )
     }
 
-    fun notValid() {
-        view.showInvalidFormError()
-    }
-
     suspend fun save(smearTypeId: Int, speciesValue: String, comments: String) {
         try {
             val sample = repository.current()

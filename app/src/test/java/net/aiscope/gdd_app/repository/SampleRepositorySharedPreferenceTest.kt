@@ -138,7 +138,7 @@ class SampleRepositorySharedPreferenceTest {
     }
 
     @Test
-    fun `should give last sample`() = coroutinesTestRule.runBlockingTest {
+    fun `should give last stored sample`() = coroutinesTestRule.runBlockingTest {
         val todayId = "1112"
         val yesterdayId = "1113"
         val today = Calendar.getInstance()
@@ -161,7 +161,7 @@ class SampleRepositorySharedPreferenceTest {
     }
 
     @Test
-    fun `should give last unfinished sample`() = coroutinesTestRule.runBlockingTest {
+    fun `should give last unfinished sample on current`() = coroutinesTestRule.runBlockingTest {
         val todayId = "1112"
         val yesterdayId = "1113"
         val twoDaysId = "1114"
@@ -184,7 +184,7 @@ class SampleRepositorySharedPreferenceTest {
 
         whenever(store.all()).thenReturn(listOf(todaySampleJson, yesterdaySampleJson, twoDaysSampleJson))
 
-        val sample = subject.lastIncomplete()
+        val sample = subject.current()
 
         assert(sample == yesterdaySample)
     }
