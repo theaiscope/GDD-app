@@ -139,19 +139,11 @@ class SampleRepositorySharedPreferenceTest {
 
     @Test
     fun `should give last stored sample`() = coroutinesTestRule.runBlockingTest {
-        val todayId = "1112"
-        val yesterdayId = "1113"
         val today = Calendar.getInstance()
-        val yesterday = Calendar.getInstance()
-        yesterday.add(Calendar.DAY_OF_YEAR, -1)
+        val yesterday = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, -1) }
 
-        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.ReadyToUpload, createdOn = today)
-        val todaySampleJson = """{"id":"1112","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$today"}"""
-        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.ReadyToUpload, createdOn = yesterday)
-        val yesterdaySampleJson = """{"id":"1113","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$yesterday"}"""
-
-        whenever(gson.fromJson<SampleDto>(eq(todaySampleJson), any<Type>())).thenReturn(todaySample.toDto())
-        whenever(gson.fromJson<SampleDto>(eq(yesterdaySampleJson), any<Type>())).thenReturn(yesterdaySample.toDto())
+        val (todaySample, todaySampleJson) = mockSampleAndJson("1112", today, SampleStatus.ReadyToUpload)
+        val (_, yesterdaySampleJson) = mockSampleAndJson("1113", yesterday, SampleStatus.Incomplete)
 
         whenever(store.all()).thenReturn(listOf(sampleOnlyRequiredJson, todaySampleJson, yesterdaySampleJson))
 
@@ -162,30 +154,26 @@ class SampleRepositorySharedPreferenceTest {
 
     @Test
     fun `should give last unfinished sample on current`() = coroutinesTestRule.runBlockingTest {
-        val todayId = "1112"
-        val yesterdayId = "1113"
-        val twoDaysId = "1114"
         val today = Calendar.getInstance()
-        val yesterday = Calendar.getInstance()
-        yesterday.add(Calendar.DAY_OF_YEAR, -1)
-        val twoDays = Calendar.getInstance()
-        twoDays.add(Calendar.DAY_OF_YEAR, -2)
+        val yesterday = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, -1) }
+        val twoDays = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, -2) }
 
-        val todaySample = Sample(todayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.ReadyToUpload, createdOn = today)
-        val todaySampleJson = """{"id":"1112","healthFacility":"H_St_Pau","status":"ReadyToUpload","createdOn":"$today"}"""
-        val yesterdaySample = Sample(yesterdayId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.Incomplete, createdOn = yesterday)
-        val yesterdaySampleJson = """{"id":"1113","healthFacility":"H_St_Pau","status":"Incomplete","createdOn":"$yesterday"}"""
-        val twoDaysSample = Sample(twoDaysId, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = SampleStatus.Incomplete, createdOn = twoDays)
-        val twoDaysSampleJson = """{"id":"1114","healthFacility":"H_St_Pau","status":"Incomplete","createdOn":"$twoDays"}"""
-
-        whenever(gson.fromJson<SampleDto>(eq(todaySampleJson), any<Type>())).thenReturn(todaySample.toDto())
-        whenever(gson.fromJson<SampleDto>(eq(yesterdaySampleJson), any<Type>())).thenReturn(yesterdaySample.toDto())
-        whenever(gson.fromJson<SampleDto>(eq(twoDaysSampleJson), any<Type>())).thenReturn(twoDaysSample.toDto())
+        val (_, todaySampleJson) = mockSampleAndJson("1112", today, SampleStatus.ReadyToUpload)
+        val (yesterdaySample, yesterdaySampleJson) = mockSampleAndJson("1113", yesterday, SampleStatus.Incomplete)
+        val (_, twoDaysSampleJson) = mockSampleAndJson("1114", twoDays, SampleStatus.Incomplete)
 
         whenever(store.all()).thenReturn(listOf(todaySampleJson, yesterdaySampleJson, twoDaysSampleJson))
 
         val sample = subject.current()
 
         assert(sample == yesterdaySample)
+    }
+
+    private fun mockSampleAndJson(id: String, date: Calendar, status: SampleStatus): Pair<Sample, String> {
+        val sample = Sample(id, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = status, createdOn = date)
+        val sampleJson = """{"id":"$id","healthFacility":"H_St_Pau","status":"$status","createdOn":"$date"}"""
+        whenever(gson.fromJson<SampleDto>(eq(sampleJson), any<Type>())).thenReturn(sample.toDto())
+
+        return sample to sampleJson
     }
 }
