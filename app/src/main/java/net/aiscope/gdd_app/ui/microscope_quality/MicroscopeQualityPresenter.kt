@@ -13,7 +13,7 @@ class MicroscopeQualityPresenter @Inject constructor(
 ) {
 
     suspend fun showScreen() {
-        val lastMicroscopeQuality = repository.last()?.microscopeQuality
+        val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
         view.fillForm(mapper.convert(lastMicroscopeQuality))
     }
 

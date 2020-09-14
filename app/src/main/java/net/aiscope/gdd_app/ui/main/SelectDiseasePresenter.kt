@@ -21,7 +21,7 @@ class SelectDiseasePresenter @Inject constructor(
     }
 
     suspend fun saveDisease(diseaseName: String) {
-        val sample = repository.create().copy(disease = diseaseName)
+        val sample = repository.create(diseaseName)
         repository.store(sample)
 
         view.goToSamplePreparation()

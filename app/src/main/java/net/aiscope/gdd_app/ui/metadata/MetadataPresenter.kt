@@ -32,12 +32,7 @@ class MetadataPresenter @Inject constructor(
     suspend fun showScreen() {
         val sample = repository.current()
 
-        if (sample.disease == null) {
-            notValid()
-            return
-        }
-
-        val lastMetadata = repository.last()?.metadata
+        val lastMetadata = repository.lastSaved()?.metadata
         view.fillForm(
             ViewStateModel(
                 sample.disease,
@@ -49,10 +44,6 @@ class MetadataPresenter @Inject constructor(
                 comments = lastMetadata?.comments
             )
         )
-    }
-
-    fun notValid() {
-        view.showInvalidFormError()
     }
 
     suspend fun save(smearTypeId: Int, speciesValue: String, comments: String) {
@@ -82,6 +73,6 @@ class MetadataPresenter @Inject constructor(
 
     suspend fun editImage(image: File, mask: File) {
         val current = repository.current()
-        view.editImage(current.disease!!, image, mask)
+        view.editImage(current.disease, image, mask)
     }
 }

@@ -13,7 +13,7 @@ class SamplePreparationPresenter @Inject constructor(
 ) {
 
     suspend fun showScreen() {
-        val lastPreparation = repository.last()?.preparation
+        val lastPreparation = repository.lastSaved()?.preparation
         view.fillForm(mapper.convert(lastPreparation, context))
     }
 

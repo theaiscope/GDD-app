@@ -75,10 +75,6 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         model.speciesValue?.let { binding.metadataSpeciesSpinner.select(it) }
     }
 
-    override fun showInvalidFormError() {
-        Toast.makeText(this, R.string.metadata_invalid_form, Toast.LENGTH_SHORT).show()
-    }
-
     override fun showRetryBar() {
         CustomSnackbar.make(
             findViewById(android.R.id.content),

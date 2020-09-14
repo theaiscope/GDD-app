@@ -17,6 +17,7 @@ class SampleTest {
         private const val ID = "_id"
         private const val FACILITY = "facility"
         private const val MICROSCOPIST = "microscopist"
+        private const val DISEASE = "disease"
 
         private val VERSION_REGEX = Regex("""^\d+\.\d+\.\d+ \([a-zA-Z0-9]+\)""")
         private val ISO_REGEX = Regex("""^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d[0-5]\d|Z)""")
@@ -47,6 +48,7 @@ class SampleTest {
             ID,
             FACILITY,
             MICROSCOPIST,
+            DISEASE,
             preparation = samplePreparation,
             microscopeQuality = microscopeQuality
         )
@@ -68,6 +70,7 @@ class SampleTest {
         assertEquals(ID, dto.id)
         assertEquals(FACILITY, dto.healthFacility)
         assertEquals(MICROSCOPIST, dto.microscopist)
+        assertEquals(DISEASE, dto.disease)
         assertEquals(expectedSamplePreparationDto, dto.preparation)
         assertEquals(expectedMicroscopeQualityDto, dto.microscopeQuality)
         assertTrue(dto.appVersion.matches(VERSION_REGEX))
