@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.extensions.writeToFile
+import timber.log.Timber
 import java.io.File
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
@@ -102,6 +103,8 @@ object BitmapReader {
         // Release
         egl.eglTerminate(display)
 
+        Timber.tag("Downsampling").d("Setting maximum texture size to ${max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)}")
+
         // Return largest texture size found, or default
         return max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)
     }
@@ -113,6 +116,8 @@ suspend fun calculateInSampleSize(
 ): Int = withContext(Dispatchers.Default) {
     // Raw height and width of image
     val (height: Int, width: Int) = options.run { outHeight to outWidth }
+    Timber.tag("Downsampling").d("Original dimensions $height x $width")
+    Timber.tag("Downsampling").d("Requested dimensions ${downSamplingRequest.height} x ${downSamplingRequest.width}")
     var inSampleSize = 1
 
     if (height > downSamplingRequest.height || width > downSamplingRequest.width) {
@@ -140,5 +145,6 @@ suspend fun calculateInSampleSize(
             }
         }
     }
+    Timber.tag("Downsampling").d("Resulting sample size $inSampleSize")
     return@withContext inSampleSize
 }

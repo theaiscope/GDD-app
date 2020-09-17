@@ -11,6 +11,7 @@ import android.util.Size
 import androidx.core.graphics.component1
 import androidx.core.graphics.component2
 import androidx.core.graphics.withMatrix
+import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 class MaskLayer(private val imageMatrix: Matrix) {
@@ -65,6 +66,8 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     fun initSize(size: Size) {
         require(!sizeInitialized()) { "Size was initialized already!" }
+        Timber.tag("MaskLayer").d("Initializing mask size to ${size.height} x ${size.width}")
+
         this.size = size
 
         currentStateBitmap = Bitmap.createBitmap(
