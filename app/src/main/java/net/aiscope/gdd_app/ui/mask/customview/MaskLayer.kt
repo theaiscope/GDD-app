@@ -76,6 +76,10 @@ class MaskLayer(private val imageMatrix: Matrix) {
             Bitmap.Config.ARGB_8888
         )
 
+        Timber.tag("MaskLayer").d("Created currentstatebitmap with " +
+                "${currentStateBitmap.height} x ${currentStateBitmap.width} " +
+                "of ${currentStateBitmap.byteCount} bytes")
+
         currentStateBitmapCanvas = Canvas(currentStateBitmap)
     }
 
@@ -102,7 +106,8 @@ class MaskLayer(private val imageMatrix: Matrix) {
         }
         canvas.withMatrix(imageMatrix) {
             Timber.tag("MaskLayer")
-                .d("Drawing current state bitmap with dimensions ${currentStateBitmap.height} x ${currentStateBitmap.width} " +
+                .d("Drawing current state bitmap with dimensions " +
+                        "${currentStateBitmap.height} x ${currentStateBitmap.width} " +
                         "and fileSize ${currentStateBitmap.byteCount}")
             this.drawBitmap(currentStateBitmap, 0f, 0f, BITMAP_TRANSFER_PAINT)
             Timber.tag("MaskLayer")
