@@ -103,8 +103,8 @@ object BitmapReader {
         // Release
         egl.eglTerminate(display)
 
-        Timber.tag("Downsampling")
-            .d("Setting maximum texture size to ${max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)}")
+        Timber.tag("Downsampling").d("Setting maximum texture size to " +
+                "${max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)}")
 
         // Return largest texture size found, or default
         return max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)
