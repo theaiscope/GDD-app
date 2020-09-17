@@ -101,7 +101,11 @@ class MaskLayer(private val imageMatrix: Matrix) {
             keepLatestChangeBitmap()
         }
         canvas.withMatrix(imageMatrix) {
+            Timber.tag("MaskLayer")
+                .d("Drawing current state bitmap with dimensions ${currentStateBitmap.height} x ${currentStateBitmap.width}")
             this.drawBitmap(currentStateBitmap, 0f, 0f, BITMAP_TRANSFER_PAINT)
+            Timber.tag("MaskLayer")
+                .d("Finished drawing current state bitmap with dimensions ${currentStateBitmap.height} x ${currentStateBitmap.width}")
         }
     }
 
