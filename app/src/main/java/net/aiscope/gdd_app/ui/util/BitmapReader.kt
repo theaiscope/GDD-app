@@ -12,10 +12,14 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.egl.EGLContext
 import javax.microedition.khronos.egl.EGLDisplay
 import kotlin.math.max
+import kotlin.math.min
 
 object BitmapReader {
     // Texture size should never be smaller than this
     private const val DEFAULT_MIN_TEXTURE_SIZE = 2048
+
+    // Texture size should never be bigger than this to avoid bitmaps > 100MB
+    private const val DEFAULT_MAX_TEXTURE_SIZE = 5000
 
     val MAX_TEXTURE_SIZE by lazy { getMaxTextureSize() }
 
@@ -103,11 +107,14 @@ object BitmapReader {
         // Release
         egl.eglTerminate(display)
 
+        val effectiveTextureSize =
+            min(max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE), DEFAULT_MAX_TEXTURE_SIZE)
+
         Timber.tag("Downsampling").d("Setting maximum texture size to " +
-                "${max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)}")
+                "$effectiveTextureSize")
 
         // Return largest texture size found, or default
-        return max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE)
+        return effectiveTextureSize
     }
 }
 
