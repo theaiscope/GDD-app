@@ -66,7 +66,6 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     fun initSize(size: Size) {
         require(!sizeInitialized()) { "Size was initialized already!" }
-
         this.size = size
 
         currentStateBitmap = Bitmap.createBitmap(
