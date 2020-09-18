@@ -66,7 +66,6 @@ class MaskLayer(private val imageMatrix: Matrix) {
 
     fun initSize(size: Size) {
         require(!sizeInitialized()) { "Size was initialized already!" }
-        Timber.tag("MaskLayer").d("Initializing mask size to ${size.height} x ${size.width}")
 
         this.size = size
 
@@ -76,9 +75,10 @@ class MaskLayer(private val imageMatrix: Matrix) {
             Bitmap.Config.ARGB_8888
         )
 
-        Timber.tag("MaskLayer").d("Created currentstatebitmap with " +
-                "${currentStateBitmap.height} x ${currentStateBitmap.width} " +
-                "of ${currentStateBitmap.byteCount} bytes")
+        Timber.tag("MaskLayer").d("Created mask bitmap with %s x %s of %s bytes",
+            currentStateBitmap.height,
+            currentStateBitmap.width,
+            currentStateBitmap.byteCount)
 
         currentStateBitmapCanvas = Canvas(currentStateBitmap)
     }
@@ -105,13 +105,7 @@ class MaskLayer(private val imageMatrix: Matrix) {
             keepLatestChangeBitmap()
         }
         canvas.withMatrix(imageMatrix) {
-            Timber.tag("MaskLayer")
-                .d("Drawing current state bitmap with dimensions " +
-                        "${currentStateBitmap.height} x ${currentStateBitmap.width} " +
-                        "and fileSize ${currentStateBitmap.byteCount}")
             this.drawBitmap(currentStateBitmap, 0f, 0f, BITMAP_TRANSFER_PAINT)
-            Timber.tag("MaskLayer")
-                .d("Finished drawing current state bitmap")
         }
     }
 
