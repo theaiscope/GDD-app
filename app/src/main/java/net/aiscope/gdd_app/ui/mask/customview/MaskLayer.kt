@@ -11,6 +11,7 @@ import android.util.Size
 import androidx.core.graphics.component1
 import androidx.core.graphics.component2
 import androidx.core.graphics.withMatrix
+import timber.log.Timber
 
 @Suppress("TooManyFunctions")
 class MaskLayer(private val imageMatrix: Matrix) {
@@ -72,6 +73,11 @@ class MaskLayer(private val imageMatrix: Matrix) {
             size.height,
             Bitmap.Config.ARGB_8888
         )
+
+        Timber.tag("MaskLayer").d("Created mask bitmap with %s x %s of %s bytes",
+            currentStateBitmap.height,
+            currentStateBitmap.width,
+            currentStateBitmap.byteCount)
 
         currentStateBitmapCanvas = Canvas(currentStateBitmap)
     }
