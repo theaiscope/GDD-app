@@ -107,7 +107,7 @@ object BitmapReader {
         egl.eglTerminate(display)
 
         // Return largest texture size found, or default
-        return min(max(maximumTextureSize, DEFAULT_MIN_TEXTURE_SIZE), DEFAULT_MAX_TEXTURE_SIZE)
+        return maximumTextureSize.coerceIn(DEFAULT_MIN_TEXTURE_SIZE, DEFAULT_MAX_TEXTURE_SIZE)
     }
 }
 
