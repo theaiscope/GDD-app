@@ -3,7 +3,6 @@ package net.aiscope.gdd_app.ui.metadata
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -27,10 +26,13 @@ class SampleImagesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(viewType, parent, false)
 
         return when (viewType) {
-            R.layout.item_metadata_add_image -> AddImageViewHolder(view, onAddImageClicked)
+            R.layout.item_metadata_add_image ->
+                AddImageViewHolder(
+                    layoutInflater.inflate(viewType, parent, false),
+                    onAddImageClicked
+                )
             R.layout.item_metadata_sample_image -> {
                 val binding = ItemMetadataSampleImageBinding.inflate(layoutInflater, parent, false)
                 ImageViewHolder(
@@ -94,7 +96,10 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
 }
 
 private class ImageViewHolder(
-    view: View, private val binding: ItemMetadataSampleImageBinding, private val uiScope: CoroutineScope, onImageClicked: (File, File) -> Unit
+    view: View,
+    private val binding: ItemMetadataSampleImageBinding,
+    private val uiScope: CoroutineScope,
+    onImageClicked: (File, File) -> Unit
 ) : RecyclerView.ViewHolder(view) {
     private lateinit var imageFile: File
     private lateinit var maskFile: File
@@ -107,21 +112,31 @@ private class ImageViewHolder(
         imageFile = image
         maskFile = mask
 
-        val sampleImage: ImageView = binding.sampleImage
-        val maskDotImage: ImageView = binding.maskDot
-
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
-            sampleImage.setImageBitmap(null)
-            val bitmap = BitmapReader.decodeSampledBitmapAndCache(
-                image,
-                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
-                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
-                itemView.context.cacheDir
-            )
-            sampleImage.setImageBitmap(bitmap)
+            with(binding) {
+                sampleImage.setImageBitmap(null)
+                val imageBmp = BitmapReader.decodeSampledBitmapAndCache(
+                    image,
+                    itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
+                    itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
+                    itemView.context.cacheDir
+                )
+                sampleImage.setImageBitmap(imageBmp)
 
-            maskDotImage.isVisible = hasMask
+                sampleMask.setImageBitmap(null)
+                if (hasMask) {
+                    val maskBmp = BitmapReader.decodeSampledBitmapAndCache(
+                        mask,
+                        itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
+                        itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
+                        itemView.context.cacheDir
+                    )
+                    sampleMask.setImageBitmap(maskBmp)
+                }
+
+                maskDot.isVisible = hasMask
+            }
         }
     }
 }

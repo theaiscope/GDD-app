@@ -22,6 +22,18 @@
         tools:src="@drawable/ic_add_photo_rounded" />
 
     <ImageView
+        android:id="@+id/sample_mask"
+        android:layout_width="@dimen/sample_image_thumbnail_width"
+        android:layout_height="@dimen/sample_image_thumbnail_height"
+        android:layout_gravity="bottom|start"
+        android:layout_marginTop="@dimen/sample_image_dot_displacement"
+        android:layout_marginEnd="@dimen/sample_image_dot_displacement"
+        android:background="@drawable/item_metadata_add_image_background"
+        android:contentDescription="@string/metadata_sample_image_content_description"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_add_photo_rounded" />
+
+    <ImageView
         android:id="@+id/mask_dot"
         android:layout_width="@dimen/sample_image_dot_size"
         android:layout_height="@dimen/sample_image_dot_size"
