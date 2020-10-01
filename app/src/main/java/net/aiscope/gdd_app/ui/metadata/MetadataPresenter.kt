@@ -1,20 +1,18 @@
 package net.aiscope.gdd_app.ui.metadata
 
 import android.content.Context
+import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import timber.log.Timber
-import java.io.File
 import javax.inject.Inject
 
 data class FieldOption(val id: Long, val title: Int)
 data class ViewStateModel(
     val disease: String,
-    val images: List<File>,
-    val masks: List<File>,
-    val hasMask: List<Boolean>,
+    val captures: List<CompletedCapture>,
     val options: List<FieldOption>,
     val required: Boolean = true,
     val smearTypeId: Int? = null,
@@ -37,9 +35,7 @@ class MetadataPresenter @Inject constructor(
         view.fillForm(
             ViewStateModel(
                 sample.disease,
-                sample.images.toList(),
-                sample.masks.toList(),
-                sample.hasMask.toList(),
+                sample.images.completedCaptures,
                 emptyList(),
                 smearTypeId = lastMetadata?.let { metadataMapper.getSmearTypeId(it.smearType) },
                 speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) },
@@ -73,8 +69,8 @@ class MetadataPresenter @Inject constructor(
         view.captureImage(current.nextImageName())
     }
 
-    suspend fun editImage(image: File, mask: File) {
+    suspend fun editImage(capture: CompletedCapture) {
         val current = repository.current()
-        view.editImage(current.disease, image, mask)
+        view.editCapture(current.disease, capture)
     }
 }

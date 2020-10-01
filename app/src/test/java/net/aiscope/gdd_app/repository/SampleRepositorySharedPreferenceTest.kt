@@ -11,6 +11,8 @@ import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.model.HealthFacility
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleStatus
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -24,6 +26,17 @@ import java.util.Calendar
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class SampleRepositorySharedPreferenceTest {
+
+    companion object {
+        private const val ID = "1111"
+        private const val HOSPITAL_NAME = "H. St. Pau"
+        private const val HOSPITAL_ID = "H_St_Pau"
+        private const val MICROSCOPIST = "a microscopist"
+        private const val DISEASE = "malaria"
+
+        private val sampleOnlyRequired = Sample(ID, HOSPITAL_ID, MICROSCOPIST, DISEASE)
+        private const val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H_St_Pau","status":"Incomplete","disease":"malaria"""
+    }
 
     @get:Rule
     val coroutinesTestRule = CoroutineTestRule()
@@ -43,15 +56,6 @@ class SampleRepositorySharedPreferenceTest {
     @InjectMocks
     lateinit var subject: SampleRepositorySharedPreference
 
-    private val ID = "1111"
-    private val HOSPITAL_NAME = "H. St. Pau"
-    private val HOSPITAL_ID = "H_St_Pau"
-    private val MICROSCOPIST = "a microscopist"
-    private val DISEASE = "malaria"
-
-    private val sampleOnlyRequired = Sample(ID, HOSPITAL_ID, MICROSCOPIST, DISEASE)
-    private val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H_St_Pau","status":"Incomplete","disease":"malaria"""
-
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
         whenever(healthFacilityRepository.load()).thenReturn(HealthFacility(HOSPITAL_NAME, HOSPITAL_ID, MICROSCOPIST))
@@ -68,11 +72,11 @@ class SampleRepositorySharedPreferenceTest {
 
         argumentCaptor<String>().apply {
             verify(store).store(eq(ID), capture())
-            assert(firstValue == sampleOnlyRequiredJson)
+            assertEquals(sampleOnlyRequiredJson, firstValue)
         }
 
-        assert(stored.lastModified.after(beforeCreate))
-        assert(stored.lastModified.after(stored.createdOn))
+        assertTrue(stored.lastModified.after(beforeCreate))
+        assertTrue(stored.lastModified.after(stored.createdOn))
     }
 
     @Test
@@ -81,7 +85,7 @@ class SampleRepositorySharedPreferenceTest {
 
         val sample = subject.load(ID)
 
-        assert(sample == sampleOnlyRequired)
+        assertEquals(sampleOnlyRequired, sample)
     }
 
     @Test
@@ -97,13 +101,13 @@ class SampleRepositorySharedPreferenceTest {
         val afterCreate = Calendar.getInstance()
         afterCreate.add(Calendar.SECOND, 1)
 
-        assert(sample.healthFacility == HOSPITAL_ID)
-        assert(sample.disease == DISEASE)
-        assert(sample.id == uuid)
-        assert(sample.createdOn.after(beforeCreate))
-        assert(sample.createdOn.before(afterCreate))
-        assert(sample.lastModified.after(beforeCreate))
-        assert(sample.lastModified.before(afterCreate))
+        assertEquals(HOSPITAL_ID, sample.healthFacility)
+        assertEquals(DISEASE, sample.disease)
+        assertEquals(uuid, sample.id)
+        assertTrue(sample.createdOn.after(beforeCreate))
+        assertTrue(sample.createdOn.before(afterCreate))
+        assertTrue(sample.lastModified.after(beforeCreate))
+        assertTrue(sample.lastModified.before(afterCreate))
     }
 
     @Test
@@ -115,7 +119,7 @@ class SampleRepositorySharedPreferenceTest {
         subject.create(DISEASE)
         val sample = subject.current()
 
-        assert(sample.id == uuid)
+        assertEquals(sample.id, uuid)
     }
 
     @Test
@@ -125,7 +129,7 @@ class SampleRepositorySharedPreferenceTest {
         subject.load(ID)
         val sample = subject.current()
 
-        assert(sample == sampleOnlyRequired)
+        assertEquals(sampleOnlyRequired, sample)
     }
 
     @Test
@@ -134,7 +138,7 @@ class SampleRepositorySharedPreferenceTest {
 
         val samples = subject.all()
 
-        assert(samples.size == 2)
+        assertEquals(2, samples.size)
     }
 
     @Test
@@ -149,7 +153,7 @@ class SampleRepositorySharedPreferenceTest {
 
         val sample = subject.lastSaved()
 
-        assert(sample == todaySample)
+        assertEquals(todaySample, sample)
     }
 
     @Test
@@ -166,7 +170,7 @@ class SampleRepositorySharedPreferenceTest {
 
         val sample = subject.current()
 
-        assert(sample == yesterdaySample)
+        assertEquals(yesterdaySample, sample)
     }
 
     private fun mockSampleAndJson(id: String, date: Calendar, status: SampleStatus): Pair<Sample, String> {

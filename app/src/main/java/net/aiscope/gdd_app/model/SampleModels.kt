@@ -1,9 +1,7 @@
 package net.aiscope.gdd_app.model
 
-import net.aiscope.gdd_app.extensions.plus
 import java.io.File
 import java.util.Calendar
-import java.util.LinkedHashSet
 
 data class Sample(
     val id: String,
@@ -12,28 +10,19 @@ data class Sample(
     val disease: String,
     val preparation: SamplePreparation? = null,
     val microscopeQuality: MicroscopeQuality? = null,
-    val images: LinkedHashSet<File> = linkedSetOf(),
-    val masks: LinkedHashSet<File> = linkedSetOf(),
-    val hasMask: MutableList<Boolean> = mutableListOf(),
+    val images: Images = Images(),
     val metadata: SampleMetadata = SampleMetadata(),
     val status: SampleStatus = SampleStatus.Incomplete,
     val createdOn: Calendar = Calendar.getInstance(),
     val lastModified: Calendar = Calendar.getInstance()
 ) {
-    fun addImage(path: File) = copy(images = images + path)
+    fun addImage(path: File) = copy(images = images.newCapture(path))
 
-    fun addMask(path: File, isEmpty: Boolean) = copy(masks = masks + path)
+    fun addMask(path: File, isEmpty: Boolean) = copy(images = images.addMask(path, isEmpty))
 
-    fun nextImageName(): String = "${id}_image_${images.size}"
+    fun nextImageName(): String = "${id}_image_${images.completedCaptureCount()}"
 
-    fun nextMaskName(): String = "${id}_mask_${images.size}"
-
-    fun addHasMask(path: File, isEmpty: Boolean): Sample {
-        val maskIndex = masks.indexOf(path)
-        if (hasMask.size > maskIndex) hasMask[maskIndex] = isEmpty
-        else hasMask.add(isEmpty)
-        return this
-    }
+    fun nextMaskName(): String = "${id}_mask_${images.completedCaptureCount()}"
 }
 
 enum class SampleStatus(val id: Short) {
@@ -63,6 +52,54 @@ data class MicroscopeQuality(
     val isDamaged: Boolean,
     val magnification: Int
 )
+
+data class Images(
+    val inProgressCapture: InProgressCapture?,
+    val completedCaptures: List<CompletedCapture>
+) {
+
+    constructor() : this(null, emptyList())
+
+    fun newCapture(path: File): Images = Images(InProgressCapture(path), completedCaptures)
+
+    fun addMask(maskPath: File, isEmpty: Boolean): Images {
+        val existingMaskIndex = completedCaptures.indexOfFirst { it.mask == maskPath }
+
+        return when {
+            existingMaskIndex >= 0 && inProgressCapture != null ->
+                // we somehow broke the business logic
+                throw IllegalStateException(
+                    "Trying to add mask $maskPath at index $existingMaskIndex " +
+                            "when inProgressCapture is not null ($inProgressCapture)"
+                )
+            inProgressCapture != null ->
+                Images(
+                    null,
+                    completedCaptures + CompletedCapture(
+                        inProgressCapture.image, maskPath, isEmpty
+                    )
+                )
+            else ->
+                Images(
+                    null,
+                    completedCaptures.slice(0 until existingMaskIndex) +
+                            completedCaptures[existingMaskIndex].copy(maskIsEmpty = isEmpty) +
+                            completedCaptures.slice(existingMaskIndex + 1 until completedCaptures.size)
+                )
+        }
+    }
+
+    fun completedCaptureCount(): Int {
+        return completedCaptures.size
+    }
+
+}
+
+sealed class Capture
+data class InProgressCapture(val image: File) : Capture()
+// TODO should we have different classes for captures with empty and non-empty masks?
+// (Probably yes, if we agree that there is no point in uploading empty masks)
+data class CompletedCapture(val image: File, val mask: File, val maskIsEmpty: Boolean) : Capture()
 
 data class SampleMetadata(
     val smearType: SmearType = SmearType.THIN,

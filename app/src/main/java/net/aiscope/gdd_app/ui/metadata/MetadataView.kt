@@ -1,11 +1,11 @@
 package net.aiscope.gdd_app.ui.metadata
 
-import java.io.File
+import net.aiscope.gdd_app.model.CompletedCapture
 
 interface MetadataView {
     fun fillForm(model: ViewStateModel)
     fun captureImage(nextImageName: String)
-    fun editImage(disease: String, image: File, mask: File)
+    fun editCapture(disease: String, capture: CompletedCapture)
     fun finishFlow()
     fun showRetryBar()
 }

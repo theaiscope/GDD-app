@@ -7,6 +7,7 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
+import net.aiscope.gdd_app.model.Images
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.capture.CaptureImagePresenter
@@ -39,7 +40,7 @@ class CaptureImagePresenterTest {
         val presenter = CaptureImagePresenter(view, repository)
         presenter.handleCaptureImageButton("any")
 
-        verify(repository).store(sample.copy(images = linkedSetOf(file)))
+        verify(repository).store(sample.copy(images = Images().newCapture(file)))
     }
 
 }
