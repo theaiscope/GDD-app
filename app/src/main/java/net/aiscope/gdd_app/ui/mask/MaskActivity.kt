@@ -196,7 +196,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     private fun isEmptyMaskBitmap(): Boolean {
         val maskBitmap = binding.photoMaskView.getMaskBitmap()
         val emptyBitmap: Bitmap =
-            Bitmap.createBitmap(maskBitmap.width, maskBitmap.height, maskBitmap.config);
+            Bitmap.createBitmap(maskBitmap.width, maskBitmap.height, maskBitmap.config)
         return maskBitmap.sameAs(emptyBitmap)
     }
 }
