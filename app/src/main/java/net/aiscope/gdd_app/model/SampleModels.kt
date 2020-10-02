@@ -99,8 +99,6 @@ data class Captures(
 
 sealed class Capture
 data class InProgressCapture(val image: File) : Capture()
-// TODO should we have different classes for captures with empty and non-empty masks?
-// (Probably yes, if we agree that there is no point in uploading empty masks)
 data class CompletedCapture(val image: File, val mask: File, val maskIsEmpty: Boolean) : Capture()
 
 data class SampleMetadata(
