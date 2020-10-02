@@ -35,7 +35,7 @@ class MetadataPresenter @Inject constructor(
         view.fillForm(
             ViewStateModel(
                 sample.disease,
-                sample.images.completedCaptures,
+                sample.captures.completedCaptures,
                 emptyList(),
                 smearTypeId = lastMetadata?.let { metadataMapper.getSmearTypeId(it.smearType) },
                 speciesValue = lastMetadata?.let { metadataMapper.getSpeciesValue(context, it.species) },

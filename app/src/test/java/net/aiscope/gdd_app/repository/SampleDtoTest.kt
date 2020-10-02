@@ -2,7 +2,7 @@ package net.aiscope.gdd_app.repository
 
 import com.nitorcreations.Matchers.containsElements
 import net.aiscope.gdd_app.model.CompletedCapture
-import net.aiscope.gdd_app.model.Images
+import net.aiscope.gdd_app.model.Captures
 import net.aiscope.gdd_app.model.InProgressCapture
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MicroscopeQuality
@@ -49,7 +49,7 @@ class SampleDtoTest {
         assertEquals(DISEASE, sample.disease)
         assertEquals(samplePreparation, sample.preparation)
         assertEquals(microscopeQuality, sample.microscopeQuality)
-        assertEquals(images, sample.images)
+        assertEquals(images, sample.captures)
         assertEquals(metadata, sample.metadata)
         assertEquals(status, sample.status)
         assertEquals(createdOn, sample.createdOn)
@@ -81,7 +81,7 @@ class SampleDtoTest {
         private val areMasksEmpty: List<Boolean> = listOf(MASK_1_IS_EMPTY, MASK_2_IS_EMPTY)
 
         private val createdOn: Calendar = Calendar.getInstance()
-        private val images = Images(
+        private val images = Captures(
             InProgressCapture(imageInProgress), listOf(
                 CompletedCapture(image1, mask1, MASK_1_IS_EMPTY),
                 CompletedCapture(image2, mask2, MASK_2_IS_EMPTY)
@@ -114,7 +114,7 @@ class SampleDtoTest {
             disease = DISEASE,
             preparation = samplePreparation,
             microscopeQuality = microscopeQuality,
-            images = images,
+            captures = images,
             metadata = metadata,
             status = status,
             createdOn = createdOn,

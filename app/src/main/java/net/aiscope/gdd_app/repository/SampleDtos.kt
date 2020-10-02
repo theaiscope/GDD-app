@@ -2,7 +2,7 @@ package net.aiscope.gdd_app.repository
 
 import com.google.gson.annotations.SerializedName
 import net.aiscope.gdd_app.model.CompletedCapture
-import net.aiscope.gdd_app.model.Images
+import net.aiscope.gdd_app.model.Captures
 import net.aiscope.gdd_app.model.InProgressCapture
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MicroscopeQuality
@@ -42,7 +42,7 @@ data class SampleDto(
             disease = disease,
             preparation = preparation?.toDomain(),
             microscopeQuality = microscopeQuality?.toDomain(),
-            images = Images(inProgressCapture, completedCaptures),
+            captures = Captures(inProgressCapture, completedCaptures),
             metadata = metadata.toDomain(),
             status = SampleStatus.values().first { it.id == status },
             createdOn = createdOn,
@@ -110,10 +110,10 @@ fun Sample.toDto() = SampleDto(
     disease = disease,
     preparation = preparation?.toDto(),
     microscopeQuality = microscopeQuality?.toDto(),
-    imagePaths = images.completedCaptures.map { it.image.absolutePath } +
-            listOfNotNull(images.inProgressCapture?.image?.absolutePath),
-    maskPaths = images.completedCaptures.map { it.mask.absolutePath },
-    areMasksEmpty = images.completedCaptures.map { it.maskIsEmpty },
+    imagePaths = captures.completedCaptures.map { it.image.absolutePath } +
+            listOfNotNull(captures.inProgressCapture?.image?.absolutePath),
+    maskPaths = captures.completedCaptures.map { it.mask.absolutePath },
+    areMasksEmpty = captures.completedCaptures.map { it.maskIsEmpty },
     metadata = metadata.toDto(),
     status = status.id,
     createdOn = createdOn,

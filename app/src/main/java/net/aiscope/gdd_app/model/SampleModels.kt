@@ -10,19 +10,19 @@ data class Sample(
     val disease: String,
     val preparation: SamplePreparation? = null,
     val microscopeQuality: MicroscopeQuality? = null,
-    val images: Images = Images(),
+    val captures: Captures = Captures(),
     val metadata: SampleMetadata = SampleMetadata(),
     val status: SampleStatus = SampleStatus.Incomplete,
     val createdOn: Calendar = Calendar.getInstance(),
     val lastModified: Calendar = Calendar.getInstance()
 ) {
-    fun addImage(path: File) = copy(images = images.newCapture(path))
+    fun addNewlyCapturedImage(path: File) = copy(captures = captures.newCapture(path))
 
-    fun addMask(path: File, isEmpty: Boolean) = copy(images = images.addMask(path, isEmpty))
+    fun addMask(path: File, isEmpty: Boolean) = copy(captures = captures.addMask(path, isEmpty))
 
-    fun nextImageName(): String = "${id}_image_${images.completedCaptureCount()}"
+    fun nextImageName(): String = "${id}_image_${captures.completedCaptureCount()}"
 
-    fun nextMaskName(): String = "${id}_mask_${images.completedCaptureCount()}"
+    fun nextMaskName(): String = "${id}_mask_${captures.completedCaptureCount()}"
 }
 
 enum class SampleStatus(val id: Short) {
@@ -53,16 +53,16 @@ data class MicroscopeQuality(
     val magnification: Int
 )
 
-data class Images(
+data class Captures(
     val inProgressCapture: InProgressCapture?,
     val completedCaptures: List<CompletedCapture>
 ) {
 
     constructor() : this(null, emptyList())
 
-    fun newCapture(path: File): Images = Images(InProgressCapture(path), completedCaptures)
+    fun newCapture(path: File): Captures = Captures(InProgressCapture(path), completedCaptures)
 
-    fun addMask(maskPath: File, isEmpty: Boolean): Images {
+    fun addMask(maskPath: File, isEmpty: Boolean): Captures {
         val existingMaskIndex = completedCaptures.indexOfFirst { it.mask == maskPath }
 
         return when {
@@ -73,14 +73,14 @@ data class Images(
                             "when inProgressCapture is not null ($inProgressCapture)"
                 )
             inProgressCapture != null ->
-                Images(
+                Captures(
                     null,
                     completedCaptures + CompletedCapture(
                         inProgressCapture.image, maskPath, isEmpty
                     )
                 )
             else ->
-                Images(
+                Captures(
                     null,
                     completedCaptures.slice(0 until existingMaskIndex) +
                             completedCaptures[existingMaskIndex].copy(maskIsEmpty = isEmpty) +

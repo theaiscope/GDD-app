@@ -9,7 +9,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.model.Images
+import net.aiscope.gdd_app.model.Captures
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleMetadata
@@ -62,7 +62,7 @@ class MetadataPresenterTest {
                 id = "id",
                 healthFacility = "StPau",
                 microscopist = "a microscopist",
-                images = Images(),
+                captures = Captures(),
                 disease = "malaria"
             )
         )
@@ -114,7 +114,7 @@ class MetadataPresenterTest {
                 id = "idlast",
                 healthFacility = "StPau",
                 microscopist = "a microscopist",
-                images = Images(),
+                captures = Captures(),
                 disease = "malaria",
                 createdOn = java.util.Calendar.getInstance(),
                 metadata = SampleMetadata(
