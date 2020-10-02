@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.model
 
+import net.aiscope.gdd_app.extensions.replaceElementAt
 import java.io.File
 import java.util.Calendar
 
@@ -18,7 +19,7 @@ data class Sample(
 ) {
     fun addNewlyCapturedImage(path: File) = copy(captures = captures.newCapture(path))
 
-    fun addMask(path: File, isEmpty: Boolean) = copy(captures = captures.addMask(path, isEmpty))
+    fun upsertMask(path: File, isEmpty: Boolean) = copy(captures = captures.upsertMask(path, isEmpty))
 
     fun nextImageName(): String = "${id}_image_${captures.completedCaptureCount()}"
 
@@ -62,29 +63,30 @@ data class Captures(
 
     fun newCapture(path: File): Captures = Captures(InProgressCapture(path), completedCaptures)
 
-    fun addMask(maskPath: File, isEmpty: Boolean): Captures {
-        val existingMaskIndex = completedCaptures.indexOfFirst { it.mask == maskPath }
+    fun upsertMask(maskPath: File, isEmpty: Boolean): Captures {
+        val indexOfExistingCaptureForMask = completedCaptures.indexOfFirst { it.mask == maskPath }
 
         return when {
-            existingMaskIndex >= 0 && inProgressCapture != null ->
+            indexOfExistingCaptureForMask >= 0 && inProgressCapture != null ->
                 // we somehow broke the business logic
                 throw IllegalStateException(
-                    "Trying to add mask $maskPath at index $existingMaskIndex " +
+                    "Trying to add mask $maskPath at index $indexOfExistingCaptureForMask " +
                             "when inProgressCapture is not null ($inProgressCapture)"
                 )
-            inProgressCapture != null ->
+            inProgressCapture != null -> // indexOfCaptureIfMaskExists < 0
                 Captures(
                     null,
                     completedCaptures + CompletedCapture(
                         inProgressCapture.image, maskPath, isEmpty
                     )
                 )
-            else ->
+            else -> // inProgressCapture == null && indexOfCaptureIfMaskExists < 0
                 Captures(
                     null,
-                    completedCaptures.slice(0 until existingMaskIndex) +
-                            completedCaptures[existingMaskIndex].copy(maskIsEmpty = isEmpty) +
-                            completedCaptures.slice(existingMaskIndex + 1 until completedCaptures.size)
+                    completedCaptures.replaceElementAt(
+                        indexOfExistingCaptureForMask,
+                        completedCaptures[indexOfExistingCaptureForMask].copy(maskIsEmpty = isEmpty)
+                    )
                 )
         }
     }

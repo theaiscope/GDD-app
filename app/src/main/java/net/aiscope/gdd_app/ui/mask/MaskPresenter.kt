@@ -24,7 +24,7 @@ class MaskPresenter(
             if (file == null) {
                 view.notifyImageCouldNotBeTaken()
             } else {
-                val sample = repository.current().addMask(file, isEmptyMask)
+                val sample = repository.current().upsertMask(file, isEmptyMask)
                 repository.store(sample)
 
                 view.goToMetadata()
