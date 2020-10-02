@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,15 +17,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 import java.lang.reflect.Type
 import java.util.Calendar
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 class SampleRepositorySharedPreferenceTest {
 
     companion object {
@@ -41,20 +37,11 @@ class SampleRepositorySharedPreferenceTest {
     @get:Rule
     val coroutinesTestRule = CoroutineTestRule()
 
-    @Mock
-    lateinit var store: SharedPreferenceStore
-
-    @Mock
-    lateinit var healthFacilityRepository: HealthFacilityRepository
-
-    @Mock
-    lateinit var uuidGenerator: UUID
-
-    @Mock
-    lateinit var gson: Gson
-
-    @InjectMocks
-    lateinit var subject: SampleRepositorySharedPreference
+    private val store: SharedPreferenceStore = mock()
+    private val healthFacilityRepository: HealthFacilityRepository = mock()
+    private val uuidGenerator: UUID = mock()
+    private val gson: Gson = mock()
+    private val subject = SampleRepositorySharedPreference(store, uuidGenerator, healthFacilityRepository, gson)
 
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {

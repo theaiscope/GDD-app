@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.presentation
 
 import android.content.Context
+import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
@@ -9,14 +10,10 @@ import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class MetadataMapperTest {
-    @Mock
-    lateinit var context: Context
+
+    private val context: Context = mock()
 
     @Before
     fun before() {

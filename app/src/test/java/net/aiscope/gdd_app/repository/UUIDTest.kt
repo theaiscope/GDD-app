@@ -1,10 +1,7 @@
 package net.aiscope.gdd_app.repository
 
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class UUIDTest {
     private val subject = UUID
 

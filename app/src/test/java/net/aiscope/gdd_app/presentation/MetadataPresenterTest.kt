@@ -4,6 +4,7 @@ import android.content.Context
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.check
+import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,29 +32,17 @@ import org.mockito.junit.MockitoJUnitRunner
 
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 class MetadataPresenterTest {
 
     @get:Rule
     var coroutinesTestRule = CoroutineTestRule()
 
-    @Mock
-    lateinit var view: MetadataView
-
-    @Mock
-    lateinit var repository: SampleRepository
-
-    @Mock
-    lateinit var remote: RemoteStorage
-
-    @Mock
-    lateinit var context: Context
-
-    @Mock
-    lateinit var metadataMapper: MetadataMapper
-
-    @InjectMocks
-    lateinit var subject: MetadataPresenter
+    private val view: MetadataView = mock()
+    private val repository: SampleRepository = mock()
+    private val remote: RemoteStorage = mock()
+    private val context: Context = mock()
+    private val metadataMapper: MetadataMapper = mock()
+    private val subject = MetadataPresenter(view, repository, metadataMapper, remote, context)
 
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
