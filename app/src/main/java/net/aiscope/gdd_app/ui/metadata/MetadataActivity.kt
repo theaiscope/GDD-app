@@ -3,7 +3,6 @@ package net.aiscope.gdd_app.ui.metadata
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +12,7 @@ import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityMetadataBinding
 import net.aiscope.gdd_app.extensions.select
+import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
@@ -21,7 +21,6 @@ import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.showConfirmExitDialog
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
-import java.io.File
 import javax.inject.Inject
 
 @Suppress("TooManyFunctions")
@@ -69,8 +68,7 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
     }
 
     override fun fillForm(model: ViewStateModel) {
-        imagesAdapter.setImages(model.images)
-        imagesAdapter.setMasks(model.masks)
+        imagesAdapter.setCaptures(model.captures)
         model.smearTypeId?.let { binding.metadataSectionSmearTypeRadioGroup.check(it) }
         model.speciesValue?.let { binding.metadataSpeciesSpinner.select(it) }
     }
@@ -96,15 +94,15 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         this.startActivity(intent)
     }
 
-    override fun editImage(disease: String, image: File, mask: File){
+    override fun editCapture(disease: String, capture: CompletedCapture){
         val intent = Intent(this, MaskActivity::class.java)
         intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
-        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, image.absolutePath)
+        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)
 
         //Remove file extension
-        val maskName = mask.name.removeSuffix(".png")
+        val maskName = capture.mask.name.removeSuffix(".png")
         intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
-        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, mask.path)
+        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
 
         startActivity(intent)
     }
@@ -129,9 +127,9 @@ class MetadataActivity : AppCompatActivity(), MetadataView, CaptureFlow {
         }
     }
 
-    private fun onImageClicked(image: File, mask: File) {
+    private fun onImageClicked(capture: CompletedCapture) {
         lifecycleScope.launch {
-            presenter.editImage(image, mask)
+            presenter.editImage(capture)
         }
     }
 

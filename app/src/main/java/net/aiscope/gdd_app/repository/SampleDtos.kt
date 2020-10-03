@@ -1,7 +1,9 @@
 package net.aiscope.gdd_app.repository
 
 import com.google.gson.annotations.SerializedName
-import net.aiscope.gdd_app.extensions.toLinkedHashSet
+import net.aiscope.gdd_app.model.CompletedCapture
+import net.aiscope.gdd_app.model.Captures
+import net.aiscope.gdd_app.model.InProgressCapture
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
@@ -22,25 +24,42 @@ data class SampleDto(
     @SerializedName("microscopeQuality") val microscopeQuality: MicroscopeQualityDto?,
     @SerializedName("imagePaths") val imagePaths: List<String>,
     @SerializedName("maskPaths") val maskPaths: List<String>,
+    @SerializedName("areMasksEmpty") val areMasksEmpty: List<Boolean>,
     @SerializedName("metadata") val metadata: SampleMetadataDto,
     @SerializedName("status") val status: Short,
     @SerializedName("createdOn") val createdOn: Calendar = Calendar.getInstance(),
-    @SerializedName("lastModified") val lastModified : Calendar = Calendar.getInstance()
+    @SerializedName("lastModified") val lastModified: Calendar = Calendar.getInstance()
 ) {
-    fun toDomain(): Sample = Sample(
-        id = id,
-        healthFacility = healthFacility,
-        microscopist = microscopist,
-        disease = disease,
-        preparation = preparation?.toDomain(),
-        microscopeQuality = microscopeQuality?.toDomain(),
-        images = imagePaths.map { File(it) }.toLinkedHashSet(),
-        masks = maskPaths.map { File(it) }.toLinkedHashSet(),
-        metadata = metadata.toDomain(),
-        status = SampleStatus.values().first { it.id == status },
-        createdOn = createdOn,
-        lastModified = lastModified
-    )
+    fun toDomain(): Sample {
+        val areMasksEmpty = backfillAreMaskEmpty()
+        val completedCaptures = buildCompletedCaptures(areMasksEmpty)
+        val inProgressCapture = extractInProgressCapture()
+
+        return Sample(
+            id = id,
+            healthFacility = healthFacility,
+            microscopist = microscopist,
+            disease = disease,
+            preparation = preparation?.toDomain(),
+            microscopeQuality = microscopeQuality?.toDomain(),
+            captures = Captures(inProgressCapture, completedCaptures),
+            metadata = metadata.toDomain(),
+            status = SampleStatus.values().first { it.id == status },
+            createdOn = createdOn,
+            lastModified = lastModified
+        )
+    }
+
+    private fun backfillAreMaskEmpty() =
+        if (areMasksEmpty.isNotEmpty()) areMasksEmpty else List(imagePaths.size) { false }
+
+    private fun buildCompletedCaptures(areMasksEmpty: List<Boolean>) =
+        imagePaths.zip(maskPaths).zip(areMasksEmpty) { filesPair, emptyMask ->
+            CompletedCapture(File(filesPair.first), File(filesPair.second), emptyMask)
+        }
+
+    private fun extractInProgressCapture() =
+        if (imagePaths.size > maskPaths.size) InProgressCapture(File(imagePaths.last())) else null
 }
 
 data class SamplePreparationDto(
@@ -91,8 +110,10 @@ fun Sample.toDto() = SampleDto(
     disease = disease,
     preparation = preparation?.toDto(),
     microscopeQuality = microscopeQuality?.toDto(),
-    imagePaths = images.map { it.absolutePath },
-    maskPaths = masks.map { it.absolutePath },
+    imagePaths = captures.completedCaptures.map { it.image.absolutePath } +
+            listOfNotNull(captures.inProgressCapture?.image?.absolutePath),
+    maskPaths = captures.completedCaptures.map { it.mask.absolutePath },
+    areMasksEmpty = captures.completedCaptures.map { it.maskIsEmpty },
     metadata = metadata.toDto(),
     status = status.id,
     createdOn = createdOn,

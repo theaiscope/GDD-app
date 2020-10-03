@@ -1,9 +1,8 @@
 package net.aiscope.gdd_app.model
 
-import net.aiscope.gdd_app.extensions.plus
+import net.aiscope.gdd_app.extensions.replaceElementAt
 import java.io.File
 import java.util.Calendar
-import java.util.LinkedHashSet
 
 data class Sample(
     val id: String,
@@ -12,20 +11,19 @@ data class Sample(
     val disease: String,
     val preparation: SamplePreparation? = null,
     val microscopeQuality: MicroscopeQuality? = null,
-    val images: LinkedHashSet<File> = linkedSetOf(),
-    val masks: LinkedHashSet<File> = linkedSetOf(),
+    val captures: Captures = Captures(),
     val metadata: SampleMetadata = SampleMetadata(),
     val status: SampleStatus = SampleStatus.Incomplete,
     val createdOn: Calendar = Calendar.getInstance(),
     val lastModified: Calendar = Calendar.getInstance()
 ) {
-    fun addImage(path: File) = copy(images = images + path)
+    fun addNewlyCapturedImage(path: File) = copy(captures = captures.newCapture(path))
 
-    fun addMask(path: File) = copy(masks = masks + path)
+    fun upsertMask(path: File, isEmpty: Boolean) = copy(captures = captures.upsertMask(path, isEmpty))
 
-    fun nextImageName(): String = "${id}_image_${images.size}"
+    fun nextImageName(): String = "${id}_image_${captures.completedCaptureCount()}"
 
-    fun nextMaskName(): String = "${id}_mask_${images.size}"
+    fun nextMaskName(): String = "${id}_mask_${captures.completedCaptureCount()}"
 }
 
 enum class SampleStatus(val id: Short) {
@@ -55,6 +53,53 @@ data class MicroscopeQuality(
     val isDamaged: Boolean,
     val magnification: Int
 )
+
+data class Captures(
+    val inProgressCapture: InProgressCapture?,
+    val completedCaptures: List<CompletedCapture>
+) {
+
+    constructor() : this(null, emptyList())
+
+    fun newCapture(path: File): Captures = Captures(InProgressCapture(path), completedCaptures)
+
+    fun upsertMask(maskPath: File, isEmpty: Boolean): Captures {
+        val indexOfExistingCaptureForMask = completedCaptures.indexOfFirst { it.mask == maskPath }
+
+        return when {
+            indexOfExistingCaptureForMask >= 0 && inProgressCapture != null ->
+                // we somehow broke the business logic
+                throw IllegalStateException(
+                    "Trying to add mask $maskPath at index $indexOfExistingCaptureForMask " +
+                            "when inProgressCapture is not null ($inProgressCapture)"
+                )
+            inProgressCapture != null -> // indexOfCaptureIfMaskExists < 0
+                Captures(
+                    null,
+                    completedCaptures + CompletedCapture(
+                        inProgressCapture.image, maskPath, isEmpty
+                    )
+                )
+            else -> // inProgressCapture == null && indexOfCaptureIfMaskExists < 0
+                Captures(
+                    null,
+                    completedCaptures.replaceElementAt(
+                        indexOfExistingCaptureForMask,
+                        completedCaptures[indexOfExistingCaptureForMask].copy(maskIsEmpty = isEmpty)
+                    )
+                )
+        }
+    }
+
+    fun completedCaptureCount(): Int {
+        return completedCaptures.size
+    }
+
+}
+
+sealed class Capture
+data class InProgressCapture(val image: File) : Capture()
+data class CompletedCapture(val image: File, val mask: File, val maskIsEmpty: Boolean) : Capture()
 
 data class SampleMetadata(
     val smearType: SmearType = SmearType.THIN,

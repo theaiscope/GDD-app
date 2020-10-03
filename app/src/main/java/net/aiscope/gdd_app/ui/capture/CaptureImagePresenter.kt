@@ -16,7 +16,7 @@ class CaptureImagePresenter(
             if (file == null) {
                 view.notifyImageCouldNotBeTaken()
             } else {
-                val sample = repository.current().addImage(file)
+                val sample = repository.current().addNewlyCapturedImage(file)
                 repository.store(sample)
 
                 view.goToMask(sample.disease, file.absolutePath, sample.nextMaskName())

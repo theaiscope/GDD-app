@@ -1,10 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/sample_image_thumbnail_width"
-    android:layout_height="@dimen/sample_image_thumbnail_height"
-    android:layout_marginStart="8dp"
-    android:background="@drawable/item_metadata_add_image_background"
-    android:contentDescription="@string/metadata_sample_image_content_description"
-    android:scaleType="centerCrop"
-    tools:src="@drawable/ic_add_photo_rounded" />
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:layout_marginEnd="2dp"
+    tools:ignore="RtlSymmetry">
+
+    <ImageView
+        android:id="@+id/sample_image"
+        android:layout_width="@dimen/sample_image_thumbnail_width"
+        android:layout_height="@dimen/sample_image_thumbnail_height"
+        android:layout_gravity="bottom|start"
+        android:layout_marginTop="@dimen/sample_image_dot_displacement"
+        android:layout_marginEnd="@dimen/sample_image_dot_displacement"
+        android:background="@drawable/item_metadata_add_image_background"
+        android:contentDescription="@string/metadata_sample_image_content_description"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_add_photo_rounded" />
+
+    <ImageView
+        android:id="@+id/sample_mask"
+        android:layout_width="@dimen/sample_image_thumbnail_width"
+        android:layout_height="@dimen/sample_image_thumbnail_height"
+        android:layout_gravity="bottom|start"
+        android:layout_marginTop="@dimen/sample_image_dot_displacement"
+        android:layout_marginEnd="@dimen/sample_image_dot_displacement"
+        android:background="@drawable/item_metadata_add_image_background"
+        android:contentDescription="@string/metadata_sample_image_content_description"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_add_photo_rounded" />
+
+    <ImageView
+        android:id="@+id/mask_dot"
+        android:layout_width="@dimen/sample_image_dot_size"
+        android:layout_height="@dimen/sample_image_dot_size"
+        android:layout_gravity="top|end"
+        android:contentDescription="@string/metadata_sample_mask_dot_description"
+        android:src="@drawable/ic_dot"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</FrameLayout>
+
+

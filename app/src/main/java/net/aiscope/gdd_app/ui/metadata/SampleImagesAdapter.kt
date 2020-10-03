@@ -1,38 +1,46 @@
 package net.aiscope.gdd_app.ui.metadata
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.databinding.ItemMetadataSampleImageBinding
+import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.ui.util.BitmapReader
-import net.aiscope.gdd_app.ui.util.MinimumSizeDownSampling
-import java.io.File
 
 class SampleImagesAdapter(
     private val uiScope: CoroutineScope,
     private val onAddImageClicked: () -> Unit,
-    private val onImageClicked: (File, File) -> Unit
+    private val onImageClicked: (CompletedCapture) -> Unit
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val images: MutableList<File> = mutableListOf()
-    private val masks: MutableList<File> = mutableListOf()
+    private val captures: MutableList<CompletedCapture> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        val layoutInflater = LayoutInflater.from(parent.context)
+
         return when (viewType) {
-            R.layout.item_metadata_add_image -> AddImageViewHolder(view, onAddImageClicked)
-            R.layout.item_metadata_sample_image -> ImageViewHolder(view as ImageView, uiScope, onImageClicked)
+            R.layout.item_metadata_add_image ->
+                AddImageViewHolder(
+                    layoutInflater.inflate(viewType, parent, false),
+                    onAddImageClicked
+                )
+            R.layout.item_metadata_sample_image -> {
+                val binding = ItemMetadataSampleImageBinding.inflate(layoutInflater, parent, false)
+                CaptureViewHolder(
+                    view = binding.root,
+                    binding = binding,
+                    uiScope = uiScope,
+                    onImageClicked = onImageClicked
+                )
+
+            }
             else -> throw IllegalArgumentException("View type $viewType not known")
         }
     }
@@ -40,8 +48,8 @@ class SampleImagesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is AddImageViewHolder -> {}
-            is ImageViewHolder ->
-                holder.bind(images[position - 1], masks[position - 1])
+            is CaptureViewHolder ->
+                holder.bind(captures[position - 1])
             else -> throw IllegalArgumentException("View holder ${holder.javaClass} not known")
         }
     }
@@ -54,18 +62,12 @@ class SampleImagesAdapter(
     }
 
     override fun getItemCount(): Int {
-        return images.size + 1
+        return captures.size + 1
     }
 
-    fun setImages(images: List<File>) {
-        this.images.clear()
-        this.images.addAll(images.reversed())
-        this.notifyDataSetChanged()
-    }
-
-    fun setMasks(masks: List<File>) {
-        this.masks.clear()
-        this.masks.addAll(masks.reversed())
+    fun setCaptures(captures: List<CompletedCapture>) {
+        this.captures.clear()
+        this.captures.addAll(captures.reversed())
         this.notifyDataSetChanged()
     }
 
@@ -79,30 +81,46 @@ private class AddImageViewHolder(view: View, private val onAddImageClicked: () -
     }
 }
 
-private class ImageViewHolder(
-    view: ImageView, private val uiScope: CoroutineScope, onImageClicked: (File, File) -> Unit
+private class CaptureViewHolder(
+    view: View,
+    private val binding: ItemMetadataSampleImageBinding,
+    private val uiScope: CoroutineScope,
+    onImageClicked: (CompletedCapture) -> Unit
 ) : RecyclerView.ViewHolder(view) {
-    private lateinit var imageFile: File
-    private lateinit var maskFile: File
+    private lateinit var capture: CompletedCapture
 
     init {
-        itemView.setOnClickListener { onImageClicked(imageFile, maskFile) }
+        itemView.setOnClickListener { onImageClicked(capture) }
     }
 
-    fun bind(image: File, mask: File) {
-        imageFile = image
-        maskFile = mask
+    fun bind(capture: CompletedCapture) {
+        this.capture = capture
 
         (itemView.tag as? Job)?.cancel()
         itemView.tag = uiScope.launch {
-            (itemView as ImageView).setImageBitmap(null)
-            val bitmap = BitmapReader.decodeSampledBitmapAndCache(
-                image,
-                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
-                itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
-                itemView.context.cacheDir
-            )
-            itemView.setImageBitmap(bitmap)
+            with(binding) {
+                sampleImage.setImageBitmap(null)
+                val imageBmp = BitmapReader.decodeSampledBitmapAndCache(
+                    capture.image,
+                    itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
+                    itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
+                    itemView.context.cacheDir
+                )
+                sampleImage.setImageBitmap(imageBmp)
+
+                sampleMask.setImageBitmap(null)
+                if (!capture.maskIsEmpty) {
+                    val maskBmp = BitmapReader.decodeSampledBitmapAndCache(
+                        capture.mask,
+                        itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_width),
+                        itemView.context.resources.getDimensionPixelSize(R.dimen.sample_image_thumbnail_height),
+                        itemView.context.cacheDir
+                    )
+                    sampleMask.setImageBitmap(maskBmp)
+                }
+
+                maskDot.isVisible = !capture.maskIsEmpty
+            }
         }
     }
 }

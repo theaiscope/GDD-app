@@ -6,12 +6,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.extensions.writeToFile
 import java.io.File
+import java.util.Locale
 import javax.microedition.khronos.egl.EGL10
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.egl.EGLContext
 import javax.microedition.khronos.egl.EGLDisplay
-import kotlin.math.max
-import kotlin.math.min
 
 object BitmapReader {
     // Texture size should never be smaller than this
@@ -55,7 +54,7 @@ object BitmapReader {
             cacheDir,
             "${image.nameWithoutExtension}_${reqWidth}x${reqHeight}.${image.extension}"
         )
-        if (cachedImage.exists()) {
+        if (cachedImage.exists() && cachedImage.lastModified() >= image.lastModified()) {
             return@withContext BitmapFactory.decodeFile(cachedImage.absolutePath)
         }
         val bitmap = decodeSampledBitmapFromResource(
@@ -65,7 +64,7 @@ object BitmapReader {
         )
 
         //Write to cache for future access
-        bitmap.writeToFile(cachedImage, Bitmap.CompressFormat.JPEG)
+        bitmap.writeToFile(cachedImage, image.bitmapCompressFormatFromExtension())
 
         bitmap
     }
@@ -145,4 +144,12 @@ suspend fun calculateInSampleSize(
         }
     }
     return@withContext inSampleSize
+}
+
+private fun File.bitmapCompressFormatFromExtension(): Bitmap.CompressFormat {
+    return when (this.extension.toLowerCase(Locale.US)) {
+        "png" -> Bitmap.CompressFormat.PNG
+        "webp" -> Bitmap.CompressFormat.WEBP
+        else -> Bitmap.CompressFormat.JPEG
+    }
 }
