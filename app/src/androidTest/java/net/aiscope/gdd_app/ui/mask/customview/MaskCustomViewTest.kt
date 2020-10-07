@@ -1,23 +1,47 @@
 package net.aiscope.gdd_app.ui.mask.customview
 
+import android.graphics.drawable.Drawable
 import android.os.Looper
 import android.os.SystemClock
 import android.view.MotionEvent
 import androidx.test.platform.app.InstrumentationRegistry
+import net.aiscope.gdd_app.test.extensions.getAssetStream
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-
+import java.io.File
+import java.io.InputStream
 
 class MaskCustomViewTest{
+    private val testContext = InstrumentationRegistry.getInstrumentation().context
+    private val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
+
     @Test
     fun touchBeforeInit(){
         Looper.prepare()
-        val view = MaskCustomView(InstrumentationRegistry.getInstrumentation().context)
+
+        val view = MaskCustomView(testContext)
+        val event = getEvent(view)
+
+        assertFalse(view.onTouchEvent(event))
+    }
+
+    @Test
+    fun touchAfterInit(){
+        val view = MaskCustomView(testContext)
+
+        val targetFile = File(targetContext.filesDir, "test.png")
+        targetFile.createNewFile()
+
+        testContext.getAssetStream("photo.png").toFile(targetFile)
+
+        view.setImageDrawable(Drawable.createFromPath(targetFile.absolutePath))
+
         val event = getEvent(view)
 
         assertTrue(view.onTouchEvent(event))
-
     }
+
 
     private fun getEvent(view: MaskCustomView): MotionEvent {
         // get the coordinates of the view
@@ -35,4 +59,9 @@ class MaskCustomViewTest{
         // return the event
         return MotionEvent.obtain(downTime, eventTime, action, x.toFloat(), y.toFloat(), metaState)
     }
+
+    private fun InputStream.toFile(file: File) {
+        file.outputStream().use { this.copyTo(it) }
+    }
+
 }

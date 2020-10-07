@@ -53,12 +53,14 @@ class MaskCustomView @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean =
-        super.onTouchEvent(event) ||
-                when (currentMode) {
-                    Mode.Zoom -> onTouchMove(event)
-                    Mode.Draw, Mode.Erase -> onTouchDraw(event)
-                }
-
+        this::drawableSize.isInitialized && (
+                super.onTouchEvent(event) ||
+                        when (currentMode) {
+                            Mode.Zoom -> onTouchMove(event)
+                            Mode.Draw, Mode.Erase -> onTouchDraw(event)
+                        }
+                )
+    
     private fun onTouchMove(event: MotionEvent) = attacher.onTouch(this, event)
 
     private fun onTouchDraw(event: MotionEvent): Boolean {
