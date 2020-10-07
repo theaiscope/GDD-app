@@ -104,7 +104,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
     implementation 'com.google.firebase:firebase-common-ktx:19.3.1'
     implementation 'com.google.firebase:firebase-storage-ktx:19.2.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:21.7.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.7.1'
     implementation('com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava') {
         because "https://github.com/firebase/firebase-android-sdk/issues/1320"
     }
