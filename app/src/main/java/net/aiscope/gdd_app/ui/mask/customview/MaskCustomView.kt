@@ -60,7 +60,7 @@ class MaskCustomView @JvmOverloads constructor(
                             Mode.Draw, Mode.Erase -> onTouchDraw(event)
                         }
                 )
-    
+
     private fun onTouchMove(event: MotionEvent) = attacher.onTouch(this, event)
 
     private fun onTouchDraw(event: MotionEvent): Boolean {
