@@ -33,12 +33,9 @@ class MaskCustomViewTest{
     @Test
     fun touchAfterInit(){
         val view = MaskCustomView(testContext)
-
         val targetFile = File(targetContext.filesDir, "test.png")
         targetFile.createNewFile()
-
         testContext.getAssetStream("photo.png").toFile(targetFile)
-
         view.setImageDrawable(Drawable.createFromPath(targetFile.absolutePath))
 
         val event = getEvent(view)
