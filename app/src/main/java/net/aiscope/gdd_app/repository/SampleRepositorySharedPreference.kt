@@ -37,7 +37,7 @@ class SampleRepositorySharedPreference @Inject constructor(
         return sample
     }
 
-    override fun store(sample: Sample) : Sample {
+    override fun store(sample: Sample): Sample {
         val updatedSample = sample.copy(lastModified = Calendar.getInstance())
         store.store(updatedSample.id, gson.toJson(updatedSample.toDto()))
         currentSample = updatedSample
@@ -55,23 +55,25 @@ class SampleRepositorySharedPreference @Inject constructor(
     override fun all(): List<Sample> {
         val jsons = store.all().filter { it != "true" }
 
-        return jsons.map {
+        return jsons.mapNotNull {
             kotlin.runCatching {
                 gson.fromJson<SampleDto>(it).toDomain()
             }.getOrNull()
-        }.filterNotNull()
+        }
     }
 
     override suspend fun lastSaved(): Sample? {
         val allStores = all()
         return allStores
-            .filter { s -> s.status != SampleStatus.Incomplete }.maxBy { it.createdOn }
+            .filter { s -> s.status != SampleStatus.Incomplete }
+            .maxByOrNull { it.createdOn }
     }
 
     private fun lastIncomplete(): Sample? {
         val allStores = all()
         return allStores
-            .filter { s -> s.status == SampleStatus.Incomplete }.maxBy { it.createdOn }
+            .filter { s -> s.status == SampleStatus.Incomplete }
+            .maxByOrNull { it.createdOn }
     }
 
 }

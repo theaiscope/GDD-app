@@ -89,7 +89,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'com.karumi:dexter:6.2.1'
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
     implementation 'androidx.work:work-runtime-ktx:2.4.0'
@@ -99,19 +99,16 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics:17.6.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     implementation 'com.firebaseui:firebase-ui-auth:6.3.0'
     implementation 'com.google.firebase:firebase-common-ktx:19.3.1'
     implementation 'com.google.firebase:firebase-storage-ktx:19.2.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:21.7.1'
-    implementation('com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava') {
-        because "https://github.com/firebase/firebase-android-sdk/issues/1320"
-    }
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlin_coroutines_version"
 
     // Smartlook – screen recording
-    implementation 'com.smartlook.recording:app:1.5.2-native'
+    implementation 'com.smartlook.recording:app:1.5.3-native'
 
     // Timber – logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
