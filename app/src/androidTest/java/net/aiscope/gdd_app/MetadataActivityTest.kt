@@ -4,12 +4,10 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.rule.IntentsTestRule
-import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import org.hamcrest.CoreMatchers.anything
-import org.hamcrest.Matchers
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test

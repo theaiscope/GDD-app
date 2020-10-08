@@ -105,6 +105,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
+        binding.photoMaskView.stopDrawing()
         val bmp = binding.photoMaskView.getMaskBitmap()
         lifecycleScope.launch {
             val dest = File(this@MaskActivity.filesDir, "${maskName}.png")

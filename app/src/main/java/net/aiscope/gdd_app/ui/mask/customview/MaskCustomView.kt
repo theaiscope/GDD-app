@@ -35,6 +35,7 @@ class MaskCustomView @JvmOverloads constructor(
     }
 
     var onMaskingActionFinishedListener: OnTouchListener? = null
+    private var readyForEvents = false
     private val maskLayer = MaskLayer(imageMatrix)
     private var currentMode: Mode = Mode.Draw
     private lateinit var drawableSize: Size
@@ -53,11 +54,13 @@ class MaskCustomView @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean =
-        super.onTouchEvent(event) ||
-                when (currentMode) {
-                    Mode.Zoom -> onTouchMove(event)
-                    Mode.Draw, Mode.Erase -> onTouchDraw(event)
-                }
+        readyForEvents && (
+                super.onTouchEvent(event) ||
+                        when (currentMode) {
+                            Mode.Zoom -> onTouchMove(event)
+                            Mode.Draw, Mode.Erase -> onTouchDraw(event)
+                        }
+                )
 
     private fun onTouchMove(event: MotionEvent) = attacher.onTouch(this, event)
 
@@ -101,6 +104,7 @@ class MaskCustomView @JvmOverloads constructor(
         super.setImageDrawable(drawable)
         drawableSize = (drawable?.intrinsicWidth ?: 0) x (drawable?.intrinsicHeight ?: 0)
         maskLayer.initSize(drawableSize)
+        readyForEvents = true
     }
 
     override fun onSaveInstanceState(): Parcelable? =
@@ -156,6 +160,10 @@ class MaskCustomView @JvmOverloads constructor(
     fun undoAvailable() = maskLayer.undoAvailable()
 
     fun redoAvailable() = maskLayer.redoAvailable()
+
+    fun stopDrawing() {
+        readyForEvents = false
+    }
 
     class MaskCustomViewSavedState(superState: Parcelable?, val maskLayerState: Parcelable) :
         BaseSavedState(superState)
