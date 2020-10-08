@@ -35,7 +35,7 @@ class MaskCustomView @JvmOverloads constructor(
     }
 
     var onMaskingActionFinishedListener: OnTouchListener? = null
-    var readyForEvents = false
+    private var readyForEvents = false
     private val maskLayer = MaskLayer(imageMatrix)
     private var currentMode: Mode = Mode.Draw
     private lateinit var drawableSize: Size
@@ -160,6 +160,10 @@ class MaskCustomView @JvmOverloads constructor(
     fun undoAvailable() = maskLayer.undoAvailable()
 
     fun redoAvailable() = maskLayer.redoAvailable()
+
+    fun stopDrawing() {
+        readyForEvents = false
+    }
 
     class MaskCustomViewSavedState(superState: Parcelable?, val maskLayerState: Parcelable) :
         BaseSavedState(superState)
