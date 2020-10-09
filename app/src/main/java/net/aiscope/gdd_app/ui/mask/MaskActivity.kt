@@ -6,7 +6,6 @@ import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -167,10 +166,10 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         return SelectStagePopup(
             this,
             presenter.brushDiseaseStages,
-            binding.stagesBtn,
-            AdapterView.OnItemClickListener() { _, _, position, _ ->
-                setBrushColor(presenter.brushDiseaseStages[position].maskColor)
-            }).apply {
+            binding.stagesBtn
+        ) { _, _, position, _ ->
+            setBrushColor(presenter.brushDiseaseStages[position].maskColor)
+        }.apply {
             setDropDownGravity(Gravity.TOP)
         }
     }

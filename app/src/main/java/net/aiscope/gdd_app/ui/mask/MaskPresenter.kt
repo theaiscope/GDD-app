@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.ui.mask
 
 import android.content.res.Resources
+import androidx.core.content.res.getStringOrThrow
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.repository.SampleRepository
 
@@ -72,7 +73,7 @@ class MaskPresenter(
             require(names.length() == colors.length())
 
             val result = (0 until names.length())
-                .map { i -> BrushDiseaseStage(i, names.getString(i)!!, colors.getColor(i, 0)) }
+                .map { i -> BrushDiseaseStage(i, names.getStringOrThrow(i), colors.getColor(i, 0)) }
                 .toTypedArray()
 
             names.recycle()
