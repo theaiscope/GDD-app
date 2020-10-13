@@ -99,12 +99,13 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-analytics:17.6.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation platform("com.google.firebase:firebase-bom:25.12.0")
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-common-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:6.3.0'
-    implementation 'com.google.firebase:firebase-common-ktx:19.3.1'
-    implementation 'com.google.firebase:firebase-storage-ktx:19.2.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:21.7.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlin_coroutines_version"
 
     // Smartlook – screen recording
