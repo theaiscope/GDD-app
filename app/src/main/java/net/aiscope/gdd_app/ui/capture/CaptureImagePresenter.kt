@@ -7,15 +7,15 @@ import timber.log.Timber
 class CaptureImagePresenter(
     val view: CaptureImageView,
     val repository: SampleRepository,
-    var receivedImageCapture: Boolean = false
+    var processingImageCapture: Boolean = false
 ) {
 
     fun handleCaptureImageButton(imageName: String) {
-        if (receivedImageCapture){
+        if (processingImageCapture){
             Timber.tag("Taking Photo").d("Already processing photo")
             return
         }
-        receivedImageCapture = true
+        processingImageCapture = true
         Timber.tag("Taking Photo").d("button pressed")
         view.takePhoto(imageName) { file ->
             Timber.tag("Taking Photo").d(file?.absolutePath)
@@ -27,6 +27,8 @@ class CaptureImagePresenter(
 
                 view.goToMask(sample.disease, file.absolutePath, sample.nextMaskName())
             }
+            //What if shit falls over tho??
+            processingImageCapture = false
         }
     }
 
