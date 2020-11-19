@@ -94,7 +94,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
                     bmp.writeToFileAsync(dest, Bitmap.CompressFormat.JPEG)
                     onPhotoReceived(dest)
                 }
-            } ?: notifyImageCouldNotBeTaken()
+            } ?: lifecycleScope.launch { onPhotoReceived(null) }
         }
     }
 
