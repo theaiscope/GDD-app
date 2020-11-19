@@ -6,7 +6,7 @@ import timber.log.Timber
 
 class CaptureImagePresenter(
     val view: CaptureImageView,
-    val repository: SampleRepository,
+    val repository: SampleRepository
 ) {
     var processingImageCapture: Boolean = false
 
@@ -37,5 +37,7 @@ class CaptureImagePresenter(
 
     fun onCaptureError(it: CameraException) {
         Timber.tag("Camera Error").e(it, "capture error")
+        //Allow new photo to be taken on camera error
+        processingImageCapture = false
     }
 }
