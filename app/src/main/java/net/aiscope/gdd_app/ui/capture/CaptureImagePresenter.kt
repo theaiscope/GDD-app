@@ -8,6 +8,7 @@ class CaptureImagePresenter(
     val view: CaptureImageView,
     val repository: SampleRepository
 ) {
+    //TODO: private field?
     var processingImageCapture: Boolean = false
 
     fun handleCaptureImageButton(imageName: String) {
