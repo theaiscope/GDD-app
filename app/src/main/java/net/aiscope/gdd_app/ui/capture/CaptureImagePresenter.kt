@@ -8,8 +8,7 @@ class CaptureImagePresenter(
     val view: CaptureImageView,
     val repository: SampleRepository
 ) {
-    //TODO: private field?
-    var processingImageCapture: Boolean = false
+    private var processingImageCapture: Boolean = false
 
     fun handleCaptureImageButton(imageName: String) {
         Timber.tag("Taking Photo").d("button pressed")
