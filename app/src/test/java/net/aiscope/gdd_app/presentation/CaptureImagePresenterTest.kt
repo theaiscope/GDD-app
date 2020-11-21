@@ -33,7 +33,7 @@ class CaptureImagePresenterTest {
     private val presenter = CaptureImagePresenter(view, repository)
 
     @Before
-    fun setUp() = coroutinesTestRule.runBlockingTest {
+    fun setUp(): Unit = runBlocking {
         whenever(repository.current()).thenReturn(sample)
     }
 
