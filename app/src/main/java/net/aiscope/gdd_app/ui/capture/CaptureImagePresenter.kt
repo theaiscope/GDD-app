@@ -8,23 +8,36 @@ class CaptureImagePresenter(
     val view: CaptureImageView,
     val repository: SampleRepository
 ) {
+    private var processingImageCapture: Boolean = false
 
     fun handleCaptureImageButton(imageName: String) {
         Timber.tag("Taking Photo").d("button pressed")
+        if (processingImageCapture){
+            Timber.tag("Taking Photo").d("Already processing photo")
+            return
+        }
+        processingImageCapture = true
         view.takePhoto(imageName) { file ->
-            Timber.tag("Taking Photo").d(file?.absolutePath)
-            if (file == null) {
-                view.notifyImageCouldNotBeTaken()
-            } else {
-                val sample = repository.current().addNewlyCapturedImage(file)
-                repository.store(sample)
+            try{
+                Timber.tag("Taking Photo").d(file?.absolutePath)
+                if (file == null) {
+                    view.notifyImageCouldNotBeTaken()
+                } else {
+                    val sample = repository.current().addNewlyCapturedImage(file)
+                    repository.store(sample)
 
-                view.goToMask(sample.disease, file.absolutePath, sample.nextMaskName())
+                    view.goToMask(sample.disease, file.absolutePath, sample.nextMaskName())
+                }
+            } finally {
+                //Allow new photo to be taken once callback completes
+                processingImageCapture = false
             }
         }
     }
 
     fun onCaptureError(it: CameraException) {
         Timber.tag("Camera Error").e(it, "capture error")
+        //Allow new photo to be taken on camera error
+        processingImageCapture = false
     }
 }
