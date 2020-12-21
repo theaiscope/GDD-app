@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.build-properties'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -32,9 +32,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-    }
-    androidExtensions {
-        features = ["parcelize"]
     }
     signingConfigs {
         release {
