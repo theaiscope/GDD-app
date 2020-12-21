@@ -5,7 +5,7 @@ import android.graphics.PointF
 import android.os.Parcelable
 import androidx.core.graphics.component1
 import androidx.core.graphics.component2
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Suppress("DataClassPrivateConstructor")

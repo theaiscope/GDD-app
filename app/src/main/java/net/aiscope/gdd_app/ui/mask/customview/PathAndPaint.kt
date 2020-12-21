@@ -4,9 +4,9 @@ import android.graphics.Paint
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ParcelCompat
-import kotlinx.android.parcel.Parceler
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.TypeParceler
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.TypeParceler
 
 @Parcelize
 @TypeParceler<Paint, PaintParceler>
