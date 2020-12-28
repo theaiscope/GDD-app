@@ -9,7 +9,15 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    labels:
+      - "gradle"
+      - "dependabot"
+      - "dependencies"
   - package-ecosystem: "npm"
-    directory: "/firebase/functions/" 
+    directory: "/firebase/functions/"
     schedule:
       interval: "daily"
+    labels:
+      - "npm"
+      - "dependabot"
+      - "dependencies"
