@@ -1,0 +1,29 @@
+name: Firebase functions deployment
+
+on:
+  push:
+    paths:
+      - 'firebase/**'
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 10.x
+      - name: Install npm packages
+        run: |
+          cd firebase/functions
+          yarn install
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          PROJECT_PATH: firebase
