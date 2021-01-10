@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.Dispatchers
@@ -175,10 +176,14 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     private fun refreshBrushDrawableColor() {
+        // Retrieve the dot behind the draw icon and set to currently selected colour
         val stageBtnDrawable = binding.drawBtn.compoundDrawables[0] as LayerDrawable
         stageBtnDrawable.getDrawable(0).apply {
             setTint(currentBrushColor)
         }
+        //Retrieve the 'virus' icon and set to the current colour
+        val stageSelector = binding.stagesBtn.drawable
+        DrawableCompat.setTint(stageSelector, currentBrushColor)
     }
 
     private fun setEnabled(view: View, enabled: Boolean) {
