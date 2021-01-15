@@ -2,7 +2,6 @@ package net.aiscope.gdd_app.ui.mask
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -176,12 +175,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     private fun refreshBrushDrawableColor() {
-        // Retrieve the dot behind the draw icon and set to currently selected colour
-        val stageBtnDrawable = binding.drawBtn.compoundDrawables[0] as LayerDrawable
-        stageBtnDrawable.getDrawable(0).apply {
-            setTint(currentBrushColor)
-        }
-        //Retrieve the 'virus' icon and set to the current colour
+        //Retrieve the 'virus' icon and set to the currently selected colour
         val stageSelector = binding.stagesBtn.drawable
         DrawableCompat.setTint(stageSelector, currentBrushColor)
     }
