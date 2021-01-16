@@ -42,10 +42,10 @@
     <string name="microscope_quality_snackbar_error">An error occurred while saving your microscope quality data. Please try again.</string>
     <string name="microscope_quality_snackbar_retry">TRY AGAIN</string>
     <!-- CaptureImage -->
-    <string name="capture_activity_title">Capture photo</string>
+    <string name="capture_activity_title">Capture an image</string>
     <string name="image_could_not_be_taken">Image could not be taken</string>
     <!-- Mask -->
-    <string name="mask_activity_title">Highlight</string>
+    <string name="mask_activity_title">Highlight the virus</string>
     <string name="button_done_text">Done</string>
     <string name="mask_activity_undo">Undo</string>
     <string name="mask_activity_redo">Redo</string>

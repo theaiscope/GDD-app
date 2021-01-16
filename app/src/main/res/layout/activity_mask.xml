@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:button="@null"
-            android:drawableLeft="@drawable/ic_draw_color"
+            android:drawableLeft="@drawable/ic_draw"
             android:drawableTint="@color/button_selector"
             android:padding="12dp"
             tools:ignore="RtlHardcoded" />
@@ -70,7 +70,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/mask_activity_stages"
             android:padding="12dp"
-            android:src="@drawable/ic_color"
+            android:src="@drawable/ic_virus"
             app:layout_constraintBottom_toBottomOf="@id/tools_panel"
             app:layout_constraintStart_toEndOf="@id/draw_btn"
             app:layout_constraintTop_toTopOf="@id/tools_panel" />
