@@ -38,13 +38,15 @@
             android:name=".ui.capture.CaptureImageActivity"
             android:label="@string/capture_activity_title" />
         <activity
+            android:name=".ui.sample_completion.SampleCompletionActivity"
+            android:label="@string/complete_sample_activity_title" />
+        <activity
             android:name=".ui.metadata.MetadataActivity"
             android:exported="true"
             android:label="@string/metadata_activity_title" />
         <activity
             android:name=".ui.mask.MaskActivity"
             android:label="@string/mask_activity_title" />
-
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
             android:authorities="${applicationId}.workmanager-init"

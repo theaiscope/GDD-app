@@ -73,6 +73,11 @@
     <string name="metadata_snackbar_success">Sample saved successfully!</string>
     <string name="metadata_snackbar_error">An error occurred while saving your sample. Please try again.</string>
     <string name="metadata_snackbar_retry">TRY AGAIN</string>
+    <!-- Sample completion -->
+    <string name="complete_sample_activity_title">Complete sample data</string>
+    <string name="complete_sample_metadata_tab">Add Data</string>
+    <string name="complete_sample_sampleprep_tab">Sample Prep</string>
+    <string name="complete_sample_quality_tab">Quality</string>
     <!-- Malaria -->
     <string name="malaria_name">Malaria</string>
     <string name="malaria_species_p_falciparum">P. falciparum</string>

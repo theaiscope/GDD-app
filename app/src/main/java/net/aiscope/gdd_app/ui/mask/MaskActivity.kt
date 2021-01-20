@@ -19,6 +19,7 @@ import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
+import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
 import net.aiscope.gdd_app.ui.util.BitmapReader.MAX_TEXTURE_SIZE
@@ -114,12 +115,21 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         }
     }
 
+    //TODO: this can probably be removed
     override fun goToMetadata() {
         val intent = Intent(this, MetadataActivity::class.java)
         startActivity(intent)
         //Finish the activity to avoid keeping all the bitmaps in memory
         finish()
     }
+
+    override fun goToSampleCompletion() {
+        val intent = Intent(this, SampleCompletionActivity::class.java)
+        startActivity(intent)
+        //Finish the activity to avoid keeping all the bitmaps in memory
+        finish()
+    }
+
 
     override fun notifyImageCouldNotBeTaken() {
         Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT)
