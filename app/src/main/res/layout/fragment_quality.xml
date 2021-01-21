@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.sample_completion.QualityFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="16dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/microscope_quality_damaged_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/microscope_quality_damaged_title"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/microscope_quality_magnification_layout"
+            android:textColorHint="@color/colorPlainText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/microscope_quality_magnification_title"
+            app:layout_constraintEnd_toEndOf="@id/microscope_quality_damaged_switch"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/microscope_quality_damaged_switch">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/microscope_quality_magnification_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -8,9 +8,11 @@ import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.databinding.ActivityMetadataBinding
+import net.aiscope.gdd_app.model.Capture
+import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 
-class SampleCompletionActivity:  AppCompatActivity() {
+class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
     private lateinit var binding: ActivityCompleteSampleBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -21,7 +21,7 @@ internal class FragmentAdapter(
                 MetadataFragment()
             }
             2 -> {
-                MetadataFragment()
+                QualityFragment()
             }
             else -> MetadataFragment()
         }
