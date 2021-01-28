@@ -43,7 +43,7 @@ abstract class BuildersModule {
     abstract fun contributesMicroscopeQualityActivityAndroidInjector(): MicroscopeQualityActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [SampleCompletionModule::class, ViewModelModule::class])
+    @ContributesAndroidInjector(modules = [SampleCompletionModule::class])
     abstract fun contributesSampleCompletionActivityAndroidInjector(): SampleCompletionActivity
 
     @Binds

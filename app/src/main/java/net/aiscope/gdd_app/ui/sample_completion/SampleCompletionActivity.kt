@@ -28,8 +28,7 @@ class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        //TODO: deprecation?
-        sharedVM = ViewModelProviders.of(this, viewModelFactory)[SampleCompletionViewModel::class.java]
+        sharedVM = viewModelFactory.create(SampleCompletionViewModel::class.java)
 
         //FIXME Bit sloppy
         val context = this
