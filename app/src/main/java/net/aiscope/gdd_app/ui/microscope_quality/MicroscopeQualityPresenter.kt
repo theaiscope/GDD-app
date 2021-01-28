@@ -13,6 +13,7 @@ class MicroscopeQualityPresenter @Inject constructor(
 ) {
 
     //TODO: so this needs to be done on the fragment too
+    //(Or rather on the new activity??)
     suspend fun showScreen() {
         val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
         view.fillForm(mapper.convert(lastMicroscopeQuality))
