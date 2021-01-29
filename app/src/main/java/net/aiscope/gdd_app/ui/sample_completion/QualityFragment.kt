@@ -28,7 +28,7 @@ class QualityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.e("magnifiction: " + sharedVM.microscopeMagnification + " dam: " + sharedVM.microscopeDamaged)
+        Timber.e("magnification: " + sharedVM.microscopeMagnification + " dam: " + sharedVM.microscopeDamaged)
         return inflater.inflate(R.layout.fragment_quality, container, false)
     }
 

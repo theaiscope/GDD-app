@@ -5,10 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.ui.capture.CaptureImagePresenter
+import net.aiscope.gdd_app.ui.capture.CaptureImageView
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
+import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Module
@@ -21,16 +26,43 @@ abstract class SampleCompletionModule {
     @Binds
     internal abstract fun bindViewModelFactory(factory: SampleCompletionViewModelFactory): ViewModelProvider.Factory
 
+    companion object {
+        @Provides
+        @PerActivity
+        internal fun provideViewModel(repository: SampleRepository): SampleCompletionViewModel =
+            SampleCompletionViewModel(repository)
+    }
 }
+
+//@Singleton
+//class SampleCompletionViewModelFactory @Inject constructor(
+//    private val repository: SampleRepository
+//) : ViewModelProvider.Factory {
+//
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        Timber.i("We are calling the NEW create method here at least??")
+////        return modelClass.getConstructor(SampleRepository::class.java).newInstance(repository)
+//        if (modelClass == SampleCompletionViewModel::class.java) {
+//            return SampleCompletionViewModel(repository) as T
+//        }
+//        //Only SampleCompletionViewModel is supported
+//        throw IllegalArgumentException("SampleCompletionViewModelFactory can only produce SampleCompletionViewModel")
+//    }
+//}
 
 @Singleton
 class SampleCompletionViewModelFactory @Inject constructor(
-    private val repository: SampleRepository
-) :
-    ViewModelProvider.Factory {
+    private val provider: Provider<SampleCompletionViewModel>
+) : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>): T{
-        return modelClass.getConstructor(SampleRepository::class.java).newInstance(repository)
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        Timber.i("We are calling the PROVIDER create method here at least??")
+        if (modelClass == SampleCompletionViewModel::class.java) {
+            return provider.get() as T
+        }
+        //Only SampleCompletionViewModel is supported
+        throw IllegalArgumentException("SampleCompletionViewModelFactory can only produce SampleCompletionViewModel")
     }
 }
+
 

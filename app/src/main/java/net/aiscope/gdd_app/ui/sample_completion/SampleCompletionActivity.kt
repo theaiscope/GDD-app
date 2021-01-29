@@ -14,6 +14,7 @@ import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.microscope_quality.MicroscopeQualityPresenter
+import timber.log.Timber
 import javax.inject.Inject
 
 class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
@@ -27,6 +28,8 @@ class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+
+        Timber.i("Created factory %s", viewModelFactory)
 
         sharedVM = viewModelFactory.create(SampleCompletionViewModel::class.java)
 
