@@ -7,8 +7,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.repository.SampleRepository
-import net.aiscope.gdd_app.ui.capture.CaptureImagePresenter
-import net.aiscope.gdd_app.ui.capture.CaptureImageView
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import timber.log.Timber
