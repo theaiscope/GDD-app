@@ -1,20 +1,16 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
-import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.CaptureFlow
-import net.aiscope.gdd_app.ui.microscope_quality.MicroscopeQualityPresenter
-import timber.log.Timber
 import javax.inject.Inject
 
 class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
@@ -23,15 +19,11 @@ class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var sharedVM: SampleCompletionViewModel
+    private val sharedVM: SampleCompletionViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-
-        Timber.i("Created factory %s", viewModelFactory)
-
-        sharedVM = viewModelFactory.create(SampleCompletionViewModel::class.java)
 
         //FIXME Bit sloppy
         val context = this
