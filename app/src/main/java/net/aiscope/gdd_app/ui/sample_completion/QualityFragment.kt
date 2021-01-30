@@ -28,8 +28,11 @@ class QualityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.e("magnification: " + sharedVM.microscopeMagnification + " dam: " + sharedVM.microscopeDamaged)
-        return inflater.inflate(R.layout.fragment_quality, container, false)
+        binding = FragmentQualityBinding.inflate(inflater, container, false)
+        binding.microscopeQualityDamagedSwitch.isChecked = sharedVM.microscopeDamaged
+        binding.microscopeQualityMagnificationInput.setText(sharedVM.microscopeMagnification.toString())
+        Timber.i("magnification: %s dam: %s", sharedVM.microscopeMagnification, sharedVM.microscopeDamaged)
+        return binding.root
     }
 
     private fun validateForm(): Boolean {
