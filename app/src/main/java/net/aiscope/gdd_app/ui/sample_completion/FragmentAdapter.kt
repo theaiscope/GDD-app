@@ -12,13 +12,12 @@ internal class FragmentAdapter(
     ) :
     FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
-        //TODO: 3 different fragments
         return when (position) {
             0 -> {
                 MetadataFragment()
             }
             1 -> {
-                MetadataFragment()
+                PreparationFragment()
             }
             2 -> {
                 QualityFragment()
