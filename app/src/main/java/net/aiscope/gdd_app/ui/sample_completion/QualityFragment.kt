@@ -47,6 +47,4 @@ class QualityFragment : Fragment() {
             if (isMagnificationValid) null else getString(R.string.microscope_quality_magnification_error)
         return isMagnificationValid
     }
-
-
 }

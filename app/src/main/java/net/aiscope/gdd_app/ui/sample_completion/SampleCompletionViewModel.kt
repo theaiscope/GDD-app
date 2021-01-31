@@ -15,5 +15,4 @@ class SampleCompletionViewModel @Inject constructor(
         microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
         microscopeMagnification = lastMicroscopeQuality?.magnification ?: 1000
     }
-
 }

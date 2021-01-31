@@ -48,6 +48,7 @@ class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
                     viewPager.currentItem = tab.position
                 }
 
+                //TODO: anything that needs doing in these cases??
                 override fun onTabUnselected(tab: TabLayout.Tab) {}
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
