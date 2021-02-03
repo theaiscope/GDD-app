@@ -7,6 +7,7 @@ import javax.inject.Inject
 class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     ): ViewModel() {
+    //TODO: We got a nicer way of fixing default vals??
     var microscopeDamaged: Boolean = false
     var microscopeMagnification: Int = 1000
 
