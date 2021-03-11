@@ -49,7 +49,7 @@ class BitmapReaderTest {
         assertTrue("Dimensions smaller than expected", b.height >= 20)
         assertTrue("Dimensions smaller than expected", b.width >= 20)
         assertFalse("Expected to be immutable", b.isMutable)
-        assertThat("Bitmap size corresponds to RGB565 encoding", b.byteCount, isEqualTo(b.byteCountForRgb565()))
+        assertThat("Bitmap size corresponds to RGB565 encoding", b.allocationByteCount, isEqualTo(b.byteCountForRgb565()))
     }
 
     @Test
@@ -62,7 +62,7 @@ class BitmapReaderTest {
         assertTrue("Dimensions bigger than expected", b.height <= 50)
         assertTrue("Dimensions bigger than expected", b.width <= 50)
         assertTrue("Expected to be mutable", b.isMutable)
-        assertThat("Bitmap size corresponds to RGB565 encoding", b.byteCount, isEqualTo(b.byteCountForRgb565()))
+        assertThat("Bitmap size corresponds to RGB565 encoding", b.allocationByteCount, isEqualTo(b.byteCountForRgb565()))
     }
 
     @Test
