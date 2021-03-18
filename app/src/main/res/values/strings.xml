@@ -91,4 +91,5 @@
     <string name="malaria_stage_trophozoite">Trophozoite</string>
     <string name="malaria_stage_schizont">Schizont</string>
     <string name="malaria_stage_gametocyte">Gametocyte</string>
+    <string name="malaria_stage_artefact">Artefact</string>
 </resources>

@@ -8,9 +8,13 @@ import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.GeneralLocation
+import androidx.test.espresso.action.GeneralSwipeAction
+import androidx.test.espresso.action.Press
+import androidx.test.espresso.action.Swipe
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeLeft
-import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -20,8 +24,8 @@ import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.screenshot.Screenshot
 import com.azimolabs.conditionwatcher.ConditionWatcher
 import com.azimolabs.conditionwatcher.Instruction
-import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.test.extensions.getAssetStream
+import net.aiscope.gdd_app.ui.mask.MaskActivity
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,7 +46,10 @@ class MaskActivityTest {
 
         activityTestRule.launchActivity(
             Intent(Intent.ACTION_MAIN)
-                .putExtra(MaskActivity.EXTRA_DISEASE_NAME, applicationContext.resources.getString(R.string.malaria_name))
+                .putExtra(
+                    MaskActivity.EXTRA_DISEASE_NAME,
+                    applicationContext.resources.getString(R.string.malaria_name)
+                )
                 .putExtra(MaskActivity.EXTRA_IMAGE_NAME, tempFile.absolutePath)
                 .putExtra(MaskActivity.EXTRA_MASK_NAME, "mask")
         )
@@ -84,7 +91,13 @@ class MaskActivityTest {
     }
 
     private fun checkVisibility(viewId: Int, visibility: ViewMatchers.Visibility) {
-        onView(withId(viewId)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(visibility)))
+        onView(withId(viewId)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withEffectiveVisibility(
+                    visibility
+                )
+            )
+        )
     }
 
     private fun perform(viewId: Int, action: ViewAction): ViewInteraction {
@@ -128,7 +141,11 @@ class MaskActivityTest {
         checkIsVisible(R.id.redo_btn)
     }
 
-    private fun captureMaskCustomView() = Screenshot.capture(activityTestRule.activity.findViewById<View>(R.id.photo_mask_view))
+    private fun captureMaskCustomView() = Screenshot.capture(
+        activityTestRule.activity.findViewById<View>(
+            R.id.photo_mask_view
+        )
+    )
 
     @Test
     fun shouldUndoAndRedoProperly() {
@@ -146,7 +163,7 @@ class MaskActivityTest {
 
         val captureFirstPath = captureMaskCustomView()
 
-        perform(R.id.photo_mask_view, swipeUp())
+        perform(R.id.photo_mask_view, swipeUpFromCenter())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
@@ -182,7 +199,6 @@ class MaskActivityTest {
         assertTrue(captureMaskCustomView().bitmap.sameAs(captureSecondPath.bitmap))
     }
 
-
     @Test
     fun shouldUndoAndRedoProperlyWithRotation() {
         startActivity()
@@ -200,7 +216,7 @@ class MaskActivityTest {
         val captureFirstPath = captureMaskCustomView()
 
         rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
-        perform(R.id.photo_mask_view, swipeUp())
+        perform(R.id.photo_mask_view, swipeUpFromCenter())
         rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.photo_mask_view)
 
         checkIsVisible(R.id.undo_btn)
@@ -239,5 +255,18 @@ class MaskActivityTest {
         checkIsInvisible(R.id.redo_btn)
 
         assertTrue(captureMaskCustomView().bitmap.sameAs(captureSecondPath.bitmap))
+    }
+
+    // this makes swipe from the center of the picture view instead of bottom
+    // fixes tests running locally
+    private fun swipeUpFromCenter(): ViewAction {
+        return ViewActions.actionWithAssertions(
+            GeneralSwipeAction(
+                Swipe.FAST,
+                GeneralLocation.VISIBLE_CENTER,
+                GeneralLocation.TOP_CENTER,
+                Press.FINGER
+            )
+        )
     }
 }
