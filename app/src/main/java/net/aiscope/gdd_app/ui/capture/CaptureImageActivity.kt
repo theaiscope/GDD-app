@@ -55,6 +55,13 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
             )
             zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView)
 
+            zoomController.onZoomChangedListener = ZoomController.OnZoomChangedListener {
+                if (it && captureImageButton.isOrWillBeShown)
+                    captureImageButton.hide();
+                else if (!it && captureImageButton.isOrWillBeHidden)
+                    captureImageButton.show();
+            }
+
             captureImageButton.setOnClickListener {
                 presenter.handleCaptureImageButton(extractImageNameExtra())
             }
