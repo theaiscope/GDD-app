@@ -26,7 +26,6 @@ class SampleTest {
         private const val USES_GIEMSA = true
         private const val GIEMSA_FP = true
         private const val USES_PBS = true
-        private const val USES_ALCOHOL = true
         private const val REUSES_SLIDES = true
 
         private const val IS_DAMAGED = true
@@ -40,7 +39,6 @@ class SampleTest {
             USES_GIEMSA,
             GIEMSA_FP,
             USES_PBS,
-            USES_ALCOHOL,
             REUSES_SLIDES
         )
         val microscopeQuality = MicroscopeQuality(IS_DAMAGED, MAGNIFICATION)
@@ -61,7 +59,6 @@ class SampleTest {
             USES_GIEMSA,
             GIEMSA_FP,
             USES_PBS,
-            USES_ALCOHOL,
             REUSES_SLIDES
         )
 

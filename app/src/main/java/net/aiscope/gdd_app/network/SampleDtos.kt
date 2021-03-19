@@ -30,7 +30,6 @@ data class SamplePreparationDto(
     @SerializedName("usesGiemsa") val usesGiemsa: Boolean,
     @SerializedName("giemsaFP") val giemsaFP: Boolean,
     @SerializedName("usesPbs") val usesPbs: Boolean,
-    @SerializedName("usesAlcohol") val usesAlcohol: Boolean,
     @SerializedName("reusesSlides") val reusesSlides: Boolean
 )
 
@@ -64,7 +63,6 @@ fun SamplePreparation.toDto() = SamplePreparationDto(
     usesGiemsa,
     giemsaFP,
     usesPbs,
-    usesAlcohol,
     reusesSlides
 )
 

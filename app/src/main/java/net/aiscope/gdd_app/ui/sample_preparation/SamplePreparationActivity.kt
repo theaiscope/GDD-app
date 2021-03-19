@@ -26,7 +26,6 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
             usesGiemsa = true,
             giemsaFP = true,
             usesPbs = true,
-            usesAlcohol = true,
             reusesSlides = false
         )
     }
@@ -62,7 +61,6 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
             samplePreparationGiemsaSwitch.isChecked = usesGiemsa
             samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
             samplePreparationPbsSwitch.isChecked = usesPbs
-            samplePreparationAlcoholSwitch.isChecked = usesAlcohol
             samplePreparationSlidesReuseSwitch.isChecked = reusesSlides
         }
     }
@@ -84,7 +82,6 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
                     samplePreparationGiemsaSwitch.isChecked,
                     samplePreparationGiemsaFpSwitch.isChecked,
                     samplePreparationPbsSwitch.isChecked,
-                    samplePreparationAlcoholSwitch.isChecked,
                     samplePreparationSlidesReuseSwitch.isChecked
                 )
             }

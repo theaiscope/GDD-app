@@ -67,7 +67,6 @@ class SampleDtoTest {
         private const val MAGNIFICATION = 1
         private const val MICROSCOPIST = "some-microscopist"
         private const val REUSES_SLIDES = true
-        private const val USES_ALCOHOL = true
         private const val USES_GIEMSA = true
         private const val USES_PBS = true
         private const val MASK_1_IS_EMPTY = true
@@ -103,7 +102,6 @@ class SampleDtoTest {
             USES_GIEMSA,
             GIEMSA_FP,
             USES_PBS,
-            USES_ALCOHOL,
             REUSES_SLIDES
         )
 
@@ -126,7 +124,6 @@ class SampleDtoTest {
             usesGiemsa = USES_GIEMSA,
             giemsaFP = GIEMSA_FP,
             usesPbs = USES_PBS,
-            usesAlcohol = USES_ALCOHOL,
             reusesSlides = REUSES_SLIDES
         )
 
