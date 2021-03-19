@@ -55,7 +55,10 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
                 cameraErrorCallback = { presenter.onCaptureError(it) }
             )
             zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView)
-            toast  = Toast.makeText(this@CaptureImageActivity, R.string.you_cannot_take_a_picture_while_zooming, Toast.LENGTH_SHORT);
+            toast  = Toast.makeText(
+                this@CaptureImageActivity,
+                R.string.you_cannot_take_a_picture_while_zooming,
+                Toast.LENGTH_SHORT);
 
             zoomController.onZoomChangedListener = ZoomController.OnZoomChangedListener {
                 if (it)
