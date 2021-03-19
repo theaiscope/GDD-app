@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
+import io.fotoapparat.configuration.CameraConfiguration
+import io.fotoapparat.selector.highestResolution
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCaptureImageBinding
@@ -51,6 +53,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
             fotoapparat = Fotoapparat(
                 context = this@CaptureImageActivity,
                 view = cameraView,
+                cameraConfiguration = CameraConfiguration.builder().photoResolution(highestResolution()).build(),
                 cameraErrorCallback = { presenter.onCaptureError(it) }
             )
             zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView)
