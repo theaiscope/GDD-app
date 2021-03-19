@@ -18,7 +18,6 @@ import net.aiscope.gdd_app.databinding.ActivityMaskBinding
 import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
-import net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
@@ -93,11 +92,6 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
             getBitmapBtn.setOnClickListener {
                 presenter.handleCaptureBitmap(maskNameExtra, isEmptyMaskBitmap())
-            }
-
-            photoMaskView.onZoomChangedListener = MaskCustomView.OnZoomChangedListener {
-                // disable button on zooming
-                getBitmapBtn.isEnabled = !it
             }
 
             photoMaskView.onMaskingActionFinishedListener = View.OnTouchListener { _, _ ->
