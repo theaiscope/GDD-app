@@ -39,11 +39,17 @@ class MaskCustomView @JvmOverloads constructor(
     private val maskLayer = MaskLayer(imageMatrix)
     private var currentMode: Mode = Mode.Draw
     private lateinit var drawableSize: Size
+    var onZoomChangedListener : OnZoomChangedListener? = null
 
     init {
         maximumScale = MAX_SCALE
 
         setOnMatrixChangeListener { _ ->
+            // it is assumed that when the value returned by this method is equal to 1.0
+            // then the image is not zoomed
+            // and also that scale cannot be less than 1.0
+            onZoomChangedListener?.onZoomChanged(this.scale > 1.0f);
+
             val imageMatrixArray = FloatArray(MATRIX_SIZE).apply { imageMatrix.getValues(this) }
             val scale = imageMatrixArray[Matrix.MSCALE_X]
             maskLayer.currentScale = scale
@@ -167,4 +173,8 @@ class MaskCustomView @JvmOverloads constructor(
 
     class MaskCustomViewSavedState(superState: Parcelable?, val maskLayerState: Parcelable) :
         BaseSavedState(superState)
+
+    fun interface OnZoomChangedListener {
+        fun onZoomChanged(isZoomed: Boolean) : Unit;
+    }
 }
