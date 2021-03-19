@@ -5,14 +5,17 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.view.View
+import android.widget.Button
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.doubleClick
 import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
@@ -22,6 +25,9 @@ import com.azimolabs.conditionwatcher.ConditionWatcher
 import com.azimolabs.conditionwatcher.Instruction
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.test.extensions.getAssetStream
+import net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
+import org.junit.Assert
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,14 +48,17 @@ class MaskActivityTest {
 
         activityTestRule.launchActivity(
             Intent(Intent.ACTION_MAIN)
-                .putExtra(MaskActivity.EXTRA_DISEASE_NAME, applicationContext.resources.getString(R.string.malaria_name))
+                .putExtra(
+                    MaskActivity.EXTRA_DISEASE_NAME,
+                    applicationContext.resources.getString(R.string.malaria_name)
+                )
                 .putExtra(MaskActivity.EXTRA_IMAGE_NAME, tempFile.absolutePath)
                 .putExtra(MaskActivity.EXTRA_MASK_NAME, "mask")
         )
     }
 
     private fun rotateAndWaitViewDisplay(orientation: Orientation, viewId: Int) {
-        rotate(orientation) {activityTestRule.activity}
+        rotate(orientation) { activityTestRule.activity }
         checkIsDisplayed(viewId)
     }
 
@@ -84,7 +93,13 @@ class MaskActivityTest {
     }
 
     private fun checkVisibility(viewId: Int, visibility: ViewMatchers.Visibility) {
-        onView(withId(viewId)).check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(visibility)))
+        onView(withId(viewId)).check(
+            ViewAssertions.matches(
+                ViewMatchers.withEffectiveVisibility(
+                    visibility
+                )
+            )
+        )
     }
 
     private fun perform(viewId: Int, action: ViewAction): ViewInteraction {
@@ -109,6 +124,51 @@ class MaskActivityTest {
     }
 
     @Test
+    fun shouldDisableDoneButtonOnZoom() {
+        startActivity()
+
+        val button = activityTestRule.activity.findViewById<Button>(R.id.get_bitmap_btn);
+        val mask = activityTestRule.activity.findViewById<MaskCustomView>(R.id.photo_mask_view);
+
+        fun waitForScale(scale: Float) {
+            ConditionWatcher.waitForCondition(object : Instruction() {
+                override fun getDescription(): String {
+                    return "Zoom must be at $scale"
+                }
+
+                override fun checkCondition(): Boolean {
+                    return mask.scale == scale
+                }
+            })
+        }
+
+        // button is enabled by default
+        assertTrue(button.isEnabled)
+        // switch to zoom mode
+        perform(R.id.zoom_btn, click());
+
+        // zoom in first time (~5x)
+        perform(R.id.photo_mask_view, doubleClick());
+        // button should be disabled after zoom starts
+        assertFalse(button.isEnabled)
+
+        // zoom more (10x)
+        perform(R.id.photo_mask_view, doubleClick());
+        // wait for transition to finish
+        waitForScale(10.0f)
+        // still disabled
+        assertFalse(button.isEnabled)
+
+        // zoom out to 1.0
+        perform(R.id.photo_mask_view, doubleClick());
+        // wait for transition to finish
+        waitForScale(1.0f)
+
+        // check that the button is enabled again
+        assertTrue(button.isEnabled)
+    }
+
+    @Test
     fun shouldKeepUndoAndRedoOnRotation() {
         startActivity()
 
@@ -128,7 +188,8 @@ class MaskActivityTest {
         checkIsVisible(R.id.redo_btn)
     }
 
-    private fun captureMaskCustomView() = Screenshot.capture(activityTestRule.activity.findViewById<View>(R.id.photo_mask_view))
+    private fun captureMaskCustomView() =
+        Screenshot.capture(activityTestRule.activity.findViewById<View>(R.id.photo_mask_view))
 
     @Test
     fun shouldUndoAndRedoProperly() {
@@ -215,7 +276,7 @@ class MaskActivityTest {
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-         assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
+        assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
 
         perform(R.id.undo_btn, click())
 
