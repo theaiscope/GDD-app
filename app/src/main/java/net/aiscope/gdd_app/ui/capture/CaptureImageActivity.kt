@@ -53,7 +53,8 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
             fotoapparat = Fotoapparat(
                 context = this@CaptureImageActivity,
                 view = cameraView,
-                cameraConfiguration = CameraConfiguration.builder().photoResolution(highestResolution()).build(),
+                cameraConfiguration =
+                    CameraConfiguration.builder().photoResolution(highestResolution()).build(),
                 cameraErrorCallback = { presenter.onCaptureError(it) }
             )
             zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView)
