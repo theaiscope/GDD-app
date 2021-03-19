@@ -44,6 +44,7 @@
     <!-- CaptureImage -->
     <string name="capture_activity_title">Capture an image</string>
     <string name="image_could_not_be_taken">Image could not be taken</string>
+    <string name="you_cannot_take_a_picture_while_zooming">You can not take a picture while zooming</string>
     <!-- Mask -->
     <string name="mask_activity_title">Highlight the virus</string>
     <string name="button_done_text">Done</string>

@@ -37,6 +37,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     private lateinit var zoomController: ZoomController
 
     private lateinit var binding: ActivityCaptureImageBinding
+    private lateinit var toast: Toast;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -54,12 +55,19 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
                 cameraErrorCallback = { presenter.onCaptureError(it) }
             )
             zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView)
+            toast  = Toast.makeText(this@CaptureImageActivity, R.string.you_cannot_take_a_picture_while_zooming, Toast.LENGTH_SHORT);
 
             zoomController.onZoomChangedListener = ZoomController.OnZoomChangedListener {
-                if (it && captureImageButton.isOrWillBeShown)
-                    captureImageButton.hide();
-                else if (!it && captureImageButton.isOrWillBeHidden)
-                    captureImageButton.show();
+                if (it)
+                {
+                    captureImageButton.isEnabled = false;
+                    toast.show()
+                }
+                else
+                {
+                    captureImageButton.isEnabled = true;
+                    toast.cancel()
+                }
             }
 
             captureImageButton.setOnClickListener {

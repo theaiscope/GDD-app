@@ -29,6 +29,7 @@
         app:layout_constraintBottom_toTopOf="@+id/capture_image_button" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:backgroundTint="@color/floating_action_button_selector"
         android:id="@+id/capture_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
