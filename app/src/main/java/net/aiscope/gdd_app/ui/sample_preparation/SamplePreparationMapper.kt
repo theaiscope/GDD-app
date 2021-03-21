@@ -36,7 +36,6 @@ object SamplePreparationMapper {
                 model.usesGiemsa,
                 model.giemsaFP,
                 model.usesPbs,
-                model.usesAlcohol,
                 model.reusesSlides
             )
 
@@ -46,7 +45,6 @@ object SamplePreparationMapper {
             viewModel.usesGiemsa,
             viewModel.giemsaFP,
             viewModel.usesPbs,
-            viewModel.usesAlcohol,
             viewModel.reusesSlides
         )
 }

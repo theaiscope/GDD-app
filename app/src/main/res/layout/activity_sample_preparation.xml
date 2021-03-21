@@ -96,22 +96,13 @@
                 app:layout_constraintTop_toBottomOf="@id/sample_preparation_giemsa_fp_switch" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/sample_preparation_alcohol_switch"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_preparation_alcohol_title"
-                app:layout_constraintEnd_toEndOf="@+id/sample_preparation_right_guideline"
-                app:layout_constraintStart_toStartOf="@+id/sample_preparation_left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/sample_preparation_pbs_switch" />
-
-            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/sample_preparation_slides_reuse_switch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sample_preparation_slides_reuse_title"
                 app:layout_constraintEnd_toEndOf="@+id/sample_preparation_right_guideline"
                 app:layout_constraintStart_toStartOf="@+id/sample_preparation_left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/sample_preparation_alcohol_switch" />
+                app:layout_constraintTop_toBottomOf="@id/sample_preparation_pbs_switch"  />
 
             <Button
                 android:id="@+id/sample_preparation_continue_button"

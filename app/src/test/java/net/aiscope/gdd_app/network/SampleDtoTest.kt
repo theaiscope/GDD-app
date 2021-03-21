@@ -29,7 +29,6 @@ class SampleDtoTest {
         private const val MAGNIFICATION = 1
         private const val MICROSCOPIST = "some-microscopist"
         private const val REUSES_SLIDES = true
-        private const val USES_ALCOHOL = true
         private const val USES_GIEMSA = true
         private const val USES_PBS = true
 
@@ -42,7 +41,7 @@ class SampleDtoTest {
 
         val metadata = SampleMetadata(smearType, species, COMMENTS)
         val microscopeQuality = MicroscopeQuality(IS_DAMAGED, MAGNIFICATION)
-        val samplePreparation = SamplePreparation(waterType, USES_GIEMSA, GIEMSA_FP, USES_PBS, USES_ALCOHOL, REUSES_SLIDES)
+        val samplePreparation = SamplePreparation(waterType, USES_GIEMSA, GIEMSA_FP, USES_PBS, REUSES_SLIDES)
 
         val sample = Sample(
             id = ID,
@@ -83,7 +82,6 @@ class SampleDtoTest {
         assertEquals(samplePreparation.usesGiemsa, samplePreparationDTO.usesGiemsa)
         assertEquals(samplePreparation.giemsaFP, samplePreparationDTO.giemsaFP)
         assertEquals(samplePreparation.usesPbs, samplePreparationDTO.usesPbs)
-        assertEquals(samplePreparation.usesAlcohol, samplePreparationDTO.usesAlcohol)
         assertEquals(samplePreparation.reusesSlides, samplePreparationDTO.reusesSlides)
     }
 

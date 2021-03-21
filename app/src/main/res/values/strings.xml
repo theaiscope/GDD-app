@@ -25,7 +25,6 @@
     <string name="sample_preparation_giemsa_title">Uses Giemsa</string>
     <string name="sample_preparation_giemsa_fp_title">Giemsa filtering or precipitating</string>
     <string name="sample_preparation_pbs_title">Uses PBS</string>
-    <string name="sample_preparation_alcohol_title">Uses alcohol to fix the sample</string>
     <string name="sample_preparation_slides_reuse_title">Reuses slides</string>
     <string name="sample_preparation_continue">continue</string>
     <string name="sample_preparation_snackbar_error">An error occurred while saving your sample preparation data. Please try again.</string>
