@@ -1,6 +1,5 @@
 package net.aiscope.gdd_app.ui.microscope_quality
 
-import android.content.Context
 import net.aiscope.gdd_app.repository.SampleRepository
 import timber.log.Timber
 import javax.inject.Inject
@@ -8,8 +7,7 @@ import javax.inject.Inject
 class MicroscopeQualityPresenter @Inject constructor(
     val view: MicroscopeQualityView,
     private val mapper: MicroscopeQualityMapper,
-    val repository: SampleRepository,
-    private val context: Context
+    val repository: SampleRepository
 ) {
 
     suspend fun showScreen() {

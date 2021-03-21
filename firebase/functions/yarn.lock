@@ -791,10 +791,10 @@ firebase-functions-test@^0.2.3:
     "@types/lodash" "^4.14.104"
     lodash "^4.17.5"
 
-firebase-functions@^3.13.1:
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.13.1.tgz#a34e61ab328903fe88a9532d267f031d9a0d9e23"
-  integrity sha512-tmYHN9OWWIij/8xO72AD2sKHm9T8pdLPYXy5RWk9VidP8+LDOUZ68vq1g1WKeSkRR7WyVYQ3scU2QoMDfe9T8g==
+firebase-functions@^3.13.2:
+  version "3.13.2"
+  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.13.2.tgz#e5728b91a51f16f538e53c4f50497056b5702d58"
+  integrity sha512-XHgAQZqA62awr4l9mNlJv6qnv5MkMkLuo+hafdW0T7IJj1PgrZtuIo5x+ib2npAcB0XhX5Sg0QR1hMYPAlfbaA==
   dependencies:
     "@types/express" "4.17.3"
     cors "^2.8.5"
@@ -1727,10 +1727,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.1.5:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
-  integrity sha512-6OSu9PTIzmn9TCDiovULTnET6BgXtDYL4Gg4szY+cGsc3JP1dQL8qvE8kShTRx1NIw4Q9IBHlwODjkjWEtMUyA==
+typescript@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.3.tgz#39062d8019912d43726298f09493d598048c1ce3"
+  integrity sha512-qOcYwxaByStAWrBf4x0fibwZvMRG+r4cQoTjbPtUlrWjBHbmCAww1i448U0GJ+3cNNEtebDteo/cHOR3xJ4wEw==
 
 unique-string@^2.0.0:
   version "2.0.0"
