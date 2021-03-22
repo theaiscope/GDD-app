@@ -37,7 +37,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     private lateinit var zoomController: ZoomController
 
     private lateinit var binding: ActivityCaptureImageBinding
-    private lateinit var toast: Toast
+    private var toast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -54,21 +54,23 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
                 view = cameraView,
                 cameraErrorCallback = { presenter.onCaptureError(it) }
             )
-            zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView)
+
             toast  = Toast.makeText(
                 this@CaptureImageActivity,
                 R.string.you_cannot_take_a_picture_while_zooming,
                 Toast.LENGTH_SHORT)
 
-            zoomController.onZoomChangedListener = ZoomController.OnZoomChangedListener { isZoomed ->
+            val onZoomChanged = ZoomController.OnZoomChangedListener { isZoomed ->
                 if (isZoomed) {
                     captureImageButton.isEnabled = false
-                    toast.show()
+                    toast?.show()
                 } else {
                     captureImageButton.isEnabled = true
-                    toast.cancel()
+                    toast?.cancel()
                 }
             }
+
+            zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView, onZoomChanged)
 
             captureImageButton.setOnClickListener {
                 presenter.handleCaptureImageButton(extractImageNameExtra())
@@ -131,5 +133,11 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     override fun onRestart() {
         super.onRestart()
         binding.captureImageLoadingModal.visibility = View.GONE
+    }
+
+    override fun onDestroy() {
+        toast?.cancel()
+        toast = null
+        super.onDestroy()
     }
 }

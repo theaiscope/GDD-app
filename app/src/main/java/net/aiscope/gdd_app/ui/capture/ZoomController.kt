@@ -11,11 +11,9 @@ import io.fotoapparat.parameter.Zoom
 class ZoomController(
     private val fotoapparat: Fotoapparat,
     private val cameraZoomLevel: SeekBar,
-    private val cameraView: View
+    private val cameraView: View,
+    private val onZoomChangedListener : OnZoomChangedListener?
 ) {
-
-    var onZoomChangedListener : OnZoomChangedListener? = null
-
     companion object {
         const val PERCENTAGE_RATIO = 100f
         const val SEEK_BAR_VISIBILITY_DELAY_IN_MILLIS = 2000L
