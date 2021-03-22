@@ -109,7 +109,7 @@ class ZoomController(
         // it is assumed that when the value provided here is equal to 1.0
         // then the image is not zoomed
         // and also that zoom cannot be less than 1.0
-        onZoomChangedListener?.onZoomChanged(zoom > 1.0f);
+        onZoomChangedListener?.onZoomChanged(isZoomed = zoom > 1.0f)
     }
 
     fun interface OnZoomChangedListener {
