@@ -127,7 +127,7 @@ class MaskActivityTest {
         startActivity()
 
         perform(R.id.photo_mask_view, swipeLeft())
-        perform(R.id.photo_mask_view, swipeUp())
+        perform(R.id.photo_mask_view, swipeUpFromCenter())
 
         perform(R.id.undo_btn, click())
 
