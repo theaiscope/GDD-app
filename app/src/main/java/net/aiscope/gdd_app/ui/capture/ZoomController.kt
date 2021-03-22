@@ -113,6 +113,6 @@ class ZoomController(
     }
 
     fun interface OnZoomChangedListener {
-        fun onZoomChanged(isZoomed: Boolean) : Unit;
+        fun onZoomChanged(isZoomed: Boolean) : Unit
     }
 }
