@@ -58,17 +58,14 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
             toast  = Toast.makeText(
                 this@CaptureImageActivity,
                 R.string.you_cannot_take_a_picture_while_zooming,
-                Toast.LENGTH_SHORT);
+                Toast.LENGTH_SHORT)
 
-            zoomController.onZoomChangedListener = ZoomController.OnZoomChangedListener {
-                if (it)
-                {
-                    captureImageButton.isEnabled = false;
+            zoomController.onZoomChangedListener = ZoomController.OnZoomChangedListener { isZoomed ->
+                if (isZoomed) {
+                    captureImageButton.isEnabled = false
                     toast.show()
-                }
-                else
-                {
-                    captureImageButton.isEnabled = true;
+                } else {
+                    captureImageButton.isEnabled = true
                     toast.cancel()
                 }
             }
