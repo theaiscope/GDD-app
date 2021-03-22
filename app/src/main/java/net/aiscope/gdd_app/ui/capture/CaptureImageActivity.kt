@@ -37,7 +37,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     private lateinit var zoomController: ZoomController
 
     private lateinit var binding: ActivityCaptureImageBinding
-    private lateinit var toast: Toast;
+    private lateinit var toast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
