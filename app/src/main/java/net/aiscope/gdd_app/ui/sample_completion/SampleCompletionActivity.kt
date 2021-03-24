@@ -1,19 +1,25 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.ui.CaptureFlow
+import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
+import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
+import timber.log.Timber
 import javax.inject.Inject
 
-class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
+class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private lateinit var binding: ActivityCompleteSampleBinding
 
     @Inject
@@ -49,9 +55,14 @@ class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
                 }
 
                 //TODO: anything that needs doing in these cases??
-                override fun onTabUnselected(tab: TabLayout.Tab) {}
+                override fun onTabUnselected(tab: TabLayout.Tab) {
+                    //call the validate and write back to VM function
+                }
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
+
+            completionSaveSample.setOnClickListener { save() }
+
         }
 
         //Initialize the shared viewmodel for the tabs
@@ -60,4 +71,36 @@ class SampleCompletionActivity: CaptureFlow, AppCompatActivity() {
         }
     }
 
+    fun save() {
+        //So how do I get the fragments??
+//        supportFragmentManager.findFragmentById()
+        lifecycleScope.launch {
+            try{
+                sharedVM.save()
+                finishFlow()
+            } catch(@Suppress("TooGenericExceptionCaught") error: Throwable) {
+                Timber.e(error, "An error occurred when saving sample preparation")
+                showRetryBar()
+            }
+        }
+    }
+
+    fun showRetryBar() {
+        CustomSnackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.microscope_quality_snackbar_error),
+            Snackbar.LENGTH_INDEFINITE, null,
+            CustomSnackbarAction(
+                getString(R.string.microscope_quality_snackbar_retry),
+                View.OnClickListener {
+                    lifecycleScope.launch {
+                        sharedVM.save()
+                    }
+                })
+        ).show()
+    }
+
+    private fun finishFlow() {
+        goToHomeAndConfirmSaved()
+    }
 }

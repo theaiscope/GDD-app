@@ -1,11 +1,13 @@
 package net.aiscope.gdd_app.dagger
 
 import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
@@ -27,8 +29,8 @@ abstract class SampleCompletionModule {
     companion object {
         @Provides
         @PerActivity
-        internal fun provideViewModel(repository: SampleRepository): SampleCompletionViewModel =
-            SampleCompletionViewModel(repository)
+        internal fun provideViewModel(repository: SampleRepository, remoteStorage: RemoteStorage, context: Context): SampleCompletionViewModel =
+            SampleCompletionViewModel(repository, remoteStorage, context)
     }
 }
 

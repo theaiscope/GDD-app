@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app.ui.main
+versionName package net.aiscope.gdd_app.ui.main
 
 import android.Manifest
 import android.content.Intent
@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.BuildConfig
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityMainBinding
+import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.sample_preparation.SamplePreparationActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
@@ -66,11 +67,12 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
             .check()
     }
 
-    override fun goToSamplePreparation() {
-        val intent = Intent(this, SamplePreparationActivity::class.java)
+    override fun goToCaptureImage(nextImageName: String) {
+        val intent = Intent(this, CaptureImageActivity::class.java)
+        intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
         this.startActivity(intent)
     }
-
+    
     override fun logout(success: Boolean) = if (success) {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
