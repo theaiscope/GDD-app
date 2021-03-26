@@ -20,15 +20,8 @@ import javax.inject.Inject
 
 class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, CaptureFlow {
 
-    private val defaultFormData: SamplePreparationViewStateModel by lazy {
-        SamplePreparationViewStateModel(
-            getString(R.string.spinner_empty_option),
-            usesGiemsa = true,
-            giemsaFP = true,
-            usesPbs = true,
-            reusesSlides = false,
-            getString(R.string.spinner_empty_option),
-        )
+    companion object {
+        const val BLOOD_QUALITY_PREFERENCE = "BLOOD_QUALITY_PREFERENCE"
     }
 
     @Inject
@@ -56,7 +49,7 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     }
 
     override fun fillForm(model: SamplePreparationViewStateModel?) = with(binding) {
-        val formData = model ?: defaultFormData
+        val formData = model ?: loadDefaultFormData()
         with(formData) {
             samplePreparationWaterTypeSpinner.select(waterType)
             samplePreparationGiemsaSwitch.isChecked = usesGiemsa
@@ -95,6 +88,9 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
                     samplePreparationBloodQualitySpinner.selectedItem.toString(),
                 )
             }
+
+            saveDefaultFormData(viewModel)
+
             presenter.save(viewModel)
         }
     }
@@ -115,5 +111,30 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     override fun goToMicroscopeQuality() {
         val intent = Intent(this, MicroscopeQualityActivity::class.java)
         this.startActivity(intent)
+    }
+
+    private fun loadDefaultFormData(): SamplePreparationViewStateModel {
+        val emptyValue = getString(R.string.spinner_empty_option)
+        val bloodTypeValue = this@SamplePreparationActivity
+            .getPreferences(MODE_PRIVATE)
+            .getString(BLOOD_QUALITY_PREFERENCE, emptyValue)
+            ?: emptyValue
+
+        return SamplePreparationViewStateModel(
+            emptyValue,
+            usesGiemsa = true,
+            giemsaFP = true,
+            usesPbs = true,
+            reusesSlides = false,
+            bloodTypeValue,
+        )
+    }
+
+    private fun saveDefaultFormData(model: SamplePreparationViewStateModel) {
+        this@SamplePreparationActivity
+            .getPreferences(MODE_PRIVATE)
+            .edit()
+            .putString(BLOOD_QUALITY_PREFERENCE, model.bloodQuality)
+            .apply()
     }
 }
