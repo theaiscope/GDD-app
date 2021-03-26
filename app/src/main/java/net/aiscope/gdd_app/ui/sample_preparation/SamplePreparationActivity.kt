@@ -26,7 +26,8 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
             usesGiemsa = true,
             giemsaFP = true,
             usesPbs = true,
-            reusesSlides = false
+            reusesSlides = false,
+            getString(R.string.spinner_empty_option),
         )
     }
 
@@ -62,6 +63,7 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
             samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
             samplePreparationPbsSwitch.isChecked = usesPbs
             samplePreparationSlidesReuseSwitch.isChecked = reusesSlides
+            samplePreparationBloodQualitySpinner.select(bloodQuality)
         }
     }
 
@@ -70,7 +72,14 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
                 getString(R.string.spinner_empty_option)
         samplePreparationWaterTypeError.visibility =
             if (isWaterTypeValid) View.GONE else View.VISIBLE
-        return isWaterTypeValid
+
+        val isBloodQualityValid = samplePreparationBloodQualitySpinner.selectedItem.toString() !=
+                getString(R.string.spinner_empty_option)
+
+        samplePreparationBloodQualityError.visibility =
+            if (isBloodQualityValid) View.GONE else View.VISIBLE
+
+        return isWaterTypeValid && isBloodQualityValid
     }
 
     private fun save() {
@@ -82,7 +91,8 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
                     samplePreparationGiemsaSwitch.isChecked,
                     samplePreparationGiemsaFpSwitch.isChecked,
                     samplePreparationPbsSwitch.isChecked,
-                    samplePreparationSlidesReuseSwitch.isChecked
+                    samplePreparationSlidesReuseSwitch.isChecked,
+                    samplePreparationBloodQualitySpinner.selectedItem.toString(),
                 )
             }
             presenter.save(viewModel)

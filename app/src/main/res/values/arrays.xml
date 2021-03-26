@@ -10,4 +10,9 @@
         <item>@string/water_type_tap</item>
         <item>@string/water_type_well</item>
     </string-array>
+    <string-array name="sample_preparation_blood_quality_types">
+        <item>@string/spinner_empty_option</item>
+        <item>@string/blood_quality_fresh</item>
+        <item>@string/blood_quality_old</item>
+    </string-array>
 </resources>

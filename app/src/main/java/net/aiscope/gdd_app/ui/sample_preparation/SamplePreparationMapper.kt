@@ -2,6 +2,7 @@ package net.aiscope.gdd_app.ui.sample_preparation
 
 import android.content.Context
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.model.BloodQuality
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.WaterType
 
@@ -27,6 +28,22 @@ object SamplePreparationMapper {
         }
     }
 
+    private fun getBloodType(bloodQualityValue: String, context: Context): BloodQuality {
+        return when (bloodQualityValue) {
+            context.getString(R.string.blood_quality_fresh) -> BloodQuality.FRESH
+            context.getString(R.string.blood_quality_old) -> BloodQuality.OLD
+            else -> throw IllegalStateException("$bloodQualityValue blood type is unknown")
+        }
+    }
+
+    private fun getBloodQualityValue(bloodQuality: BloodQuality?, context: Context): String {
+        return when (bloodQuality) {
+            BloodQuality.FRESH -> context.getString(R.string.blood_quality_fresh)
+            BloodQuality.OLD -> context.getString(R.string.blood_quality_old)
+            null -> ""
+        }
+    }
+
     fun convert(model: SamplePreparation?, context: Context) =
         if (model == null)
             null
@@ -36,7 +53,8 @@ object SamplePreparationMapper {
                 model.usesGiemsa,
                 model.giemsaFP,
                 model.usesPbs,
-                model.reusesSlides
+                model.reusesSlides,
+                this.getBloodQualityValue(model.bloodQuality, context),
             )
 
     fun convert(viewModel: SamplePreparationViewStateModel, context: Context) =
@@ -45,6 +63,7 @@ object SamplePreparationMapper {
             viewModel.usesGiemsa,
             viewModel.giemsaFP,
             viewModel.usesPbs,
-            viewModel.reusesSlides
+            viewModel.reusesSlides,
+            this.getBloodType(viewModel.bloodQuality, context),
         )
 }
