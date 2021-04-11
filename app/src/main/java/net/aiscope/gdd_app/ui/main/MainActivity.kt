@@ -1,4 +1,4 @@
-versionName package net.aiscope.gdd_app.ui.main
+package net.aiscope.gdd_app.ui.main
 
 import android.Manifest
 import android.content.Intent
