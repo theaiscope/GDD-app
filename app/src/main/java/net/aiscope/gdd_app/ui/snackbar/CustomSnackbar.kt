@@ -2,13 +2,13 @@ package net.aiscope.gdd_app.ui.snackbar
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.extensions.visible
 
 class CustomSnackbar (
     parent: ViewGroup,
@@ -54,7 +54,7 @@ class CustomSnackbar (
                     }
                 }
                 icon?.let {
-                    this.icon.visibility = VISIBLE
+                    this.icon.visible()
                     this.icon.setImageResource(it)
                 }
             }

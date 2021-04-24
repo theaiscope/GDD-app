@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivitySamplePreparationBinding
 import net.aiscope.gdd_app.extensions.select
+import net.aiscope.gdd_app.extensions.selectVisibility
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.microscope_quality.MicroscopeQualityActivity
@@ -68,8 +69,7 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     private fun validateForm(): Boolean = with(binding) {
         val isWaterTypeValid = samplePreparationWaterTypeSpinner.selectedItem.toString() !=
                 getString(R.string.spinner_empty_option)
-        samplePreparationWaterTypeError.visibility =
-            if (isWaterTypeValid) View.GONE else View.VISIBLE
+        samplePreparationWaterTypeError.selectVisibility(!isWaterTypeValid)
         return isWaterTypeValid
     }
 
