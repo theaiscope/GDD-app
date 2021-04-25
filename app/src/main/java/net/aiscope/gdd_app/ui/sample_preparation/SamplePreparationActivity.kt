@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
@@ -11,7 +12,6 @@ import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivitySamplePreparationBinding
 import net.aiscope.gdd_app.extensions.select
-import net.aiscope.gdd_app.extensions.selectVisibility
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.microscope_quality.MicroscopeQualityActivity
@@ -69,7 +69,7 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     private fun validateForm(): Boolean = with(binding) {
         val isWaterTypeValid = samplePreparationWaterTypeSpinner.selectedItem.toString() !=
                 getString(R.string.spinner_empty_option)
-        samplePreparationWaterTypeError.selectVisibility(!isWaterTypeValid)
+        samplePreparationWaterTypeError.isVisible = !isWaterTypeValid
         return isWaterTypeValid
     }
 

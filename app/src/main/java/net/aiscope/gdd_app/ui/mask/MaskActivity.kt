@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isInvisible
 import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityMaskBinding
-import net.aiscope.gdd_app.extensions.selectInvisibility
 import net.aiscope.gdd_app.extensions.writeToFile
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
@@ -182,7 +182,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     private fun setEnabled(view: View, enabled: Boolean) {
-        view.selectInvisibility(!enabled)
+        view.isInvisible = !enabled
     }
 
     private suspend fun readImage(filepath: String, mutable: Boolean = false): Bitmap = withContext( Dispatchers.IO) {

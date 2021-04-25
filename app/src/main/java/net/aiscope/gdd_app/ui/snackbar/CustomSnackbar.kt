@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.extensions.visible
 
 class CustomSnackbar (
     parent: ViewGroup,
@@ -54,7 +54,7 @@ class CustomSnackbar (
                     }
                 }
                 icon?.let {
-                    this.icon.visible()
+                    this.icon.isVisible = true
                     this.icon.setImageResource(it)
                 }
             }
