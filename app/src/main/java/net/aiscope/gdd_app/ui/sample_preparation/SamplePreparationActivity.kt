@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
@@ -68,8 +69,7 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     private fun validateForm(): Boolean = with(binding) {
         val isWaterTypeValid = samplePreparationWaterTypeSpinner.selectedItem.toString() !=
                 getString(R.string.spinner_empty_option)
-        samplePreparationWaterTypeError.visibility =
-            if (isWaterTypeValid) View.GONE else View.VISIBLE
+        samplePreparationWaterTypeError.isVisible = !isWaterTypeValid
         return isWaterTypeValid
     }
 
