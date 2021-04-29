@@ -57,7 +57,9 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 //TODO: anything that needs doing in these cases??
                 override fun onTabUnselected(tab: TabLayout.Tab) {
                     //call the validate and write back to VM function
+                    validateTabsAndUpdateVM();
                 }
+
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
 
@@ -71,19 +73,46 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
     }
 
-    fun save() {
+    fun validateTabsAndUpdateVM(){
         //So how do I get the fragments??
-//        supportFragmentManager.findFragmentById()
+        with(binding) {
+            //TODO: same for Meta fragment
+
+            val preparationFragment: PreparationFragment? =
+                findFragment(1)
+                        as? PreparationFragment
+            preparationFragment?.validateAndUpdateVM()
+
+            val qualityFragment: QualityFragment? =
+                findFragment(2)
+                        as? QualityFragment
+            qualityFragment?.validateAndUpdateVM()
+        }
+    }
+
+    fun save() {
+        validateTabsAndUpdateVM();
+
         lifecycleScope.launch {
-            try{
+            try {
                 sharedVM.save()
                 finishFlow()
-            } catch(@Suppress("TooGenericExceptionCaught") error: Throwable) {
+            } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
                 Timber.e(error, "An error occurred when saving sample preparation")
                 showRetryBar()
             }
         }
     }
+
+    //FIXME: Pretty hacky retrieval of fragments based on the
+    //Internals of FragmentPagerAdapter
+    private fun ActivityCompleteSampleBinding.findFragment(index: Int) =
+        supportFragmentManager.findFragmentByTag(makeFragmentName(viewPager.id, index))
+
+    private fun makeFragmentName(viewId: Int, id: Int): String? {
+        return "android:switcher:$viewId:$id"
+    }
+
 
     fun showRetryBar() {
         CustomSnackbar.make(

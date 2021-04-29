@@ -56,7 +56,6 @@ class QualityFragment : Fragment() {
         return isMagnificationValid
     }
 
-    //TODO: What calls this??
     fun validateAndUpdateVM(): Boolean{
         return if(validateForm()){
             val magnificationValue = binding.microscopeQualityMagnificationInput.text
