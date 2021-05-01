@@ -21,18 +21,20 @@ import javax.inject.Inject
 
 class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, CaptureFlow {
 
-    private val defaultFormData: SamplePreparationViewStateModel by lazy {
-        SamplePreparationViewStateModel(
-            getString(R.string.spinner_empty_option),
-            usesGiemsa = true,
-            giemsaFP = true,
-            usesPbs = true,
-            reusesSlides = false
-        )
-    }
 
     @Inject
     lateinit var presenter: SamplePreparationPresenter
+
+    private val defaultFormData: SamplePreparationViewStateModel by lazy {
+        SamplePreparationViewStateModel(
+            waterType = getString(R.string.spinner_empty_option),
+            usesGiemsa = true,
+            giemsaFP = true,
+            usesPbs = true,
+            reusesSlides = false,
+            bloodQuality = getString(R.string.spinner_empty_option),
+        )
+    }
 
     private lateinit var binding: ActivitySamplePreparationBinding
 
@@ -63,14 +65,18 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
             samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
             samplePreparationPbsSwitch.isChecked = usesPbs
             samplePreparationSlidesReuseSwitch.isChecked = reusesSlides
+            samplePreparationBloodQualitySpinner.select(bloodQuality)
         }
     }
 
     private fun validateForm(): Boolean = with(binding) {
         val isWaterTypeValid = samplePreparationWaterTypeSpinner.selectedItem.toString() !=
-                getString(R.string.spinner_empty_option)
+                getString(R.string.spinner_empty_option)      
         samplePreparationWaterTypeError.isVisible = !isWaterTypeValid
-        return isWaterTypeValid
+        val isBloodQualityValid = samplePreparationBloodQualitySpinner.selectedItem.toString() !=
+                getString(R.string.spinner_empty_option)
+        samplePreparationBloodQualityError.isVisible = !isBloodQualityValid
+        return isWaterTypeValid && isBloodQualityValid
     }
 
     private fun save() {
@@ -82,9 +88,11 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
                     samplePreparationGiemsaSwitch.isChecked,
                     samplePreparationGiemsaFpSwitch.isChecked,
                     samplePreparationPbsSwitch.isChecked,
-                    samplePreparationSlidesReuseSwitch.isChecked
+                    samplePreparationSlidesReuseSwitch.isChecked,
+                    samplePreparationBloodQualitySpinner.selectedItem.toString(),
                 )
             }
+
             presenter.save(viewModel)
         }
     }

@@ -36,5 +36,6 @@ data class SamplePreparationViewStateModel(
     val usesGiemsa: Boolean,
     val giemsaFP: Boolean,
     val usesPbs: Boolean,
-    val reusesSlides: Boolean
+    val reusesSlides: Boolean,
+    val bloodQuality: String
 )
