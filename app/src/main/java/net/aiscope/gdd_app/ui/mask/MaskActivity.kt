@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isInvisible
 import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.Dispatchers
@@ -181,7 +182,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     private fun setEnabled(view: View, enabled: Boolean) {
-        view.visibility = if (enabled) View.VISIBLE else View.INVISIBLE
+        view.isInvisible = !enabled
     }
 
     private suspend fun readImage(filepath: String, mutable: Boolean = false): Bitmap = withContext( Dispatchers.IO) {

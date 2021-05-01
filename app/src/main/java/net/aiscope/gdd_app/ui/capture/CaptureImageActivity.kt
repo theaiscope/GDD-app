@@ -7,6 +7,8 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import io.fotoapparat.Fotoapparat
@@ -104,7 +106,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     }
 
     override fun takePhoto(imageName: String, onPhotoReceived: suspend (File?) -> Unit) {
-        binding.captureImageLoadingModal.visibility = View.VISIBLE
+        binding.captureImageLoadingModal.isVisible = true
         val result = fotoapparat.takePicture()
         val dest = File(this.filesDir, "${imageName}.jpg")
         result.toBitmap().whenAvailable {
@@ -122,7 +124,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
     override fun notifyImageCouldNotBeTaken() {
         val message = getString(R.string.image_could_not_be_taken)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-        binding.captureImageLoadingModal.visibility = View.GONE
+        binding.captureImageLoadingModal.isGone = true
     }
 
     override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String) {
@@ -136,7 +138,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
 
     override fun onRestart() {
         super.onRestart()
-        binding.captureImageLoadingModal.visibility = View.GONE
+        binding.captureImageLoadingModal.isGone = true
     }
 
     override fun onDestroy() {
