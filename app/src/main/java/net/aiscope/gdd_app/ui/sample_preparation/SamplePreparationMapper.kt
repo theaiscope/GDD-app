@@ -28,7 +28,7 @@ object SamplePreparationMapper {
         }
     }
 
-    private fun getBloodType(bloodQualityValue: String, context: Context): BloodQuality {
+    private fun getBloodQuality(bloodQualityValue: String, context: Context): BloodQuality {
         return when (bloodQualityValue) {
             context.getString(R.string.blood_quality_fresh) -> BloodQuality.FRESH
             context.getString(R.string.blood_quality_old) -> BloodQuality.OLD
@@ -64,6 +64,6 @@ object SamplePreparationMapper {
             viewModel.giemsaFP,
             viewModel.usesPbs,
             viewModel.reusesSlides,
-            this.getBloodType(viewModel.bloodQuality, context),
+            this.getBloodQuality(viewModel.bloodQuality, context),
         )
 }
