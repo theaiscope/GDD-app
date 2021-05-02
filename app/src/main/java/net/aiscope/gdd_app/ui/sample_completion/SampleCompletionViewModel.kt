@@ -2,8 +2,11 @@ package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MicroscopeQuality
+import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
+import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import timber.log.Timber
@@ -14,9 +17,19 @@ class SampleCompletionViewModel @Inject constructor(
     private val remoteStorage: RemoteStorage,
     private val context: Context,
 ) : ViewModel() {
+
+
     //TODO: We got a nicer way of fixing default vals??
     var microscopeDamaged: Boolean = false
     var microscopeMagnification: Int = 1000
+
+    // Fields for preparation tab. Perhaps we should nest this?
+    var waterType = context.getString(R.string.spinner_empty_option)
+    var usesGiemsa = true
+    var giemsaFP = true
+    var usesPbs = true
+    var usesAlcohol = true
+    var reusesSlides = false
 
     suspend fun initVM() {
         val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
@@ -24,46 +37,25 @@ class SampleCompletionViewModel @Inject constructor(
         microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
         microscopeMagnification = lastMicroscopeQuality?.magnification ?: 1000
 
+        //Set the values for the prep same as the last one
         val lastPreparation = repository.lastSaved()?.preparation
         Timber.i("Last prep %s", lastPreparation)
 
-        //TODO: so are we going to keep all fields on the first level or make
-        //a layered structure by tab?
-
-        //Set the values for the prep same as the last one
-
+        waterType = getWaterTypeValue(lastPreparation?.waterType)
+        usesGiemsa = lastPreparation?.usesGiemsa ?: true
+        giemsaFP = lastPreparation?.giemsaFP ?: true
+        usesPbs = lastPreparation?.usesPbs ?: true
+        usesAlcohol = lastPreparation?.usesAlcohol ?: true
+        reusesSlides = lastPreparation?.reusesSlides ?: false
     }
-
-    //TODO: so this validation could be done on the fragment itself?
-    //That way we can also know which fragment has something wrong still...
-    //Or do we need to do a full validation of the entire VM here?
-//    private fun validateForm(): Boolean {
-//        val magnificationValue = sharedVM.microscopeMagnification
-//        val isMagnificationValid = try {
-//            val magnificationInt = magnificationValue.toString().toInt()
-//            magnificationInt in MicroscopeQualityActivity.MAGNIFICATION_MIN..MicroscopeQualityActivity.MAGNIFICATION_MAX
-//        } catch (e: NumberFormatException) {
-//            false
-//        }
-//        binding.microscopeQualityMagnificationLayout.error =
-//            if (isMagnificationValid) null else getString(R.string.microscope_quality_magnification_error)
-//        return isMagnificationValid
-//    }
-
 
     suspend fun save() {
         val newQualityValues = MicroscopeQuality(microscopeDamaged, microscopeMagnification)
-        Timber.i("New quality values are %s", newQualityValues)
+        val newPreparation = SamplePreparation(getWaterType(waterType), usesGiemsa, giemsaFP, usesPbs, usesAlcohol, reusesSlides)
 
-        //TODO: so before marking it ready to upload we should validate fields...
-        //May be good to have a validate _per_ fragment so we can see where the
-        //error is..
-
-
-        //FIXME HMMM so now it uploads but not with the right values
-        //OK so apparently I have to mark it 'readyToUpload' it's done
         val updatedSample = repository.current().copy(
             microscopeQuality = newQualityValues,
+            preparation = newPreparation,
             status = SampleStatus.ReadyToUpload
         )
         val storedSample = repository.store(updatedSample)
@@ -72,5 +64,27 @@ class SampleCompletionViewModel @Inject constructor(
         remoteStorage.enqueue(storedSample, context)
 
     }
+
+    private fun getWaterType(waterTypeValue: String): WaterType {
+        return when (waterTypeValue) {
+            context.getString(R.string.water_type_distilled) -> WaterType.DISTILLED
+            context.getString(R.string.water_type_bottled) -> WaterType.BOTTLED
+            context.getString(R.string.water_type_tap) -> WaterType.TAP
+            context.getString(R.string.water_type_well) -> WaterType.WELL
+            else -> throw IllegalStateException("$waterTypeValue water type is unknown")
+        }
+    }
+
+    private fun getWaterTypeValue(waterType: WaterType?): String {
+        return when (waterType) {
+            WaterType.DISTILLED -> context.getString(R.string.water_type_distilled)
+            WaterType.BOTTLED -> context.getString(R.string.water_type_bottled)
+            WaterType.TAP -> context.getString(R.string.water_type_tap)
+            WaterType.WELL -> context.getString(R.string.water_type_well)
+            null -> ""
+        }
+    }
+
+
 
 }

@@ -73,7 +73,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
     }
 
-    fun validateTabsAndUpdateVM(){
+    fun validateTabsAndUpdateVM(): Boolean{
         //So how do I get the fragments??
         with(binding) {
             //TODO: same for Meta fragment
@@ -81,26 +81,34 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             val preparationFragment: PreparationFragment? =
                 findFragment(1)
                         as? PreparationFragment
-            preparationFragment?.validateAndUpdateVM()
+            val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
 
             val qualityFragment: QualityFragment? =
                 findFragment(2)
                         as? QualityFragment
-            qualityFragment?.validateAndUpdateVM()
+
+            val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
+
+            //Saving should only happen if all tabs are OK
+            return (preparationOK && qualityOK);
         }
     }
 
     fun save() {
-        validateTabsAndUpdateVM();
+        val validationOK = validateTabsAndUpdateVM();
+        if(validationOK) {
 
-        lifecycleScope.launch {
-            try {
-                sharedVM.save()
-                finishFlow()
-            } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
-                Timber.e(error, "An error occurred when saving sample preparation")
-                showRetryBar()
+            lifecycleScope.launch {
+                try {
+                    sharedVM.save()
+                    finishFlow()
+                } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
+                    Timber.e(error, "An error occurred when saving sample preparation")
+                    showRetryBar()
+                }
             }
+        } else {
+            //what happens in this case?
         }
     }
 
