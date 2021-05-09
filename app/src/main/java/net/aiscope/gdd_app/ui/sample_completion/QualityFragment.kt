@@ -10,33 +10,26 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentQualityBinding
 import timber.log.Timber
 
-class QualityFragment : Fragment() {
+class QualityFragment : Fragment(R.layout.fragment_quality) {
     companion object {
         private const val MAGNIFICATION_MIN = 0
         private const val MAGNIFICATION_MAX = 2000
     }
 
-    private lateinit var binding: FragmentQualityBinding
+    private var _binding: FragmentQualityBinding? = null
+    private val binding get() = _binding!!
 
     //So this should back all 3 fragment 'views'
     private val sharedVM: SampleCompletionViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentQualityBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentQualityBinding.bind(view)
         Timber.i(
             "magnification: %s dam: %s",
             sharedVM.microscopeMagnification,
             sharedVM.microscopeDamaged
         )
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding?.apply {
             binding.microscopeQualityDamagedSwitch.isChecked = sharedVM.microscopeDamaged
             binding.microscopeQualityMagnificationInput.setText(sharedVM.microscopeMagnification.toString())
@@ -67,4 +60,8 @@ class QualityFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
