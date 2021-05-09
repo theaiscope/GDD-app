@@ -2,6 +2,9 @@ package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.network.RemoteStorage
@@ -18,20 +21,22 @@ class SampleCompletionViewModel @Inject constructor(
     var microscopeDamaged: Boolean = false
     var microscopeMagnification: Int = 1000
 
-    suspend fun initVM() {
-        val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
-        Timber.i("Last micro: %s", lastMicroscopeQuality)
-        microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
-        microscopeMagnification = lastMicroscopeQuality?.magnification ?: 1000
+    fun initVM() {
+        //TODO: inject dispatchers
+        viewModelScope.launch(Dispatchers.IO) {
+            val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
+            Timber.i("Last micro: %s", lastMicroscopeQuality)
+            microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
+            microscopeMagnification = lastMicroscopeQuality?.magnification ?: 1000
 
-        val lastPreparation = repository.lastSaved()?.preparation
-        Timber.i("Last prep %s", lastPreparation)
+            val lastPreparation = repository.lastSaved()?.preparation
+            Timber.i("Last prep %s", lastPreparation)
 
-        //TODO: so are we going to keep all fields on the first level or make
-        //a layered structure by tab?
+            //TODO: so are we going to keep all fields on the first level or make
+            //a layered structure by tab?
 
-        //Set the values for the prep same as the last one
-
+            //Set the values for the prep same as the last one
+        }
     }
 
     //TODO: so this validation could be done on the fragment itself?
@@ -51,26 +56,28 @@ class SampleCompletionViewModel @Inject constructor(
 //    }
 
 
-    suspend fun save() {
-        val newQualityValues = MicroscopeQuality(microscopeDamaged, microscopeMagnification)
-        Timber.i("New quality values are %s", newQualityValues)
+    fun save() {
+        //TODO: inject dispatchers
+        viewModelScope.launch(Dispatchers.IO) {
+            val newQualityValues = MicroscopeQuality(microscopeDamaged, microscopeMagnification)
+            Timber.i("New quality values are %s", newQualityValues)
 
-        //TODO: so before marking it ready to upload we should validate fields...
-        //May be good to have a validate _per_ fragment so we can see where the
-        //error is..
+            //TODO: so before marking it ready to upload we should validate fields...
+            //May be good to have a validate _per_ fragment so we can see where the
+            //error is..
 
 
-        //FIXME HMMM so now it uploads but not with the right values
-        //OK so apparently I have to mark it 'readyToUpload' it's done
-        val updatedSample = repository.current().copy(
-            microscopeQuality = newQualityValues,
-            status = SampleStatus.ReadyToUpload
-        )
-        val storedSample = repository.store(updatedSample)
+            //FIXME HMMM so now it uploads but not with the right values
+            //OK so apparently I have to mark it 'readyToUpload' it's done
+            val updatedSample = repository.current().copy(
+                microscopeQuality = newQualityValues,
+                status = SampleStatus.ReadyToUpload
+            )
+            val storedSample = repository.store(updatedSample)
 
-        //Put it in line for uploading to firebase
-        remoteStorage.enqueue(storedSample, context)
-
+            //Put it in line for uploading to firebase
+            remoteStorage.enqueue(storedSample, context)
+        }
     }
 
 }
