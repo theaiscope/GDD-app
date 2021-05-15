@@ -10,6 +10,7 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentPreparationBinding
 import net.aiscope.gdd_app.extensions.select
 
+//TODO: this now misses the new 'bloodquality fields'
 class PreparationFragment : Fragment(R.layout.fragment_preparation) {
     private var _binding: FragmentPreparationBinding? = null
     private val binding get() = _binding!!
@@ -25,7 +26,6 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
                 samplePreparationGiemsaSwitch.isChecked = usesGiemsa
                 samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
                 samplePreparationPbsSwitch.isChecked = usesPbs
-                samplePreparationAlcoholSwitch.isChecked = usesAlcohol
                 samplePreparationSlidesReuseSwitch.isChecked = reusesSlides
             }
         }
@@ -46,7 +46,6 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
                 sharedVM.usesGiemsa = samplePreparationGiemsaSwitch.isChecked
                 sharedVM.giemsaFP = samplePreparationGiemsaFpSwitch.isChecked
                 sharedVM.usesPbs = samplePreparationPbsSwitch.isChecked
-                sharedVM.usesAlcohol = samplePreparationAlcoholSwitch.isChecked
                 sharedVM.reusesSlides = samplePreparationSlidesReuseSwitch.isChecked
             }
             true

@@ -31,7 +31,6 @@ class SampleCompletionViewModel @Inject constructor(
     var usesGiemsa = true
     var giemsaFP = true
     var usesPbs = true
-    var usesAlcohol = true
     var reusesSlides = false
 
     fun initVM() {
@@ -50,7 +49,6 @@ class SampleCompletionViewModel @Inject constructor(
             usesGiemsa = lastPreparation?.usesGiemsa ?: true
             giemsaFP = lastPreparation?.giemsaFP ?: true
             usesPbs = lastPreparation?.usesPbs ?: true
-            usesAlcohol = lastPreparation?.usesAlcohol ?: true
             reusesSlides = lastPreparation?.reusesSlides ?: false
         }
     }
@@ -64,7 +62,6 @@ class SampleCompletionViewModel @Inject constructor(
                 usesGiemsa,
                 giemsaFP,
                 usesPbs,
-                usesAlcohol,
                 reusesSlides
             )
 
