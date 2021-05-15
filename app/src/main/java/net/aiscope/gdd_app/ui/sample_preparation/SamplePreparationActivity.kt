@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
@@ -20,19 +21,20 @@ import javax.inject.Inject
 
 class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, CaptureFlow {
 
-    private val defaultFormData: SamplePreparationViewStateModel by lazy {
-        SamplePreparationViewStateModel(
-            getString(R.string.spinner_empty_option),
-            usesGiemsa = true,
-            giemsaFP = true,
-            usesPbs = true,
-            usesAlcohol = true,
-            reusesSlides = false
-        )
-    }
 
     @Inject
     lateinit var presenter: SamplePreparationPresenter
+
+    private val defaultFormData: SamplePreparationViewStateModel by lazy {
+        SamplePreparationViewStateModel(
+            waterType = getString(R.string.spinner_empty_option),
+            usesGiemsa = true,
+            giemsaFP = true,
+            usesPbs = true,
+            reusesSlides = false,
+            bloodQuality = getString(R.string.spinner_empty_option),
+        )
+    }
 
     private lateinit var binding: ActivitySamplePreparationBinding
 
@@ -62,17 +64,19 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
             samplePreparationGiemsaSwitch.isChecked = usesGiemsa
             samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
             samplePreparationPbsSwitch.isChecked = usesPbs
-            samplePreparationAlcoholSwitch.isChecked = usesAlcohol
             samplePreparationSlidesReuseSwitch.isChecked = reusesSlides
+            samplePreparationBloodQualitySpinner.select(bloodQuality)
         }
     }
 
     private fun validateForm(): Boolean = with(binding) {
         val isWaterTypeValid = samplePreparationWaterTypeSpinner.selectedItem.toString() !=
+                getString(R.string.spinner_empty_option)      
+        samplePreparationWaterTypeError.isVisible = !isWaterTypeValid
+        val isBloodQualityValid = samplePreparationBloodQualitySpinner.selectedItem.toString() !=
                 getString(R.string.spinner_empty_option)
-        samplePreparationWaterTypeError.visibility =
-            if (isWaterTypeValid) View.GONE else View.VISIBLE
-        return isWaterTypeValid
+        samplePreparationBloodQualityError.isVisible = !isBloodQualityValid
+        return isWaterTypeValid && isBloodQualityValid
     }
 
     private fun save() {
@@ -84,10 +88,11 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
                     samplePreparationGiemsaSwitch.isChecked,
                     samplePreparationGiemsaFpSwitch.isChecked,
                     samplePreparationPbsSwitch.isChecked,
-                    samplePreparationAlcoholSwitch.isChecked,
-                    samplePreparationSlidesReuseSwitch.isChecked
+                    samplePreparationSlidesReuseSwitch.isChecked,
+                    samplePreparationBloodQualitySpinner.selectedItem.toString(),
                 )
             }
+
             presenter.save(viewModel)
         }
     }

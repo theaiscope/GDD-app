@@ -27,7 +27,8 @@ class CaptureImagePresenterTest {
     }
 
     @get:Rule
-    var coroutinesTestRule = CoroutineTestRule()
+    val coroutinesTestRule = CoroutineTestRule()
+
     private val view: CaptureImageView = mock()
     private val repository: SampleRepository = mock()
     private val presenter = CaptureImagePresenter(view, repository)

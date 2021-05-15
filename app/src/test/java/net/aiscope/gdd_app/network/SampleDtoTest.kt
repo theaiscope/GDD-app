@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.network
 
+import net.aiscope.gdd_app.model.BloodQuality
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
@@ -29,7 +30,6 @@ class SampleDtoTest {
         private const val MAGNIFICATION = 1
         private const val MICROSCOPIST = "some-microscopist"
         private const val REUSES_SLIDES = true
-        private const val USES_ALCOHOL = true
         private const val USES_GIEMSA = true
         private const val USES_PBS = true
 
@@ -39,10 +39,18 @@ class SampleDtoTest {
         private val species = MalariaSpecies.P_FALCIPARUM
         private val status = SampleStatus.ReadyToUpload
         private val waterType = WaterType.BOTTLED
+        private val bloodQuality = BloodQuality.OLD
 
         val metadata = SampleMetadata(smearType, species, COMMENTS)
         val microscopeQuality = MicroscopeQuality(IS_DAMAGED, MAGNIFICATION)
-        val samplePreparation = SamplePreparation(waterType, USES_GIEMSA, GIEMSA_FP, USES_PBS, USES_ALCOHOL, REUSES_SLIDES)
+        val samplePreparation = SamplePreparation(
+            waterType = waterType,
+            usesGiemsa = USES_GIEMSA,
+            giemsaFP = GIEMSA_FP,
+            usesPbs = USES_PBS,
+            reusesSlides = REUSES_SLIDES,
+            bloodQuality = bloodQuality
+        )
 
         val sample = Sample(
             id = ID,
@@ -83,8 +91,8 @@ class SampleDtoTest {
         assertEquals(samplePreparation.usesGiemsa, samplePreparationDTO.usesGiemsa)
         assertEquals(samplePreparation.giemsaFP, samplePreparationDTO.giemsaFP)
         assertEquals(samplePreparation.usesPbs, samplePreparationDTO.usesPbs)
-        assertEquals(samplePreparation.usesAlcohol, samplePreparationDTO.usesAlcohol)
         assertEquals(samplePreparation.reusesSlides, samplePreparationDTO.reusesSlides)
+        assertEquals(samplePreparation.bloodQuality.id, samplePreparationDTO.bloodQuality)
     }
 
     @Test

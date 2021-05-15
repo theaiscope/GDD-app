@@ -22,10 +22,10 @@
     <!-- SamplePreparation -->
     <string name="sample_preparation_activity_title">Sample preparation</string>
     <string name="sample_preparation_water_type_title">Water</string>
+    <string name="sample_preparation_blood_quality_title">Blood Quality</string>
     <string name="sample_preparation_giemsa_title">Uses Giemsa</string>
     <string name="sample_preparation_giemsa_fp_title">Giemsa filtering or precipitating</string>
     <string name="sample_preparation_pbs_title">Uses PBS</string>
-    <string name="sample_preparation_alcohol_title">Uses alcohol to fix the sample</string>
     <string name="sample_preparation_slides_reuse_title">Reuses slides</string>
     <string name="sample_preparation_continue">continue</string>
     <string name="sample_preparation_snackbar_error">An error occurred while saving your sample preparation data. Please try again.</string>
@@ -34,6 +34,8 @@
     <string name="water_type_distilled">Distilled</string>
     <string name="water_type_tap">Tap</string>
     <string name="water_type_well">Well</string>
+    <string name="blood_quality_old">Old</string>
+    <string name="blood_quality_fresh">Fresh</string>
     <!-- MicroscopeQuality -->
     <string name="microscope_quality_activity_title">Microscope quality</string>
     <string name="microscope_quality_damaged_title">Microscope damaged/malfunctioning</string>
@@ -44,6 +46,7 @@
     <!-- CaptureImage -->
     <string name="capture_activity_title">Capture an image</string>
     <string name="image_could_not_be_taken">Image could not be taken</string>
+    <string name="you_cannot_take_a_picture_while_zooming">You can not take a picture while zooming</string>
     <!-- Mask -->
     <string name="mask_activity_title">Highlight the parasites</string>
     <string name="button_done_text">Done</string>
@@ -98,4 +101,5 @@
     <string name="malaria_stage_trophozoite">Trophozoite</string>
     <string name="malaria_stage_schizont">Schizont</string>
     <string name="malaria_stage_gametocyte">Gametocyte</string>
+    <string name="malaria_stage_artefact">Artefact</string>
 </resources>

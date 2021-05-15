@@ -1,17 +1,20 @@
 package net.aiscope.gdd_app.ui.util
 
+import android.graphics.Bitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import net.aiscope.gdd_app.test.extensions.getAssetStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import java.io.InputStream
+import org.hamcrest.CoreMatchers.`is` as isEqualTo
 
 @RunWith(AndroidJUnit4::class)
 class BitmapReaderTest {
@@ -22,10 +25,11 @@ class BitmapReaderTest {
 
     @Before
     fun setup() {
-        targetFile = File(targetContext.filesDir, "test.png")
+        // we are using JPG to capture images
+        targetFile = File(targetContext.filesDir, "test.jpg")
         targetFile.createNewFile()
 
-        testContext.getAssetStream("photo.png").toFile(targetFile)
+        testContext.getAssetStream("photo.jpg").toFile(targetFile)
 
         //Clear cache dir
         targetContext.cacheDir.listFiles().forEach { file -> file.deleteRecursively() }
@@ -45,6 +49,7 @@ class BitmapReaderTest {
         assertTrue("Dimensions smaller than expected", b.height >= 20)
         assertTrue("Dimensions smaller than expected", b.width >= 20)
         assertFalse("Expected to be immutable", b.isMutable)
+        assertThat("Bitmap size corresponds to RGB565 encoding", b.allocationByteCount, isEqualTo(b.byteCountForRgb565()))
     }
 
     @Test
@@ -57,6 +62,7 @@ class BitmapReaderTest {
         assertTrue("Dimensions bigger than expected", b.height <= 50)
         assertTrue("Dimensions bigger than expected", b.width <= 50)
         assertTrue("Expected to be mutable", b.isMutable)
+        assertThat("Bitmap size corresponds to RGB565 encoding", b.allocationByteCount, isEqualTo(b.byteCountForRgb565()))
     }
 
     @Test
@@ -68,7 +74,7 @@ class BitmapReaderTest {
         assertTrue(cacheDir.isDirectory)
         val cachedFiles = cacheDir.listFiles()
 
-        assertTrue("Cache file not found", cachedFiles.any { file -> file.name.equals("test_20x20.png", true) })
+        assertTrue("Cache file not found", cachedFiles.any { file -> file.name.equals("test_20x20.jpg", true) })
         assertTrue("Dimensions bigger than expected",  b.height < 50)
         assertTrue("Dimensions bigger than expected", b.width < 50)
         assertTrue("Dimensions smaller than expected", b.height >= 20)
@@ -82,7 +88,7 @@ class BitmapReaderTest {
         }
 
         assertTrue(cacheDir.isDirectory)
-        val cacheFile = File(cacheDir, "test_20x20.png")
+        val cacheFile = File(cacheDir, "test_20x20.jpg")
         assertTrue("Cache file not found", cacheFile.exists())
         val timestamp = cacheFile.lastModified()
 
@@ -100,5 +106,10 @@ class BitmapReaderTest {
 
     private fun InputStream.toFile(file: File) {
         file.outputStream().use { this.copyTo(it) }
+    }
+
+    private fun Bitmap.byteCountForRgb565() : Int {
+        // each pixel is represented by 2 bytes
+        return this.width * this.height * 2;
     }
 }

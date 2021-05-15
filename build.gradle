@@ -1,27 +1,29 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.21'
-    ext.kotlin_coroutines_version = '1.4.2'
-    ext.dagger_version = '2.30.1'
-    ext.mockito_version = '3.7.7'
+    ext.kotlin_version = '1.4.31'
+    ext.kotlin_coroutines_version = '1.4.3'
+    ext.dagger_version = '2.33'
+    ext.mockito_version = '3.9.0'
     repositories {
         google()
         mavenCentral()
+        //TODO: delete when scabbard 0.5.0 is available(it looks like it will be soon)
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.novoda:gradle-build-properties-plugin:0.4.1'
-        classpath 'com.google.gms:google-services:4.3.4'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
+        classpath 'com.google.gms:google-services:4.3.5'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
     }
 }
 
 plugins {
-    id 'com.github.ben-manes.versions' version '0.36.0'
-    id "io.gitlab.arturbosch.detekt" version "1.15.0"
+    id 'com.github.ben-manes.versions' version '0.38.0'
+    id "io.gitlab.arturbosch.detekt" version "1.16.0"
+    //TODO: update to 0.5.0 when available and delete jcenter()
     id "scabbard.gradle" version "0.4.0"
 }
 
@@ -47,6 +49,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        //TODO: delete when scabbard 0.5.0 is available(it looks like it will be soon)
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "https://sdk.smartlook.com/android/release" }

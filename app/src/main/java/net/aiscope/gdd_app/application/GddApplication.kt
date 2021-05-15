@@ -8,6 +8,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerFactory
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.smartlook.sdk.smartlook.Smartlook
+import com.smartlook.sdk.smartlook.integrations.model.FirebaseCrashlyticsIntegration
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import net.aiscope.gdd_app.BuildConfig
@@ -36,7 +37,7 @@ class GddApplication : Application(), HasAndroidInjector {
         if (!BuildConfig.DEBUG) {
             Smartlook.setupAndStartRecording(BuildConfig.SMARTLOOK_API_KEY)
             Smartlook.registerBlacklistedClass(TextureView::class.java)
-            Smartlook.enableCrashlytics(true)
+            Smartlook.enableIntegration(FirebaseCrashlyticsIntegration())
             Timber.plant(CrashlyticsReportingTree())
         } else {
             Timber.plant(Timber.DebugTree())

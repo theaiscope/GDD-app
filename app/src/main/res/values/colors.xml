@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#5cbeaf</color>
+    <color name="colorPrimaryDisabled">#33FFFFFF</color>
     <color name="colorPrimaryDark">#282E3E</color>
     <color name="colorDark">#FF25312F</color>
     <color name="colorPlainText">@color/white</color>
@@ -14,6 +15,7 @@
     <color name="malaria_stage_trophozoite">#BFBE52</color>
     <color name="malaria_stage_schizont">#BF6B49</color>
     <color name="malaria_stage_gametocyte">#946FBF</color>
+    <color name="malaria_stage_artefact">#4f6fd0</color>
     <color name="colorError">#FF0000</color>
     <color name="ic_launcher_background">@color/colorPrimaryDark</color>
     <color name="buttonSelectorChecked">#FFFFFFFF</color>

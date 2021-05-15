@@ -11,9 +11,9 @@ import io.fotoapparat.parameter.Zoom
 class ZoomController(
     private val fotoapparat: Fotoapparat,
     private val cameraZoomLevel: SeekBar,
-    private val cameraView: View
+    private val cameraView: View,
+    private val onZoomChangedListener : OnZoomChangedListener?
 ) {
-
     companion object {
         const val PERCENTAGE_RATIO = 100f
         const val SEEK_BAR_VISIBILITY_DELAY_IN_MILLIS = 2000L
@@ -43,6 +43,8 @@ class ZoomController(
                 val zoomLevel = progress / PERCENTAGE_RATIO
                 zoomScaleFactor = (maxZoomRatio - 1) * zoomLevel + 1
                 fotoapparat.setZoom(zoomLevel)
+
+                onZoomChanged(zoomScaleFactor);
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -76,6 +78,8 @@ class ZoomController(
                     cameraZoomLevel.progress = (zoomLevel * PERCENTAGE_RATIO).toInt()
                     fotoapparat.setZoom(zoomLevel)
 
+                    onZoomChanged(zoomScaleFactor);
+
                     return true
                 }
             })
@@ -97,5 +101,16 @@ class ZoomController(
     private fun showZoomLevelSeekBar() {
         handler.removeCallbacks(hideZoomLevelSeekBarRunnable)
         cameraZoomLevel.isVisible = true
+    }
+
+    private fun onZoomChanged(zoom: Float) {
+        // it is assumed that when the value provided here is equal to 1.0
+        // then the image is not zoomed
+        // and also that zoom cannot be less than 1.0
+        onZoomChangedListener?.onZoomChanged(isZoomed = zoom > 1.0f)
+    }
+
+    fun interface OnZoomChangedListener {
+        fun onZoomChanged(isZoomed: Boolean) : Unit
     }
 }

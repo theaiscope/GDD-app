@@ -31,7 +31,7 @@ object BitmapReader {
         BitmapFactory.decodeFile(image.absolutePath, this)
 
         inMutable = mutable
-        inPreferredConfig = Bitmap.Config.ARGB_8888
+        inPreferredConfig = Bitmap.Config.RGB_565
 
         // Calculate inSampleSize
         inSampleSize = calculateInSampleSize(this, request)
