@@ -30,7 +30,7 @@ class QualityFragment : Fragment(R.layout.fragment_quality) {
             sharedVM.microscopeMagnification,
             sharedVM.microscopeDamaged
         )
-        binding?.apply {
+        with(binding) {
             binding.microscopeQualityDamagedSwitch.isChecked = sharedVM.microscopeDamaged
             binding.microscopeQualityMagnificationInput.setText(sharedVM.microscopeMagnification.toString())
         }

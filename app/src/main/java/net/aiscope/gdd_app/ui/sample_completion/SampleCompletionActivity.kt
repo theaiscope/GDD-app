@@ -1,15 +1,12 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
-import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.ui.CaptureFlow
@@ -31,9 +28,6 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        //FIXME Bit sloppy
-        val context = this
-
         binding = ActivityCompleteSampleBinding.inflate(layoutInflater)
         with(binding) {
             setContentView(root)
@@ -44,7 +38,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             tabLayout.addTab(tabLayout.newTab().setText(R.string.complete_sample_quality_tab))
             tabLayout.tabGravity = TabLayout.GRAVITY_FILL
             val adapter = FragmentAdapter(
-                context, supportFragmentManager,
+                this@SampleCompletionActivity, supportFragmentManager,
                 tabLayout.tabCount
             )
             viewPager.adapter = adapter
@@ -68,9 +62,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
 
         //Initialize the shared viewmodel for the tabs
-        lifecycleScope.launch {
-            sharedVM.initVM()
-        }
+        sharedVM.initVM()
     }
 
     fun validateTabsAndUpdateVM(): Boolean{
@@ -97,15 +89,12 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     fun save() {
         val validationOK = validateTabsAndUpdateVM();
         if(validationOK) {
-
-            lifecycleScope.launch {
-                try {
-                    sharedVM.save()
-                    finishFlow()
-                } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
-                    Timber.e(error, "An error occurred when saving sample preparation")
-                    showRetryBar()
-                }
+            try {
+                sharedVM.save()
+                finishFlow()
+            } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
+                Timber.e(error, "An error occurred when saving sample preparation")
+                showRetryBar()
             }
         } else {
             //what happens in this case?
@@ -128,12 +117,10 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             getString(R.string.microscope_quality_snackbar_error),
             Snackbar.LENGTH_INDEFINITE, null,
             CustomSnackbarAction(
-                getString(R.string.microscope_quality_snackbar_retry),
-                View.OnClickListener {
-                    lifecycleScope.launch {
-                        sharedVM.save()
-                    }
-                })
+                getString(R.string.microscope_quality_snackbar_retry)
+            ) {
+                sharedVM.save()
+            }
         ).show()
     }
 
