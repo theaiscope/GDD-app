@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import net.aiscope.gdd_app.R
@@ -32,11 +33,19 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
     }
 
     private fun validateForm(): Boolean {
-        val isWaterTypeValid = binding.samplePreparationWaterTypeSpinner.selectedItem.toString() !=
-                getString(R.string.spinner_empty_option)
-        binding.samplePreparationWaterTypeError.visibility =
-            if (isWaterTypeValid) View.GONE else View.VISIBLE
-        return isWaterTypeValid
+        with(binding) {
+            val isWaterTypeValid =
+                samplePreparationWaterTypeSpinner.selectedItem.toString() !=
+                        getString(R.string.spinner_empty_option)
+            samplePreparationWaterTypeError.isVisible = !isWaterTypeValid
+
+            val isBloodQualityValid =
+                samplePreparationBloodQualitySpinner.selectedItem.toString() !=
+                        getString(R.string.spinner_empty_option)
+            samplePreparationBloodQualityError.isVisible = !isBloodQualityValid
+
+            return isWaterTypeValid && isBloodQualityValid
+        }
     }
 
     fun validateAndUpdateVM(): Boolean {
@@ -47,6 +56,7 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
                 sharedVM.giemsaFP = samplePreparationGiemsaFpSwitch.isChecked
                 sharedVM.usesPbs = samplePreparationPbsSwitch.isChecked
                 sharedVM.reusesSlides = samplePreparationSlidesReuseSwitch.isChecked
+                sharedVM.bloodQuality = samplePreparationBloodQualitySpinner.selectedItem.toString()
             }
             true
         } else {

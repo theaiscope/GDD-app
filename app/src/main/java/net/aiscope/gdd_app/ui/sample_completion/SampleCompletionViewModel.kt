@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
+import net.aiscope.gdd_app.model.BloodQuality
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
@@ -32,6 +33,7 @@ class SampleCompletionViewModel @Inject constructor(
     var giemsaFP = true
     var usesPbs = true
     var reusesSlides = false
+    var bloodQuality = context.getString(R.string.spinner_empty_option)
 
     fun initVM() {
         //TODO: inject dispatchers
@@ -50,6 +52,7 @@ class SampleCompletionViewModel @Inject constructor(
             giemsaFP = lastPreparation?.giemsaFP ?: true
             usesPbs = lastPreparation?.usesPbs ?: true
             reusesSlides = lastPreparation?.reusesSlides ?: false
+            bloodQuality = getBloodQualityValue(lastPreparation?.bloodQuality)
         }
     }
 
@@ -62,7 +65,8 @@ class SampleCompletionViewModel @Inject constructor(
                 usesGiemsa,
                 giemsaFP,
                 usesPbs,
-                reusesSlides
+                reusesSlides,
+                getBloodQuality(bloodQuality)
             )
 
             val updatedSample = repository.current().copy(
@@ -93,6 +97,22 @@ class SampleCompletionViewModel @Inject constructor(
             WaterType.BOTTLED -> context.getString(R.string.water_type_bottled)
             WaterType.TAP -> context.getString(R.string.water_type_tap)
             WaterType.WELL -> context.getString(R.string.water_type_well)
+            null -> ""
+        }
+    }
+
+    private fun getBloodQuality(bloodQualityValue: String): BloodQuality {
+        return when (bloodQualityValue) {
+            context.getString(R.string.blood_quality_fresh) -> BloodQuality.FRESH
+            context.getString(R.string.blood_quality_old) -> BloodQuality.OLD
+            else -> throw IllegalStateException("$bloodQualityValue blood type is unknown")
+        }
+    }
+
+    private fun getBloodQualityValue(bloodQuality: BloodQuality?): String {
+        return when (bloodQuality) {
+            BloodQuality.FRESH -> context.getString(R.string.blood_quality_fresh)
+            BloodQuality.OLD -> context.getString(R.string.blood_quality_old)
             null -> ""
         }
     }
