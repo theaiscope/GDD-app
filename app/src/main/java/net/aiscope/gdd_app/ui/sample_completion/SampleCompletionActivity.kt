@@ -65,7 +65,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         sharedVM.initVM()
     }
 
-    fun validateTabsAndUpdateVM(): Boolean{
+    fun validateTabsAndUpdateVM(): Boolean {
         //So how do I get the fragments??
         with(binding) {
             //TODO: same for Meta fragment
@@ -82,13 +82,13 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
 
             //Saving should only happen if all tabs are OK
-            return (preparationOK && qualityOK);
+            return (preparationOK && qualityOK)
         }
     }
 
     fun save() {
         val validationOK = validateTabsAndUpdateVM();
-        if(validationOK) {
+        if (validationOK) {
             try {
                 sharedVM.save()
                 finishFlow()

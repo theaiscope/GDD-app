@@ -9,7 +9,7 @@ internal class FragmentAdapter(
     var context: Context,
     fm: FragmentManager,
     var totalTabs: Int
-    ) :
+) :
     FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         return when (position) {

@@ -39,8 +39,8 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
         return isWaterTypeValid
     }
 
-    fun validateAndUpdateVM(): Boolean{
-        return if(validateForm()){
+    fun validateAndUpdateVM(): Boolean {
+        return if (validateForm()) {
             with(binding) {
                 sharedVM.waterType = samplePreparationWaterTypeSpinner.selectedItem.toString()
                 sharedVM.usesGiemsa = samplePreparationGiemsaSwitch.isChecked

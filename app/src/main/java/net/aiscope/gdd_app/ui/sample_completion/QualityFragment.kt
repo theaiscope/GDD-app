@@ -49,10 +49,10 @@ class QualityFragment : Fragment(R.layout.fragment_quality) {
         return isMagnificationValid
     }
 
-    fun validateAndUpdateVM(): Boolean{
-        return if(validateForm()){
+    fun validateAndUpdateVM(): Boolean {
+        return if (validateForm()) {
             val magnificationValue = binding.microscopeQualityMagnificationInput.text
-            sharedVM.microscopeMagnification =  magnificationValue.toString().toInt()
+            sharedVM.microscopeMagnification = magnificationValue.toString().toInt()
             sharedVM.microscopeDamaged = binding.microscopeQualityDamagedSwitch.isChecked
             true
         } else {
