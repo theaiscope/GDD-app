@@ -10,24 +10,16 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentPreparationBinding
 import net.aiscope.gdd_app.extensions.select
 
-class PreparationFragment : Fragment() {
-    private lateinit var binding: FragmentPreparationBinding
-
+class PreparationFragment : Fragment(R.layout.fragment_preparation) {
+    private var _binding: FragmentPreparationBinding? = null
+    private val binding get() = _binding!!
     private val sharedVM: SampleCompletionViewModel by activityViewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentPreparationBinding.inflate(inflater, container, false)
-
-        // Inflate the layout for this fragment
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.apply {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentPreparationBinding.bind(view)
+        with(binding) {
             with(sharedVM) {
                 samplePreparationWaterTypeSpinner.select(waterType)
                 samplePreparationGiemsaSwitch.isChecked = usesGiemsa
@@ -63,4 +55,8 @@ class PreparationFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
