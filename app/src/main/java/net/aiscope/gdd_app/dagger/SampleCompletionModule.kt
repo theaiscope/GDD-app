@@ -29,7 +29,11 @@ abstract class SampleCompletionModule {
     companion object {
         @Provides
         @PerActivity
-        internal fun provideViewModel(repository: SampleRepository, remoteStorage: RemoteStorage, context: Context): SampleCompletionViewModel =
+        internal fun provideViewModel(
+            repository: SampleRepository,
+            remoteStorage: RemoteStorage,
+            context: Context
+        ): SampleCompletionViewModel =
             SampleCompletionViewModel(repository, remoteStorage, context)
     }
 }

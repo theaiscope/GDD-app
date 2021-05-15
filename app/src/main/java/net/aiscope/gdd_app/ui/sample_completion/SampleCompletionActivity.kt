@@ -48,12 +48,12 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                     viewPager.currentItem = tab.position
                 }
 
-                //TODO: anything that needs doing in these cases??
                 override fun onTabUnselected(tab: TabLayout.Tab) {
                     //call the validate and write back to VM function
                     validateTabsAndUpdateVM();
                 }
 
+                // Anything needs doing in this case?
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
 
