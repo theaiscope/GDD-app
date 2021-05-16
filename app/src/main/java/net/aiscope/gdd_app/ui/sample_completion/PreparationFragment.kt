@@ -18,7 +18,6 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        super.onViewCreated(view, savedInstanceState)
         _binding = FragmentPreparationBinding.bind(view)
         with(binding) {
             with(sharedVM) {
