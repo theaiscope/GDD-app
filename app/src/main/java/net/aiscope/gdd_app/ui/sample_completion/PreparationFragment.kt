@@ -11,7 +11,6 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentPreparationBinding
 import net.aiscope.gdd_app.extensions.select
 
-//TODO: this now misses the new 'bloodquality fields'
 class PreparationFragment : Fragment(R.layout.fragment_preparation) {
     private var _binding: FragmentPreparationBinding? = null
     private val binding get() = _binding!!
@@ -24,6 +23,7 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
         with(binding) {
             with(sharedVM) {
                 samplePreparationWaterTypeSpinner.select(waterType)
+                samplePreparationBloodQualitySpinner.select(bloodQuality)
                 samplePreparationGiemsaSwitch.isChecked = usesGiemsa
                 samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
                 samplePreparationPbsSwitch.isChecked = usesPbs
