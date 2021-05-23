@@ -9,12 +9,14 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.BloodQuality
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
+import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.metadata.FieldOption
+import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -68,8 +70,8 @@ class SampleCompletionViewModel @Inject constructor(
             //So what we gonna do here for the meta stuff?
             val lastMeta = repository.lastSaved()?.metadata
             Timber.i("LAST META %s", lastMeta)
-            smearTypeId = lastMeta?.smearType?.id
-            speciesValue = lastMeta?.species?.name
+            smearTypeId = MetadataMapper.getSmearTypeId(lastMeta?.smearType!!)
+            speciesValue = MetadataMapper.getSpeciesValue(context, lastMeta?.species!!)
             comments = lastMeta?.comments
 
             val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
@@ -104,10 +106,17 @@ class SampleCompletionViewModel @Inject constructor(
             )
 
             //Aight so what else for the meta stuff?
+            val newMeta = SampleMetadata(
+                //TODO: move these methods out of MDMapper
+                smearType = MetadataMapper.getSmearType(smearTypeId!!),
+                species = MetadataMapper.getSpecies(context, speciesValue!!),
+                comments = comments ?: ""
+            )
 
             val updatedSample = repository.current().copy(
                 microscopeQuality = newQualityValues,
                 preparation = newPreparation,
+                metadata = newMeta,
                 status = SampleStatus.ReadyToUpload
             )
             val storedSample = repository.store(updatedSample)
