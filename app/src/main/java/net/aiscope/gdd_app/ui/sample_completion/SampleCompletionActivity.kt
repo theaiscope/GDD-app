@@ -1,16 +1,24 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
+import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
+import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.ui.CaptureFlow
+import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.mask.MaskActivity
+import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
+import net.aiscope.gdd_app.ui.showConfirmExitDialog
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import timber.log.Timber
@@ -68,7 +76,10 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     fun validateTabsAndUpdateVM(): Boolean {
         //So how do I get the fragments??
         with(binding) {
-            //TODO: same for Meta fragment
+            val metadataFragment: MetadataFragment? =
+                findFragment(0)
+                        as? MetadataFragment
+            val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
 
             val preparationFragment: PreparationFragment? =
                 findFragment(1)
@@ -82,7 +93,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
 
             //Saving should only happen if all tabs are OK
-            return (preparationOK && qualityOK)
+            return (metadataOk && preparationOK && qualityOK)
         }
     }
 
@@ -127,4 +138,31 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private fun finishFlow() {
         goToHomeAndConfirmSaved()
     }
+
+    override fun onBackPressed() {
+        showConfirmExitDialog()
+    }
+
+    //TODO: so what about the 'show retry'
+
+    fun captureImage(nextImageName: String) {
+        val intent = Intent(this, CaptureImageActivity::class.java)
+        intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
+        this.startActivity(intent)
+    }
+
+    fun editCapture(disease: String, capture: CompletedCapture){
+        val intent = Intent(this, MaskActivity::class.java)
+        intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
+        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)
+
+        //Remove file extension
+        val maskName = capture.mask.name.removeSuffix(".png")
+        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
+        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
+
+        startActivity(intent)
+    }
+
+
 }

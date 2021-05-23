@@ -7,12 +7,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.BloodQuality
+import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.ui.metadata.FieldOption
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -21,23 +23,55 @@ class SampleCompletionViewModel @Inject constructor(
     private val remoteStorage: RemoteStorage,
     private val context: Context,
 ) : ViewModel() {
-
-
     //TODO: We got a nicer way of fixing default vals??
+
+    // Fields for the metadata tab
+    var disease: String = ""
+    var captures: List<CompletedCapture> = emptyList()
+    var options: List<FieldOption> = emptyList()
+    var required: Boolean = true
+    var smearTypeId: Int? = null
+    var speciesValue: String? = null
+    var comments: String? = null
+
+    // Fields for preparation tab. Perhaps we should nest this?
+    var waterType: String = context.getString(R.string.spinner_empty_option)
+    var usesGiemsa: Boolean = true
+    var giemsaFP: Boolean = true
+    var usesPbs: Boolean = true
+    var reusesSlides: Boolean = false
+    var bloodQuality: String = context.getString(R.string.spinner_empty_option)
+
+    //Fields for the microscope tab
     var microscopeDamaged: Boolean = false
     var microscopeMagnification: Int = 1000
 
-    // Fields for preparation tab. Perhaps we should nest this?
-    var waterType = context.getString(R.string.spinner_empty_option)
-    var usesGiemsa = true
-    var giemsaFP = true
-    var usesPbs = true
-    var reusesSlides = false
-    var bloodQuality = context.getString(R.string.spinner_empty_option)
+
+    override fun toString(): String {
+        val builder = StringBuilder()
+        this.javaClass.declaredFields.forEach {
+            builder.append(
+                "* " + it.name + " : " + this.javaClass.getDeclaredField(it.name).get(this) + "\n"
+            )
+        }
+        return builder.toString()
+    }
 
     fun initVM() {
         //TODO: inject dispatchers
         viewModelScope.launch(Dispatchers.IO) {
+
+            val sample = repository.current()
+            disease = sample.disease
+            captures = sample.captures.completedCaptures
+
+            //So what we gonna do here for the meta stuff?
+            val lastMeta = repository.lastSaved()?.metadata
+            Timber.i("LAST META %s", lastMeta)
+            smearTypeId = lastMeta?.smearType?.id
+            speciesValue = lastMeta?.species?.name
+            comments = lastMeta?.comments
+
             val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
             Timber.i("Last micro: %s", lastMicroscopeQuality)
             microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
@@ -68,6 +102,8 @@ class SampleCompletionViewModel @Inject constructor(
                 reusesSlides,
                 getBloodQuality(bloodQuality)
             )
+
+            //Aight so what else for the meta stuff?
 
             val updatedSample = repository.current().copy(
                 microscopeQuality = newQualityValues,
@@ -115,6 +151,19 @@ class SampleCompletionViewModel @Inject constructor(
             BloodQuality.OLD -> context.getString(R.string.blood_quality_old)
             null -> ""
         }
+    }
+
+    //Should this be on the ViewModel rather?
+    suspend fun addImage() {
+        val current = repository.current()
+        //TODO: Now how to trigger this if it's a function on the activity
+        //view.captureImage(current.nextImageName())
+    }
+
+    suspend fun editImage(capture: CompletedCapture) {
+        val current = repository.current()
+        //TODO: Now how to trigger this if it's a function on the activity
+        //view.editCapture(current.disease, capture)
     }
 
 
