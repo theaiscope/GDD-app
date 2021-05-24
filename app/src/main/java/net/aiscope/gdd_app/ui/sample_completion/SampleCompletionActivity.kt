@@ -5,11 +5,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
-import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.model.CompletedCapture
@@ -17,7 +15,6 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
 import net.aiscope.gdd_app.ui.mask.MaskActivity
-import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
 import net.aiscope.gdd_app.ui.showConfirmExitDialog
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
