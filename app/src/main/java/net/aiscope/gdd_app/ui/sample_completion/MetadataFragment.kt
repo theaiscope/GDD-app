@@ -6,11 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentMetadataBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.model.CompletedCapture
+import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
 import timber.log.Timber
 
@@ -25,21 +25,30 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMetadataBinding.bind(view)
+        initAdapter()
+        sharedVM.currentDisease.observe(viewLifecycleOwner, { current-> current?.let { initView(it) } })
+    }
+
+    private fun initAdapter() {
         with(binding) {
             metadataBloodSampleImages.apply {
                 setHasFixedSize(true)
                 layoutManager =
                     LinearLayoutManager(
-                        view.context,
+                        requireContext(),
                         LinearLayoutManager.HORIZONTAL,
                         false
                     )
                 adapter = imagesAdapter
             }
+        }
+    }
 
+    private fun initView(current: Sample) {
+        with(binding) {
             with(sharedVM) {
                 Timber.i("VM: %s", sharedVM)
-                imagesAdapter.setCaptures(captures)
+                imagesAdapter.setCaptures(current.captures.completedCaptures)
 
                 //Does not seem to initialize correctly??
                 smearTypeId?.let { metadataSectionSmearTypeRadioGroup.check(it) }
@@ -67,14 +76,20 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
     }
 
     private fun onAddImageClicked() {
-        lifecycleScope.launch {
-            sharedVM.addImage()
+        val current = sharedVM.currentDisease.value
+        if(activity is SampleCompletionActivity) {
+            current?.let {
+                (activity as SampleCompletionActivity).captureImage(it.nextImageName())
+            }
         }
     }
 
     private fun onImageClicked(capture: CompletedCapture) {
-        lifecycleScope.launch {
-            sharedVM.editImage(capture)
+        val current = sharedVM.currentDisease.value
+        if(activity is SampleCompletionActivity) {
+                current?.let {
+                    (activity as SampleCompletionActivity).editCapture(it.disease, capture)
+                }
         }
     }
 

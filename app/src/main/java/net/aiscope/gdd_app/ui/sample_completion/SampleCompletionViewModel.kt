@@ -1,6 +1,8 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +11,7 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.BloodQuality
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
+import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
@@ -26,6 +29,11 @@ class SampleCompletionViewModel @Inject constructor(
     private val context: Context,
 ) : ViewModel() {
     //TODO: We got a nicer way of fixing default vals??
+
+    private val _currentDisease =
+        MutableLiveData<Sample>()
+    val currentDisease: LiveData<Sample>
+        get() = _currentDisease
 
     // Fields for the metadata tab
     var disease: String = ""
@@ -64,6 +72,7 @@ class SampleCompletionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
 
             val sample = repository.current()
+            _currentDisease.postValue(sample)
             disease = sample.disease
             captures = sample.captures.completedCaptures
 
@@ -160,19 +169,4 @@ class SampleCompletionViewModel @Inject constructor(
             null -> ""
         }
     }
-
-    //Should this be on the ViewModel rather?
-    suspend fun addImage() {
-        val current = repository.current()
-        //TODO: Now how to trigger this if it's a function on the activity
-        //view.captureImage(current.nextImageName())
-    }
-
-    suspend fun editImage(capture: CompletedCapture) {
-        val current = repository.current()
-        //TODO: Now how to trigger this if it's a function on the activity
-        //view.editCapture(current.disease, capture)
-    }
-
-
 }
