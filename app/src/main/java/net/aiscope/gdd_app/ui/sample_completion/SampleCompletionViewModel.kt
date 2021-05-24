@@ -72,7 +72,6 @@ class SampleCompletionViewModel @Inject constructor(
             Timber.i("LAST META %s", lastMeta)
             smearTypeId = MetadataMapper.getSmearTypeId(lastMeta?.smearType!!)
             speciesValue = MetadataMapper.getSpeciesValue(context, lastMeta?.species!!)
-            comments = lastMeta?.comments
 
             val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
             Timber.i("Last micro: %s", lastMicroscopeQuality)
