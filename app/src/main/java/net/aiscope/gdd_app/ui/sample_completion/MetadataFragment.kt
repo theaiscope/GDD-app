@@ -68,13 +68,15 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
 
     private fun onAddImageClicked() {
         lifecycleScope.launch {
-            sharedVM.addImage()
+            val intent = sharedVM.addImage()
+            startActivity(intent)
         }
     }
 
     private fun onImageClicked(capture: CompletedCapture) {
         lifecycleScope.launch {
-            sharedVM.editImage(capture)
+            val intent = sharedVM.editImage(capture)
+            startActivity(intent)
         }
     }
 

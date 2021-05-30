@@ -1,6 +1,8 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
+import android.content.Intent
+import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +17,8 @@ import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
-import net.aiscope.gdd_app.ui.metadata.FieldOption
+import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
+import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,8 +33,6 @@ class SampleCompletionViewModel @Inject constructor(
     // Fields for the metadata tab
     var disease: String = ""
     var captures: List<CompletedCapture> = emptyList()
-    var options: List<FieldOption> = emptyList()
-    var required: Boolean = true
     var smearTypeId: Int? = null
     var speciesValue: String? = null
     var comments: String? = null
@@ -161,17 +162,29 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
-    //Should this be on the ViewModel rather?
-    suspend fun addImage() {
+    suspend fun addImage() : Intent {
         val current = repository.current()
-        //TODO: Now how to trigger this if it's a function on the activity
-        //view.captureImage(current.nextImageName())
+        Timber.i("Calling add image");
+
+        val intent = Intent(context, CaptureImageActivity::class.java)
+        intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, current.nextImageName())
+        return intent;
     }
 
-    suspend fun editImage(capture: CompletedCapture) {
+    suspend fun editImage(capture: CompletedCapture) : Intent {
         val current = repository.current()
-        //TODO: Now how to trigger this if it's a function on the activity
-        //view.editCapture(current.disease, capture)
+        Timber.i("Calling edit image");
+
+        val intent = Intent(context, MaskActivity::class.java)
+        intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
+        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)
+
+        //Remove file extension
+        val maskName = capture.mask.name.removeSuffix(".png")
+        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
+        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
+
+        return intent
     }
 
 
