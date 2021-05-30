@@ -5,7 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
-import net.aiscope.gdd_app.ui.metadata.MetadataMapper
+import net.aiscope.gdd_app.ui.sample_completion.MetadataMapper
 import net.aiscope.gdd_app.ui.metadata.MetadataView
 
 @Module

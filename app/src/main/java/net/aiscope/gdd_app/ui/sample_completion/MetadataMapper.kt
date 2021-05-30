@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app.ui.metadata
+package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
 import net.aiscope.gdd_app.R

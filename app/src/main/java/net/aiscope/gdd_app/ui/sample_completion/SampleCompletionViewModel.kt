@@ -2,7 +2,6 @@ package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +18,6 @@ import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
-import net.aiscope.gdd_app.ui.metadata.MetadataMapper
 import timber.log.Timber
 import javax.inject.Inject
 
