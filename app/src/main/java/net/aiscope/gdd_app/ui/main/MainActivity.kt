@@ -18,7 +18,6 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityMainBinding
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
-import net.aiscope.gdd_app.ui.sample_preparation.SamplePreparationActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import javax.inject.Inject
 
