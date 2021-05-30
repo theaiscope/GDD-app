@@ -18,6 +18,9 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
+import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataFragment
+import net.aiscope.gdd_app.ui.sample_completion.preparation.PreparationFragment
+import net.aiscope.gdd_app.ui.sample_completion.quality.QualityFragment
 import net.aiscope.gdd_app.ui.showConfirmExitDialog
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction

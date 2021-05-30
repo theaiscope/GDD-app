@@ -1,15 +1,14 @@
-package net.aiscope.gdd_app.ui.sample_completion
+package net.aiscope.gdd_app.ui.sample_completion.preparation
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentPreparationBinding
 import net.aiscope.gdd_app.extensions.select
+import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 
 class PreparationFragment : Fragment(R.layout.fragment_preparation) {
     private var _binding: FragmentPreparationBinding? = null

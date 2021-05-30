@@ -16,7 +16,7 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
-import net.aiscope.gdd_app.ui.sample_completion.MetadataMapper
+import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import net.aiscope.gdd_app.ui.metadata.MetadataPresenter
 import net.aiscope.gdd_app.ui.metadata.MetadataView
 import net.aiscope.gdd_app.ui.metadata.ViewStateModel

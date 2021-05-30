@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app.ui.sample_completion
+package net.aiscope.gdd_app.ui.sample_completion.metadata
 
 import android.os.Bundle
 import android.view.View
@@ -12,6 +12,7 @@ import net.aiscope.gdd_app.databinding.FragmentMetadataBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
+import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import timber.log.Timber
 
 class MetadataFragment : Fragment(R.layout.fragment_metadata) {

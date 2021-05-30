@@ -18,6 +18,7 @@ import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
+import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import timber.log.Timber
 import javax.inject.Inject
 

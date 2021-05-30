@@ -1,13 +1,12 @@
-package net.aiscope.gdd_app.ui.sample_completion
+package net.aiscope.gdd_app.ui.sample_completion.quality
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentQualityBinding
+import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import timber.log.Timber
 
 class QualityFragment : Fragment(R.layout.fragment_quality) {
