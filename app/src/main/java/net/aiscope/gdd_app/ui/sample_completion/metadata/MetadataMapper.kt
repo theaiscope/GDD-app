@@ -45,5 +45,4 @@ object MetadataMapper {
             MalariaSpecies.P_KNOWLESI -> context.getString(R.string.malaria_species_p_knowlesi)
         }
     }
-
 }
