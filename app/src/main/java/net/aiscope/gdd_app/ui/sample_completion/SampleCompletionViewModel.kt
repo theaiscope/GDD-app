@@ -22,6 +22,7 @@ import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import timber.log.Timber
 import javax.inject.Inject
 
+//TODO: a test class for this is in order probably
 class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,

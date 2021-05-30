@@ -12,7 +12,6 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
-import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.policy.PrivacyPolicyActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 
@@ -45,12 +44,6 @@ abstract class BuildersModule {
     @IntoMap
     @ClassKey(MaskActivity::class)
     abstract fun bindMaskActivityInjectorFactory(factory: MaskSubComponents.Factory):
-            AndroidInjector.Factory<*>
-
-    @Binds
-    @IntoMap
-    @ClassKey(MetadataActivity::class)
-    abstract fun bindMetadataActivityInjectorFactory(factory: MetadataSubComponents.Factory):
             AndroidInjector.Factory<*>
 
     @Binds
