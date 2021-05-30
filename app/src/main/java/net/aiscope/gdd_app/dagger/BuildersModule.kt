@@ -13,7 +13,6 @@ import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.MetadataActivity
-import net.aiscope.gdd_app.ui.microscope_quality.MicroscopeQualityActivity
 import net.aiscope.gdd_app.ui.policy.PrivacyPolicyActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.sample_preparation.SamplePreparationActivity
@@ -36,10 +35,6 @@ abstract class BuildersModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [SamplePreparationModule::class])
     abstract fun contributesSamplePreparationActivityAndroidInjector(): SamplePreparationActivity
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = [MicroscopeQualityModule::class])
-    abstract fun contributesMicroscopeQualityActivityAndroidInjector(): MicroscopeQualityActivity
 
     @PerActivity
     @ContributesAndroidInjector(modules = [SampleCompletionModule::class])

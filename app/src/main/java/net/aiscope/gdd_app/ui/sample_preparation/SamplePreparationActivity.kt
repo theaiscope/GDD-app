@@ -14,7 +14,6 @@ import net.aiscope.gdd_app.databinding.ActivitySamplePreparationBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
-import net.aiscope.gdd_app.ui.microscope_quality.MicroscopeQualityActivity
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import javax.inject.Inject
@@ -111,7 +110,6 @@ class SamplePreparationActivity : AppCompatActivity(), SamplePreparationView, Ca
     }
 
     override fun goToMicroscopeQuality() {
-        val intent = Intent(this, MicroscopeQualityActivity::class.java)
-        this.startActivity(intent)
+        //No longer exists
     }
 }
