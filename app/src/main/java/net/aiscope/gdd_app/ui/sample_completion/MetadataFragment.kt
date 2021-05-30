@@ -49,22 +49,14 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
         }
     }
 
-    private fun validateForm(): Boolean {
-        //TODO: validation
-        return true
-    }
-
     fun validateAndUpdateVM(): Boolean {
-        return if (validateForm()) {
-            with(binding) {
-                sharedVM.smearTypeId = metadataSectionSmearTypeRadioGroup.checkedRadioButtonId
-                sharedVM.speciesValue = metadataSpeciesSpinner.selectedItem.toString()
-                sharedVM.comments = metadataCommentsInput.text.toString()
-            }
-            true
-        } else {
-            false
+        with(binding) {
+            sharedVM.smearTypeId = metadataSectionSmearTypeRadioGroup.checkedRadioButtonId
+            sharedVM.speciesValue = metadataSpeciesSpinner.selectedItem.toString()
+            sharedVM.comments = metadataCommentsInput.text.toString()
         }
+        //No validation on this tab
+        return true
     }
 
     private fun onAddImageClicked() {
