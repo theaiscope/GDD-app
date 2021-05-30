@@ -113,7 +113,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 showRetryBar()
             }
         } else {
-            //what happens in this case?
+            //TODO: So in this case we should show the tab where the error occurs?
         }
     }
 
@@ -147,8 +147,6 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     override fun onBackPressed() {
         showConfirmExitDialog()
     }
-
-    //TODO: so what about the 'show retry'
 
     fun captureImage(nextImageName: String) {
         val intent = Intent(this, CaptureImageActivity::class.java)
