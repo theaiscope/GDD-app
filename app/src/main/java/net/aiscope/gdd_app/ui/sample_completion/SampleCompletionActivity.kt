@@ -66,7 +66,6 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                     validateTabsAndUpdateVM();
                 }
 
-                // Anything needs doing in this case?
                 override fun onTabReselected(tab: TabLayout.Tab) {
                     viewPager.currentItem = tab.position
                 }
@@ -81,7 +80,6 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     }
 
     fun validateTabsAndUpdateVM(): Boolean {
-        //So how do I get the fragments??
         with(binding) {
             val metadataFragment: MetadataFragment? =
                 findFragment(0)
@@ -111,11 +109,11 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 sharedVM.save()
                 finishFlow()
             } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
-                Timber.e(error, "An error occurred when saving sample preparation")
+                Timber.e(error, "An error occurred when saving sample completion data")
                 showRetryBar()
             }
         } else {
-            //TODO: So in this case we should show the tab where the error occurs?
+            //TODO: So in this case we should show the tab where the validation error occurs?
         }
     }
 

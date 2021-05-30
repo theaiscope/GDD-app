@@ -28,7 +28,7 @@ class SampleCompletionViewModel @Inject constructor(
     private val remoteStorage: RemoteStorage,
     private val context: Context,
 ) : ViewModel() {
-    companion object{
+    companion object {
         const val DEFAULT_MAGNIFICATION: Int = 1000
     }
 
@@ -64,27 +64,26 @@ class SampleCompletionViewModel @Inject constructor(
     }
 
     fun initVM() {
-        //TODO: inject dispatchers
+        //Improvement: inject dispatchers here
         viewModelScope.launch(Dispatchers.IO) {
 
             val sample = repository.current()
             disease = sample.disease
             captures = sample.captures.completedCaptures
 
+            val lastSaved = repository.lastSaved()
+
             //So what we gonna do here for the meta stuff?
-            val lastMeta = repository.lastSaved()?.metadata
-            Timber.i("LAST META %s", lastMeta)
+            val lastMeta = lastSaved?.metadata
             smearTypeId = MetadataMapper.getSmearTypeId(lastMeta?.smearType!!)
             speciesValue = MetadataMapper.getSpeciesValue(context, lastMeta?.species!!)
 
-            val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
-            Timber.i("Last micro: %s", lastMicroscopeQuality)
+            val lastMicroscopeQuality = lastSaved?.microscopeQuality
             microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
             microscopeMagnification = lastMicroscopeQuality?.magnification ?: DEFAULT_MAGNIFICATION
 
             //Set the values for the prep same as the last one
-            val lastPreparation = repository.lastSaved()?.preparation
-            Timber.i("Last prep %s", lastPreparation)
+            val lastPreparation = lastSaved?.preparation
 
             waterType = getWaterTypeValue(lastPreparation?.waterType)
             usesGiemsa = lastPreparation?.usesGiemsa ?: true
@@ -96,7 +95,7 @@ class SampleCompletionViewModel @Inject constructor(
     }
 
     fun save() {
-        //TODO: inject dispatchers
+        //Improvement: inject dispatchers here
         viewModelScope.launch(Dispatchers.IO) {
             val newQualityValues = MicroscopeQuality(microscopeDamaged, microscopeMagnification)
             val newPreparation = SamplePreparation(
@@ -166,19 +165,15 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
-    suspend fun addImage() : Intent {
+    suspend fun addImage(): Intent {
         val current = repository.current()
-        Timber.i("Calling add image");
-
         val intent = Intent(context, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, current.nextImageName())
         return intent;
     }
 
-    suspend fun editImage(capture: CompletedCapture) : Intent {
+    suspend fun editImage(capture: CompletedCapture): Intent {
         val current = repository.current()
-        Timber.i("Calling edit image");
-
         val intent = Intent(context, MaskActivity::class.java)
         intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)
@@ -190,6 +185,4 @@ class SampleCompletionViewModel @Inject constructor(
 
         return intent
     }
-
-
 }

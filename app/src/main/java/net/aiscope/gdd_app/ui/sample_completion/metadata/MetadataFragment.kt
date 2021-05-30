@@ -39,13 +39,10 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
             }
 
             with(sharedVM) {
-                Timber.i("VM: %s", sharedVM)
                 imagesAdapter.setCaptures(captures)
 
-                //Does not seem to initialize correctly??
                 smearTypeId?.let { metadataSectionSmearTypeRadioGroup.check(it) }
                 speciesValue?.let { metadataSpeciesSpinner.select(it) }
-                //Comments?
             }
         }
     }
