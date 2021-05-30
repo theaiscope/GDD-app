@@ -116,21 +116,12 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         }
     }
 
-    //TODO: this can probably be removed
-    override fun goToMetadata() {
-        val intent = Intent(this, MetadataActivity::class.java)
-        startActivity(intent)
-        //Finish the activity to avoid keeping all the bitmaps in memory
-        finish()
-    }
-
     override fun goToSampleCompletion() {
         val intent = Intent(this, SampleCompletionActivity::class.java)
         startActivity(intent)
         //Finish the activity to avoid keeping all the bitmaps in memory
         finish()
     }
-
 
     override fun notifyImageCouldNotBeTaken() {
         Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT)

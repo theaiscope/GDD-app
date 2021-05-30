@@ -50,6 +50,7 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
     }
 
     private fun validateForm(): Boolean {
+        //TODO: validation
         return true
     }
 

@@ -62,7 +62,9 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 }
 
                 // Anything needs doing in this case?
-                override fun onTabReselected(tab: TabLayout.Tab) {}
+                override fun onTabReselected(tab: TabLayout.Tab) {
+                    viewPager.currentItem = tab.position
+                }
             })
 
             completionSaveSample.setOnClickListener { save() }

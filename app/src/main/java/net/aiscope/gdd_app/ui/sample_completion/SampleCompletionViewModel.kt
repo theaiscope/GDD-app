@@ -26,8 +26,11 @@ class SampleCompletionViewModel @Inject constructor(
     private val remoteStorage: RemoteStorage,
     private val context: Context,
 ) : ViewModel() {
-    //TODO: We got a nicer way of fixing default vals??
+    companion object{
+        const val DEFAULT_MAGNIFICATION: Int = 1000
+    }
 
+    //TODO: We got a nicer way of fixing default vals??
     // Fields for the metadata tab
     var disease: String = ""
     var captures: List<CompletedCapture> = emptyList()
@@ -45,7 +48,7 @@ class SampleCompletionViewModel @Inject constructor(
 
     //Fields for the microscope tab
     var microscopeDamaged: Boolean = false
-    var microscopeMagnification: Int = 1000
+    var microscopeMagnification: Int = DEFAULT_MAGNIFICATION
 
 
     override fun toString(): String {
@@ -75,7 +78,7 @@ class SampleCompletionViewModel @Inject constructor(
             val lastMicroscopeQuality = repository.lastSaved()?.microscopeQuality
             Timber.i("Last micro: %s", lastMicroscopeQuality)
             microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
-            microscopeMagnification = lastMicroscopeQuality?.magnification ?: 1000
+            microscopeMagnification = lastMicroscopeQuality?.magnification ?: DEFAULT_MAGNIFICATION
 
             //Set the values for the prep same as the last one
             val lastPreparation = repository.lastSaved()?.preparation
@@ -105,7 +108,8 @@ class SampleCompletionViewModel @Inject constructor(
 
             //Aight so what else for the meta stuff?
             val newMeta = SampleMetadata(
-                //TODO: move these methods out of MDMapper
+                // TODO: move these methods out of MDMapper?
+                // Or do the opposite and move it all into mappers?
                 smearType = MetadataMapper.getSmearType(smearTypeId!!),
                 species = MetadataMapper.getSpecies(context, speciesValue!!),
                 comments = comments ?: ""
