@@ -1,7 +1,6 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -10,16 +9,14 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.BloodQuality
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
+import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.SampleRepository
-import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
-import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
-import timber.log.Timber
 import javax.inject.Inject
 
 //TODO: a test class for this is in order probably
@@ -165,24 +162,7 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
-    suspend fun addImage(): Intent {
-        val current = repository.current()
-        val intent = Intent(context, CaptureImageActivity::class.java)
-        intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, current.nextImageName())
-        return intent;
-    }
-
-    suspend fun editImage(capture: CompletedCapture): Intent {
-        val current = repository.current()
-        val intent = Intent(context, MaskActivity::class.java)
-        intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
-        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)
-
-        //Remove file extension
-        val maskName = capture.mask.name.removeSuffix(".png")
-        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
-        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
-
-        return intent
+    suspend fun getCurrentSample() : Sample {
+        return repository.current()
     }
 }

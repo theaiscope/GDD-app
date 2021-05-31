@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.ui.sample_completion.metadata
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -11,6 +12,8 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentMetadataBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.model.CompletedCapture
+import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
+import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import timber.log.Timber
@@ -59,14 +62,25 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
 
     private fun onAddImageClicked() {
         lifecycleScope.launch {
-            val intent = sharedVM.addImage()
+            val intent = Intent(context, CaptureImageActivity::class.java)
+            intent.putExtra(
+                CaptureImageActivity.EXTRA_IMAGE_NAME,
+                sharedVM.getCurrentSample().nextImageName()
+            )
             startActivity(intent)
         }
     }
 
     private fun onImageClicked(capture: CompletedCapture) {
         lifecycleScope.launch {
-            val intent = sharedVM.editImage(capture)
+            val intent = Intent(context, MaskActivity::class.java)
+            intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, sharedVM.disease)
+            intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)
+
+            //Remove file extension
+            val maskName = capture.mask.name.removeSuffix(".png")
+            intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
+            intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
             startActivity(intent)
         }
     }
