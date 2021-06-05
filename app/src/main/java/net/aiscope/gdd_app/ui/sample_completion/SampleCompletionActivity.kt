@@ -5,11 +5,9 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
-import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.model.CompletedCapture
@@ -18,7 +16,6 @@ import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
 import net.aiscope.gdd_app.ui.mask.MaskActivity
-import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataFragment
 import net.aiscope.gdd_app.ui.sample_completion.preparation.PreparationFragment
 import net.aiscope.gdd_app.ui.sample_completion.quality.QualityFragment
@@ -27,6 +24,7 @@ import net.aiscope.gdd_app.ui.snackbar.CustomSnackbar
 import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import timber.log.Timber
 import javax.inject.Inject
+
 
 class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private lateinit var binding: ActivityCompleteSampleBinding
@@ -79,32 +77,37 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         sharedVM.initVM()
     }
 
-    fun validateTabsAndUpdateVM(): Boolean {
+    // The int indicates which tab has errors so we can switch to that one
+    fun validateTabsAndUpdateVM(): Int? {
         with(binding) {
             val metadataFragment: MetadataFragment? =
-                findFragment(0)
-                        as? MetadataFragment
+                findFragment(0) as? MetadataFragment
             val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
+            if (!metadataOk) {
+                return 0
+            }
 
             val preparationFragment: PreparationFragment? =
-                findFragment(1)
-                        as? PreparationFragment
+                findFragment(1) as? PreparationFragment
             val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
+            if (!preparationOK) {
+                return 1
+            }
 
             val qualityFragment: QualityFragment? =
-                findFragment(2)
-                        as? QualityFragment
-
+                findFragment(2) as? QualityFragment
             val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
+            if (!qualityOK) {
+                return 2
+            }
 
-            //Saving should only happen if all tabs are OK
-            return (metadataOk && preparationOK && qualityOK)
+            return null
         }
     }
 
     fun save() {
-        val validationOK = validateTabsAndUpdateVM();
-        if (validationOK) {
+        val erroneousTab = validateTabsAndUpdateVM();
+        if (erroneousTab == null) {
             try {
                 sharedVM.save()
                 finishFlow()
@@ -113,7 +116,14 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 showRetryBar()
             }
         } else {
-            //TODO: So in this case we should show the tab where the validation error occurs?
+            setActiveTab(erroneousTab)
+        }
+    }
+
+    private fun setActiveTab(index: Int) {
+        with(binding) {
+            val tab = tabLayout.getTabAt(index)
+            tab?.select()
         }
     }
 
@@ -154,7 +164,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         this.startActivity(intent)
     }
 
-    fun editCapture(disease: String, capture: CompletedCapture){
+    fun editCapture(disease: String, capture: CompletedCapture) {
         val intent = Intent(this, MaskActivity::class.java)
         intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)

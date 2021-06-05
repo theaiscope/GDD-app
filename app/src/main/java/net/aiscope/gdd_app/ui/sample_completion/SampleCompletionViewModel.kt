@@ -104,7 +104,6 @@ class SampleCompletionViewModel @Inject constructor(
                 getBloodQuality(bloodQuality)
             )
 
-            //Aight so what else for the meta stuff?
             val newMeta = SampleMetadata(
                 // TODO: move these methods out of MDMapper?
                 // Or do the opposite and move it all into mappers?
