@@ -19,7 +19,7 @@ import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
 
-//TODO: a test class for this is in order probably
+// Improvement: a test class for this is in order probably
 class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,
@@ -29,7 +29,7 @@ class SampleCompletionViewModel @Inject constructor(
         const val DEFAULT_MAGNIFICATION: Int = 1000
     }
 
-    //TODO: We got a nicer way of fixing default vals??
+    // Improvement: We got a nicer way of fixing default vals??
     // Fields for the metadata tab
     var disease: String = ""
     var captures: List<CompletedCapture> = emptyList()

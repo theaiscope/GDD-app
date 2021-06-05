@@ -1,6 +1,5 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +9,9 @@ import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
-import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
-import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
-import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataFragment
 import net.aiscope.gdd_app.ui.sample_completion.preparation.PreparationFragment
 import net.aiscope.gdd_app.ui.sample_completion.quality.QualityFragment
@@ -127,7 +123,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
     }
 
-    //FIXME: Pretty hacky retrieval of fragments based on the
+    //Improvement: Pretty hacky retrieval of fragments based on the
     //Internals of FragmentPagerAdapter
     private fun ActivityCompleteSampleBinding.findFragment(index: Int) =
         supportFragmentManager.findFragmentByTag(makeFragmentName(viewPager.id, index))
@@ -137,7 +133,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     }
 
 
-    fun showRetryBar() {
+    private fun showRetryBar() {
         CustomSnackbar.make(
             findViewById(android.R.id.content),
             getString(R.string.microscope_quality_snackbar_error),
@@ -157,25 +153,4 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     override fun onBackPressed() {
         showConfirmExitDialog()
     }
-
-    fun captureImage(nextImageName: String) {
-        val intent = Intent(this, CaptureImageActivity::class.java)
-        intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
-        this.startActivity(intent)
-    }
-
-    fun editCapture(disease: String, capture: CompletedCapture) {
-        val intent = Intent(this, MaskActivity::class.java)
-        intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, disease)
-        intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, capture.image.absolutePath)
-
-        //Remove file extension
-        val maskName = capture.mask.name.removeSuffix(".png")
-        intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
-        intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
-
-        startActivity(intent)
-    }
-
-
 }
