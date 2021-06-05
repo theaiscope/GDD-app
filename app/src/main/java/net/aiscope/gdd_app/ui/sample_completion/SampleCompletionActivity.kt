@@ -79,25 +79,25 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             val metadataFragment: MetadataFragment? =
                 findFragment(0) as? MetadataFragment
             val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
-            if (!metadataOk) {
-                return 0
-            }
 
             val preparationFragment: PreparationFragment? =
                 findFragment(1) as? PreparationFragment
             val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
-            if (!preparationOK) {
-                return 1
-            }
 
             val qualityFragment: QualityFragment? =
                 findFragment(2) as? QualityFragment
             val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
-            if (!qualityOK) {
-                return 2
-            }
 
-            return null
+            //Decide which (if any) tab has errors and should be displayed
+            var erroneousTab: Int? = null
+            if (!metadataOk) {
+                erroneousTab = 0
+            } else if (!preparationOK) {
+                erroneousTab =  1
+            } else if (!qualityOK) {
+                erroneousTab = 2
+            }
+            return erroneousTab
         }
     }
 
@@ -131,7 +131,6 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private fun makeFragmentName(viewId: Int, id: Int): String? {
         return "android:switcher:$viewId:$id"
     }
-
 
     private fun showRetryBar() {
         CustomSnackbar.make(

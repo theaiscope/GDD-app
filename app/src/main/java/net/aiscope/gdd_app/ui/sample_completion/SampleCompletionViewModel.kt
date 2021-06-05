@@ -105,7 +105,7 @@ class SampleCompletionViewModel @Inject constructor(
             )
 
             val newMeta = SampleMetadata(
-                // TODO: move these methods out of MDMapper?
+                // Improvement: move these methods out of MDMapper?
                 // Or do the opposite and move it all into mappers?
                 smearType = MetadataMapper.getSmearType(smearTypeId),
                 species = MetadataMapper.getSpecies(context, speciesValue),
