@@ -70,24 +70,28 @@ class SampleCompletionViewModel @Inject constructor(
 
             val lastSaved = repository.lastSaved()
 
-            //So what we gonna do here for the meta stuff?
             val lastMeta = lastSaved?.metadata
-            smearTypeId = MetadataMapper.getSmearTypeId(lastMeta?.smearType)
-            speciesValue = MetadataMapper.getSpeciesValue(context, lastMeta?.species)
+            lastMeta?.let{
+                smearTypeId = MetadataMapper.getSmearTypeId(lastMeta?.smearType)
+                speciesValue = MetadataMapper.getSpeciesValue(context, lastMeta?.species)
+            }
 
             val lastMicroscopeQuality = lastSaved?.microscopeQuality
-            microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
-            microscopeMagnification = lastMicroscopeQuality?.magnification ?: DEFAULT_MAGNIFICATION
+            lastMicroscopeQuality?.let {
+                microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
+                microscopeMagnification =
+                    lastMicroscopeQuality?.magnification ?: DEFAULT_MAGNIFICATION
+            }
 
-            //Set the values for the prep same as the last one
             val lastPreparation = lastSaved?.preparation
-
-            waterType = getWaterTypeValue(lastPreparation?.waterType)
-            usesGiemsa = lastPreparation?.usesGiemsa ?: true
-            giemsaFP = lastPreparation?.giemsaFP ?: true
-            usesPbs = lastPreparation?.usesPbs ?: true
-            reusesSlides = lastPreparation?.reusesSlides ?: false
-            bloodQuality = getBloodQualityValue(lastPreparation?.bloodQuality)
+            lastPreparation?.let {
+                waterType = getWaterTypeValue(lastPreparation?.waterType)
+                usesGiemsa = lastPreparation?.usesGiemsa ?: true
+                giemsaFP = lastPreparation?.giemsaFP ?: true
+                usesPbs = lastPreparation?.usesPbs ?: true
+                reusesSlides = lastPreparation?.reusesSlides ?: false
+                bloodQuality = getBloodQualityValue(lastPreparation?.bloodQuality)
+            }
         }
     }
 
