@@ -71,26 +71,25 @@ class SampleCompletionViewModel @Inject constructor(
             val lastSaved = repository.lastSaved()
 
             val lastMeta = lastSaved?.metadata
-            lastMeta?.let{
-                smearTypeId = MetadataMapper.getSmearTypeId(lastMeta?.smearType)
-                speciesValue = MetadataMapper.getSpeciesValue(context, lastMeta?.species)
+            lastMeta?.let {
+                smearTypeId = MetadataMapper.getSmearTypeId(it.smearType)
+                speciesValue = MetadataMapper.getSpeciesValue(context, it.species)
             }
 
             val lastMicroscopeQuality = lastSaved?.microscopeQuality
             lastMicroscopeQuality?.let {
-                microscopeDamaged = lastMicroscopeQuality?.isDamaged ?: false
-                microscopeMagnification =
-                    lastMicroscopeQuality?.magnification ?: DEFAULT_MAGNIFICATION
+                microscopeDamaged = it.isDamaged
+                microscopeMagnification = it.magnification
             }
 
             val lastPreparation = lastSaved?.preparation
             lastPreparation?.let {
-                waterType = getWaterTypeValue(lastPreparation?.waterType)
-                usesGiemsa = lastPreparation?.usesGiemsa ?: true
-                giemsaFP = lastPreparation?.giemsaFP ?: true
-                usesPbs = lastPreparation?.usesPbs ?: true
-                reusesSlides = lastPreparation?.reusesSlides ?: false
-                bloodQuality = getBloodQualityValue(lastPreparation?.bloodQuality)
+                waterType = getWaterTypeValue(it.waterType)
+                usesGiemsa = it.usesGiemsa
+                giemsaFP = it.giemsaFP
+                usesPbs = it.usesPbs
+                reusesSlides = it.reusesSlides
+                bloodQuality = getBloodQualityValue(it.bloodQuality)
             }
         }
     }
@@ -165,7 +164,7 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
-    suspend fun getCurrentSample() : Sample {
+    suspend fun getCurrentSample(): Sample {
         return repository.current()
     }
 }
