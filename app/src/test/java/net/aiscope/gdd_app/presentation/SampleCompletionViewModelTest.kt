@@ -35,10 +35,10 @@ class SampleCompletionViewModelTest {
             microscopeQuality = MicroscopeQuality(true, 1500),
             preparation = SamplePreparation(
                 WaterType.TAP,
-                usesGiemsa = true,
-                giemsaFP = true,
-                usesPbs = false,
-                reusesSlides = false,
+                usesGiemsa = false,
+                giemsaFP = false,
+                usesPbs = true,
+                reusesSlides = true,
                 bloodQuality = BloodQuality.OLD
             ),
             metadata = SampleMetadata(
@@ -89,8 +89,21 @@ class SampleCompletionViewModelTest {
             // Should be a nicer way to do this, really
             Thread.sleep(1000)
 
-            assertEquals(null, viewModel.smearTypeId)
             assertEquals("a disease", viewModel.disease)
+
+            assertEquals(false, viewModel.microscopeDamaged)
+            assertEquals(1000, viewModel.microscopeMagnification)
+
+            assertEquals("- select -", viewModel.waterType)
+            assertEquals(true, viewModel.usesGiemsa)
+            assertEquals(true, viewModel.giemsaFP)
+            assertEquals(true, viewModel.usesPbs)
+            assertEquals(false, viewModel.reusesSlides)
+            assertEquals("- select -", viewModel.bloodQuality)
+
+            assertEquals(null, viewModel.smearTypeId)
+            assertEquals(null, viewModel.speciesValue)
+            assertNull(viewModel.comments)
         }
     }
 
@@ -114,10 +127,10 @@ class SampleCompletionViewModelTest {
             assertEquals(1500, viewModel.microscopeMagnification)
 
             assertEquals("Tap", viewModel.waterType)
-            assertEquals(true, viewModel.usesGiemsa)
-            assertEquals(true, viewModel.giemsaFP)
-            assertEquals(false, viewModel.usesPbs)
-            assertEquals(false, viewModel.reusesSlides)
+            assertEquals(false, viewModel.usesGiemsa)
+            assertEquals(false, viewModel.giemsaFP)
+            assertEquals(true, viewModel.usesPbs)
+            assertEquals(true, viewModel.reusesSlides)
             assertEquals("Old", viewModel.bloodQuality)
 
             assertEquals(R.id.metadata_blood_smear_thick, viewModel.smearTypeId)
