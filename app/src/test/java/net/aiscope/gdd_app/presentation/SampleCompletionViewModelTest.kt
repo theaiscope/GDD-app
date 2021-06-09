@@ -2,7 +2,6 @@ package net.aiscope.gdd_app.presentation
 
 import android.content.Context
 import com.nhaarman.mockito_kotlin.whenever
-import junit.framework.Assert.assertNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.R
@@ -103,7 +102,7 @@ class SampleCompletionViewModelTest {
 
             assertEquals(null, viewModel.smearTypeId)
             assertEquals(null, viewModel.speciesValue)
-            assertNull(viewModel.comments)
+            assertEquals(null, viewModel.comments)
         }
     }
 
@@ -120,7 +119,7 @@ class SampleCompletionViewModelTest {
             assertEquals("a disease", viewModel.disease)
 
             //Default
-            assertNull(viewModel.comments)
+            assertEquals(null, viewModel.comments)
 
             //Taken from previous
             assertEquals(true, viewModel.microscopeDamaged)
