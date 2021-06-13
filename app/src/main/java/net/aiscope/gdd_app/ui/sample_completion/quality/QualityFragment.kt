@@ -7,7 +7,6 @@ import androidx.fragment.app.activityViewModels
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentQualityBinding
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
-import timber.log.Timber
 
 class QualityFragment : Fragment(R.layout.fragment_quality) {
     companion object {
@@ -18,17 +17,11 @@ class QualityFragment : Fragment(R.layout.fragment_quality) {
     private var _binding: FragmentQualityBinding? = null
     private val binding get() = _binding!!
 
-    //So this should back all 3 fragment 'views'
     private val sharedVM: SampleCompletionViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentQualityBinding.bind(view)
-        Timber.i(
-            "magnification: %s dam: %s",
-            sharedVM.microscopeMagnification,
-            sharedVM.microscopeDamaged
-        )
         with(binding) {
             binding.microscopeQualityDamagedSwitch.isChecked = sharedVM.microscopeDamaged
             binding.microscopeQualityMagnificationInput.setText(sharedVM.microscopeMagnification.toString())

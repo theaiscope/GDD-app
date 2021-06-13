@@ -19,7 +19,6 @@ import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
 
-// Improvement: a test class for this is in order probably
 class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,

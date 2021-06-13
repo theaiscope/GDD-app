@@ -16,7 +16,6 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
-import timber.log.Timber
 
 class MetadataFragment : Fragment(R.layout.fragment_metadata) {
     private var _binding: FragmentMetadataBinding? = null
