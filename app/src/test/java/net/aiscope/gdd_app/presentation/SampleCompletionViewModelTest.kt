@@ -207,6 +207,8 @@ class SampleCompletionViewModelTest {
 
             viewModel.save()
 
+            Thread.sleep(1000)
+
             argumentCaptor<Sample>().apply {
                 verify(remoteStorage).enqueue(capture(), any())
                 assertEquals("last ID", firstValue.id)
