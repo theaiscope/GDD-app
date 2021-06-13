@@ -1,6 +1,9 @@
 package net.aiscope.gdd_app.presentation
 
 import android.content.Context
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
@@ -69,10 +72,17 @@ class SampleCompletionViewModelTest {
                 .thenReturn("- select -")
             whenever(context.getString(R.string.malaria_species_p_falciparum))
                 .thenReturn("P. falciparum")
+            whenever(context.getString(R.string.malaria_species_p_vivax))
+                .thenReturn("P. vivax")
             whenever(context.getString(R.string.water_type_tap))
                 .thenReturn("Tap")
+            whenever(context.getString(R.string.water_type_well))
+                .thenReturn("Well")
             whenever(context.getString(R.string.blood_quality_old))
                 .thenReturn("Old")
+            whenever(context.getString(R.string.blood_quality_fresh))
+                .thenReturn("Fresh")
+
             whenever(repository.current()).thenReturn(sample)
 
             viewModel = SampleCompletionViewModel(repository, remoteStorage, context)
@@ -140,4 +150,73 @@ class SampleCompletionViewModelTest {
         }
     }
 
+    @Test
+    fun `Should store updated sample in repository`() {
+        coroutinesTestRule.runBlockingTest {
+
+            viewModel.bloodQuality = "Old"
+            viewModel.waterType = "Tap"
+            viewModel.smearTypeId = R.id.metadata_blood_smear_thin
+            viewModel.speciesValue = "P. vivax"
+            viewModel.comments = "Random comment"
+            viewModel.usesGiemsa = false
+            viewModel.giemsaFP = true
+            viewModel.microscopeDamaged = true
+            viewModel.microscopeMagnification = 1700
+            viewModel.reusesSlides = true
+            viewModel.usesPbs = false
+            viewModel.disease = "test disease"
+
+            viewModel.save()
+
+            Thread.sleep(1000)
+
+            argumentCaptor<Sample>().apply {
+                verify(repository).store(capture())
+                assertEquals(BloodQuality.OLD, firstValue.preparation?.bloodQuality)
+                assertEquals(WaterType.TAP, firstValue.preparation?.waterType)
+                assertEquals(SmearType.THIN, firstValue.metadata.smearType)
+                assertEquals(MalariaSpecies.P_VIVAX, firstValue.metadata.species)
+                assertEquals("Random comment", firstValue.metadata.comments)
+                assertEquals(false, firstValue.preparation?.usesGiemsa)
+                assertEquals(true, firstValue.preparation?.giemsaFP)
+                assertEquals(true, firstValue.microscopeQuality?.isDamaged)
+                assertEquals(1700, firstValue.microscopeQuality?.magnification)
+                assertEquals(true, firstValue.preparation?.reusesSlides)
+                assertEquals(false, firstValue.preparation?.usesPbs)
+
+                //Disease value does not get written back to sample, so it should be the original value
+                assertEquals("a disease", firstValue.disease)
+
+
+            }
+        }
+    }
+
+    @Test
+    fun `Should upload updated sample to remote storage`() {
+        coroutinesTestRule.runBlockingTest {
+            //So we expect the values returned here to be in the one that gets enqueued
+            whenever(repository.store(any())).thenReturn(lastSample);
+
+            viewModel.bloodQuality = "Fresh"
+            viewModel.waterType = "Well"
+            viewModel.smearTypeId = R.id.metadata_blood_smear_thin
+            viewModel.speciesValue = "P. vivax"
+            viewModel.comments = "Random comment"
+
+            viewModel.save()
+
+            argumentCaptor<Sample>().apply {
+                verify(remoteStorage).enqueue(capture(), any())
+                assertEquals("last ID", firstValue.id)
+                assertEquals(BloodQuality.OLD, firstValue.preparation?.bloodQuality)
+                assertEquals(WaterType.TAP, firstValue.preparation?.waterType)
+                assertEquals(SmearType.THICK, firstValue.metadata.smearType)
+                assertEquals(MalariaSpecies.P_FALCIPARUM, firstValue.metadata.species)
+                assertEquals("Should not show", firstValue.metadata.comments)
+                assertEquals("a facility", firstValue.healthFacility)
+            }
+        }
+    }
 }
