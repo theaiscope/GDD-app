@@ -12,8 +12,7 @@ import net.aiscope.gdd_app.repository.SampleRepository
 
 @Module(subcomponents = [
     (CaptureImageSubComponents::class),
-    (MaskSubComponents::class),
-    (MetadataSubComponents::class)
+    (MaskSubComponents::class)
 ])
 object AppModule {
 

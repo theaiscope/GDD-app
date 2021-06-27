@@ -28,7 +28,7 @@ class MaskPresenter(
                 val sample = repository.current().upsertMask(file, isEmptyMask)
                 repository.store(sample)
 
-                view.goToMetadata()
+                view.goToSampleCompletion()
             }
         }
     }

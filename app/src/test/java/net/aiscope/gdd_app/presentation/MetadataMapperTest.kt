@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.SmearType
-import net.aiscope.gdd_app.ui.metadata.MetadataMapper
+import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

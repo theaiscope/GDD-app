@@ -48,7 +48,7 @@
     <string name="image_could_not_be_taken">Image could not be taken</string>
     <string name="you_cannot_take_a_picture_while_zooming">You can not take a picture while zooming</string>
     <!-- Mask -->
-    <string name="mask_activity_title">Highlight the virus</string>
+    <string name="mask_activity_title">Highlight the parasites</string>
     <string name="button_done_text">Done</string>
     <string name="mask_activity_undo">Undo</string>
     <string name="mask_activity_redo">Redo</string>
@@ -76,6 +76,13 @@
     <string name="metadata_snackbar_success">Sample saved successfully!</string>
     <string name="metadata_snackbar_error">An error occurred while saving your sample. Please try again.</string>
     <string name="metadata_snackbar_retry">TRY AGAIN</string>
+    <!-- Sample completion -->
+    <string name="complete_sample_activity_title">Complete sample data</string>
+    <string name="complete_sample_metadata_tab">Add Data</string>
+    <string name="complete_sample_sampleprep_tab">Sample Prep</string>
+    <string name="complete_sample_quality_tab">Quality</string>
+    <string name="complete_sample_save_sample">Save sample</string>
+
     <!-- Malaria -->
     <string name="malaria_name">Malaria</string>
     <string name="malaria_species_p_falciparum">P. falciparum</string>

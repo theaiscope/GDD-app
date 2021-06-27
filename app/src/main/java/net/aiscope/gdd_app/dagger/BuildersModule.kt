@@ -12,10 +12,8 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.login.LoginActivity
 import net.aiscope.gdd_app.ui.main.MainActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
-import net.aiscope.gdd_app.ui.metadata.MetadataActivity
 import net.aiscope.gdd_app.ui.policy.PrivacyPolicyActivity
-import net.aiscope.gdd_app.ui.microscope_quality.MicroscopeQualityActivity
-import net.aiscope.gdd_app.ui.sample_preparation.SamplePreparationActivity
+import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 
 @Module
 abstract class BuildersModule {
@@ -33,12 +31,8 @@ abstract class BuildersModule {
     abstract fun contributesMainActivityAndroidInjector(): MainActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [SamplePreparationModule::class])
-    abstract fun contributesSamplePreparationActivityAndroidInjector(): SamplePreparationActivity
-
-    @PerActivity
-    @ContributesAndroidInjector(modules = [MicroscopeQualityModule::class])
-    abstract fun contributesMicroscopeQualityActivityAndroidInjector(): MicroscopeQualityActivity
+    @ContributesAndroidInjector(modules = [SampleCompletionModule::class])
+    abstract fun contributesSampleCompletionActivityAndroidInjector(): SampleCompletionActivity
 
     @Binds
     @IntoMap
@@ -50,12 +44,6 @@ abstract class BuildersModule {
     @IntoMap
     @ClassKey(MaskActivity::class)
     abstract fun bindMaskActivityInjectorFactory(factory: MaskSubComponents.Factory):
-            AndroidInjector.Factory<*>
-
-    @Binds
-    @IntoMap
-    @ClassKey(MetadataActivity::class)
-    abstract fun bindMetadataActivityInjectorFactory(factory: MetadataSubComponents.Factory):
             AndroidInjector.Factory<*>
 
     @Binds
