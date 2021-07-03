@@ -40,7 +40,7 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
             val isSampleAgeValid =
                 samplePreparationSampleAgeSpinner.selectedItem.toString() !=
                         getString(R.string.spinner_empty_option)
-            samplePreparationSampleAgeSpinner.isVisible = !isSampleAgeValid
+            samplePreparationSampleAgeError.isVisible = !isSampleAgeValid
 
             return isWaterTypeValid && isSampleAgeValid
         }
