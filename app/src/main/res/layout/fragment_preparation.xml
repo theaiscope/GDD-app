@@ -64,28 +64,28 @@
                 app:layout_constraintTop_toBottomOf="@id/sample_preparation_water_type_spinner" />
 
             <TextView
-                android:id="@+id/sample_preparation_blood_quality_title"
+                android:id="@+id/sample_preparation_sample_age_title"
                 style="@style/TextAppearance.AiScope.TextView.SectionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/sample_preparation_blood_quality_title"
+                android:text="@string/sample_preparation_sample_age_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/sample_preparation_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/sample_preparation_water_type_error" />
 
             <Spinner
-                android:id="@+id/sample_preparation_blood_quality_spinner"
+                android:id="@+id/sample_preparation_sample_age_spinner"
                 android:layout_width="164dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:entries="@array/sample_preparation_blood_quality_types"
+                android:entries="@array/sample_preparation_sample_age_types"
                 app:layout_constraintStart_toStartOf="@id/sample_preparation_left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/sample_preparation_blood_quality_title" />
+                app:layout_constraintTop_toBottomOf="@id/sample_preparation_sample_age_title" />
 
             <TextView
-                android:id="@+id/sample_preparation_blood_quality_error"
+                android:id="@+id/sample_preparation_sample_age_error"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/mandatory_field_error"
@@ -93,7 +93,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/sample_preparation_right_guideline"
                 app:layout_constraintStart_toStartOf="@+id/sample_preparation_left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/sample_preparation_blood_quality_spinner" />
+                app:layout_constraintTop_toBottomOf="@id/sample_preparation_sample_age_spinner" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/sample_preparation_giemsa_switch"
@@ -102,7 +102,7 @@
                 android:text="@string/sample_preparation_giemsa_title"
                 app:layout_constraintEnd_toEndOf="@+id/sample_preparation_right_guideline"
                 app:layout_constraintStart_toStartOf="@+id/sample_preparation_left_guideline"
-                app:layout_constraintTop_toBottomOf="@id/sample_preparation_blood_quality_error" />
+                app:layout_constraintTop_toBottomOf="@id/sample_preparation_sample_age_error" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/sample_preparation_giemsa_fp_switch"

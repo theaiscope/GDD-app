@@ -22,7 +22,7 @@
     <!-- SamplePreparation -->
     <string name="sample_preparation_activity_title">Sample preparation</string>
     <string name="sample_preparation_water_type_title">Water</string>
-    <string name="sample_preparation_blood_quality_title">Blood Quality</string>
+    <string name="sample_preparation_sample_age_title">Sample age</string>
     <string name="sample_preparation_giemsa_title">Uses Giemsa</string>
     <string name="sample_preparation_giemsa_fp_title">Giemsa filtering or precipitating</string>
     <string name="sample_preparation_pbs_title">Uses PBS</string>
@@ -34,8 +34,8 @@
     <string name="water_type_distilled">Distilled</string>
     <string name="water_type_tap">Tap</string>
     <string name="water_type_well">Well</string>
-    <string name="blood_quality_old">Old</string>
-    <string name="blood_quality_fresh">Fresh</string>
+    <string name="sample_age_old">Old</string>
+    <string name="sample_age_fresh">Fresh</string>
     <!-- MicroscopeQuality -->
     <string name="microscope_quality_activity_title">Microscope quality</string>
     <string name="microscope_quality_damaged_title">Microscope damaged/malfunctioning</string>

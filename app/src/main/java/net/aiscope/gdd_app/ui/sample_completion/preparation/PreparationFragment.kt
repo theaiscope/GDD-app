@@ -21,7 +21,7 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
         with(binding) {
             with(sharedVM) {
                 samplePreparationWaterTypeSpinner.select(waterType)
-                samplePreparationBloodQualitySpinner.select(bloodQuality)
+                samplePreparationSampleAgeSpinner.select(sampleAge)
                 samplePreparationGiemsaSwitch.isChecked = usesGiemsa
                 samplePreparationGiemsaFpSwitch.isChecked = giemsaFP
                 samplePreparationPbsSwitch.isChecked = usesPbs
@@ -37,12 +37,12 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
                         getString(R.string.spinner_empty_option)
             samplePreparationWaterTypeError.isVisible = !isWaterTypeValid
 
-            val isBloodQualityValid =
-                samplePreparationBloodQualitySpinner.selectedItem.toString() !=
+            val isSampleAgeValid =
+                samplePreparationSampleAgeSpinner.selectedItem.toString() !=
                         getString(R.string.spinner_empty_option)
-            samplePreparationBloodQualityError.isVisible = !isBloodQualityValid
+            samplePreparationSampleAgeSpinner.isVisible = !isSampleAgeValid
 
-            return isWaterTypeValid && isBloodQualityValid
+            return isWaterTypeValid && isSampleAgeValid
         }
     }
 
@@ -54,7 +54,7 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
                 sharedVM.giemsaFP = samplePreparationGiemsaFpSwitch.isChecked
                 sharedVM.usesPbs = samplePreparationPbsSwitch.isChecked
                 sharedVM.reusesSlides = samplePreparationSlidesReuseSwitch.isChecked
-                sharedVM.bloodQuality = samplePreparationBloodQualitySpinner.selectedItem.toString()
+                sharedVM.sampleAge = samplePreparationSampleAgeSpinner.selectedItem.toString()
             }
             true
         } else {

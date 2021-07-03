@@ -1,6 +1,6 @@
 package net.aiscope.gdd_app.network
 
-import net.aiscope.gdd_app.model.BloodQuality
+import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
@@ -39,7 +39,7 @@ class SampleDtoTest {
         private val species = MalariaSpecies.P_FALCIPARUM
         private val status = SampleStatus.ReadyToUpload
         private val waterType = WaterType.BOTTLED
-        private val bloodQuality = BloodQuality.OLD
+        private val sampleAge = SampleAge.OLD
 
         val metadata = SampleMetadata(smearType, species, COMMENTS)
         val microscopeQuality = MicroscopeQuality(IS_DAMAGED, MAGNIFICATION)
@@ -49,7 +49,7 @@ class SampleDtoTest {
             giemsaFP = GIEMSA_FP,
             usesPbs = USES_PBS,
             reusesSlides = REUSES_SLIDES,
-            bloodQuality = bloodQuality
+            sampleAge = sampleAge
         )
 
         val sample = Sample(
@@ -92,7 +92,7 @@ class SampleDtoTest {
         assertEquals(samplePreparation.giemsaFP, samplePreparationDTO.giemsaFP)
         assertEquals(samplePreparation.usesPbs, samplePreparationDTO.usesPbs)
         assertEquals(samplePreparation.reusesSlides, samplePreparationDTO.reusesSlides)
-        assertEquals(samplePreparation.bloodQuality.id, samplePreparationDTO.bloodQuality)
+        assertEquals(samplePreparation.sampleAge.id, samplePreparationDTO.sampleAge)
     }
 
     @Test

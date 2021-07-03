@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.model.BloodQuality
+import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
@@ -42,7 +42,7 @@ class SampleCompletionViewModel @Inject constructor(
     var giemsaFP: Boolean = true
     var usesPbs: Boolean = true
     var reusesSlides: Boolean = false
-    var bloodQuality: String = context.getString(R.string.spinner_empty_option)
+    var sampleAge: String = context.getString(R.string.spinner_empty_option)
 
     //Fields for the microscope tab
     var microscopeDamaged: Boolean = false
@@ -88,7 +88,7 @@ class SampleCompletionViewModel @Inject constructor(
                 giemsaFP = it.giemsaFP
                 usesPbs = it.usesPbs
                 reusesSlides = it.reusesSlides
-                bloodQuality = getBloodQualityValue(it.bloodQuality)
+                sampleAge = getSampleAgeValue(it.sampleAge)
             }
         }
     }
@@ -103,7 +103,7 @@ class SampleCompletionViewModel @Inject constructor(
                 giemsaFP,
                 usesPbs,
                 reusesSlides,
-                getBloodQuality(bloodQuality)
+                getSampleAge(sampleAge)
             )
 
             val newMeta = SampleMetadata(
@@ -147,18 +147,18 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
-    private fun getBloodQuality(bloodQualityValue: String): BloodQuality {
-        return when (bloodQualityValue) {
-            context.getString(R.string.blood_quality_fresh) -> BloodQuality.FRESH
-            context.getString(R.string.blood_quality_old) -> BloodQuality.OLD
-            else -> throw IllegalStateException("$bloodQualityValue blood type is unknown")
+    private fun getSampleAge(sampleAgeValue: String): SampleAge {
+        return when (sampleAgeValue) {
+            context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
+            context.getString(R.string.sample_age_old) -> SampleAge.OLD
+            else -> throw IllegalStateException("$sampleAgeValue blood type is unknown")
         }
     }
 
-    private fun getBloodQualityValue(bloodQuality: BloodQuality?): String {
-        return when (bloodQuality) {
-            BloodQuality.FRESH -> context.getString(R.string.blood_quality_fresh)
-            BloodQuality.OLD -> context.getString(R.string.blood_quality_old)
+    private fun getSampleAgeValue(sampleAge: SampleAge?): String {
+        return when (sampleAge) {
+            SampleAge.FRESH -> context.getString(R.string.sample_age_fresh)
+            SampleAge.OLD -> context.getString(R.string.sample_age_old)
             null -> ""
         }
     }
