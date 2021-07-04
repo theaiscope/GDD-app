@@ -151,7 +151,7 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAgeValue) {
             context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
             context.getString(R.string.sample_age_old) -> SampleAge.OLD
-            else -> throw IllegalStateException("$sampleAgeValue blood type is unknown")
+            else -> throw IllegalStateException("$sampleAgeValue sample age is unknown")
         }
     }
 
