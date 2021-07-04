@@ -77,5 +77,4 @@ class MetadataMapperTest {
             MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_KNOWLESI)
         )
     }
-
 }
