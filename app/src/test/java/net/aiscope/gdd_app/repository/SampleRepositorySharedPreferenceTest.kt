@@ -35,7 +35,8 @@ class SampleRepositorySharedPreferenceTest {
         private const val DISEASE = "malaria"
 
         private val sampleOnlyRequired = Sample(ID, HOSPITAL_ID, MICROSCOPIST, DISEASE)
-        private const val sampleOnlyRequiredJson = """{"id":"1111","healthFacility":"H_St_Pau","status":"Incomplete","disease":"malaria"""
+        private const val sampleOnlyRequiredJson =
+            """{"id":"1111","healthFacility":"H_St_Pau","status":"Incomplete","disease":"malaria"""
     }
 
     @get:Rule
@@ -58,9 +59,17 @@ class SampleRepositorySharedPreferenceTest {
 
     @Before
     fun before() = coroutinesTestRule.runBlockingTest {
-        whenever(healthFacilityRepository.load()).thenReturn(HealthFacility(HOSPITAL_NAME, HOSPITAL_ID, MICROSCOPIST))
+        whenever(healthFacilityRepository.load()).thenReturn(
+            HealthFacility(
+                HOSPITAL_NAME,
+                HOSPITAL_ID,
+                MICROSCOPIST
+            )
+        )
         whenever(gson.toJson(any<SampleDto>())).thenReturn(sampleOnlyRequiredJson)
-        whenever(gson.fromJson<SampleDto>(eq(sampleOnlyRequiredJson), any<Type>())).thenReturn(sampleOnlyRequired.toDto())
+        whenever(gson.fromJson<SampleDto>(eq(sampleOnlyRequiredJson), any<Type>())).thenReturn(
+            sampleOnlyRequired.toDto()
+        )
     }
 
     @Test
@@ -111,26 +120,28 @@ class SampleRepositorySharedPreferenceTest {
     }
 
     @Test
-    fun `after creating a new sample it should be one returned when current`() = coroutinesTestRule.runBlockingTest {
-        val uuid = "d9255e5d-5c68-4245-b7c9-da0964116cce"
+    fun `after creating a new sample it should be one returned when current`() =
+        coroutinesTestRule.runBlockingTest {
+            val uuid = "d9255e5d-5c68-4245-b7c9-da0964116cce"
 
-        whenever(uuidGenerator.generateUUID()).thenReturn(uuid)
+            whenever(uuidGenerator.generateUUID()).thenReturn(uuid)
 
-        subject.create(DISEASE)
-        val sample = subject.current()
+            subject.create(DISEASE)
+            val sample = subject.current()
 
-        assertEquals(sample.id, uuid)
-    }
+            assertEquals(sample.id, uuid)
+        }
 
     @Test
-    fun `after loading a new sample it should be one returned when current`() = coroutinesTestRule.runBlockingTest {
-        whenever(store.load(ID)).thenReturn(sampleOnlyRequiredJson)
+    fun `after loading a new sample it should be one returned when current`() =
+        coroutinesTestRule.runBlockingTest {
+            whenever(store.load(ID)).thenReturn(sampleOnlyRequiredJson)
 
-        subject.load(ID)
-        val sample = subject.current()
+            subject.load(ID)
+            val sample = subject.current()
 
-        assertEquals(sampleOnlyRequired, sample)
-    }
+            assertEquals(sampleOnlyRequired, sample)
+        }
 
     @Test
     fun `should give all the samples`() {
@@ -146,10 +157,20 @@ class SampleRepositorySharedPreferenceTest {
         val today = Calendar.getInstance()
         val yesterday = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, -1) }
 
-        val (todaySample, todaySampleJson) = mockSampleAndJson("1112", today, SampleStatus.ReadyToUpload)
+        val (todaySample, todaySampleJson) = mockSampleAndJson(
+            "1112",
+            today,
+            SampleStatus.ReadyToUpload
+        )
         val (_, yesterdaySampleJson) = mockSampleAndJson("1113", yesterday, SampleStatus.Incomplete)
 
-        whenever(store.all()).thenReturn(listOf(sampleOnlyRequiredJson, todaySampleJson, yesterdaySampleJson))
+        whenever(store.all()).thenReturn(
+            listOf(
+                sampleOnlyRequiredJson,
+                todaySampleJson,
+                yesterdaySampleJson
+            )
+        )
 
         val sample = subject.lastSaved()
 
@@ -163,19 +184,35 @@ class SampleRepositorySharedPreferenceTest {
         val twoDays = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, -2) }
 
         val (_, todaySampleJson) = mockSampleAndJson("1112", today, SampleStatus.ReadyToUpload)
-        val (yesterdaySample, yesterdaySampleJson) = mockSampleAndJson("1113", yesterday, SampleStatus.Incomplete)
+        val (yesterdaySample, yesterdaySampleJson) = mockSampleAndJson(
+            "1113",
+            yesterday,
+            SampleStatus.Incomplete
+        )
         val (_, twoDaysSampleJson) = mockSampleAndJson("1114", twoDays, SampleStatus.Incomplete)
 
-        whenever(store.all()).thenReturn(listOf(todaySampleJson, yesterdaySampleJson, twoDaysSampleJson))
+        whenever(store.all()).thenReturn(
+            listOf(
+                todaySampleJson,
+                yesterdaySampleJson,
+                twoDaysSampleJson
+            )
+        )
 
         val sample = subject.current()
 
         assertEquals(yesterdaySample, sample)
     }
 
-    private fun mockSampleAndJson(id: String, date: Calendar, status: SampleStatus): Pair<Sample, String> {
-        val sample = Sample(id, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = status, createdOn = date)
-        val sampleJson = """{"id":"$id","healthFacility":"H_St_Pau","status":"$status","createdOn":"$date"}"""
+    private fun mockSampleAndJson(
+        id: String,
+        date: Calendar,
+        status: SampleStatus
+    ): Pair<Sample, String> {
+        val sample =
+            Sample(id, HOSPITAL_ID, MICROSCOPIST, DISEASE, status = status, createdOn = date)
+        val sampleJson =
+            """{"id":"$id","healthFacility":"H_St_Pau","status":"$status","createdOn":"$date"}"""
         whenever(gson.fromJson<SampleDto>(eq(sampleJson), any<Type>())).thenReturn(sample.toDto())
 
         return sample to sampleJson
