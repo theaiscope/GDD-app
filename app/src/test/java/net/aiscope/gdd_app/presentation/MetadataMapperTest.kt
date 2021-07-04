@@ -41,13 +41,19 @@ class MetadataMapperTest {
 
     @Test
     fun shouldReturnSmearTypeId() {
-        assertEquals(R.id.metadata_blood_smear_thick, MetadataMapper.getSmearTypeId(SmearType.THICK))
+        assertEquals(
+            R.id.metadata_blood_smear_thick,
+            MetadataMapper.getSmearTypeId(SmearType.THICK)
+        )
         assertEquals(R.id.metadata_blood_smear_thin, MetadataMapper.getSmearTypeId(SmearType.THIN))
     }
 
     @Test
     fun shouldReturnSpecies() {
-        assertEquals(MalariaSpecies.P_FALCIPARUM, MetadataMapper.getSpecies(context, "P. falciparum"))
+        assertEquals(
+            MalariaSpecies.P_FALCIPARUM,
+            MetadataMapper.getSpecies(context, "P. falciparum")
+        )
         assertEquals(MalariaSpecies.P_VIVAX, MetadataMapper.getSpecies(context, "P. vivax"))
         assertEquals(MalariaSpecies.P_OVALE, MetadataMapper.getSpecies(context, "P. ovale"))
         assertEquals(MalariaSpecies.P_MALARIAE, MetadataMapper.getSpecies(context, "P. malariae"))
@@ -56,11 +62,19 @@ class MetadataMapperTest {
 
     @Test
     fun shouldReturnSpeciesValue() {
-        assertEquals("P. falciparum", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_FALCIPARUM))
+        assertEquals(
+            "P. falciparum",
+            MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_FALCIPARUM)
+        )
         assertEquals("P. vivax", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_VIVAX))
         assertEquals("P. ovale", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_OVALE))
-        assertEquals("P. malariae", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_MALARIAE))
-        assertEquals("P. knowlesi", MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_KNOWLESI))
+        assertEquals(
+            "P. malariae",
+            MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_MALARIAE)
+        )
+        assertEquals(
+            "P. knowlesi",
+            MetadataMapper.getSpeciesValue(context, MalariaSpecies.P_KNOWLESI)
+        )
     }
-
 }
