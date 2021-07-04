@@ -8,7 +8,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import net.aiscope.gdd_app.CoroutineTestRule
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.model.BloodQuality
+import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.MalariaSpecies
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
@@ -41,7 +41,7 @@ class SampleCompletionViewModelTest {
                 giemsaFP = false,
                 usesPbs = true,
                 reusesSlides = true,
-                bloodQuality = BloodQuality.OLD
+                sampleAge = SampleAge.OLD
             ),
             metadata = SampleMetadata(
                 smearType = SmearType.THICK,
@@ -78,9 +78,9 @@ class SampleCompletionViewModelTest {
                 .thenReturn("Tap")
             whenever(context.getString(R.string.water_type_well))
                 .thenReturn("Well")
-            whenever(context.getString(R.string.blood_quality_old))
+            whenever(context.getString(R.string.sample_age_old))
                 .thenReturn("Old")
-            whenever(context.getString(R.string.blood_quality_fresh))
+            whenever(context.getString(R.string.sample_age_fresh))
                 .thenReturn("Fresh")
 
             whenever(repository.current()).thenReturn(sample)
@@ -108,7 +108,7 @@ class SampleCompletionViewModelTest {
             assertEquals(true, viewModel.giemsaFP)
             assertEquals(true, viewModel.usesPbs)
             assertEquals(false, viewModel.reusesSlides)
-            assertEquals("- select -", viewModel.bloodQuality)
+            assertEquals("- select -", viewModel.sampleAge)
 
             assertEquals(null, viewModel.smearTypeId)
             assertEquals(null, viewModel.speciesValue)
@@ -140,7 +140,7 @@ class SampleCompletionViewModelTest {
             assertEquals(false, viewModel.giemsaFP)
             assertEquals(true, viewModel.usesPbs)
             assertEquals(true, viewModel.reusesSlides)
-            assertEquals("Old", viewModel.bloodQuality)
+            assertEquals("Old", viewModel.sampleAge)
 
             assertEquals(R.id.metadata_blood_smear_thick, viewModel.smearTypeId)
             assertEquals("P. falciparum", viewModel.speciesValue)
@@ -154,7 +154,7 @@ class SampleCompletionViewModelTest {
     fun `Should store updated sample in repository`() {
         coroutinesTestRule.runBlockingTest {
 
-            viewModel.bloodQuality = "Old"
+            viewModel.sampleAge = "Old"
             viewModel.waterType = "Tap"
             viewModel.smearTypeId = R.id.metadata_blood_smear_thin
             viewModel.speciesValue = "P. vivax"
@@ -173,7 +173,7 @@ class SampleCompletionViewModelTest {
 
             argumentCaptor<Sample>().apply {
                 verify(repository).store(capture())
-                assertEquals(BloodQuality.OLD, firstValue.preparation?.bloodQuality)
+                assertEquals(SampleAge.OLD, firstValue.preparation?.sampleAge)
                 assertEquals(WaterType.TAP, firstValue.preparation?.waterType)
                 assertEquals(SmearType.THIN, firstValue.metadata.smearType)
                 assertEquals(MalariaSpecies.P_VIVAX, firstValue.metadata.species)
@@ -199,7 +199,7 @@ class SampleCompletionViewModelTest {
             //So we expect the values returned here to be in the one that gets enqueued
             whenever(repository.store(any())).thenReturn(lastSample);
 
-            viewModel.bloodQuality = "Fresh"
+            viewModel.sampleAge = "Fresh"
             viewModel.waterType = "Well"
             viewModel.smearTypeId = R.id.metadata_blood_smear_thin
             viewModel.speciesValue = "P. vivax"
@@ -212,7 +212,7 @@ class SampleCompletionViewModelTest {
             argumentCaptor<Sample>().apply {
                 verify(remoteStorage).enqueue(capture(), any())
                 assertEquals("last ID", firstValue.id)
-                assertEquals(BloodQuality.OLD, firstValue.preparation?.bloodQuality)
+                assertEquals(SampleAge.OLD, firstValue.preparation?.sampleAge)
                 assertEquals(WaterType.TAP, firstValue.preparation?.waterType)
                 assertEquals(SmearType.THICK, firstValue.metadata.smearType)
                 assertEquals(MalariaSpecies.P_FALCIPARUM, firstValue.metadata.species)

@@ -31,7 +31,7 @@ data class SamplePreparationDto(
     @SerializedName("giemsaFP") val giemsaFP: Boolean,
     @SerializedName("usesPbs") val usesPbs: Boolean,
     @SerializedName("reusesSlides") val reusesSlides: Boolean,
-    @SerializedName("bloodQuality") val bloodQuality: String,
+    @SerializedName("sampleAge") val sampleAge: String,
 )
 
 data class MicroscopeQualityDto(
@@ -65,7 +65,7 @@ fun SamplePreparation.toDto() = SamplePreparationDto(
     giemsaFP,
     usesPbs,
     reusesSlides,
-    bloodQuality.id
+    sampleAge.id
 )
 
 fun MicroscopeQuality.toDto() = MicroscopeQualityDto(

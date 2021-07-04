@@ -27,7 +27,7 @@ class SampleTest {
         private const val GIEMSA_FP = true
         private const val USES_PBS = true
         private const val REUSES_SLIDES = true
-        private val BLOOD_QUALITY = BloodQuality.FRESH
+        private val SAMPLE_AGE = SampleAge.FRESH
 
         private const val IS_DAMAGED = true
         private const val MAGNIFICATION = 1240
@@ -41,7 +41,7 @@ class SampleTest {
             GIEMSA_FP,
             USES_PBS,
             REUSES_SLIDES,
-            BLOOD_QUALITY,
+            SAMPLE_AGE,
         )
         val microscopeQuality = MicroscopeQuality(IS_DAMAGED, MAGNIFICATION)
         val sample = Sample(
@@ -62,7 +62,7 @@ class SampleTest {
             GIEMSA_FP,
             USES_PBS,
             REUSES_SLIDES,
-            BLOOD_QUALITY.id
+            SAMPLE_AGE.id
         )
 
         val expectedMicroscopeQualityDto = MicroscopeQualityDto(IS_DAMAGED, MAGNIFICATION)

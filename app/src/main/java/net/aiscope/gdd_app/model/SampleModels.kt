@@ -38,7 +38,7 @@ data class SamplePreparation(
     val giemsaFP: Boolean,
     val usesPbs: Boolean,
     val reusesSlides: Boolean,
-    val bloodQuality: BloodQuality
+    val sampleAge: SampleAge
 )
 
 @Suppress("MagicNumber") // these are IDs
@@ -49,7 +49,7 @@ enum class WaterType(val id: Int) {
     WELL(4)
 }
 
-enum class BloodQuality(val id: String) {
+enum class SampleAge(val id: String) {
     FRESH("fresh"),
     OLD("old")
 }

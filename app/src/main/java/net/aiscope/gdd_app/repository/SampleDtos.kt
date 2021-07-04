@@ -1,7 +1,7 @@
 package net.aiscope.gdd_app.repository
 
 import com.google.gson.annotations.SerializedName
-import net.aiscope.gdd_app.model.BloodQuality
+import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.Captures
 import net.aiscope.gdd_app.model.InProgressCapture
@@ -69,7 +69,7 @@ data class SamplePreparationDto(
     @SerializedName("giemsaFP") val giemsaFP: Boolean,
     @SerializedName("usesPbs") val usesPbs: Boolean,
     @SerializedName("reusesSlides") val reusesSlides: Boolean,
-    @SerializedName("bloodQuality") val bloodQuality: String
+    @SerializedName("sampleAge") val sampleAge: String
 ) {
     fun toDomain() = SamplePreparation(
         WaterType.values().first { it.id == waterType },
@@ -77,7 +77,7 @@ data class SamplePreparationDto(
         giemsaFP,
         usesPbs,
         reusesSlides,
-        BloodQuality.values().first { it.id == bloodQuality }
+        SampleAge.values().first { it.id == sampleAge }
     )
 }
 
@@ -127,7 +127,7 @@ fun SamplePreparation.toDto() = SamplePreparationDto(
     giemsaFP,
     usesPbs,
     reusesSlides,
-    bloodQuality.id,
+    sampleAge.id,
 )
 
 fun MicroscopeQuality.toDto() = MicroscopeQualityDto(

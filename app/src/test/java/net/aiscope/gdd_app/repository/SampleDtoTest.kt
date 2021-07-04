@@ -1,7 +1,7 @@
 package net.aiscope.gdd_app.repository
 
 import com.nitorcreations.Matchers.containsElements
-import net.aiscope.gdd_app.model.BloodQuality
+import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.Captures
 import net.aiscope.gdd_app.model.InProgressCapture
@@ -95,7 +95,7 @@ class SampleDtoTest {
         private val species = MalariaSpecies.P_FALCIPARUM
         private val status = SampleStatus.ReadyToUpload
         private val waterType = WaterType.BOTTLED
-        private val bloodQuality = BloodQuality.FRESH
+        private val sampleAge = SampleAge.FRESH
 
         private val metadata = SampleMetadata(smearType, species, COMMENTS)
         private val microscopeQuality = MicroscopeQuality(IS_DAMAGED, MAGNIFICATION)
@@ -105,7 +105,7 @@ class SampleDtoTest {
             GIEMSA_FP,
             USES_PBS,
             REUSES_SLIDES,
-            bloodQuality,
+            sampleAge,
         )
 
         private val sample = Sample(
@@ -128,7 +128,7 @@ class SampleDtoTest {
             giemsaFP = GIEMSA_FP,
             usesPbs = USES_PBS,
             reusesSlides = REUSES_SLIDES,
-            bloodQuality = bloodQuality.id,
+            sampleAge = sampleAge.id,
         )
 
         private val microscopeQualityDto = MicroscopeQualityDto(
