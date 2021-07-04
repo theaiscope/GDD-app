@@ -16,12 +16,12 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.novoda:gradle-build-properties-plugin:0.4.1'
         classpath 'com.google.gms:google-services:4.3.5'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
     }
 }
 
 plugins {
-    id 'com.github.ben-manes.versions' version '0.38.0'
+    id 'com.github.ben-manes.versions' version '0.39.0'
     id "io.gitlab.arturbosch.detekt" version "1.17.1"
     //TODO: update to 0.5.0 when available and delete jcenter()
     id "scabbard.gradle" version "0.4.0"
