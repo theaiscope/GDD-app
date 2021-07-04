@@ -93,6 +93,7 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
+    //So can we split this into save and upload methods??
     fun save() {
         //Improvement: inject dispatchers here
         viewModelScope.launch(Dispatchers.IO) {
