@@ -115,7 +115,7 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
 
     androidTestImplementation 'com.github.fabioCollini.daggermock:daggermock:0.8.5'
     androidTestImplementation 'com.github.fabioCollini.daggermock:daggermock-kotlin:0.8.5'
