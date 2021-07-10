@@ -26,6 +26,7 @@ import javax.inject.Inject
 
 class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private lateinit var binding: ActivityCompleteSampleBinding
+    private lateinit var viewPager: ViewPager2
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -130,14 +131,8 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
     }
 
-    //Improvement: Pretty hacky retrieval of fragments based on the
-    //Internals of FragmentPagerAdapter
-    private fun ActivityCompleteSampleBinding.findFragment(index: Int) =
-        supportFragmentManager.findFragmentByTag(makeFragmentName(viewPager.id, index))
-
-    private fun makeFragmentName(viewId: Int, id: Int): String? {
-        return "android:switcher:$viewId:$id"
-    }
+    private fun findFragment(index: Int) =
+        supportFragmentManager.findFragmentByTag("f$index")
 
     private fun showRetryBar() {
         CustomSnackbar.make(
