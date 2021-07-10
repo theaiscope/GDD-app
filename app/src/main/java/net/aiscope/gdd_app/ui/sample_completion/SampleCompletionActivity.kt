@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.android.AndroidInjection
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
@@ -40,16 +42,21 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             setSupportActionBar(toolbarLayout.toolbar)
             attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
-            tabLayout.addTab(tabLayout.newTab().setText(R.string.complete_sample_metadata_tab))
-            tabLayout.addTab(tabLayout.newTab().setText(R.string.complete_sample_sampleprep_tab))
-            tabLayout.addTab(tabLayout.newTab().setText(R.string.complete_sample_quality_tab))
             tabLayout.tabGravity = TabLayout.GRAVITY_FILL
-            val adapter = FragmentAdapter(
-                this@SampleCompletionActivity, supportFragmentManager,
-                tabLayout.tabCount
+
+            viewPager.adapter = FragmentAdapter(
+                this@SampleCompletionActivity
             )
-            viewPager.adapter = adapter
-            viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = when (position) {
+                    0 -> {getString(R.string.complete_sample_metadata_tab)}
+                    1 -> {getString(R.string.complete_sample_sampleprep_tab)}
+                    2 -> {getString(R.string.complete_sample_quality_tab)}
+                    else -> {getString(R.string.complete_sample_metadata_tab)}
+                }
+            }.attach()
+
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     viewPager.currentItem = tab.position
