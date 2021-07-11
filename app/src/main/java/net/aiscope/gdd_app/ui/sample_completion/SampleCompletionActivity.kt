@@ -26,7 +26,6 @@ import javax.inject.Inject
 
 class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private lateinit var binding: ActivityCompleteSampleBinding
-    private lateinit var viewPager: ViewPager2
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
