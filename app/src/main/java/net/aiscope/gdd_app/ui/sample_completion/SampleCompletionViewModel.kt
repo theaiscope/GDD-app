@@ -63,6 +63,8 @@ class SampleCompletionViewModel @Inject constructor(
         //Improvement: inject dispatchers here
         viewModelScope.launch(Dispatchers.IO) {
 
+            //FIXME: so potentially there is already a bunch of stuff set on the
+            //current?
             val sample = repository.current()
             disease = sample.disease
             captures = sample.captures.completedCaptures
@@ -93,39 +95,50 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
-    //So can we split this into save and upload methods??
     fun save() {
         //Improvement: inject dispatchers here
         viewModelScope.launch(Dispatchers.IO) {
-            val newQualityValues = MicroscopeQuality(microscopeDamaged, microscopeMagnification)
-            val newPreparation = SamplePreparation(
-                getWaterType(waterType),
-                usesGiemsa,
-                giemsaFP,
-                usesPbs,
-                reusesSlides,
-                getSampleAge(sampleAge)
-            )
-
-            val newMeta = SampleMetadata(
-                // Improvement: move these methods out of MDMapper?
-                // Or do the opposite and move it all into mappers?
-                smearType = MetadataMapper.getSmearType(smearTypeId),
-                species = MetadataMapper.getSpecies(context, speciesValue),
-                comments = comments ?: ""
-            )
-
-            val updatedSample = repository.current().copy(
-                microscopeQuality = newQualityValues,
-                preparation = newPreparation,
-                metadata = newMeta,
-                status = SampleStatus.ReadyToUpload
-            )
+            val updatedSample = updateCurrent()
             val storedSample = repository.store(updatedSample)
 
             //Put it in line for uploading to firebase
             remoteStorage.enqueue(storedSample, context)
         }
+    }
+
+    //Only store sample in the local repository
+    fun store() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val updatedSample = updateCurrent()
+            repository.store(updatedSample)
+        }
+    }
+
+    private suspend fun updateCurrent(): Sample {
+        val newQualityValues = MicroscopeQuality(microscopeDamaged, microscopeMagnification)
+        val newPreparation = SamplePreparation(
+            getWaterType(waterType),
+            usesGiemsa,
+            giemsaFP,
+            usesPbs,
+            reusesSlides,
+            getSampleAge(sampleAge)
+        )
+
+        val newMeta = SampleMetadata(
+            // Improvement: move these methods out of MDMapper?
+            // Or do the opposite and move it all into mappers?
+            smearType = MetadataMapper.getSmearType(smearTypeId),
+            species = MetadataMapper.getSpecies(context, speciesValue),
+            comments = comments ?: ""
+        )
+
+        return repository.current().copy(
+            microscopeQuality = newQualityValues,
+            preparation = newPreparation,
+            metadata = newMeta,
+            status = SampleStatus.ReadyToUpload
+        )
     }
 
     private fun getWaterType(waterTypeValue: String): WaterType {

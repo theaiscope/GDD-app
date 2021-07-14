@@ -60,7 +60,9 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
     }
 
     private fun onAddImageClicked() {
-        //This loses any changes in the VM
+        validateAndUpdateVM()
+        sharedVM.store()
+
         lifecycleScope.launch {
             val intent = Intent(context, CaptureImageActivity::class.java)
             intent.putExtra(
@@ -72,8 +74,8 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
     }
 
     private fun onImageClicked(capture: CompletedCapture) {
-        //Make sure to save any data entered
-        //So here we want to save onto the model but NOT upload to firebase...
+        validateAndUpdateVM()
+        sharedVM.store()
 
         lifecycleScope.launch {
             val intent = Intent(context, MaskActivity::class.java)
