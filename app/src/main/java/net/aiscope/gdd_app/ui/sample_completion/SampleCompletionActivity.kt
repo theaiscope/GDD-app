@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -71,6 +70,10 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                     viewPager.currentItem = tab.position
                 }
             })
+            if(!sharedVM.hasUserSubmitSampleFirstTime())
+            {
+                completionSaveSample.setText(R.string.complete_sample_first_time_action_label)
+            }
 
             completionSaveSample.setOnClickListener { save() }
 

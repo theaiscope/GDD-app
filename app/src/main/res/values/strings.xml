@@ -82,6 +82,7 @@
     <string name="complete_sample_sampleprep_tab">Sample Prep</string>
     <string name="complete_sample_quality_tab">Quality</string>
     <string name="complete_sample_save_sample">Save sample</string>
+    <string name="complete_sample_first_time_action_label">Continue</string>
 
     <!-- Malaria -->
     <string name="malaria_name">Malaria</string>
