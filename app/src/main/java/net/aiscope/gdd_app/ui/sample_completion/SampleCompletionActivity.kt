@@ -38,6 +38,9 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
+        //Initialize the shared viewmodel for the tabs
+        sharedVM.initVM()
+
         binding = ActivityCompleteSampleBinding.inflate(layoutInflater)
         with(binding) {
             setContentView(root)
@@ -47,9 +50,8 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             // Changes Form's UI/behavior based on whether user has already been trained in using
             // the form or not. Currently training is considered to be true when user has
             // successfully submitted the form at-least once
-
             val submitFormTrainingBehaviour =
-                SampleFormTrainingBehaviourFactory.getSampleFormTrainingBehaviour(
+                pickBehaviour(
                     sharedVM.hasUserSubmitSampleFirstTime()
                 )
 
@@ -92,14 +94,10 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 )
             }
         }
-
-        //Initialize the shared viewmodel for the tabs
-        sharedVM.initVM()
     }
 
     // The int indicates which tab has errors so we can switch to that one
     fun validateTabsAndUpdateVM(): Int? {
-        with(binding) {
             val metadataFragment: MetadataFragment? =
                 findFragment(0) as? MetadataFragment
             val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
@@ -122,8 +120,8 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 erroneousTab = 2
             }
             return erroneousTab
-        }
     }
+
     fun getCurrentTab(): Int
     {
         with(binding) {
@@ -134,10 +132,21 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     fun saveToVM() {
             try {
                 sharedVM.save()
-                finishFlow()
+                goToHomeAndConfirmSaved()
             } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
                 Timber.e(error, "An error occurred when saving sample completion data")
-                showRetryBar()
+                //showRetryBar()
+                // Fn Moved here to temporary fix TooManyFunctions ¯\_(ツ)_/¯
+                CustomSnackbar.make(
+                    findViewById(android.R.id.content),
+                    getString(R.string.microscope_quality_snackbar_error),
+                    Snackbar.LENGTH_INDEFINITE, null,
+                    CustomSnackbarAction(
+                        getString(R.string.microscope_quality_snackbar_retry)
+                    ) {
+                        sharedVM.save()
+                    }
+                ).show()
             }
     }
 
@@ -147,6 +156,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             tab?.select()
         }
     }
+
     fun isCurrentTabLastStep(): Boolean {
         with(binding) {
             return (getCurrentTab() == tabLayout.tabCount-1)
@@ -159,33 +169,17 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             completionSaveSample.setText(txt)
         }
     }
+
     fun findFragment(index: Int) =
         supportFragmentManager.findFragmentByTag("f$index")
-
-    private fun showRetryBar() {
-        CustomSnackbar.make(
-            findViewById(android.R.id.content),
-            getString(R.string.microscope_quality_snackbar_error),
-            Snackbar.LENGTH_INDEFINITE, null,
-            CustomSnackbarAction(
-                getString(R.string.microscope_quality_snackbar_retry)
-            ) {
-                sharedVM.save()
-            }
-        ).show()
-    }
-
-    private fun finishFlow() {
-        goToHomeAndConfirmSaved()
-    }
 
     override fun onBackPressed() {
         showConfirmExitDialog()
     }
 
-    object SampleFormTrainingBehaviourFactory
+    companion object SampleFormTrainingBehaviourFactory
     {
-        fun getSampleFormTrainingBehaviour(hasSubmitFirstTime: Boolean): FormTraining
+        fun pickBehaviour(hasSubmitFirstTime: Boolean): FormTraining
         {
             return when (hasSubmitFirstTime) {
                 true -> {
