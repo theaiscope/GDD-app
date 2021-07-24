@@ -13,6 +13,9 @@ import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.sample_completion.behaviours.FormTraining
+import net.aiscope.gdd_app.ui.sample_completion.behaviours.FormTrainingFirstTime
+import net.aiscope.gdd_app.ui.sample_completion.behaviours.FormTrainingIsComplete
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataFragment
 import net.aiscope.gdd_app.ui.sample_completion.preparation.PreparationFragment
 import net.aiscope.gdd_app.ui.sample_completion.quality.QualityFragment
@@ -41,11 +44,21 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             setSupportActionBar(toolbarLayout.toolbar)
             attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
+            // Changes Form's UI/behavior based on whether user has already been trained in using
+            // the form or not. Currently training is considered to be true when user has
+            // successfully submitted the form at-least once
+
+            val submitFormTrainingBehaviour =
+                SampleFormTrainingBehaviourFactory.getSampleFormTrainingBehaviour(
+                    sharedVM.hasUserSubmitSampleFirstTime()
+                )
+
             tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
             viewPager.adapter = FragmentAdapter(
                 this@SampleCompletionActivity
             )
+            viewPager.isUserInputEnabled = submitFormTrainingBehaviour.allowScroll()
 
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
@@ -70,13 +83,17 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                     viewPager.currentItem = tab.position
                 }
             })
-            if(!sharedVM.hasUserSubmitSampleFirstTime())
-            {
-                completionSaveSample.setText(R.string.complete_sample_first_time_action_label)
+
+
+            completionSaveSample.setText(
+                submitFormTrainingBehaviour.getSubmitLabel()
+            )
+
+            completionSaveSample.setOnClickListener {
+                submitFormTrainingBehaviour.getSubmitOnClickListener(
+                    this@SampleCompletionActivity
+                )
             }
-
-            completionSaveSample.setOnClickListener { save() }
-
         }
 
         //Initialize the shared viewmodel for the tabs
@@ -110,10 +127,14 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             return erroneousTab
         }
     }
+    fun getCurrentTab(): Int
+    {
+        with(binding) {
+            return viewPager.currentItem
+        }
+    }
 
     fun save() {
-        val erroneousTab = validateTabsAndUpdateVM();
-        if (erroneousTab == null) {
             try {
                 sharedVM.save()
                 finishFlow()
@@ -121,19 +142,21 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 Timber.e(error, "An error occurred when saving sample completion data")
                 showRetryBar()
             }
-        } else {
-            setActiveTab(erroneousTab)
-        }
     }
 
-    private fun setActiveTab(index: Int) {
+    fun setActiveTab(index: Int) {
         with(binding) {
             val tab = tabLayout.getTabAt(index)
             tab?.select()
         }
     }
+    fun isCurrentTabLastStep(): Boolean {
+        with(binding) {
+            return (getCurrentTab() < tabLayout.tabCount)
+        }
+    }
 
-    private fun findFragment(index: Int) =
+    fun findFragment(index: Int) =
         supportFragmentManager.findFragmentByTag("f$index")
 
     private fun showRetryBar() {
@@ -155,5 +178,20 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
 
     override fun onBackPressed() {
         showConfirmExitDialog()
+    }
+
+    object SampleFormTrainingBehaviourFactory
+    {
+        fun getSampleFormTrainingBehaviour(hasSubmitFirstTime: Boolean): FormTraining
+        {
+            return when (hasSubmitFirstTime) {
+                true -> {
+                    FormTrainingIsComplete()
+                }
+                false -> {
+                    FormTrainingFirstTime()
+                }
+            }
+        }
     }
 }
