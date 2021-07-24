@@ -13,18 +13,22 @@ class FormTrainingFirstTime  : FormTraining {
         {
             if(sa.isCurrentTabLastStep())
             {
-                sa.save()
+                sa.saveToVM()
             }
             else
             {
                 sa.setActiveTab(sa.getCurrentTab()+1)
+                if(sa.isCurrentTabLastStep())
+                {
+                    sa.submitLabel(R.string.complete_sample_save_sample)
+                }
             }
         }
     }
     override fun getSubmitLabel(): Int {
         return R.string.complete_sample_first_time_action_label
     }
-    override fun allowScroll(): Boolean
+    override fun allowTabSwitchOnScroll(): Boolean
     {
         return false
     }

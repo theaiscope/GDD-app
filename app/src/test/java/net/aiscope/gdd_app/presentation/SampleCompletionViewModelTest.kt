@@ -17,6 +17,7 @@ import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SmearType
 import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
+import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import org.junit.Assert.assertEquals
@@ -65,6 +66,9 @@ class SampleCompletionViewModelTest {
 
     private lateinit var viewModel: SampleCompletionViewModel
 
+    @Mock
+    private lateinit var microscopistRepository: MicroscopistRepository
+
     @Before
     fun before() {
         coroutinesTestRule.runBlockingTest {
@@ -85,7 +89,7 @@ class SampleCompletionViewModelTest {
 
             whenever(repository.current()).thenReturn(sample)
 
-            viewModel = SampleCompletionViewModel(repository, remoteStorage, context)
+            viewModel = SampleCompletionViewModel(repository, remoteStorage, context, microscopistRepository)
         }
     }
 

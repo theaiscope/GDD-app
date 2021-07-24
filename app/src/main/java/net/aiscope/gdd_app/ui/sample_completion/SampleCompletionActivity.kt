@@ -58,7 +58,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             viewPager.adapter = FragmentAdapter(
                 this@SampleCompletionActivity
             )
-            viewPager.isUserInputEnabled = submitFormTrainingBehaviour.allowScroll()
+            viewPager.isUserInputEnabled = submitFormTrainingBehaviour.allowTabSwitchOnScroll()
 
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
@@ -84,10 +84,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 }
             })
 
-
-            completionSaveSample.setText(
-                submitFormTrainingBehaviour.getSubmitLabel()
-            )
+            submitLabel(submitFormTrainingBehaviour.getSubmitLabel())
 
             completionSaveSample.setOnClickListener {
                 submitFormTrainingBehaviour.getSubmitOnClickListener(
@@ -134,7 +131,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
     }
 
-    fun save() {
+    fun saveToVM() {
             try {
                 sharedVM.save()
                 finishFlow()
@@ -152,10 +149,16 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     }
     fun isCurrentTabLastStep(): Boolean {
         with(binding) {
-            return (getCurrentTab() < tabLayout.tabCount)
+            return (getCurrentTab() == tabLayout.tabCount-1)
         }
     }
 
+    fun submitLabel(txt: Int)
+    {
+        with(binding) {
+            completionSaveSample.setText(txt)
+        }
+    }
     fun findFragment(index: Int) =
         supportFragmentManager.findFragmentByTag("f$index")
 

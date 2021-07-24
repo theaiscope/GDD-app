@@ -7,7 +7,7 @@ class FormTrainingIsComplete : FormTraining {
     override fun getSubmitOnClickListener(sa: SampleCompletionActivity) {
         val erroneousTab = sa.validateTabsAndUpdateVM()
         if (erroneousTab == null) {
-            sa.save()
+            sa.saveToVM()
         } else {
             sa.setActiveTab(erroneousTab)
         }
@@ -18,7 +18,7 @@ class FormTrainingIsComplete : FormTraining {
         return R.string.complete_sample_save_sample
 
     }
-    override  fun allowScroll(): Boolean
+    override  fun allowTabSwitchOnScroll(): Boolean
     {
         return true
     }

@@ -14,8 +14,8 @@ import org.junit.Test
 class LoginPresenterTest {
 
     companion object {
-        val microscopistThatAgreedPrivacyPolicy = Microscopist("1", true)
-        val microscopistThatHasntAgreedPrivacyPolicy = Microscopist("1", false)
+        val microscopistThatAgreedPrivacyPolicy = Microscopist("1", true, hasSubmitSampleFirstTime = false)
+        val microscopistThatHasntAgreedPrivacyPolicy = Microscopist("1", false, hasSubmitSampleFirstTime = false)
     }
 
     private val viewMock: LoginView = mock()
