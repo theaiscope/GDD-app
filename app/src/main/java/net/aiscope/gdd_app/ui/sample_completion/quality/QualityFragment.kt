@@ -7,8 +7,9 @@ import androidx.fragment.app.activityViewModels
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentQualityBinding
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
+import net.aiscope.gdd_app.ui.sample_completion.SampleFormFragment
 
-class QualityFragment : Fragment(R.layout.fragment_quality) {
+class QualityFragment : SampleFormFragment, Fragment(R.layout.fragment_quality) {
     companion object {
         private const val MAGNIFICATION_MIN = 0
         private const val MAGNIFICATION_MAX = 2000
@@ -41,7 +42,7 @@ class QualityFragment : Fragment(R.layout.fragment_quality) {
         return isMagnificationValid
     }
 
-    fun validateAndUpdateVM(): Boolean {
+    override fun validateAndUpdateVM(): Boolean {
         return if (validateForm()) {
             val magnificationValue = binding.microscopeQualityMagnificationInput.text
             sharedVM.microscopeMagnification = magnificationValue.toString().toInt()
