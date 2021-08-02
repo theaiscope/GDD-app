@@ -49,6 +49,7 @@
     <string name="you_cannot_take_a_picture_while_zooming">You can not take a picture while zooming</string>
     <!-- Mask -->
     <string name="mask_activity_title">Highlight the parasites</string>
+    <string name="delete_image">Delete</string>
     <string name="button_done_text">Done</string>
     <string name="mask_activity_undo">Undo</string>
     <string name="mask_activity_redo">Redo</string>
@@ -71,6 +72,9 @@
     <string name="capture_flow_exit_dialog_back_message">Are you sure you want to go back to the previous step? Your image data will be lost.</string>
     <string name="capture_flow_exit_dialog_stay">No, stay</string>
     <string name="capture_flow_exit_dialog_exit">Yes, exit</string>
+    <string name="capture_flow_delete_image_dialog_message">Are you sure you want to delete? Your image will be lost.</string>
+    <string name="delete_image_positive">Yes, delete</string>
+    <string name="delete_image_cancel">No, cancel</string>
     <string name="metadata_species_title">Species</string>
     <string name="metadata_stage_title">Stage</string>
     <string name="metadata_snackbar_success">Sample saved successfully!</string>

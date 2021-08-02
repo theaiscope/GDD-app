@@ -4,8 +4,11 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isInvisible
@@ -17,8 +20,10 @@ import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.ActivityMaskBinding
 import net.aiscope.gdd_app.extensions.writeToFile
+import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
+import net.aiscope.gdd_app.ui.goToHomeAndFinishActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
@@ -102,6 +107,45 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
             }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mask_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_delete_image -> {
+                lifecycleScope.launch {
+                    val file = File(checkNotNull(intent.getStringExtra(EXTRA_IMAGE_NAME)))
+                    showConfirmImageDeleteDialog(presenter.repository.current(), file)
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun <T> T.showConfirmImageDeleteDialog(sample: Sample, file: File) where T : AppCompatActivity, T : CaptureFlow {
+        with(AlertDialog.Builder(this, R.style.Theme_AiScope_Dialog)) {
+            setPositiveButton(R.string.delete_image_positive) { _, _ ->
+                val newSample = sample.deleteCapturedImage(file)
+                presenter.repository.store(newSample)
+                if(!newSample.hasCapturedImages() )
+                {
+                    goToHomeAndFinishActivity()
+                }
+                else
+                {
+                    goToSampleCompletion()
+                }
+            }
+            setNegativeButton(R.string.delete_image_cancel) { _, _ -> }
+            setMessage(getString(R.string.capture_flow_delete_image_dialog_message))
+            setTitle(getText(R.string.capture_flow_exit_dialog_title))
+            create()
+        }.show()
     }
 
     override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
