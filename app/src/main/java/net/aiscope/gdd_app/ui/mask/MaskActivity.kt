@@ -127,17 +127,17 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         }
     }
 
-    private fun <T> T.showConfirmImageDeleteDialog(sample: Sample, file: File) where T : AppCompatActivity, T : CaptureFlow {
+    private fun <T> T.showConfirmImageDeleteDialog(
+        sample: Sample, file: File
+    ) where T : AppCompatActivity, T : CaptureFlow {
         with(AlertDialog.Builder(this, R.style.Theme_AiScope_Dialog)) {
             setPositiveButton(R.string.delete_image_positive) { _, _ ->
                 val newSample = sample.deleteCapturedImage(file)
                 presenter.repository.store(newSample)
-                if(!newSample.hasCapturedImages() )
-                {
+                if(!newSample.hasCapturedImages() ) {
                     goToHomeAndFinishActivity()
                 }
-                else
-                {
+                else {
                     goToSampleCompletion()
                 }
             }
