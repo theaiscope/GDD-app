@@ -8,8 +8,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        //TODO: delete when scabbard 0.5.0 is available(it looks like it will be soon)
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
@@ -23,7 +21,6 @@ buildscript {
 plugins {
     id 'com.github.ben-manes.versions' version '0.39.0'
     id "io.gitlab.arturbosch.detekt" version "1.17.1"
-    //TODO: update to 0.5.0 when available and delete jcenter()
     id "scabbard.gradle" version "0.5.0"
 }
 
@@ -49,8 +46,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        //TODO: delete when scabbard 0.5.0 is available(it looks like it will be soon)
-        jcenter()
         maven { url "https://jitpack.io" }
         maven { url "https://sdk.smartlook.com/android/release" }
     }
