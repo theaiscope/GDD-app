@@ -19,7 +19,8 @@ class SampleDtoTest {
 
     companion object {
         private val VERSION_REGEX = Regex("""^\d+\.\d+\.\d+ \([a-zA-Z0-9]+\)""")
-        private val ISO_REGEX = Regex("""^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d[0-5]\d|Z)""")
+        private val ISO_REGEX =
+            Regex("""^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d[0-5]\d|Z)""")
 
         private const val COMMENTS = "some-comments"
         private const val DISEASE = "some-disease"

@@ -14,7 +14,6 @@ class CapturesTest {
         private val image2: File = createTempFile("image2")
         private val mask1: File = createTempFile("mask1")
         private val mask2: File = createTempFile("mask2")
-        private val areMasksEmpty: List<Boolean> = listOf(MASK_1_IS_EMPTY, MASK_2_IS_EMPTY)
     }
 
     @Test(expected = IllegalStateException::class)
