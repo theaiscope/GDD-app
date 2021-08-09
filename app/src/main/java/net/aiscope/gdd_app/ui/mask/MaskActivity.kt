@@ -118,8 +118,14 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         return when(item.itemId) {
             R.id.action_delete_image -> {
                 lifecycleScope.launch {
-                    val file = File(checkNotNull(intent.getStringExtra(EXTRA_IMAGE_NAME)))
-                    showConfirmImageDeleteDialog(presenter.repository.current(), file)
+                    try {
+                        val file = File(intent.getStringExtra(EXTRA_IMAGE_NAME))
+                        showConfirmImageDeleteDialog(presenter.repository.current(), file)
+                    }
+                    catch (e: NullPointerException)
+                    {
+                        notifyImageCouldNotBeDeleted()
+                    }
                 }
                 true
             }
@@ -168,6 +174,11 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
     override fun notifyImageCouldNotBeTaken() {
         Toast.makeText(this, getString(R.string.image_could_not_be_taken), Toast.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun notifyImageCouldNotBeDeleted() {
+        Toast.makeText(this, getString(R.string.image_could_not_be_deleted), Toast.LENGTH_SHORT)
             .show()
     }
 
