@@ -29,6 +29,7 @@ import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
 import net.aiscope.gdd_app.ui.util.BitmapReader.MAX_TEXTURE_SIZE
 import net.aiscope.gdd_app.ui.util.MaximumSizeDownSampling
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -122,8 +123,9 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
                         val file = File(intent.getStringExtra(EXTRA_IMAGE_NAME))
                         showConfirmImageDeleteDialog(presenter.repository.current(), file)
                     }
-                    catch (e: NullPointerException)
+                    catch (@Suppress("TooGenericExceptionCaught") e: NullPointerException)
                     {
+                        Timber.e(e, "Null image name in action_delete_image")
                         notifyImageCouldNotBeDeleted()
                     }
                 }
