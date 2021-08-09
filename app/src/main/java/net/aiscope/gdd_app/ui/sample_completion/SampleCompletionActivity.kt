@@ -25,7 +25,7 @@ import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import timber.log.Timber
 import javax.inject.Inject
 
-
+@Suppress("TooManyFunctions")
 class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private lateinit var binding: ActivityCompleteSampleBinding
 
@@ -98,56 +98,65 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
 
     // The int indicates which tab has errors so we can switch to that one
     fun validateTabsAndUpdateVM(): Int? {
-            val metadataFragment: MetadataFragment? =
-                findFragment(0) as? MetadataFragment
-            val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
+        val metadataFragment: MetadataFragment? =
+            findFragment(0) as? MetadataFragment
+        val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
 
-            val preparationFragment: PreparationFragment? =
-                findFragment(1) as? PreparationFragment
-            val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
+        val preparationFragment: PreparationFragment? =
+            findFragment(1) as? PreparationFragment
+        val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
 
-            val qualityFragment: QualityFragment? =
-                findFragment(2) as? QualityFragment
-            val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
+        val qualityFragment: QualityFragment? =
+            findFragment(2) as? QualityFragment
+        val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
 
-            //Decide which (if any) tab has errors and should be displayed
-            var erroneousTab: Int? = null
-            if (!metadataOk) {
-                erroneousTab = 0
-            } else if (!preparationOK) {
-                erroneousTab =  1
-            } else if (!qualityOK) {
-                erroneousTab = 2
-            }
-            return erroneousTab
-    }
-
-    fun getCurrentTab(): Int
-    {
-        with(binding) {
-            return viewPager.currentItem
+        //Decide which (if any) tab has errors and should be displayed
+        var erroneousTab: Int? = null
+        if (!metadataOk) {
+            erroneousTab = 0
+        } else if (!preparationOK) {
+            erroneousTab =  1
+        } else if (!qualityOK) {
+            erroneousTab = 2
         }
+        return erroneousTab
     }
 
     fun saveToVM() {
-            try {
+        try {
+            sharedVM.save()
+            finishFlow()
+        } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
+            Timber.e(error, "An error occurred when saving sample completion data")
+            showRetryBar()
+        }
+    }
+
+    private fun showRetryBar() {
+        CustomSnackbar.make(
+            findViewById(android.R.id.content),
+            getString(R.string.microscope_quality_snackbar_error),
+            Snackbar.LENGTH_INDEFINITE, null,
+            CustomSnackbarAction(
+                getString(R.string.microscope_quality_snackbar_retry)
+            ) {
                 sharedVM.save()
-                goToHomeAndConfirmSaved()
-            } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
-                Timber.e(error, "An error occurred when saving sample completion data")
-                //showRetryBar()
-                // Fn Moved here to temporary fix TooManyFunctions ¯\_(ツ)_/¯
-                CustomSnackbar.make(
-                    findViewById(android.R.id.content),
-                    getString(R.string.microscope_quality_snackbar_error),
-                    Snackbar.LENGTH_INDEFINITE, null,
-                    CustomSnackbarAction(
-                        getString(R.string.microscope_quality_snackbar_retry)
-                    ) {
-                        sharedVM.save()
-                    }
-                ).show()
             }
+        ).show()
+    }
+
+    private fun finishFlow() {
+        goToHomeAndConfirmSaved()
+    }
+
+    override fun onBackPressed() {
+        showConfirmExitDialog()
+    }
+
+    fun getCurrentTab(): Int {
+        with(binding) {
+            return viewPager.currentItem
+        }
     }
 
     fun setActiveTab(index: Int) {
@@ -172,10 +181,6 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
 
     fun findFragment(index: Int) =
         supportFragmentManager.findFragmentByTag("f$index")
-
-    override fun onBackPressed() {
-        showConfirmExitDialog()
-    }
 
     companion object SampleFormTrainingBehaviourFactory
     {
