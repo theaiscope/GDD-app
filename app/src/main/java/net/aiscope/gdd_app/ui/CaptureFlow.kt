@@ -56,3 +56,8 @@ fun <T> T.goToHome() where T : AppCompatActivity, T : CaptureFlow {
     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
     startActivity(intent)
 }
+
+fun <T> T.goToHomeAndFinishActivity() where T : AppCompatActivity, T : CaptureFlow {
+    goToHome()
+    finish()
+}

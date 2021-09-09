@@ -15,6 +15,7 @@ import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
+import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,
     private val context: Context,
+    private val microscopistRepository: MicroscopistRepository
 ) : ViewModel() {
     companion object {
         const val DEFAULT_MAGNIFICATION: Int = 1000
@@ -103,6 +105,12 @@ class SampleCompletionViewModel @Inject constructor(
 
             //Put it in line for uploading to firebase
             remoteStorage.enqueue(storedSample, context)
+            if(!hasUserSubmitSampleFirstTime())
+            {
+                microscopistRepository.store(
+                    microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
+                )
+            }
         }
     }
 
@@ -139,6 +147,10 @@ class SampleCompletionViewModel @Inject constructor(
             metadata = newMeta,
             status = SampleStatus.ReadyToUpload
         )
+    }
+    
+    fun hasUserSubmitSampleFirstTime() : Boolean {
+       return microscopistRepository.load().hasSubmitSampleFirstTime
     }
 
     private fun getWaterType(waterTypeValue: String): WaterType {

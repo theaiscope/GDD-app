@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -14,6 +13,9 @@ import net.aiscope.gdd_app.databinding.ActivityCompleteSampleBinding
 import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.goToHomeAndConfirmSaved
+import net.aiscope.gdd_app.ui.sample_completion.behaviours.FormTraining
+import net.aiscope.gdd_app.ui.sample_completion.behaviours.FormTrainingFirstTime
+import net.aiscope.gdd_app.ui.sample_completion.behaviours.FormTrainingIsComplete
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataFragment
 import net.aiscope.gdd_app.ui.sample_completion.preparation.PreparationFragment
 import net.aiscope.gdd_app.ui.sample_completion.quality.QualityFragment
@@ -23,7 +25,7 @@ import net.aiscope.gdd_app.ui.snackbar.CustomSnackbarAction
 import timber.log.Timber
 import javax.inject.Inject
 
-
+@Suppress("TooManyFunctions")
 class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
     private lateinit var binding: ActivityCompleteSampleBinding
 
@@ -36,17 +38,29 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
+        //Initialize the shared viewmodel for the tabs
+        sharedVM.initVM()
+
         binding = ActivityCompleteSampleBinding.inflate(layoutInflater)
         with(binding) {
             setContentView(root)
             setSupportActionBar(toolbarLayout.toolbar)
             attachCaptureFlowToolbar(toolbarLayout.toolbar)
 
+            // Changes Form's UI/behavior based on whether user has already been trained in using
+            // the form or not. Currently training is considered to be true when user has
+            // successfully submitted the form at-least once
+            val submitFormTrainingBehaviour =
+                pickBehaviour(
+                    sharedVM.hasUserSubmitSampleFirstTime()
+                )
+
             tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
             viewPager.adapter = FragmentAdapter(
                 this@SampleCompletionActivity
             )
+            viewPager.isUserInputEnabled = submitFormTrainingBehaviour.allowTabSwitchOnScroll()
 
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
@@ -72,12 +86,14 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
                 }
             })
 
-            completionSaveSample.setOnClickListener { save() }
+            submitLabel(submitFormTrainingBehaviour.getSubmitLabel())
 
+            completionSaveSample.setOnClickListener {
+                submitFormTrainingBehaviour.getSubmitOnClickListener(
+                    this@SampleCompletionActivity
+                )
+            }
         }
-
-        //Initialize the shared viewmodel for the tabs
-        sharedVM.initVM()
     }
 
     // The int indicates which tab has errors so we can switch to that one
@@ -108,30 +124,15 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
     }
 
-    fun save() {
-        val erroneousTab = validateTabsAndUpdateVM();
-        if (erroneousTab == null) {
-            try {
-                sharedVM.save()
-                finishFlow()
-            } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
-                Timber.e(error, "An error occurred when saving sample completion data")
-                showRetryBar()
-            }
-        } else {
-            setActiveTab(erroneousTab)
+    fun saveToVM() {
+        try {
+            sharedVM.save()
+            finishFlow()
+        } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
+            Timber.e(error, "An error occurred when saving sample completion data")
+            showRetryBar()
         }
     }
-
-    private fun setActiveTab(index: Int) {
-        with(binding) {
-            val tab = tabLayout.getTabAt(index)
-            tab?.select()
-        }
-    }
-
-    private fun findFragment(index: Int) =
-        supportFragmentManager.findFragmentByTag("f$index")
 
     private fun showRetryBar() {
         CustomSnackbar.make(
@@ -152,5 +153,49 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
 
     override fun onBackPressed() {
         showConfirmExitDialog()
+    }
+
+    fun getCurrentTab(): Int {
+        with(binding) {
+            return viewPager.currentItem
+        }
+    }
+
+    fun setActiveTab(index: Int) {
+        with(binding) {
+            val tab = tabLayout.getTabAt(index)
+            tab?.select()
+        }
+    }
+
+    fun isCurrentTabLastStep(): Boolean {
+        with(binding) {
+            return (getCurrentTab() == tabLayout.tabCount-1)
+        }
+    }
+
+    fun submitLabel(txt: Int)
+    {
+        with(binding) {
+            completionSaveSample.setText(txt)
+        }
+    }
+
+    fun findFragment(index: Int) =
+        supportFragmentManager.findFragmentByTag("f$index")
+
+    companion object SampleFormTrainingBehaviourFactory
+    {
+        fun pickBehaviour(hasSubmitFirstTime: Boolean): FormTraining
+        {
+            return when (hasSubmitFirstTime) {
+                true -> {
+                    FormTrainingIsComplete()
+                }
+                false -> {
+                    FormTrainingFirstTime()
+                }
+            }
+        }
     }
 }

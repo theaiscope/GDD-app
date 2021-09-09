@@ -8,6 +8,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.network.RemoteStorage
+import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
@@ -32,9 +33,10 @@ abstract class SampleCompletionModule {
         internal fun provideViewModel(
             repository: SampleRepository,
             remoteStorage: RemoteStorage,
-            context: Context
+            context: Context,
+            microscopistRepository: MicroscopistRepository
         ): SampleCompletionViewModel =
-            SampleCompletionViewModel(repository, remoteStorage, context)
+            SampleCompletionViewModel(repository, remoteStorage, context, microscopistRepository)
     }
 }
 

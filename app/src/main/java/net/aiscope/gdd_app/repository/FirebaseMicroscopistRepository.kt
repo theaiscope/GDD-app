@@ -15,9 +15,13 @@ class FirebaseMicroscopistRepository @Inject constructor(
         val hasAcceptedPrivacyPolicy = store.load(
             hasAcceptedPrivacyPolicyKeyFor(microscopistId)
         ).toBoolean()
+        val hasSubmitSampleFirstTime = store.load(
+            hasSubmitSampleFirstTimeFor(microscopistId)
+        ).toBoolean()
         return Microscopist(
             microscopistId,
-            hasAcceptedPrivacyPolicy
+            hasAcceptedPrivacyPolicy,
+            hasSubmitSampleFirstTime
         )
     }
 
@@ -26,8 +30,17 @@ class FirebaseMicroscopistRepository @Inject constructor(
             hasAcceptedPrivacyPolicyKeyFor(microscopist.id),
             microscopist.hasAcceptedPrivacyPolicy.toString()
         )
+        store.store(
+            hasSubmitSampleFirstTimeFor(microscopist.id),
+            microscopist.hasSubmitSampleFirstTime.toString()
+        )
     }
+
+
 
     private fun hasAcceptedPrivacyPolicyKeyFor(microscopistId: String) =
         "has_accepted_privacy_policy_$microscopistId"
+
+    private fun hasSubmitSampleFirstTimeFor(microscopistId: String) =
+        "has_submit_sample_first_time_$microscopistId"
 }
