@@ -69,9 +69,10 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
     override fun goToCaptureImage(nextImageName: String) {
         val intent = Intent(this, CaptureImageActivity::class.java)
         intent.putExtra(CaptureImageActivity.EXTRA_IMAGE_NAME, nextImageName)
+        intent.putExtra(CaptureImageActivity.CAPTURE_IMAGE_FROM, MAIN_ACTIVITY_NAME)
         this.startActivity(intent)
     }
-    
+
     override fun logout(success: Boolean) = if (success) {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
@@ -96,4 +97,8 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
     }
 
     override fun logoutAction() = this.presenter.logout()
+
+    companion object {
+        const val MAIN_ACTIVITY_NAME = "MainActivity"
+    }
 }

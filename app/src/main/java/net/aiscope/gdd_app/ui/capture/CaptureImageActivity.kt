@@ -4,8 +4,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -32,7 +32,13 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
 
     companion object {
         const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.capture.CaptureImageActivity.EXTRA_IMAGE_NAME"
+        const val CAPTURE_IMAGE_FROM ="CAPTURE_IMAGE_FROM"
     }
+
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            goBack()
+        }
 
     @Inject
     lateinit var presenter: CaptureImagePresenter
@@ -57,7 +63,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
                 context = this@CaptureImageActivity,
                 view = cameraView,
                 cameraConfiguration =
-                    CameraConfiguration.builder().photoResolution(highestResolution()).build(),
+                CameraConfiguration.builder().photoResolution(highestResolution()).build(),
                 cameraErrorCallback = { presenter.onCaptureError(it) }
             )
 
@@ -79,16 +85,18 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
             zoomController = ZoomController(fotoapparat, cameraZoomLevel, cameraView, onZoomChanged)
 
             captureImageButton.setOnClickListener {
-                presenter.handleCaptureImageButton(extractImageNameExtra())
+                presenter.handleCaptureImageButton(extractImageNameExtra(), extractFrom())
             }
         }
     }
 
     private fun extractImageNameExtra() = checkNotNull(intent.getStringExtra(EXTRA_IMAGE_NAME))
 
+    private fun extractFrom() = checkNotNull(intent.getStringExtra(CAPTURE_IMAGE_FROM))
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            presenter.handleCaptureImageButton(extractImageNameExtra())
+            presenter.handleCaptureImageButton(extractImageNameExtra(), extractFrom())
             return true
         }
         return super.onKeyDown(keyCode, event)
@@ -127,13 +135,18 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         binding.captureImageLoadingModal.isGone = true
     }
 
-    override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String) {
+    override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String, from: String) {
         val intent = Intent(this, MaskActivity::class.java)
         intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, diseaseName)
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, imagePath)
         intent.putExtra(MaskActivity.EXTRA_MASK_NAME, nextMaskName)
+        intent.putExtra(MaskActivity.EXTRA_MASK_FROM, from)
 
-        startActivity(intent)
+        resultLauncher.launch(intent)
+    }
+
+    private fun goBack() {
+        finish()
     }
 
     override fun onRestart() {

@@ -1,6 +1,8 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +31,10 @@ class SampleCompletionViewModel @Inject constructor(
     companion object {
         const val DEFAULT_MAGNIFICATION: Int = 1000
     }
+
+    private val _samples = MutableLiveData<Sample>()
+    val samples: LiveData<Sample>
+        get() = _samples
 
     // Improvement: We got a nicer way of fixing default vals??
     // Fields for the metadata tab
@@ -66,6 +72,7 @@ class SampleCompletionViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
 
             val sample = repository.current()
+            _samples.postValue(sample)
             disease = sample.disease
             captures = sample.captures.completedCaptures
 
@@ -92,6 +99,13 @@ class SampleCompletionViewModel @Inject constructor(
                 reusesSlides = it.reusesSlides
                 sampleAge = getSampleAgeValue(it.sampleAge)
             }
+        }
+    }
+
+    fun getSamples() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val sample = repository.current()
+            _samples.postValue(sample)
         }
     }
 
@@ -136,7 +150,7 @@ class SampleCompletionViewModel @Inject constructor(
     }
 
     fun hasUserSubmitSampleFirstTime() : Boolean {
-       return microscopistRepository.load().hasSubmitSampleFirstTime
+        return microscopistRepository.load().hasSubmitSampleFirstTime
     }
 
     private fun getWaterType(waterTypeValue: String): WaterType {
