@@ -28,6 +28,7 @@ import javax.inject.Inject
 
 const val THREE_SIXTY_DEGREES = 360
 
+@Suppress("TooManyFunctions")
 class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow {
 
     companion object {
