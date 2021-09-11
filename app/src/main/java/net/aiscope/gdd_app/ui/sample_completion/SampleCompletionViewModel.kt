@@ -65,8 +65,9 @@ class SampleCompletionViewModel @Inject constructor(
         //Improvement: inject dispatchers here
         viewModelScope.launch(Dispatchers.IO) {
 
-            //FIXME: so potentially there is already a bunch of stuff set on the
-            //current?
+            // FIXME: so potentially there is already a bunch of stuff set on the current?
+            // So can we init the values of the current, if existing, and otherwise the other?
+            // Could become a bit awk.
             val sample = repository.current()
             disease = sample.disease
             captures = sample.captures.completedCaptures
@@ -148,7 +149,7 @@ class SampleCompletionViewModel @Inject constructor(
             status = SampleStatus.ReadyToUpload
         )
     }
-    
+
     fun hasUserSubmitSampleFirstTime() : Boolean {
        return microscopistRepository.load().hasSubmitSampleFirstTime
     }
