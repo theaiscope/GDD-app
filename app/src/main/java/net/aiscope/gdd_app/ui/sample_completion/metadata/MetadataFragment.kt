@@ -16,8 +16,9 @@ import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
+import net.aiscope.gdd_app.ui.sample_completion.SampleFormFragment
 
-class MetadataFragment : Fragment(R.layout.fragment_metadata) {
+class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata) {
     private var _binding: FragmentMetadataBinding? = null
     private val binding get() = _binding!!
     private val sharedVM: SampleCompletionViewModel by activityViewModels()
@@ -49,7 +50,7 @@ class MetadataFragment : Fragment(R.layout.fragment_metadata) {
         }
     }
 
-    fun validateAndUpdateVM(): Boolean {
+    override fun validateAndUpdateVM(): Boolean {
         with(binding) {
             sharedVM.smearTypeId = metadataSectionSmearTypeRadioGroup.checkedRadioButtonId
             sharedVM.speciesValue = metadataSpeciesSpinner.selectedItem.toString()

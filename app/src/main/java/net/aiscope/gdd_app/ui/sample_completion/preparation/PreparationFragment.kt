@@ -9,8 +9,9 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentPreparationBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
+import net.aiscope.gdd_app.ui.sample_completion.SampleFormFragment
 
-class PreparationFragment : Fragment(R.layout.fragment_preparation) {
+class PreparationFragment : SampleFormFragment, Fragment(R.layout.fragment_preparation) {
     private var _binding: FragmentPreparationBinding? = null
     private val binding get() = _binding!!
     private val sharedVM: SampleCompletionViewModel by activityViewModels()
@@ -46,7 +47,7 @@ class PreparationFragment : Fragment(R.layout.fragment_preparation) {
         }
     }
 
-    fun validateAndUpdateVM(): Boolean {
+    override fun validateAndUpdateVM(): Boolean {
         return if (validateForm()) {
             with(binding) {
                 sharedVM.waterType = samplePreparationWaterTypeSpinner.selectedItem.toString()
