@@ -20,6 +20,8 @@
         <item name="spinnerDropDownItemStyle">@style/Widget.AiScope.DropDownItem.Spinner</item>
         <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="android:textColorHint">@color/colorPlainText</item>
+        <item name="errorTextColor">@color/colorError</item>
+        <item name="colorOnSurface">@color/colorPrimary</item>
 
         <item name="android:listPopupWindowStyle">@style/Widget.AiScope.ListPopupWindow</item>
         <item name="switchStyle">@style/Widget.AiScope.CompoundButton.Switch</item>
