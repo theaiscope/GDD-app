@@ -95,6 +95,7 @@ class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata
             val maskName = capture.mask.name.removeSuffix(".png")
             intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
             intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
+            intent.putExtra(MaskActivity.EXTRA_MASK_FROM, METADATA_CLASS_NAME)
             resultLauncher.launch(intent)
         }
     }

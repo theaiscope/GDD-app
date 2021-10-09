@@ -136,12 +136,12 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         binding.captureImageLoadingModal.isGone = true
     }
 
-    override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String, from: String) {
+    override fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String, viewClassFrom: String) {
         val intent = Intent(this, MaskActivity::class.java)
         intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, diseaseName)
         intent.putExtra(MaskActivity.EXTRA_IMAGE_NAME, imagePath)
         intent.putExtra(MaskActivity.EXTRA_MASK_NAME, nextMaskName)
-        intent.putExtra(MaskActivity.EXTRA_MASK_FROM, from)
+        intent.putExtra(MaskActivity.EXTRA_MASK_FROM, viewClassFrom)
 
         resultLauncher.launch(intent)
     }
