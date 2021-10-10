@@ -58,13 +58,6 @@ android {
     }
     testOptions {
         animationsDisabled = true
-
-        // Added this as last resort because there are issues while testing coroutines which
-        //use postValue or setValue of livedatas, can be fixed by injecting the coroutines dispatchers
-        //Failing tests:
-        //Should upload updated sample to remote storage
-        //Should set values from previously saved sample
-        unitTests.returnDefaultValues = true
     }
 
     // Always show the result of every unit test, even if it passes.
@@ -150,6 +143,7 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:$mockito_version"
     testImplementation 'com.nhaarman:mockito-kotlin:1.6.0'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_coroutines_version"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
 
 
     // Capture - FotoApparat

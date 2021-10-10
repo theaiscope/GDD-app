@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.presentation
 
 import android.content.Context
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.verify
@@ -24,6 +25,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -31,6 +33,10 @@ import org.mockito.junit.MockitoJUnitRunner
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class SampleCompletionViewModelTest {
+
+    @get:Rule
+    var rule: TestRule = InstantTaskExecutorRule()
+
     companion object {
         private val sample = Sample("an id", "a facility", "a microscopist", "a disease")
         private val lastSample = sample.copy(

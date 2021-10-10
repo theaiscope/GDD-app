@@ -36,11 +36,6 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         const val CAPTURE_IMAGE_FROM ="CAPTURE_IMAGE_FROM"
     }
 
-    private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            goBack()
-        }
-
     @Inject
     lateinit var presenter: CaptureImagePresenter
 
@@ -143,10 +138,7 @@ class CaptureImageActivity : AppCompatActivity(), CaptureImageView, CaptureFlow 
         intent.putExtra(MaskActivity.EXTRA_MASK_NAME, nextMaskName)
         intent.putExtra(MaskActivity.EXTRA_MASK_FROM, viewClassFrom)
 
-        resultLauncher.launch(intent)
-    }
-
-    private fun goBack() {
+        startActivity(intent)
         finish()
     }
 
