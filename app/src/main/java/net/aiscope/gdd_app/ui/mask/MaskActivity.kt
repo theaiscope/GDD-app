@@ -25,6 +25,7 @@ import net.aiscope.gdd_app.ui.CaptureFlow
 import net.aiscope.gdd_app.ui.attachCaptureFlowToolbar
 import net.aiscope.gdd_app.ui.goToHomeAndFinishActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
+import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataFragment.Companion.METADATA_CLASS_NAME
 import net.aiscope.gdd_app.ui.showConfirmBackDialog
 import net.aiscope.gdd_app.ui.util.BitmapReader
 import net.aiscope.gdd_app.ui.util.BitmapReader.MAX_TEXTURE_SIZE
@@ -41,6 +42,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         const val EXTRA_IMAGE_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_IMAGE_NAME"
         const val EXTRA_MASK_NAME = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_MASK_NAME"
         const val EXTRA_MASK_PATH = "net.aiscope.gdd_app.ui.mask.MaskActivity.EXTRA_MASK_PATH"
+        const val EXTRA_MASK_FROM = "EXTRA_MASK_FROM"
     }
 
     @Inject
@@ -168,10 +170,16 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     override fun goToSampleCompletion() {
-        val intent = Intent(this, SampleCompletionActivity::class.java)
-        startActivity(intent)
-        //Finish the activity to avoid keeping all the bitmaps in memory
-        finish()
+        val maskFrom = intent.getStringExtra(EXTRA_MASK_FROM)
+
+        if(maskFrom == METADATA_CLASS_NAME) {
+            finish()
+        } else {
+            val intent = Intent(this, SampleCompletionActivity::class.java)
+            startActivity(intent)
+            //Finish the activity to avoid keeping all the bitmaps in memory
+            finish()
+        }
     }
 
     override fun notifyImageCouldNotBeTaken() {

@@ -3,6 +3,7 @@ package net.aiscope.gdd_app.ui.sample_completion.metadata
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,7 @@ import net.aiscope.gdd_app.R
 import net.aiscope.gdd_app.databinding.FragmentMetadataBinding
 import net.aiscope.gdd_app.extensions.select
 import net.aiscope.gdd_app.model.CompletedCapture
+import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
 import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
@@ -25,6 +27,13 @@ class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata
 
     private val imagesAdapter =
         SampleImagesAdapter(lifecycleScope, this::onAddImageClicked, this::onImageClicked)
+
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            with(sharedVM) {
+                getSamples()
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,8 +50,12 @@ class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata
                 adapter = imagesAdapter
             }
 
+
+
             with(sharedVM) {
-                imagesAdapter.setCaptures(captures)
+                samples.observe(viewLifecycleOwner) { sample ->
+                    setUpCaptures(sample)
+                }
 
                 smearTypeId?.let { metadataSectionSmearTypeRadioGroup.check(it) }
                 speciesValue?.let { metadataSpeciesSpinner.select(it) }
@@ -67,7 +80,8 @@ class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata
                 CaptureImageActivity.EXTRA_IMAGE_NAME,
                 sharedVM.getCurrentSample().nextImageName()
             )
-            startActivity(intent)
+            intent.putExtra(CaptureImageActivity.CAPTURE_IMAGE_FROM, METADATA_CLASS_NAME)
+            resultLauncher.launch(intent)
         }
     }
 
@@ -81,12 +95,21 @@ class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata
             val maskName = capture.mask.name.removeSuffix(".png")
             intent.putExtra(MaskActivity.EXTRA_MASK_NAME, maskName)
             intent.putExtra(MaskActivity.EXTRA_MASK_PATH, capture.mask.path)
-            startActivity(intent)
+            intent.putExtra(MaskActivity.EXTRA_MASK_FROM, METADATA_CLASS_NAME)
+            resultLauncher.launch(intent)
         }
+    }
+
+    private fun setUpCaptures(sample: Sample) {
+        imagesAdapter.setCaptures(sample.captures.completedCaptures)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val METADATA_CLASS_NAME = "MetadataFragment"
     }
 }

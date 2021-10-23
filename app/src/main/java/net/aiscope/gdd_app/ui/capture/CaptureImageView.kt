@@ -8,5 +8,5 @@ interface CaptureImageView {
 
     fun notifyImageCouldNotBeTaken()
 
-    fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String)
+    fun goToMask(diseaseName: String, imagePath: String, nextMaskName: String, viewClassFrom: String)
 }

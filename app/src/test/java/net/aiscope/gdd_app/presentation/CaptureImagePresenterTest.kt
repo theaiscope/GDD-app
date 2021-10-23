@@ -45,15 +45,15 @@ class CaptureImagePresenterTest {
             runBlocking { onPhotoReceived(file) }
         }
         val presenter = CaptureImagePresenter(view, repository)
-        presenter.handleCaptureImageButton("any")
+        presenter.handleCaptureImageButton("any", "any")
         verify(repository).store(sample.copy(captures = Captures().newCapture(file)))
     }
 
     @Test
     fun `calling capture image repeatedly takes only one picture`() {
-        presenter.handleCaptureImageButton("any")
-        presenter.handleCaptureImageButton("any")
-        presenter.handleCaptureImageButton("any")
+        presenter.handleCaptureImageButton("any", "any")
+        presenter.handleCaptureImageButton("any", "any")
+        presenter.handleCaptureImageButton("any", "any")
         verify(view).takePhoto(any(), any())
     }
 
@@ -63,8 +63,8 @@ class CaptureImagePresenterTest {
             val onPhotoReceived: suspend (File?) -> Unit = it.getArgument(1)
             runBlocking { onPhotoReceived(file) }
         }
-        presenter.handleCaptureImageButton("any")
-        presenter.handleCaptureImageButton("any")
+        presenter.handleCaptureImageButton("any", "any")
+        presenter.handleCaptureImageButton("any", "any")
         verify(view, times(2)).takePhoto(any(), any())
     }
 
@@ -74,8 +74,8 @@ class CaptureImagePresenterTest {
             val onPhotoReceived: suspend (File?) -> Unit = it.getArgument(1)
             runBlocking { onPhotoReceived(null) }
         }
-        presenter.handleCaptureImageButton("any")
-        presenter.handleCaptureImageButton("any")
+        presenter.handleCaptureImageButton("any", "any")
+        presenter.handleCaptureImageButton("any", "any")
         verify(view, times(2)).takePhoto(any(), any())
     }
 }

@@ -10,7 +10,7 @@ class CaptureImagePresenter(
 ) {
     private var processingImageCapture: Boolean = false
 
-    fun handleCaptureImageButton(imageName: String) {
+    fun handleCaptureImageButton(imageName: String, viewClassFrom: String) {
         Timber.tag("Taking Photo").d("button pressed")
         if (processingImageCapture){
             Timber.tag("Taking Photo").d("Already processing photo")
@@ -26,7 +26,7 @@ class CaptureImagePresenter(
                     val sample = repository.current().addNewlyCapturedImage(file)
                     repository.store(sample)
 
-                    view.goToMask(sample.disease, file.absolutePath, sample.nextMaskName())
+                    view.goToMask(sample.disease, file.absolutePath, sample.nextMaskName(), viewClassFrom)
                 }
             } finally {
                 //Allow new photo to be taken once callback completes
