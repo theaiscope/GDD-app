@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.build-properties'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: "io.gitlab.arturbosch.detekt"
 apply plugin: "scabbard.gradle"
@@ -158,5 +159,3 @@ dependencies {
 
     compileOnly 'javax.annotation:jsr250-api:1.0'
 }
-
-apply plugin: 'com.google.gms.google-services'
