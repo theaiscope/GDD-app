@@ -7,7 +7,7 @@ class FormTrainingIsComplete : FormTraining {
     override fun getSubmitOnClickListener(sa: SampleCompletionActivity) {
         val erroneousTab = sa.validateTabsAndUpdateVM()
         if (erroneousTab == null) {
-            sa.saveToVM()
+            sa.saveToVM(true)
         } else {
             sa.setActiveTab(erroneousTab)
         }

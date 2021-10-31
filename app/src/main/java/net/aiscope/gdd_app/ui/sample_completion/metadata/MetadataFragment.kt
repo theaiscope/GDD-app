@@ -46,21 +46,29 @@ class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata
 
                 smearTypeId?.let { metadataSectionSmearTypeRadioGroup.check(it) }
                 speciesValue?.let { metadataSpeciesSpinner.select(it) }
+                comments?.let {
+                    metadataCommentsInput.setText(it)
+                }
             }
         }
     }
 
-    override fun validateAndUpdateVM(): Boolean {
+    fun updateVM() {
         with(binding) {
             sharedVM.smearTypeId = metadataSectionSmearTypeRadioGroup.checkedRadioButtonId
             sharedVM.speciesValue = metadataSpeciesSpinner.selectedItem.toString()
             sharedVM.comments = metadataCommentsInput.text.toString()
         }
+    }
+    override fun validateAndUpdateVM(): Boolean {
+        updateVM()
         //No validation on this tab
         return true
     }
 
     private fun onAddImageClicked() {
+        updateVM()
+        sharedVM.save(false)
         lifecycleScope.launch {
             val intent = Intent(context, CaptureImageActivity::class.java)
             intent.putExtra(
@@ -72,6 +80,8 @@ class MetadataFragment : SampleFormFragment, Fragment(R.layout.fragment_metadata
     }
 
     private fun onImageClicked(capture: CompletedCapture) {
+        updateVM()
+        sharedVM.save(false)
         lifecycleScope.launch {
             val intent = Intent(context, MaskActivity::class.java)
             intent.putExtra(MaskActivity.EXTRA_DISEASE_NAME, sharedVM.disease)

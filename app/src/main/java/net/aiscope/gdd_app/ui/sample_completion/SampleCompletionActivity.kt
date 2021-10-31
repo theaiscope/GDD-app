@@ -124,9 +124,9 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         }
     }
 
-    fun saveToVM() {
+    fun saveToVM(doEnqueueRemote: Boolean) {
         try {
-            sharedVM.save()
+            sharedVM.save(doEnqueueRemote)
             finishFlow()
         } catch (@Suppress("TooGenericExceptionCaught") error: Throwable) {
             Timber.e(error, "An error occurred when saving sample completion data")
@@ -142,7 +142,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
             CustomSnackbarAction(
                 getString(R.string.microscope_quality_snackbar_retry)
             ) {
-                sharedVM.save()
+                sharedVM.save(true)
             }
         ).show()
     }

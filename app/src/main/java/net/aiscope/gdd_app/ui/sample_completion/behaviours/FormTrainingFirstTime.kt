@@ -13,7 +13,7 @@ class FormTrainingFirstTime  : FormTraining {
         {
             if(sa.isCurrentTabLastStep())
             {
-                sa.saveToVM()
+                sa.saveToVM(true)
             }
             else
             {

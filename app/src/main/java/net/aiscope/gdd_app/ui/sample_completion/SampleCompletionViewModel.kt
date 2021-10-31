@@ -75,6 +75,7 @@ class SampleCompletionViewModel @Inject constructor(
             lastMeta?.let {
                 smearTypeId = MetadataMapper.getSmearTypeId(it.smearType)
                 speciesValue = MetadataMapper.getSpeciesValue(context, it.species)
+                comments = it.comments //TODO: We should not want to show comments of previous sample
             }
 
             val lastMicroscopeQuality = lastSaved?.microscopeQuality
@@ -95,7 +96,7 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
-    fun save() {
+    fun save(doEnqueueRemote: Boolean) {
         //Improvement: inject dispatchers here
         viewModelScope.launch(Dispatchers.IO) {
             val newQualityValues = MicroscopeQuality(microscopeDamaged, microscopeMagnification)
@@ -116,21 +117,31 @@ class SampleCompletionViewModel @Inject constructor(
                 comments = comments ?: ""
             )
 
-            val updatedSample = repository.current().copy(
-                microscopeQuality = newQualityValues,
-                preparation = newPreparation,
-                metadata = newMeta,
-                status = SampleStatus.ReadyToUpload
-            )
-            val storedSample = repository.store(updatedSample)
-
-            //Put it in line for uploading to firebase
-            remoteStorage.enqueue(storedSample, context)
-            if(!hasUserSubmitSampleFirstTime())
-            {
-                microscopistRepository.store(
-                    microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
+            if(doEnqueueRemote) {
+                val updatedSample = repository.current().copy(
+                    microscopeQuality = newQualityValues,
+                    preparation = newPreparation,
+                    metadata = newMeta,
+                    status = SampleStatus.ReadyToUpload
                 )
+                val storedSample = repository.store(updatedSample)
+                //Put it in line for uploading to firebase
+                remoteStorage.enqueue(storedSample, context)
+                if (!hasUserSubmitSampleFirstTime()) {
+                    microscopistRepository.store(
+                        microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
+                    )
+                }
+            }
+            else
+            {
+                val updatedSample = repository.current().copy(
+                    microscopeQuality = newQualityValues,
+                    preparation = newPreparation,
+                    metadata = newMeta,
+                    status = SampleStatus.Incomplete
+                )
+                repository.store(updatedSample)
             }
         }
     }
@@ -145,7 +156,10 @@ class SampleCompletionViewModel @Inject constructor(
             context.getString(R.string.water_type_bottled) -> WaterType.BOTTLED
             context.getString(R.string.water_type_tap) -> WaterType.TAP
             context.getString(R.string.water_type_well) -> WaterType.WELL
+            "- select -" -> WaterType.UNDECLARED
+            "" -> WaterType.UNDECLARED
             else -> throw IllegalStateException("$waterTypeValue water type is unknown")
+            //TODO: Ideally "-select-" value should not reach the model layer.
         }
     }
 
@@ -155,7 +169,9 @@ class SampleCompletionViewModel @Inject constructor(
             WaterType.BOTTLED -> context.getString(R.string.water_type_bottled)
             WaterType.TAP -> context.getString(R.string.water_type_tap)
             WaterType.WELL -> context.getString(R.string.water_type_well)
+            WaterType.UNDECLARED -> ""
             null -> ""
+            //TODO: Cleanup with better enum handling
         }
     }
 
@@ -163,7 +179,10 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAgeValue) {
             context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
             context.getString(R.string.sample_age_old) -> SampleAge.OLD
+            "- select -" -> SampleAge.UNDECLARED
+            "" -> SampleAge.UNDECLARED
             else -> throw IllegalStateException("$sampleAgeValue sample age is unknown")
+            //TODO: Cleanup of enum logic
         }
     }
 
@@ -171,7 +190,9 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAge) {
             SampleAge.FRESH -> context.getString(R.string.sample_age_fresh)
             SampleAge.OLD -> context.getString(R.string.sample_age_old)
+            SampleAge.UNDECLARED -> ""
             null -> ""
+            //TODO: Cleanup of enum logic
         }
     }
 
