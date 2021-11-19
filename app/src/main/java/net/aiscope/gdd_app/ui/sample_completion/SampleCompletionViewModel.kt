@@ -159,7 +159,8 @@ class SampleCompletionViewModel @Inject constructor(
             context.getString(R.string.water_type_bottled) -> WaterType.BOTTLED
             context.getString(R.string.water_type_tap) -> WaterType.TAP
             context.getString(R.string.water_type_well) -> WaterType.WELL
-            else -> throw IllegalStateException("$waterTypeValue water type is unknown")
+            context.getString(R.string.water_type_unknown) -> WaterType.UNKNOWN
+            else -> throw IllegalStateException("$waterTypeValue water type is not allowed")
         }
     }
 
@@ -169,6 +170,7 @@ class SampleCompletionViewModel @Inject constructor(
             WaterType.BOTTLED -> context.getString(R.string.water_type_bottled)
             WaterType.TAP -> context.getString(R.string.water_type_tap)
             WaterType.WELL -> context.getString(R.string.water_type_well)
+            WaterType.UNKNOWN -> context.getString(R.string.water_type_unknown)
             null -> ""
         }
     }
@@ -177,7 +179,8 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAgeValue) {
             context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
             context.getString(R.string.sample_age_old) -> SampleAge.OLD
-            else -> throw IllegalStateException("$sampleAgeValue sample age is unknown")
+            context.getString(R.string.sample_age_unknown) -> SampleAge.UNKNOWN
+            else -> throw IllegalStateException("$sampleAgeValue sample age is not allowed")
         }
     }
 
@@ -185,6 +188,7 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAge) {
             SampleAge.FRESH -> context.getString(R.string.sample_age_fresh)
             SampleAge.OLD -> context.getString(R.string.sample_age_old)
+            SampleAge.UNKNOWN -> context.getString(R.string.sample_age_unknown)
             null -> ""
         }
     }

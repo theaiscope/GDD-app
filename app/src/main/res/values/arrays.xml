@@ -9,10 +9,12 @@
         <item>@string/water_type_distilled</item>
         <item>@string/water_type_tap</item>
         <item>@string/water_type_well</item>
+        <item>@string/water_type_unknown</item>
     </string-array>
     <string-array name="sample_preparation_sample_age_types">
         <item>@string/spinner_empty_option</item>
         <item>@string/sample_age_fresh</item>
         <item>@string/sample_age_old</item>
+        <item>@string/sample_age_unknown</item>
     </string-array>
 </resources>
