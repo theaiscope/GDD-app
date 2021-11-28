@@ -59,8 +59,7 @@ enum class WaterType(val id: Int) {
 
 enum class SampleAge(val id: String) {
     FRESH("fresh"),
-    OLD("old"),
-    UNKNOWN("unknown")
+    OLD("old")
 }
 
 data class MicroscopeQuality(

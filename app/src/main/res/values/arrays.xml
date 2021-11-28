@@ -15,6 +15,5 @@
         <item>@string/spinner_empty_option</item>
         <item>@string/sample_age_fresh</item>
         <item>@string/sample_age_old</item>
-        <item>@string/sample_age_unknown</item>
     </string-array>
 </resources>

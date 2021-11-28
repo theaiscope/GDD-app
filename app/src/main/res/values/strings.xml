@@ -37,7 +37,6 @@
     <string name="water_type_unknown">Unknown</string>
     <string name="sample_age_old">Old</string>
     <string name="sample_age_fresh">Fresh</string>
-    <string name="sample_age_unknown">Unknown</string>
     <!-- MicroscopeQuality -->
     <string name="microscope_quality_activity_title">Microscope quality</string>
     <string name="microscope_quality_damaged_title">Microscope damaged/malfunctioning</string>
