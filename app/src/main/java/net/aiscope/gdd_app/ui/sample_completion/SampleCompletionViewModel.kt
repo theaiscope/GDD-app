@@ -179,7 +179,6 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAgeValue) {
             context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
             context.getString(R.string.sample_age_old) -> SampleAge.OLD
-            context.getString(R.string.sample_age_unknown) -> SampleAge.UNKNOWN
             else -> throw IllegalStateException("$sampleAgeValue sample age is not allowed")
         }
     }
@@ -188,7 +187,6 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAge) {
             SampleAge.FRESH -> context.getString(R.string.sample_age_fresh)
             SampleAge.OLD -> context.getString(R.string.sample_age_old)
-            SampleAge.UNKNOWN -> context.getString(R.string.sample_age_unknown)
             null -> ""
         }
     }
