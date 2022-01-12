@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.6.10'
     ext.kotlin_coroutines_version = '1.6.0'
-    ext.dagger_version = '2.40.1'
+    ext.dagger_version = '2.40.5'
     ext.mockito_version = '4.2.0'
     repositories {
         google()
