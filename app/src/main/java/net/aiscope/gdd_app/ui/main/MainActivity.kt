@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), SelectDiseaseView, LogoutFLow {
         Toast.makeText(this, R.string.error_message_logout_failure, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
