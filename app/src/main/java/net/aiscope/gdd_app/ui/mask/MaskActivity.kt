@@ -112,7 +112,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.mask_menu, menu)
         return true
     }
