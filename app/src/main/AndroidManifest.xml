@@ -39,9 +39,10 @@
             android:name=".ui.mask.MaskActivity"
             android:label="@string/mask_activity_title" />
         <provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            tools:node="remove" />
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove">
+        </provider>
     </application>
 
 </manifest>
