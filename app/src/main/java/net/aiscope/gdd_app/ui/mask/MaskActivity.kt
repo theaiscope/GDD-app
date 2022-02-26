@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.Dispatchers
@@ -159,6 +160,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
     }
 
     override fun takeMask(maskName: String, onPhotoReceived: suspend (File?) -> Unit) {
+        binding.maskLoadingModal.isVisible = true
         binding.photoMaskView.stopDrawing()
         val bmp = binding.photoMaskView.getMaskBitmap()
         lifecycleScope.launch {
