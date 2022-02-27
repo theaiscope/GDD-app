@@ -132,4 +132,23 @@
         app:layout_constraintTop_toTopOf="@id/tools_panel"
         app:layout_constraintHorizontal_bias="1.0" />
 
+    <FrameLayout
+        android:id="@+id/mask_loading_modal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:backgroundTint="#CC000000"
+        android:focusable="true"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
