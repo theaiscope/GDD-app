@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:7.2.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.novoda:gradle-build-properties-plugin:0.4.1'
         classpath 'com.google.gms:google-services:4.3.10'
@@ -20,7 +20,7 @@ buildscript {
 
 plugins {
     id 'com.github.ben-manes.versions' version '0.42.0'
-    id "io.gitlab.arturbosch.detekt" version "1.19.0"
+    id "io.gitlab.arturbosch.detekt" version "1.20.0"
     id "scabbard.gradle" version "0.5.0"
 }
 
