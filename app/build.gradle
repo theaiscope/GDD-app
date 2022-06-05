@@ -24,8 +24,8 @@ android {
         applicationId "net.aiscope.gdd_app"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 29
-        versionName "2.1.9"
+        versionCode 30
+        versionName "2.1.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigString 'SMARTLOOK_API_KEY', (buildProperties.secrets['SMARTLOOK_API_KEY'] | buildProperties.env['SMARTLOOK_API_KEY']) | ""
