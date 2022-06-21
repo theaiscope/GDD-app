@@ -44,7 +44,7 @@ class ZoomController(
                 zoomScaleFactor = (maxZoomRatio - 1) * zoomLevel + 1
                 fotoapparat.setZoom(zoomLevel)
 
-                onZoomChanged(zoomScaleFactor);
+                onZoomChanged(zoomScaleFactor)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -78,7 +78,7 @@ class ZoomController(
                     cameraZoomLevel.progress = (zoomLevel * PERCENTAGE_RATIO).toInt()
                     fotoapparat.setZoom(zoomLevel)
 
-                    onZoomChanged(zoomScaleFactor);
+                    onZoomChanged(zoomScaleFactor)
 
                     return true
                 }

@@ -147,7 +147,7 @@ suspend fun calculateInSampleSize(
 }
 
 private fun File.bitmapCompressFormatFromExtension(): Bitmap.CompressFormat {
-    return when (this.extension.toLowerCase(Locale.US)) {
+    return when (this.extension.lowercase(Locale.US)) {
         "png" -> Bitmap.CompressFormat.PNG
         "webp" -> Bitmap.CompressFormat.WEBP
         else -> Bitmap.CompressFormat.JPEG

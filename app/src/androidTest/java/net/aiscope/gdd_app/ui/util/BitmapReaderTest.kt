@@ -110,6 +110,6 @@ class BitmapReaderTest {
 
     private fun Bitmap.byteCountForRgb565() : Int {
         // each pixel is represented by 2 bytes
-        return this.width * this.height * 2;
+        return this.width * this.height * 2
     }
 }
