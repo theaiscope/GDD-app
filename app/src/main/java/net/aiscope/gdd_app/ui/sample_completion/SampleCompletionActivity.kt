@@ -78,7 +78,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
 
                 override fun onTabUnselected(tab: TabLayout.Tab) {
                     //call the validate and write back to VM function
-                    validateTabsAndUpdateVM();
+                    validateTabsAndUpdateVM()
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab) {

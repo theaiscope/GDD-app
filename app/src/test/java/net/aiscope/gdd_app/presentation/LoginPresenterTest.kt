@@ -19,7 +19,7 @@ class LoginPresenterTest {
     }
 
     private val viewMock: LoginView = mock()
-    private val firebaseAuthenticatorMock: FirebaseAuthenticator = mock() {
+    private val firebaseAuthenticatorMock: FirebaseAuthenticator = mock {
         on { isUserSignedIn() } doReturn true
     }
     private val microscopistRepository: MicroscopistRepository = mock()

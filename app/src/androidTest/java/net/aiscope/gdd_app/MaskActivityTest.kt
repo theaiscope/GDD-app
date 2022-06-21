@@ -31,7 +31,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 
-//FIXME("Some tests will fail depending on the device's screen aspect ratio - swipes won't start/end
+// FIXME("Some tests will fail depending on the device's screen aspect ratio - swipes won't start/end
 // in the picture, so their expected results will not happen")
 @RunWith(AndroidJUnit4::class)
 class MaskActivityTest {

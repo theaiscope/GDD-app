@@ -207,7 +207,7 @@ class SampleCompletionViewModelTest {
     fun `Should upload updated sample to remote storage`() {
         coroutinesTestRule.runBlockingTest {
             //So we expect the values returned here to be in the one that gets enqueued
-            whenever(repository.store(any())).thenReturn(lastSample);
+            whenever(repository.store(any())).thenReturn(lastSample)
 
             viewModel.sampleAge = "Fresh"
             viewModel.waterType = "Well"
