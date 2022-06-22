@@ -67,7 +67,7 @@ class MaskCustomViewTest{
 
     private fun initializeLooper() {
         if (Looper.myLooper() == null) {
-            Looper.prepare();
+            Looper.prepare()
         }
     }
 

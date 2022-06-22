@@ -18,4 +18,4 @@ Data entered into the application (images, masks, metadata) will be stored on Am
 
 ## Contact
 
-In case of any question, conplaints or requests, please reach out via the [AI Scope contact page](https://aiscope.net/contact-us/).
+In case of any question, complaints or requests, please reach out via the [AI Scope contact page](https://aiscope.net/contact-us/).

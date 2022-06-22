@@ -27,7 +27,7 @@ class SelectDiseasePresenter @Inject constructor(
         repository.store(sample)
         sampleCollectionRepository.store(sample)
 
-        view.goToCaptureImage(sample.nextImageName());
+        view.goToCaptureImage(sample.nextImageName())
     }
 
     fun logout() {
