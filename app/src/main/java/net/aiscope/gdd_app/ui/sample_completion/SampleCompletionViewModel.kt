@@ -18,6 +18,7 @@ import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.MicroscopistRepository
+import net.aiscope.gdd_app.repository.SampleCollectionRepository
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,
+    private val sampleCollectionRepository: SampleCollectionRepository,
     private val context: Context,
     private val microscopistRepository: MicroscopistRepository
 ) : ViewModel() {
@@ -146,6 +148,7 @@ class SampleCompletionViewModel @Inject constructor(
                     microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
                 )
             }
+            sampleCollectionRepository.store(storedSample)
         }
     }
 
