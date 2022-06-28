@@ -28,7 +28,7 @@ class SelectDiseasePresenter @Inject constructor(
         val sampleCollection = sample.buildSampleCollection();
         FirestoreUtil.FirestoreUtil.firestore?.collection("samples")?.document(sampleCollection.sampleID)?.set(sampleCollection)
 
-        view.goToCaptureImage(sample.nextImageName());
+        view.goToCaptureImage(sample.nextImageName())
     }
 
     fun logout() {
