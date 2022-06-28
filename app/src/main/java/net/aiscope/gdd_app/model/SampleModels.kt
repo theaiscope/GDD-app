@@ -1,6 +1,7 @@
 package net.aiscope.gdd_app.model
 
 import net.aiscope.gdd_app.extensions.replaceElementAt
+import net.aiscope.gdd_app.network.ISO_FORMAT
 import java.io.File
 import java.util.Calendar
 
@@ -31,6 +32,17 @@ data class Sample(
     fun nextImageName(): String = "${id}_image_${captures.completedCaptureCount()}"
 
     fun nextMaskName(): String = "${id}_mask_${captures.completedCaptureCount()}"
+
+    fun  buildSampleCollection() : SampleCollection {
+        val sampleCollection = SampleCollection(
+            sampleID = id,
+            createdOn = ISO_FORMAT.format(createdOn.time),
+            uploadedBy = microscopist,
+            location = "${id}/metadata.json",
+            numberOfImages = captures.completedCaptureCount()
+        )
+        return sampleCollection;
+    }
 }
 
 enum class SampleStatus(val id: Short) {

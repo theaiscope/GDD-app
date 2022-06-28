@@ -1,15 +1,14 @@
 package net.aiscope.gdd_app.ui.main
 
 import net.aiscope.gdd_app.network.FirebaseAuthenticator
-import net.aiscope.gdd_app.repository.SampleCollectionRepository
+import net.aiscope.gdd_app.network.FirestoreUtil
 import net.aiscope.gdd_app.repository.SampleRepository
 import javax.inject.Inject
 
 class SelectDiseasePresenter @Inject constructor(
     val view: SelectDiseaseView,
     val firebaseAuth: FirebaseAuthenticator,
-    val repository: SampleRepository,
-    val sampleCollectionRepository: SampleCollectionRepository
+    val repository: SampleRepository
 ) {
 
     private val logoutCallBack: FirebaseAuthenticator.LogoutCallBack = object : FirebaseAuthenticator.LogoutCallBack {
@@ -25,7 +24,9 @@ class SelectDiseasePresenter @Inject constructor(
     suspend fun saveDisease(diseaseName: String) {
         val sample = repository.create(diseaseName)
         repository.store(sample)
-        sampleCollectionRepository.store(sample)
+
+        val sampleCollection = sample.buildSampleCollection();
+        FirestoreUtil.FirestoreUtil.firestore?.collection("samples")?.document(sampleCollection.sampleID)?.set(sampleCollection)
 
         view.goToCaptureImage(sample.nextImageName());
     }

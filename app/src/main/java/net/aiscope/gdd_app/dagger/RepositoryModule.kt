@@ -6,10 +6,8 @@ import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.repository.FirebaseMicroscopistRepository
 import net.aiscope.gdd_app.repository.FirestoreHealthFacilityRepository
-import net.aiscope.gdd_app.repository.FirestoreSampleRepository
- import net.aiscope.gdd_app.repository.HealthFacilityRepository
+import net.aiscope.gdd_app.repository.HealthFacilityRepository
 import net.aiscope.gdd_app.repository.MicroscopistRepository
-import net.aiscope.gdd_app.repository.SampleCollectionRepository
 import net.aiscope.gdd_app.repository.SampleRepository
 import net.aiscope.gdd_app.repository.SampleRepositorySharedPreference
 import net.aiscope.gdd_app.repository.SharedPreferenceStore
@@ -25,7 +23,6 @@ abstract class RepositoryModule {
         fun provideSampleRepository(
             store: SharedPreferenceStore,
             healthFacilityRepository: HealthFacilityRepository,
-            sampleCollectionRepository: SampleCollectionRepository,
             gson: Gson
         ): SampleRepository =
             SampleRepositorySharedPreference(store, UUID, healthFacilityRepository, gson)
@@ -35,11 +32,6 @@ abstract class RepositoryModule {
     internal abstract fun bindHealthFacilityRepository(
         firestoreHealthFacilityRepository: FirestoreHealthFacilityRepository
     ): HealthFacilityRepository
-
-    @Binds
-    internal abstract fun bindSampleCollectionRepository(
-        sampleCollectionRepository: FirestoreSampleRepository
-    ): SampleCollectionRepository
 
     @Binds
     internal abstract fun bindMicroscopistRepository(
