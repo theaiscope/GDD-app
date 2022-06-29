@@ -16,7 +16,7 @@ import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
 import net.aiscope.gdd_app.model.WaterType
-import net.aiscope.gdd_app.network.FirestoreUtil.FirestoreUtil
+import net.aiscope.gdd_app.network.FirestoreUtil
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
@@ -147,8 +147,9 @@ class SampleCompletionViewModel @Inject constructor(
                     microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
                 )
             }
-            val sampleCollection = storedSample.buildSampleCollection();
-            FirestoreUtil.firestore?.collection("samples")?.document(sampleCollection.sampleID)?.set(sampleCollection)
+            val sampleCollection = storedSample.buildSampleCollection()
+            FirestoreUtil.FirestoreUtil.firestore?.collection("samples")?.
+            document(sampleCollection.location)?.set(sampleCollection)
             remoteStorage.enqueue(storedSample, context)
         }
     }

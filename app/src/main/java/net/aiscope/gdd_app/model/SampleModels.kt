@@ -1,7 +1,8 @@
 package net.aiscope.gdd_app.model
 
+import com.google.firebase.Timestamp
 import net.aiscope.gdd_app.extensions.replaceElementAt
-import net.aiscope.gdd_app.network.ISO_FORMAT
+import net.aiscope.gdd_app.network.FirestoreUtil
 import java.io.File
 import java.util.Calendar
 
@@ -33,12 +34,12 @@ data class Sample(
 
     fun nextMaskName(): String = "${id}_mask_${captures.completedCaptureCount()}"
 
-    fun  buildSampleCollection() : SampleCollection {
+    fun buildSampleCollection() : SampleCollection {
         val sampleCollection = SampleCollection(
-            sampleID = id,
-            createdOn = ISO_FORMAT.format(createdOn.time),
-            uploadedBy = microscopist,
-            location = "${id}/metadata.json",
+            createdOn = Timestamp(createdOn.time),
+            uploadedBy = FirestoreUtil.FirestoreUtil.firestore?.
+            collection("microscopist")?.document(microscopist),
+            location = id,
             numberOfImages = captures.completedCaptureCount()
         )
         return sampleCollection;

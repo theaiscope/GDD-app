@@ -1,10 +1,12 @@
 package net.aiscope.gdd_app.model
 
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentReference
+
 //Sample collection in Firestore
 class SampleCollection (
-    val sampleID: String,
     val location: String,
     val numberOfImages: Int,
-    val createdOn: String,
-    val uploadedBy: String,
+    val createdOn: Timestamp,
+    val uploadedBy: DocumentReference?,
 ){}

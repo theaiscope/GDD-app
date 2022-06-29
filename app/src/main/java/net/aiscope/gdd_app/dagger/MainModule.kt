@@ -28,7 +28,6 @@ abstract class MainModule {
             view: SelectDiseaseView,
             firebaseAuth: FirebaseAuthenticator,
             repository: SampleRepository
-
         ): SelectDiseasePresenter =
             SelectDiseasePresenter(
                 view,
