@@ -26,4 +26,9 @@ interface RemoteStorage {
 
         WorkManager.getInstance(context).enqueue(uploadWorkRequest)
     }
+    fun storeSampleCollection(sample: Sample) {
+        val sampleCollection = sample.buildSampleCollection()
+        FirestoreUtil.FirestoreUtil.firestore?.collection("samples")?.
+        document(sampleCollection.location)?.set(sampleCollection)
+    }
 }

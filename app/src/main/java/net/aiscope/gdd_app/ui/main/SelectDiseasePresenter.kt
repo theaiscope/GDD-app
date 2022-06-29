@@ -1,7 +1,6 @@
 package net.aiscope.gdd_app.ui.main
 
 import net.aiscope.gdd_app.network.FirebaseAuthenticator
-import net.aiscope.gdd_app.network.FirestoreUtil
 import net.aiscope.gdd_app.repository.SampleRepository
 import javax.inject.Inject
 
@@ -24,10 +23,6 @@ class SelectDiseasePresenter @Inject constructor(
     suspend fun saveDisease(diseaseName: String) {
         val sample = repository.create(diseaseName)
         repository.store(sample)
-
-        val sampleCollection = sample.buildSampleCollection();
-        FirestoreUtil.FirestoreUtil.firestore?.collection("samples")?.
-        document(sampleCollection.location)?.set(sampleCollection)
 
         view.goToCaptureImage(sample.nextImageName())
     }
