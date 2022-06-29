@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 
 //Sample collection in Firestore
-class SampleCollection (
+data class SampleCollection (
     val location: String,
     val numberOfImages: Int,
     val createdOn: Timestamp,
