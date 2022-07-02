@@ -24,7 +24,7 @@ workflows:
     - install-missing-android-tools@2.3.8:
         inputs:
         - gradlew_path: "$PROJECT_LOCATION/gradlew"
-    - android-lint@0.9.7:
+    - android-lint@0.9.11:
         inputs:
         - project_location: "$PROJECT_LOCATION/"
         - module: "$MODULE"
