@@ -6,6 +6,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+//import com.google.firebase.firestore.FirebaseFirestore
 import net.aiscope.gdd_app.model.Sample
 
 interface RemoteStorage {
@@ -26,9 +27,14 @@ interface RemoteStorage {
 
         WorkManager.getInstance(context).enqueue(uploadWorkRequest)
     }
+
+    /*
     fun storeSampleCollection(sample: Sample) {
         val sampleCollection = sample.buildSampleCollection()
-        FirestoreUtil.FirestoreUtil.firestore?.collection("samples")?.
-        document(sampleCollection.location)?.set(sampleCollection)
+        FirebaseFirestore.getInstance()
+            .collection("samples")
+            .document(sampleCollection.location)
+            .set(sampleCollection)
     }
+     */
 }

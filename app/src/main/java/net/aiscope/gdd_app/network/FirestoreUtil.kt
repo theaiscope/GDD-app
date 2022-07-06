@@ -1,7 +1,8 @@
 package net.aiscope.gdd_app.network
-import com.google.firebase.firestore.FirebaseFirestore
+//import com.google.firebase.firestore.FirebaseFirestore
 
 class FirestoreUtil {
+    /*
     object FirestoreUtil {
         private var FIRESTORE: FirebaseFirestore? = null
         val firestore: FirebaseFirestore?
@@ -12,4 +13,5 @@ class FirestoreUtil {
                 return FIRESTORE
             }
     }
+     */
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
@@ -12,6 +14,7 @@ import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.model.SampleCollection
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
@@ -26,7 +29,8 @@ class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,
     private val context: Context,
-    private val microscopistRepository: MicroscopistRepository
+    private val microscopistRepository: MicroscopistRepository,
+    private val firebaseFirestore: FirebaseFirestore
 ) : ViewModel() {
     companion object {
         const val DEFAULT_MAGNIFICATION: Int = 1000
@@ -146,7 +150,17 @@ class SampleCompletionViewModel @Inject constructor(
                     microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
                 )
             }
-            remoteStorage.storeSampleCollection(storedSample)
+            val sampleCollection = SampleCollection(
+                createdOn = Timestamp(storedSample.createdOn.time),
+                uploadedBy = firebaseFirestore.collection("microscopist")
+                    .document(storedSample.microscopist),
+                location = storedSample.id,
+                numberOfImages = storedSample.captures.completedCaptureCount()
+            )
+            firebaseFirestore.collection("samples")
+                .document(sampleCollection.location)
+                .set(sampleCollection)
+            //remoteStorage.storeSampleCollection(storedSample)
         }
     }
 

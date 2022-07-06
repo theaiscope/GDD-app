@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -34,9 +35,12 @@ abstract class SampleCompletionModule {
             repository: SampleRepository,
             remoteStorage: RemoteStorage,
             context: Context,
-            microscopistRepository: MicroscopistRepository
+            microscopistRepository: MicroscopistRepository,
+            firebaseFirestore: FirebaseFirestore
         ): SampleCompletionViewModel =
-            SampleCompletionViewModel(repository, remoteStorage, context, microscopistRepository)
+            SampleCompletionViewModel(
+                repository, remoteStorage, context, microscopistRepository, firebaseFirestore
+            )
     }
 }
 
