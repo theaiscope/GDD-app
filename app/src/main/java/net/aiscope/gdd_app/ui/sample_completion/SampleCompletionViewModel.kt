@@ -5,8 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
@@ -22,6 +20,7 @@ import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.repository.SampleRepositoryFirestore
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
 
@@ -30,7 +29,7 @@ class SampleCompletionViewModel @Inject constructor(
     private val remoteStorage: RemoteStorage,
     private val context: Context,
     private val microscopistRepository: MicroscopistRepository,
-    private val firebaseFirestore: FirebaseFirestore
+    private val sampleRepositoryFirestore: SampleRepositoryFirestore
 ) : ViewModel() {
     companion object {
         const val DEFAULT_MAGNIFICATION: Int = 1000
@@ -150,17 +149,7 @@ class SampleCompletionViewModel @Inject constructor(
                     microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
                 )
             }
-            val sampleCollection = SampleCollection(
-                createdOn = Timestamp(storedSample.createdOn.time),
-                uploadedBy = firebaseFirestore.collection("microscopist")
-                    .document(storedSample.microscopist),
-                location = storedSample.id,
-                numberOfImages = storedSample.captures.completedCaptureCount()
-            )
-            firebaseFirestore.collection("samples")
-                .document(sampleCollection.location)
-                .set(sampleCollection)
-            //remoteStorage.storeSampleCollection(storedSample)
+            sampleRepositoryFirestore.store(storedSample)
         }
     }
 

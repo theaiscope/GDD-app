@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.repository.SampleRepositoryFirestore
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import javax.inject.Inject
@@ -36,10 +36,10 @@ abstract class SampleCompletionModule {
             remoteStorage: RemoteStorage,
             context: Context,
             microscopistRepository: MicroscopistRepository,
-            firebaseFirestore: FirebaseFirestore
+            sampleRepositoryFirestore: SampleRepositoryFirestore
         ): SampleCompletionViewModel =
             SampleCompletionViewModel(
-                repository, remoteStorage, context, microscopistRepository, firebaseFirestore
+                repository, remoteStorage, context, microscopistRepository, sampleRepositoryFirestore
             )
     }
 }
