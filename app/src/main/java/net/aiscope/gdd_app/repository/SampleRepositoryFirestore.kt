@@ -22,3 +22,4 @@ class SampleRepositoryFirestore @Inject constructor(
             .set(sampleCollection)
     }
 }
+
