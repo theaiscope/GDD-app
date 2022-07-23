@@ -9,4 +9,4 @@ data class SampleCollection (
     val numberOfImages: Int,
     val createdOn: Timestamp,
     val uploadedBy: DocumentReference?,
-){}
+)
