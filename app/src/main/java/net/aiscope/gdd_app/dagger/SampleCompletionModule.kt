@@ -36,9 +36,7 @@ abstract class SampleCompletionModule {
             context: Context,
             microscopistRepository: MicroscopistRepository
         ): SampleCompletionViewModel =
-            SampleCompletionViewModel(
-                repository, remoteStorage, context, microscopistRepository
-            )
+            SampleCompletionViewModel(repository, remoteStorage, context, microscopistRepository)
     }
 }
 

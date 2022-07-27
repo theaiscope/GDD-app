@@ -95,10 +95,7 @@ class SampleCompletionViewModelTest {
 
             whenever(repository.current()).thenReturn(sample)
 
-            viewModel = SampleCompletionViewModel(
-                repository, remoteStorage, context,
-                microscopistRepository
-            )
+            viewModel = SampleCompletionViewModel(repository, remoteStorage, context, microscopistRepository)
         }
     }
 
