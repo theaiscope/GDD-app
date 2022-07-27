@@ -10,6 +10,8 @@ interface SampleRepository {
 
     fun all(): List<Sample>
     suspend fun lastSaved(): Sample?
+
+    fun storeCollection(sample: Sample)
 }
 
 class SampleRepositoryException(message: String): Exception(message)
