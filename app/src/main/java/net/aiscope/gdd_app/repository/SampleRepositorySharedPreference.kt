@@ -1,11 +1,8 @@
 package net.aiscope.gdd_app.repository
 
 import com.github.salomonbrys.kotson.fromJson
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import net.aiscope.gdd_app.model.Sample
-import net.aiscope.gdd_app.model.SampleCollection
 import net.aiscope.gdd_app.model.SampleStatus
 import java.util.Calendar
 import javax.inject.Inject
@@ -14,8 +11,7 @@ class SampleRepositorySharedPreference @Inject constructor(
     private val store: SharedPreferenceStore,
     private val uuid: UUID,
     private val healthFacilityRepository: HealthFacilityRepository,
-    private val gson: Gson,
-    private val firebaseFirestore: FirebaseFirestore
+    private val gson: Gson
 ) : SampleRepository {
 
     private var currentSample: Sample? = null
@@ -46,19 +42,6 @@ class SampleRepositorySharedPreference @Inject constructor(
         store.store(updatedSample.id, gson.toJson(updatedSample.toDto()))
         currentSample = updatedSample
         return updatedSample
-    }
-
-    override fun storeCollection(sample: Sample) {
-        val sampleCollection = SampleCollection(
-            createdOn = Timestamp(sample.createdOn.time),
-            uploadedBy = firebaseFirestore.collection("microscopist")
-                .document(sample.microscopist),
-            location = sample.id,
-            numberOfImages = sample.captures.completedCaptureCount()
-        )
-        firebaseFirestore.collection("samples")
-            .document(sampleCollection.location)
-            .set(sampleCollection)
     }
 
     override fun load(id: String): Sample {

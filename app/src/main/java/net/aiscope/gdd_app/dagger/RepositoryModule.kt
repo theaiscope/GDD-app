@@ -1,6 +1,5 @@
 package net.aiscope.gdd_app.dagger
 
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import dagger.Binds
 import dagger.Module
@@ -24,11 +23,9 @@ abstract class RepositoryModule {
         fun provideSampleRepository(
             store: SharedPreferenceStore,
             healthFacilityRepository: HealthFacilityRepository,
-            gson: Gson,
-            firebaseFirestore: FirebaseFirestore
+            gson: Gson
         ): SampleRepository =
-            SampleRepositorySharedPreference(store, UUID, healthFacilityRepository, gson,
-                firebaseFirestore)
+            SampleRepositorySharedPreference(store, UUID, healthFacilityRepository, gson)
     }
 
     @Binds
