@@ -10,6 +10,7 @@ import dagger.Provides
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.repository.SampleRepositoryFirestore
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionActivity
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import javax.inject.Inject
@@ -34,9 +35,12 @@ abstract class SampleCompletionModule {
             repository: SampleRepository,
             remoteStorage: RemoteStorage,
             context: Context,
-            microscopistRepository: MicroscopistRepository
+            microscopistRepository: MicroscopistRepository,
+            sampleRepositoryFirestore: SampleRepositoryFirestore
         ): SampleCompletionViewModel =
-            SampleCompletionViewModel(repository, remoteStorage, context, microscopistRepository)
+            SampleCompletionViewModel(
+                repository, remoteStorage, context, microscopistRepository, sampleRepositoryFirestore
+            )
     }
 }
 

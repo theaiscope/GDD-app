@@ -12,6 +12,7 @@ import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
+import net.aiscope.gdd_app.model.SampleCollection
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus
@@ -19,6 +20,7 @@ import net.aiscope.gdd_app.model.WaterType
 import net.aiscope.gdd_app.network.RemoteStorage
 import net.aiscope.gdd_app.repository.MicroscopistRepository
 import net.aiscope.gdd_app.repository.SampleRepository
+import net.aiscope.gdd_app.repository.SampleRepositoryFirestore
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
 
@@ -26,7 +28,8 @@ class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,
     private val context: Context,
-    private val microscopistRepository: MicroscopistRepository
+    private val microscopistRepository: MicroscopistRepository,
+    private val sampleRepositoryFirestore: SampleRepositoryFirestore
 ) : ViewModel() {
     companion object {
         const val DEFAULT_MAGNIFICATION: Int = 1000
@@ -146,6 +149,7 @@ class SampleCompletionViewModel @Inject constructor(
                     microscopistRepository.load().copy(hasSubmitSampleFirstTime = true)
                 )
             }
+            sampleRepositoryFirestore.store(storedSample)
         }
     }
 
