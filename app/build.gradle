@@ -104,7 +104,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-common-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
     implementation "com.google.android.gms:play-services-auth:20.3.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$kotlin_coroutines_version"
 
