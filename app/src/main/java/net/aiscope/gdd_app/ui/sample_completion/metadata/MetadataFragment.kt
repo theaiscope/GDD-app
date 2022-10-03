@@ -16,7 +16,6 @@ import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.Sample
 import net.aiscope.gdd_app.ui.capture.CaptureImageActivity
 import net.aiscope.gdd_app.ui.mask.MaskActivity
-import net.aiscope.gdd_app.ui.metadata.SampleImagesAdapter
 import net.aiscope.gdd_app.ui.sample_completion.SampleCompletionViewModel
 import net.aiscope.gdd_app.ui.sample_completion.SampleFormFragment
 

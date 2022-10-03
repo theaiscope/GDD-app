@@ -1,4 +1,4 @@
-package net.aiscope.gdd_app.ui.metadata
+package net.aiscope.gdd_app.ui.sample_completion.metadata
 
 import android.view.LayoutInflater
 import android.view.View

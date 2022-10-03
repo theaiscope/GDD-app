@@ -120,7 +120,7 @@ data class Captures(
         else
         {
             inProgress = this.inProgressCapture
-            completed = completedCaptures.filterIndexed { ix, element ->
+            completed = completedCaptures.filterIndexed { _, element ->
                 element.image.compareTo(path) != 0
             }
         }
