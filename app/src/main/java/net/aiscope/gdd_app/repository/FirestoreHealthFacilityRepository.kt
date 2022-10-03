@@ -22,14 +22,14 @@ class FirestoreHealthFacilityRepository @Inject constructor(
 ) : HealthFacilityRepository {
 
     override suspend fun load(): HealthFacility = withContext(dispatchers.io()) {
-        val user = firebaseAuth.currentUser ?: throw IllegalStateException("")
+        val user = firebaseAuth.currentUser ?: error("No current user found")
         val snapshot: QuerySnapshot = healthFacilityQueryFor(user).get().await()
         val document: DocumentSnapshot = snapshot.documents[0]
         HealthFacility(document["name"] as String, document.id, user.uid)
     }
 
     override fun cacheHealthFacility() {
-        val user = firebaseAuth.currentUser ?: throw IllegalStateException("")
+        val user = firebaseAuth.currentUser ?: error("No current user found")
         var listener: ListenerRegistration? = null
         listener = healthFacilityQueryFor(user)
             .addSnapshotListener(MetadataChanges.INCLUDE) { snapshot, ex ->

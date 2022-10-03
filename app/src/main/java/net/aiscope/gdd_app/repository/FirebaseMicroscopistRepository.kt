@@ -11,7 +11,7 @@ class FirebaseMicroscopistRepository @Inject constructor(
 
     override fun load(): Microscopist {
         val microscopistId = firebaseAuth.currentUser?.uid
-            ?: throw IllegalStateException("Microscopist is not logged in")
+            ?: error("Microscopist is not logged in")
         val hasAcceptedPrivacyPolicy = store.load(
             hasAcceptedPrivacyPolicyKeyFor(microscopistId)
         ).toBoolean()

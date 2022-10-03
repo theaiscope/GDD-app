@@ -160,7 +160,7 @@ class SampleCompletionViewModel @Inject constructor(
             context.getString(R.string.water_type_tap) -> WaterType.TAP
             context.getString(R.string.water_type_well) -> WaterType.WELL
             context.getString(R.string.water_type_unknown) -> WaterType.UNKNOWN
-            else -> throw IllegalStateException("$waterTypeValue water type is not allowed")
+            else -> error("$waterTypeValue water type is not allowed")
         }
     }
 
@@ -179,7 +179,7 @@ class SampleCompletionViewModel @Inject constructor(
         return when (sampleAgeValue) {
             context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
             context.getString(R.string.sample_age_old) -> SampleAge.OLD
-            else -> throw IllegalStateException("$sampleAgeValue sample age is not allowed")
+            else -> error("$sampleAgeValue sample age is not allowed")
         }
     }
 

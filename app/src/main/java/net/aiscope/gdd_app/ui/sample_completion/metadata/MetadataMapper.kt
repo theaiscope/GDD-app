@@ -10,9 +10,7 @@ object MetadataMapper {
         return when (smearTypeId) {
             R.id.metadata_blood_smear_thick -> SmearType.THICK
             R.id.metadata_blood_smear_thin -> SmearType.THIN
-            else -> throw IllegalStateException(
-                "$smearTypeId smearTypeId is unknown"
-            )
+            else -> error("$smearTypeId smearTypeId is unknown")
         }
     }
 
@@ -20,8 +18,7 @@ object MetadataMapper {
         return when (smearType) {
             SmearType.THICK -> R.id.metadata_blood_smear_thick
             SmearType.THIN -> R.id.metadata_blood_smear_thin
-            null -> throw IllegalStateException(
-                "$smearType smearType is unknown"
+            null -> error("$smearType smearType is unknown"
             )
         }
     }
@@ -33,9 +30,7 @@ object MetadataMapper {
             context.getString(R.string.malaria_species_p_ovale) -> MalariaSpecies.P_OVALE
             context.getString(R.string.malaria_species_p_malariae) -> MalariaSpecies.P_MALARIAE
             context.getString(R.string.malaria_species_p_knowlesi) -> MalariaSpecies.P_KNOWLESI
-            else -> throw IllegalStateException(
-                "$speciesValue species is unknown"
-            )
+            else -> error("$speciesValue species is unknown")
         }
     }
 
