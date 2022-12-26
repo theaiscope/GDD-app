@@ -12,11 +12,11 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class MaskLayerMaskCustomViewBaseStateTest {
+class MaskLayerPhotoMaskViewBaseStateTest {
 
     @Test
     fun itShouldRestoreProperly() {
-        val state = givenMaskCustomViewBaseState()
+        val state = givenPhotoMaskViewBaseState()
 
         state.testParcel().apply {
             assertEquals(state, this)
@@ -24,7 +24,7 @@ class MaskLayerMaskCustomViewBaseStateTest {
         }
     }
 
-    private fun givenMaskCustomViewBaseState(): MaskCustomViewBaseState {
+    private fun givenPhotoMaskViewBaseState(): PhotoMaskViewBaseState {
         val points1 = listOf(PointF(0f, 1f), PointF(2f, 3f), PointF(4f, 5f))
         val points2 = listOf(PointF(1f, 2f), PointF(3f, 4f))
         val points3 = listOf(PointF(2f, 3f), PointF(4f, 5f), PointF(4f, 5f), PointF(6f, 7f))
@@ -41,7 +41,7 @@ class MaskLayerMaskCustomViewBaseStateTest {
             PathAndPaint(PointToPointPath.createFromPoints(points2), paint3),
             PathAndPaint(PointToPointPath.createFromPoints(points3), paint3)
         )
-        return MaskCustomViewBaseState(input, 1, 2)
+        return PhotoMaskViewBaseState(input, 1, 2)
     }
 
     private fun buildPaint(color: Int, strokeWidth: Float, eraser: Boolean = false) =

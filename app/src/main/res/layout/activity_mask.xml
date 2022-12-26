@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_layout"
         layout="@layout/toolbar" />
 
-    <net.aiscope.gdd_app.ui.mask.customview.MaskCustomView
+    <net.aiscope.gdd_app.ui.mask.customview.PhotoMaskView
         android:id="@+id/photo_mask_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

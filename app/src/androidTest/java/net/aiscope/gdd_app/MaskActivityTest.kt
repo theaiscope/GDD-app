@@ -110,13 +110,13 @@ class MaskActivityTest {
 
         perform(R.id.photo_mask_view, swipeLeft())
 
-        val captureBeforeRotation = captureMaskCustomView()
+        val captureBeforeRotation = capturePhotoMaskView()
 
         rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
 
         rotateAndWaitViewDisplay(Orientation.PORTRAIT, R.id.photo_mask_view)
 
-        val captureAfterRotation = captureMaskCustomView()
+        val captureAfterRotation = capturePhotoMaskView()
 
         assertTrue(captureAfterRotation.bitmap.sameAs(captureBeforeRotation.bitmap))
     }
@@ -141,7 +141,7 @@ class MaskActivityTest {
         checkIsVisible(R.id.redo_btn)
     }
 
-    private fun captureMaskCustomView() = Screenshot.capture(
+    private fun capturePhotoMaskView() = Screenshot.capture(
         activityTestRule.activity.findViewById<View>(
             R.id.photo_mask_view
         )
@@ -154,49 +154,49 @@ class MaskActivityTest {
         checkIsInvisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        val captureStart = captureMaskCustomView()
+        val captureStart = capturePhotoMaskView()
 
         perform(R.id.photo_mask_view, swipeLeft())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        val captureFirstPath = captureMaskCustomView()
+        val captureFirstPath = capturePhotoMaskView()
 
         perform(R.id.photo_mask_view, swipeUpFromCenter())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        val captureSecondPath = captureMaskCustomView()
+        val captureSecondPath = capturePhotoMaskView()
 
         perform(R.id.undo_btn, click())
 
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
+        assertTrue(capturePhotoMaskView().bitmap.sameAs(captureFirstPath.bitmap))
 
         perform(R.id.undo_btn, click())
 
         checkIsInvisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureStart.bitmap))
+        assertTrue(capturePhotoMaskView().bitmap.sameAs(captureStart.bitmap))
 
         perform(R.id.redo_btn, click())
 
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
+        assertTrue(capturePhotoMaskView().bitmap.sameAs(captureFirstPath.bitmap))
 
         perform(R.id.redo_btn, click())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureSecondPath.bitmap))
+        assertTrue(capturePhotoMaskView().bitmap.sameAs(captureSecondPath.bitmap))
     }
 
     @Test
@@ -206,14 +206,14 @@ class MaskActivityTest {
         checkIsInvisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        val captureStart = captureMaskCustomView()
+        val captureStart = capturePhotoMaskView()
 
         perform(R.id.photo_mask_view, swipeLeft())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        val captureFirstPath = captureMaskCustomView()
+        val captureFirstPath = capturePhotoMaskView()
 
         rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
         perform(R.id.photo_mask_view, swipeUpFromCenter())
@@ -222,7 +222,7 @@ class MaskActivityTest {
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        val captureSecondPath = captureMaskCustomView()
+        val captureSecondPath = capturePhotoMaskView()
 
         rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
         perform(R.id.undo_btn, click())
@@ -231,14 +231,14 @@ class MaskActivityTest {
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-         assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
+         assertTrue(capturePhotoMaskView().bitmap.sameAs(captureFirstPath.bitmap))
 
         perform(R.id.undo_btn, click())
 
         checkIsInvisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureStart.bitmap))
+        assertTrue(capturePhotoMaskView().bitmap.sameAs(captureStart.bitmap))
 
         rotateAndWaitViewDisplay(Orientation.LANDSCAPE, R.id.photo_mask_view)
         perform(R.id.redo_btn, click())
@@ -247,14 +247,14 @@ class MaskActivityTest {
         checkIsVisible(R.id.undo_btn)
         checkIsVisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureFirstPath.bitmap))
+        assertTrue(capturePhotoMaskView().bitmap.sameAs(captureFirstPath.bitmap))
 
         perform(R.id.redo_btn, click())
 
         checkIsVisible(R.id.undo_btn)
         checkIsInvisible(R.id.redo_btn)
 
-        assertTrue(captureMaskCustomView().bitmap.sameAs(captureSecondPath.bitmap))
+        assertTrue(capturePhotoMaskView().bitmap.sameAs(captureSecondPath.bitmap))
     }
 
     // this makes swipe from the center of the picture view instead of bottom

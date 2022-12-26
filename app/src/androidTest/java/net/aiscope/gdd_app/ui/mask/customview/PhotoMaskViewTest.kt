@@ -13,7 +13,7 @@ import org.junit.Test
 import java.io.File
 import java.io.InputStream
 
-class MaskCustomViewTest{
+class PhotoMaskViewTest{
     private val testContext = InstrumentationRegistry.getInstrumentation().context
     private val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
 
@@ -24,7 +24,7 @@ class MaskCustomViewTest{
 
     @Test
     fun touchBeforeInit(){
-        val view = MaskCustomView(testContext)
+        val view = PhotoMaskView(testContext)
         val event = getEvent(view)
 
         assertFalse(view.onTouchEvent(event))
@@ -32,7 +32,7 @@ class MaskCustomViewTest{
 
     @Test
     fun touchAfterInit(){
-        val view = MaskCustomView(testContext)
+        val view = PhotoMaskView(testContext)
         val targetFile = File(targetContext.filesDir, "test.png")
         targetFile.createNewFile()
         testContext.getAssetStream("photo.png").toFile(targetFile)
@@ -44,7 +44,7 @@ class MaskCustomViewTest{
     }
 
 
-    private fun getEvent(view: MaskCustomView): MotionEvent {
+    private fun getEvent(view: PhotoMaskView): MotionEvent {
         // get the coordinates of the view
         val coordinates = IntArray(2)
         view.getLocationOnScreen(coordinates)
