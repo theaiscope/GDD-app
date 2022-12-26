@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class MaskCustomViewBaseState(
+data class PhotoMaskViewBaseState(
     val pathsPaintsAndStagesNames: List<PathAndPaint>,
     val undoPendingPaths: Int,
     val currentBrushColor: Int

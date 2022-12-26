@@ -227,10 +227,10 @@ class MaskLayer(private val imageMatrix: Matrix) {
     }
 
     fun getInstanceState() =
-        MaskCustomViewBaseState(pathsAndPaints, undoPendingPaths, currentBrushColor)
+        PhotoMaskViewBaseState(pathsAndPaints, undoPendingPaths, currentBrushColor)
 
     fun restoreInstanceState(savedState: Parcelable?) {
-        if (savedState is MaskCustomViewBaseState) {
+        if (savedState is PhotoMaskViewBaseState) {
             undoPendingPaths = savedState.undoPendingPaths
             pathsAndPaints.addAll(savedState.pathsPaintsAndStagesNames)
             currentBrushColor = savedState.currentBrushColor
