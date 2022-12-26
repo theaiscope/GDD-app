@@ -98,30 +98,28 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
 
     // The int indicates which tab has errors so we can switch to that one
     fun validateTabsAndUpdateVM(): Int? {
-        with(binding) {
-            val metadataFragment: MetadataFragment? =
-                findFragment(0) as? MetadataFragment
-            val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
+        val metadataFragment: MetadataFragment? =
+            findFragment(0) as? MetadataFragment
+        val metadataOk = metadataFragment?.validateAndUpdateVM() ?: true
 
-            val preparationFragment: PreparationFragment? =
-                findFragment(1) as? PreparationFragment
-            val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
+        val preparationFragment: PreparationFragment? =
+            findFragment(1) as? PreparationFragment
+        val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
 
-            val qualityFragment: QualityFragment? =
-                findFragment(2) as? QualityFragment
-            val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
+        val qualityFragment: QualityFragment? =
+            findFragment(2) as? QualityFragment
+        val qualityOK = qualityFragment?.validateAndUpdateVM() ?: true
 
-            //Decide which (if any) tab has errors and should be displayed
-            var erroneousTab: Int? = null
-            if (!metadataOk) {
-                erroneousTab = 0
-            } else if (!preparationOK) {
-                erroneousTab =  1
-            } else if (!qualityOK) {
-                erroneousTab = 2
-            }
-            return erroneousTab
+        //Decide which (if any) tab has errors and should be displayed
+        var erroneousTab: Int? = null
+        if (!metadataOk) {
+            erroneousTab = 0
+        } else if (!preparationOK) {
+            erroneousTab =  1
+        } else if (!qualityOK) {
+            erroneousTab = 2
         }
+        return erroneousTab
     }
 
     fun saveToVM() {

@@ -8,11 +8,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.aiscope.gdd_app.R
-import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.CompletedCapture
 import net.aiscope.gdd_app.model.MicroscopeQuality
 import net.aiscope.gdd_app.model.Sample
-import net.aiscope.gdd_app.model.SampleCollection
+import net.aiscope.gdd_app.model.SampleAge
 import net.aiscope.gdd_app.model.SampleMetadata
 import net.aiscope.gdd_app.model.SamplePreparation
 import net.aiscope.gdd_app.model.SampleStatus

@@ -23,10 +23,8 @@ class QualityFragment : SampleFormFragment, Fragment(R.layout.fragment_quality) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentQualityBinding.bind(view)
-        with(binding) {
-            binding.microscopeQualityDamagedSwitch.isChecked = sharedVM.microscopeDamaged
-            binding.microscopeQualityMagnificationInput.setText(sharedVM.microscopeMagnification.toString())
-        }
+        binding.microscopeQualityDamagedSwitch.isChecked = sharedVM.microscopeDamaged
+        binding.microscopeQualityMagnificationInput.setText(sharedVM.microscopeMagnification.toString())
     }
 
     private fun validateForm(): Boolean {

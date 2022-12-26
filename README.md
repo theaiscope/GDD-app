@@ -46,7 +46,7 @@ https://developer.android.com/courses
 
 
 ## Further documentation
-Find more documentation in the [doc](doc folder), for example:
+Find more documentation in the [documentation](doc), for example:
 
 * [Application architecture](doc/architecture.md)
 * [UI Design](doc/UI-Design.md)
