@@ -13,7 +13,7 @@ class AppWorkerFactory(private val repo: SampleRepository, private val storage: 
         appContext: Context,
         workerClassName: String,
         workerParameters: WorkerParameters
-    ): ListenableWorker? {
+    ): ListenableWorker {
         // Since we have only one worker type now, if not we should use workerClassName to decide which Worker to create
         return UploadWorker(appContext, workerParameters, repo, storage)
     }

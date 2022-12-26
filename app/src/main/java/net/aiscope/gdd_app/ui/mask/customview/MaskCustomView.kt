@@ -43,7 +43,7 @@ class MaskCustomView @JvmOverloads constructor(
     init {
         maximumScale = MAX_SCALE
 
-        setOnMatrixChangeListener { _ ->
+        setOnMatrixChangeListener {
             val imageMatrixArray = FloatArray(MATRIX_SIZE).apply { imageMatrix.getValues(this) }
             val scale = imageMatrixArray[Matrix.MSCALE_X]
             maskLayer.currentScale = scale
@@ -107,7 +107,7 @@ class MaskCustomView @JvmOverloads constructor(
         readyForEvents = true
     }
 
-    override fun onSaveInstanceState(): Parcelable? =
+    override fun onSaveInstanceState(): Parcelable =
         MaskCustomViewSavedState(
             super.onSaveInstanceState(),
             maskLayer.getInstanceState()

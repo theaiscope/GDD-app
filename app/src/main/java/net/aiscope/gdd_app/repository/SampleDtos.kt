@@ -52,7 +52,7 @@ data class SampleDto(
     }
 
     private fun backfillAreMaskEmpty() =
-        if (areMasksEmpty.isNotEmpty()) areMasksEmpty else List(imagePaths.size) { false }
+        areMasksEmpty.ifEmpty { List(imagePaths.size) { false } }
 
     private fun buildCompletedCaptures(areMasksEmpty: List<Boolean>) =
         imagePaths.zip(maskPaths).zip(areMasksEmpty) { filesPair, emptyMask ->
