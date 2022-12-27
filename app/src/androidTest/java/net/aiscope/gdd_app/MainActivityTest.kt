@@ -34,7 +34,7 @@ class MainActivityTest {
     val activityRule = ActivityTestRule(MainActivity::class.java)
 
     @get:Rule
-    val grantPermissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA)
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA)
 
     @Test
     fun shouldDisplayWelcomeMessage() {
