@@ -26,7 +26,7 @@ class CustomSnackbarView @JvmOverloads constructor(
     var messageLabel: TextView
     var actionLabel: TextView
     var icon: ImageView
-    var root: ConstraintLayout
+    private var root: ConstraintLayout
 
     init {
         View.inflate(context, R.layout.custom_snackbar, this)
