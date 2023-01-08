@@ -1,6 +1,6 @@
 package net.aiscope.gdd_app.model
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.File
 
