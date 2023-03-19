@@ -254,3 +254,4 @@ Credentials.kt
 .gradletasknamecache
 properties/secrets.properties
 *.diff
+.idea/
