@@ -4,7 +4,7 @@ buildscript {
     ext.kotlin_version = '1.8.10'
     ext.kotlin_coroutines_version = '1.6.4'
     ext.dagger_version = '2.44.2'
-    ext.mockito_version = '4.11.0'
+    ext.mockito_version = '5.2.0'
     repositories {
         google()
         mavenCentral()
