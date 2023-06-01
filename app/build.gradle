@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.3'
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.0'
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.activity:activity-ktx:1.7.1'
     implementation 'androidx.fragment:fragment-ktx:1.5.7'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
