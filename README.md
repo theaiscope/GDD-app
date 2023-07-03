@@ -51,3 +51,5 @@ Find more documentation in the [doc folder](doc), for example:
 * [Application architecture](doc/architecture.md)
 * [UI Design](doc/UI-Design.md)
 * [Architecture Decision Records](doc/adr)
+
+Just a test
