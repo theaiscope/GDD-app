@@ -32,8 +32,10 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
+    
     signingConfigs {
         release {
             storeFile file("../gdd.jks")
