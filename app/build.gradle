@@ -18,7 +18,7 @@ buildProperties {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "net.aiscope.gdd_app"
@@ -34,6 +34,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
     signingConfigs {
         release {
             storeFile file("../gdd.jks")
@@ -57,6 +58,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     testOptions {
         animationsDisabled = true
     }
@@ -68,9 +70,20 @@ android {
         }
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    namespace 'net.aiscope.gdd_app'
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 scabbard {
