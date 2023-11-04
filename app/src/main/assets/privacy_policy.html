@@ -7,17 +7,265 @@
 
 <body style="background-color:#282E3E;color:rgba(255,255,255,0.87);">
 <script type="text/javascript">
-fetch('https://aiscope.net/wp-json/wp/v2/pages/289')
-    .then(result => result.json())
-    .then(result => {
-            document.querySelector('#app').innerHTML = result.content.rendered.replace(new RegExp('<p>&nbsp;</p>', 'gi'), '');
-            privacyPolicyLoadCallback.policyLoaded();
-    })
-    .catch((err) => {
-        privacyPolicyLoadCallback.error(err.message);
-    });
+privacyPolicyLoadCallback.policyLoaded();
 </script>
-<div id="app"></div>
+<div id="app">
+    <p><strong>AI Scope Privacy Policy</strong></p>
+    <p><em>revised in April 2020</em></p>
+    <p>AI Scope is a non-profit project dedicated to building open-source smart microscope which uses AI to improve the diagnosis of the most deadly infectious diseases in remote communities.</p>
+   
+    <p>The AI Scope hardware is powered by a software that is currently being trained to detect malaria parasites in thick blood samples.</p>
+   
+    <p>The AI Scope software covers several applications dedicated to build a disease images dataset, train an AI algorithm and help to diagnose diseases using a computer vision and learning program based on retinanet object detection architecture.</p>
+   
+    <p>The AI Scope as a non-profit project is the owner of the website with the URL: <a href="https://aiscope.net/">https://aiscope.net/</a>. It also runs an open source directory in Github to <a href="https://github.com/theaiscope" target="_blank" class="external">https://github.com/theaiscope  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a> collaboratively develop the AI Scope software.</p>
+   
+    <p><strong>1. Information we collect</strong></p>
+   
+    <p>We collect and process personal and non-personal data.</p>
+    <p>The term “personal data” is defined by the European General Data Protection Regulation (GDPR). You can think of your personal data as any data that allow you to be identified or that can be correlated to you.</p>
+    <p>“Non-personal” data cannot be correlated to any specific person. By anonymizing personal data, personal information may be converted into “non-personal data.” Non-personal data is not subject to GDPR.</p>
+   
+    <p><strong>2. Personal and non-personal data we process</strong></p>
+   
+    <p>The data we collect is processed in the course of the three types of activities:</p>
+    <ul>
+        <li>Machine learning for AI Scope software development, and</li>
+        <li>Maintenance of the AI Scope website as the data controller</li>
+    </ul>
+   
+    <p><strong>2.1. Data processed for software development</strong></p>
+   
+    <p>As of now, AI Scope software is in development stage. The Convolutional Neural Networks (CNN) behind the AI Scope software is being trained to analyze the pictures of thick blood samples using computer vision.</p>
+   
+    <p>We make sure that the images of the blood samples added to our test data set are completely anonymised and that no personal identifiable information is attached to the image. The AI Scope software is trained by processing non-personal data.</p>
+   
+    <p>Recording of the interactions within the apps are stored in an anonymised fashion. This is done to understand problems in and improve applications. The data is handled by the provider Smartlook (<a href="https://www.smartlook.com" target="_blank" class="external">https://www.smartlook.com  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>)&nbsp; and stored on their infrastructure. Recordings will be deleted as soon as they are not needed for the stated purpose anymore.</p>
+   
+    <p>Aggregated technical information about apps crashes, and analytics data about apps behaviour is stored in an anonymised fashion. This includes information about the device (Make, Model), the user’s location and stacktraces. This is done to improve applications. The data is handled by the third party provider Firebase (<a href="https://firebase.google.com" target="_blank" class="external">https://firebase.google.com  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>) and stored on their infrastructure.</p>
+   
+    <p>Data entered into the applications (images, masks, metadata) will be stored on Firebase (by Google). This is done in accordance with the applications’ purpose of collecting data for later medical analysis.</p>
+   
+    <p><strong>2.2. Data we process as the data controller of the AI Scope </strong><strong>website</strong></p>
+   
+    <p>AI Scope relies on its website (URL: <a href="https://aiscope.net/">https://aiscope.net/</a>) to showcase the project. We collect, process, and use your personal data and other data to support the operation of the AI Scope website.</p>
+   
+    <p>In so far as possible personal data is collected and processed on a voluntary basis. Information, such as name, email addresses or any other personal information that is not technical, usage or tracking data is collected and processed only if you directly submit it to us.</p>
+   
+    <p>When you visit or are redirected to our website, some information is collected and stored by us automatically. Such data includes:</p>
+    <ul>
+        <li>Technical data, like browser type and version, language, time zone setting and location, internet protocol (IP) address, log files, browser plug-in types and versions, operating system and platform and other technology on the devices you use to access the website.</li>
+        <li>Usage data, including information about how you interact with the website, including your click stream.</li>
+        <li>We may also receive information about you from third parties. Typically, this includes tracking data, which we collect from cookies and similar tracking technologies, such as web beacons, pixels, and mobile identifiers.</li>
+    </ul>
+   
+    <p>We process your personal data based on the Article 6 of the GDPR relying on the following legal bases:</p>
+   
+    <ul>
+        <li>to perform our services, Art. 6(1)b</li>
+        <li>legitimate interest relating to our services, Art. 6(1)f</li>
+        <li>if you have given us your explicit consent to process your data, Art. 6(1)a</li>
+        <li>if it is necessary for us to comply with a legal obligations, Art. 6(1)c.</li>
+    </ul>
+   
+    <p>We may also process personal data if it is necessary to protect vital interests of our users and/or other people, or for the performance of an obligation to carry out in the public interest pursuant to Art. 6(1) (d) and (e).</p>
+   
+   
+   
+   
+    <p><strong>3. Sharing your personal information with third parties and data transfers. </strong></p>
+   
+    <p>We share your personal information with third parties in so far as it is strictly necessary to run our website or to perform the tasks in relation to our project. Your personal data will be transferred to third parties only if we have a legal obligation to do so, if the data transfer is necessary for performance of the contract, or if you have consented to the transfer of your data.</p>
+   
+    <p>In such cases, the extent to which data are transferred will however be kept to the absolute minimum. To the extent that our service providers come into contact with your personal data, we will make sure that they too will comply with all applicable data protection laws. Please also read the data privacy policies of such third-party providers.</p>
+   
+    <p>Below is the description of the third-party vendors and services we use and for what purposes:</p>
+   
+    <p><strong>3</strong><strong>.1. WordPress</strong></p>
+   
+    <p>Our website is built with the help of WordPress platform. WordPress is the service owned by Automattic (Automattic Inc., 60 29th Street #343, San Francisco, CA 94110).</p>
+   
+    <p>Automatic collects information of visitors to our website automatically and uses it to help us with keeping the website functional, convenient and useful. You can find out more about data collected by these third party services by checking out Automattic’s privacy notice: https://automattic.com/privacy-notice/.</p>
+   
+    <p><strong>3.2. Google Analytics </strong></p>
+   
+    <p>Our website uses Google Analytics, a web analysis program of Google (Google Inc., 1600 Amphitheater Pkwy, Mountain View, CA 94043, USA).</p>
+   
+    <p>Google Analytics uses cookies that are stored on your terminal device and allows to collect usage data. On our behalf Google uses such information to analyze your usage of our website and provides us with insight reports.</p>
+   
+    <p>Additional information about how Google handles data transmitted by us is available here: <a href="https://www.google.com/intl/de/policies/privacy/partners/" target="_blank" class="external">https://www.google.com/intl/de/policies/privacy/partners/  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</p>
+    <p>You can find additional information about how Google uses cookies in the data privacy policy of Google here: (<a href="https://www.google.com/intl/de/policies/privacy/" target="_blank" class="external">https://www.google.com/intl/de/policies/privacy/  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>).</p>
+   
+    <p>Information generated by Google tools is generally transferred to a server of Google in the United States and stored there. Google and its subsidiaries are EU-US Privacy-Shield certified.</p>
+   
+    <p>You can prevent the collection and processing of information generated by the Google cookie by placing an opt-out cookie or deactivating Google Analytics in the menu of your terminal device. In the alternative, you can also install a browser plug-in, which you will find here:&nbsp;<a href="https://tools.google.com/dlpage/gaoptout/" target="_blank" class="external">https://tools.google.com/dlpage/gaoptout/  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</p>
+   
+    <p><strong>3</strong><strong>.3. Mailchimp</strong></p>
+   
+    <p>In cases, where you explicitly consent to receiving our updates via our newsletter, we will use Mailchimp operated by The Rocket Science Group LLC (675 Ponce de Leon Ave NE Suite 5000. Atlanta, GA 30308 USA).</p>
+   
+    <p>We rely on Mailchimp to automate the process in relation to collecting subscriptions for, operation and distribution of the newsletter.</p>
+   
+    <p>To learn more about the data processing through Mailchimp, read their Privacy Policy here: <a href="https://mailchimp.com/legal/privacy/#3._Privacy_for_Contact" target="_blank" class="external">https://mailchimp.com/legal/privacy/#3._Privacy_for_Contacts  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</p>
+   
+    <p><strong>3.4. GitHub</strong></p>
+   
+    <p>To develop AI Scope software we run a repository in GitHub (GitHub, Inc., 88 Colin P Kelly Jr St</p>
+    <p>San Francisco, CA 94107 USA).</p>
+   
+    <p>We rely on the volunteers that collaborate with us through GitHub to build the microscope software under the license&nbsp;Open Software License v. 3.0 (OSL-3.0).</p>
+   
+    <p>To learn more about the data processing through GitHub, access their Privacy Statement here: <a href="https://help.github.com/en/github/site-policy/github-privacy-statement" target="_blank" class="external">https://help.github.com/en/github/site-policy/github-privacy-statement  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</p>
+   
+    <p><strong>3.5. GoFundMe</strong></p>
+   
+    <p>Our project is supported by donations. We use GoFundMe to run crowdfunding campaigns as well as to accept regular voluntary donations. GoFundMe is a global platform with EU headquarters at GoFundMe Ireland, Ltd., 70 Sir John Rogersons Quay, Dublin 2.</p>
+   
+    <p>When submitting a donation or participating in a crowdfunding campaign of AI Scope, you may be asked to submit your personal data directly at the GoFundMe platform. The information about data processing practices can be found here: <a href="https://www.gofundme.com/privacy" target="_blank" class="external">https://www.gofundme.com/privacy  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</p>
+   
+    <p><strong>3.6. SmartLook</strong></p>
+   
+    <p>Recording of the interactions within the apps are collected and processed by SmartLook (Smartlook.com, s.r.o., Šumavská 524/31, Veveří, 602 00 Brno VAT ID: CZ 095 08 830). For more information about privacy practices have a look at the Smartlook Privacy Statement: <a href="https://www.smartlook.com/help/privacy-statement/" target="_blank" class="external">https://www.smartlook.com/help/privacy-statement/  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</p>
+   
+    <p><strong>3.7. Firebase</strong></p>
+   
+    <p>We use Firebase (product of Google Inc.) for AI Scope applications and data storage.</p>
+   
+    <p>The Firebase tool allows us to use the same Google Analytics functions for applications that can also be used for websites. Aggregated technical information about apps crashes, and analytics data about apps behavior is stored in an anonymized fashion. This includes information about the device (Make, Model), the user’s location and stack traces.</p>
+   
+    <p>Data entered into applications (images, masks, metadata) is stored on Firebase as well. This is done in accordance with applications’ purpose of collecting data for later medical analysis. This means we will transfer your data to Firebase and store data on its servers. In some cases, your data may also be stored on servers outside the European Union (EU) or European Economic Area (EEA).</p>
+   
+    <p>We either ensure through appropriate contracts that such service providers guarantee the same level of data privacy to which you are also entitled in the European Union or we use only providers that are EU-US Privacy Shield certified (<a href="https://www.privacyshield.gov/welcome" target="_blank" class="external">https://www.privacyshield.gov/welcome  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>). Both alternatives ensure an appropriate level data privacy.</p>
+   
+    <p>Privacy policy for Firebase can be found here: <a href="https://firebase.google.com/support/privacy/" target="_blank" class="external">https://firebase.google.com/support/privacy/  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a></p>
+   
+    <p>You can prevent such data from being collected on your Android device by following the instructions as explained here: <a href="https://www.google.com/policies/technologies/ads/" target="_blank" class="external">https://www.google.com/policies/technologies/ads/  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</p>
+   
+    <p>On your iOS device you will find the appropriate setting under Settings &gt; Data Privacy &gt; Advertising.</p>
+   
+    <p><strong>3.8. </strong><strong>Social plug-ins</strong></p>
+   
+    <p>To help you share information about our project and its updates, as well as keep you up to date with what is happening at the AI Scope, we use social plug-ins on our website:</p>
+   
+    <ul>
+        <li>Facebook (operator: Facebook Inc., 1601 S. California Ave, Palo Alto, CA 94304, USA);</li>
+        <li>Twitter (operator: Twitter Inc., 795 Folsom St., Suite 600, San Francisco, CA 94107, USA)</li>
+        <li>Youtube (operator: Google Inc., 1600 Amphitheater Pkwy, Mountain View, CA 94043, USA)</li>
+    </ul>
+   
+    <p>These plug-ins routinely collect data from you and transfer such data to servers of the provider. Once activated, such plug-ins may also record your IP address. In addition, activated social plug-ins will place a cookie with a clear ID when the relevant website is accessed.</p>
+   
+    <p>These plug-ins also allow providers to create profiles of your user behaviour. A cookie is placed whether or not you are a member of the social network. If you are a member of a social network and are logged in when you visit our website, data and information about your visit to our website may be linked to your profile on the social network.</p>
+   
+    <p>Please note that we have no control over the exact extent to which your data will be collected by social network providers.</p>
+   
+    <p>For more information about the extent, type, and purpose of data processing and about rights and settings to protect your privacy, please refer to the data privacy policies of the relevant social network provider. These are available at the following addresses:</p>
+    <ul>
+        <li>Facebook:<a href="http://www.facebook.com/policy.php" target="_blank" class="external">http://www.facebook.com/policy.php  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>;</li>
+        <li>Twitter: <a href="http://twitter.com/privacy" target="_blank" class="external">http://twitter.com/privacy  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>;</li>
+        <li>Youtube: <a href="https://www.google.com/intl/de/policies/privacy/" target="_blank" class="external">https://www.google.com/intl/de/policies/privacy/  <!-- <i class="fas fa-external-link-alt" aria-hidden="true"></i> --><span class="show-for-sr">Abre en nueva ventana</span></a>.</li>
+    </ul>
+   
+    <p><strong>3.9. Cookies</strong></p>
+    <p><strong>&nbsp;</strong></p>
+    <p>We collect information about visitors to our website in order to improve functionality of the website and understand the website usage through cookies and tracking pixels (a.k.a. web beacons).</p>
+   
+    <p>A cookie allows a web server to place a text file (e.g., a clear ID) on your computer or smart phone/tablet. Cookies are used, for example, to automatically recognise you the next time you visit our website. The cookie is sent either by the web server to your browser or is generated by client-side scripting (e.g., JavaScript). Cookie data will be stored locally on your terminal device and in most cases will be effective only for a limited time period.</p>
+   
+    <p>Cookies help us to work better and provide lots of assistance in the background to make the process of being our customer a lot easier for you.</p>
+   
+    <p>In the meantime, your browser offers extensive setting options to manage cookies. For example, you can deactivate cookies in your browser or limit cookies to certain websites. You can also program your browser to first notify you before a cookie is placed. You can also choose these settings on your mobile terminal devices. You can at any time manage cookies by changing the settings of your devices, delete cookies, or block cookies altogether.</p>
+   
+    <p>You can also visit our website even if you block cookies on your terminal device. If you block cookies, the display of our website may however be impaired and not all functions may be available to you.</p>
+   
+    <p>Tracking pixels are small graphics in HTML e-mails or on websites. When you access such a website, your access to the tracking pixel will be recorded in a log file. This allows statistical analysis, which, in turn, can be used to improve our Services. You can set your e-mail program or your browser so that HTML e-mails will be displayed as text only, thereby preventing the use of some tracking pixels.</p>
+   
+    <p>Here is the list of all cookies and tracking pixels we use on our website, including the purpose of processing and duration of storage:</p>
+    <p>&nbsp;</p>
+    <table width="553">
+        <tbody>
+        <tr>
+            <td width="208">Name</td>
+            <td width="170">Duration of storage</td>
+            <td width="175">Purpose of processing</td>
+        </tr>
+        <tr>
+            <td width="208">cookieAccept</td>
+            <td width="170">24 hours</td>
+            <td width="175">checks if the user accepted using cookies</td>
+        </tr>
+        <tr>
+            <td width="208">gat (by Google Analytics)</td>
+            <td width="170">1 min</td>
+            <td width="175">Used to limit the solicitudes rate.</td>
+        </tr>
+        <tr>
+            <td width="208">ga (by Google Analytics)</td>
+            <td width="170">2 years</td>
+            <td width="175">&nbsp;Used to distinguish users</td>
+        </tr>
+        <tr>
+            <td width="208">gid (by Google Analytics)</td>
+            <td width="170">24 hours</td>
+            <td width="175">Used to distinguish users</td>
+        </tr>
+        <tr>
+            <td width="208"></td>
+            <td width="170"></td>
+            <td width="175"></td>
+        </tr>
+        <tr>
+            <td width="208"></td>
+            <td width="170"></td>
+            <td width="175"></td>
+        </tr>
+        <tr>
+            <td width="208"></td>
+            <td width="170"></td>
+            <td width="175"></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>&nbsp;</p>
+    <p><strong>4. Security</strong></p>
+
+    <p>We put great effort and will continue to attempt to establish internal procedures to ensure that your personal information is both accurate and protected from accidental loss, unauthorised access, use, alteration or disclosure.</p>
+    <p>Please note that the transmission of data on the internet (e.g. in the course of communication per e-mail) can create a security gap. Absolute protection of data from access by third parties is not possible.</p>
+   
+    <p><strong>5. Storing personal data</strong></p>
+
+    <p>Your personal data will be stored for as long as it is necessary to fulfil the purposes, we collected it for, including for the purposes of satisfying any legal, accounting, or reporting requirements.</p>
+   
+    <p>To determine the appropriate retention period for personal data, we consider the amount, nature, and sensitivity of the personal data, the potential risk of harm from unauthorised use or disclosure of your personal data, the purposes for which we process your personal data and whether we can achieve those purposes through other means, and the applicable legal requirements.</p>
+   
+    <p>By law we may have to keep basic information about our customers (including Contact, Identity, Financial and Transaction Data) for up to ten years after they stop being customers to comply with legal requirements.</p>
+
+    <p><strong>6. Rights of the Data Subjects under GDPR</strong></p>
+
+    <p>If you qualify as the “data subject” under the terms of the European General Data Protection Regulation (GDPR), you have the right to:</p>
+   
+    <ul>
+        <li>request information on personal data processed by us about you as provided by Art. 15 GDPR.</li>
+        <li>in accordance with Art. 16 GDPR, to immediately demand the correction of incorrect data or completion of incomplete personal data stored with us;</li>
+        <li>pursuant to Art. 17 GDPR, to request deletion of your personal data stored by us, unless the processing of the data is required for the exercise of the right to freedom of expression and information, for the fulfilment of a legal obligation, for reasons of public interest or for the assertion, exercise or defence of legal claims;</li>
+        <li>in accordance with Art. 18 GDPR, to request the restriction of the processing of your personal data as far as the accuracy of the data is disputed by you or the processing is unlawful;</li>
+        <li>in accordance with Art. 20 GDPR, to receive your personal data provided to us in a structured, standard and machine-readable format or to request transmission to another controller;</li>
+        <li>in accordance with Art. 7 (3) GDPR, to revoke at any time the consent you previously granted to us. As a result, we will be no longer able to continue the data processing based on this consent for the future;</li>
+        <li>in accordance with Art. 77 GDPR, users have the right to lodge a complaint with a supervisory authority. As a rule, you can contact the supervisory authority of your usual place of residence or work or AI Scope’s legal address for this purpose (Calle Mata 21, 08197 Sant Cugat del Vallès, Barcelona).</li>
+    </ul>
+   
+    <p>Also, please note that if your personal data is processed based on a legitimate interests in accordance with Art. 6 (1) (f) GDPR, you have the right to file an objection against the processing of your personal data in accordance with Art. 21 GDPR, provided that there are reasons based on your particular situation or the objection is directed against direct marketing. In the latter case, you have a general right of objection, which shall be implemented by us without you specifying any particular situation.</p>
+   
+    <p>If you would like to exercise these rights, please contact us via the AI Scope Contact page: <a href="https://aiscope.net/contact-us/">https://aiscope.net/contact-us/</a>. Please include any information that would help us identify you in our database, such as your full name and email address.</p>
+   
+    <p><strong>7. Changes to this Privacy Policy</strong></p>
+
+    <p>We may need to make changes to this Privacy Policy. GDPR is still a relatively new piece of legislation and governmental authorities issue updates and guidance for businesses on a regular basis. We may want to change our Privacy Policy to make sure that we comply with such recommendations or if we change the way we sell our products or provide our services. We will notify you of any changes and ask that you read and accept such changes before they are implemented by us.</p>
+   
+    <p><strong>8. Contact </strong></p>
+
+    <p>If you wish to receive more information about this Privacy Policy, exercise your rights and/or learn more about the cookies we use on our website, please contact us via AI Scope Contact email: aiscope@aiscope.net.</p>
+</div>
 </body>
 
 </html>
