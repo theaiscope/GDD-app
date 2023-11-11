@@ -24,3 +24,10 @@
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
+
+# Build issues with R8
+-dontwarn com.amplitude.api.*
+-dontwarn com.bugsnag.android.*
+-dontwarn com.heapanalytics.android.*
+-dontwarn com.mixpanel.android.mpmetrics.*
+-dontwarn com.segment.analytics.*
