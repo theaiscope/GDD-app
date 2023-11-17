@@ -71,6 +71,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace 'net.aiscope.gdd_app'
 }
 
 scabbard {
