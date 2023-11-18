@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.ui.sample_completion
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -149,6 +150,7 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
         goToHomeAndConfirmSaved()
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         showConfirmExitDialog()
     }
