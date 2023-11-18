@@ -1,5 +1,6 @@
 package net.aiscope.gdd_app.ui.mask
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -220,6 +221,7 @@ class MaskActivity : AppCompatActivity(), MaskView, CaptureFlow {
         binding.redoBtn.visibility = savedInstanceState.getInt("redo_btn-visibility", View.INVISIBLE)
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
         showConfirmBackDialog()
     }
