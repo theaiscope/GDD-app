@@ -10,7 +10,7 @@
 
 Requirements:
 
-1. Java 11
+1. Java 17
 1. Android Studio
 1. Android SDK
 
