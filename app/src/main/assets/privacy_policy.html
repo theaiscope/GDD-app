@@ -7,17 +7,11 @@
 
 <body style="background-color:#282E3E;color:rgba(255,255,255,0.87);">
 <script type="text/javascript">
-fetch('https://aiscope.net/wp-json/wp/v2/pages/289')
-    .then(result => result.json())
-    .then(result => {
-            document.querySelector('#app').innerHTML = result.content.rendered.replace(new RegExp('<p>&nbsp;</p>', 'gi'), '');
-            privacyPolicyLoadCallback.policyLoaded();
-    })
-    .catch((err) => {
-        privacyPolicyLoadCallback.error(err.message);
-    });
+privacyPolicyLoadCallback.policyLoaded();
 </script>
-<div id="app"></div>
+<div id="app">
+    <p><strong>TEST BUILD NOT FOR PUBLIC RELEASE</strong></p>
+</div>
 </body>
 
 </html>
