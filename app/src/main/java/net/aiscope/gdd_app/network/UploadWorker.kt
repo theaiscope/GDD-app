@@ -3,6 +3,8 @@ package net.aiscope.gdd_app.network
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import net.aiscope.gdd_app.repository.SampleRepository
 import timber.log.Timber
 
@@ -13,8 +15,8 @@ class UploadWorker constructor(
     private val storage: RemoteStorage
 ) : CoroutineWorker(context, params) {
 
-    override suspend fun doWork(): Result {
-        return when (val id = inputData.getString("sample_id")) {
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        when (val id = inputData.getString("sample_id")) {
             null -> Result.failure()
             else -> {
                 try {
