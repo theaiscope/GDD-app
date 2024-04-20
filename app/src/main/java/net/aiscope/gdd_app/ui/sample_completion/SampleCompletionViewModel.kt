@@ -179,11 +179,11 @@ class SampleCompletionViewModel @Inject constructor(
     }
 
     fun isValidWaterTypeValue(waterTypeValue: String): Boolean {
-        try{
+        return try {
             getWaterType(waterTypeValue)
-            return true
+            true
         } catch (e: IllegalStateException) {
-            return false
+            false
         }
     }
 
@@ -204,11 +204,11 @@ class SampleCompletionViewModel @Inject constructor(
     }
 
     fun isValidSampleAgeValue(sampleAgeValue: String): Boolean {
-        try{
+        return try{
             getSampleAge(sampleAgeValue)
-            return true
+            true
         } catch (e: IllegalStateException) {
-            return false
+            false
         }
     }
 
