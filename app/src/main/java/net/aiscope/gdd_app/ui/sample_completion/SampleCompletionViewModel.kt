@@ -182,7 +182,7 @@ class SampleCompletionViewModel @Inject constructor(
         try{
             getWaterType(waterTypeValue)
             return true
-        } catch (e: Throwable) {
+        } catch (e: IllegalStateException) {
             return false
         }
     }
@@ -207,7 +207,7 @@ class SampleCompletionViewModel @Inject constructor(
         try{
             getSampleAge(sampleAgeValue)
             return true
-        } catch (e: Throwable) {
+        } catch (e: IllegalStateException) {
             return false
         }
     }
