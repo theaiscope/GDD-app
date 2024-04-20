@@ -178,6 +178,15 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
+    fun isValidWaterTypeValue(waterTypeValue: String): Boolean {
+        try{
+            getWaterType(waterTypeValue)
+            return true
+        } catch (e: Throwable) {
+            return false
+        }
+    }
+
     private fun getSampleAge(sampleAgeValue: String): SampleAge {
         return when (sampleAgeValue) {
             context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
@@ -191,6 +200,15 @@ class SampleCompletionViewModel @Inject constructor(
             SampleAge.FRESH -> context.getString(R.string.sample_age_fresh)
             SampleAge.OLD -> context.getString(R.string.sample_age_old)
             null -> ""
+        }
+    }
+
+    fun isValidSampleAgeValue(sampleAgeValue: String): Boolean {
+        try{
+            getSampleAge(sampleAgeValue)
+            return true
+        } catch (e: Throwable) {
+            return false
         }
     }
 
