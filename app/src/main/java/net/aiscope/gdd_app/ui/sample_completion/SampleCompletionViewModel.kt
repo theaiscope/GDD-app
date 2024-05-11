@@ -23,6 +23,7 @@ import net.aiscope.gdd_app.repository.SampleRepositoryFirestore
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,
