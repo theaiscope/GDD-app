@@ -23,6 +23,7 @@ import net.aiscope.gdd_app.repository.SampleRepositoryFirestore
 import net.aiscope.gdd_app.ui.sample_completion.metadata.MetadataMapper
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class SampleCompletionViewModel @Inject constructor(
     private val repository: SampleRepository,
     private val remoteStorage: RemoteStorage,
@@ -178,6 +179,16 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
+    @Suppress("SwallowedException")
+    fun isValidWaterTypeValue(waterTypeValue: String): Boolean {
+        return try {
+            getWaterType(waterTypeValue)
+            true
+        } catch (e: IllegalStateException) {
+            false
+        }
+    }
+
     private fun getSampleAge(sampleAgeValue: String): SampleAge {
         return when (sampleAgeValue) {
             context.getString(R.string.sample_age_fresh) -> SampleAge.FRESH
@@ -191,6 +202,16 @@ class SampleCompletionViewModel @Inject constructor(
             SampleAge.FRESH -> context.getString(R.string.sample_age_fresh)
             SampleAge.OLD -> context.getString(R.string.sample_age_old)
             null -> ""
+        }
+    }
+
+    @Suppress("SwallowedException")
+    fun isValidSampleAgeValue(sampleAgeValue: String): Boolean {
+        return try{
+            getSampleAge(sampleAgeValue)
+            true
+        } catch (e: IllegalStateException) {
+            false
         }
     }
 
