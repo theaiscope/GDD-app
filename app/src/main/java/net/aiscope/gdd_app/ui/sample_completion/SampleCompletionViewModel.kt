@@ -178,6 +178,7 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
+    @Suppress("SwallowedException")
     fun isValidWaterTypeValue(waterTypeValue: String): Boolean {
         return try {
             getWaterType(waterTypeValue)
@@ -203,6 +204,7 @@ class SampleCompletionViewModel @Inject constructor(
         }
     }
 
+    @Suppress("SwallowedException")
     fun isValidSampleAgeValue(sampleAgeValue: String): Boolean {
         return try{
             getSampleAge(sampleAgeValue)
