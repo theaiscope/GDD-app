@@ -26,7 +26,7 @@
 -keep public class * extends java.lang.Exception
 
 # Do not obfuscate field names, ends up with a/b/c/d properties in firestore
--keepclassmembernames public class net.aiscope.gdd_app.**{*;}
+-keepnames public class net.aiscope.gdd_app.**{*;}
 
 # Build issues with R8
 -dontwarn com.amplitude.api.*
