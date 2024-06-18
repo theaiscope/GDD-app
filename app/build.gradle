@@ -24,8 +24,8 @@ android {
         applicationId "net.aiscope.gdd_app"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 33
-        versionName "2.1.13"
+        versionCode 34
+        versionName "2.1.14"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigString 'SMARTLOOK_API_KEY', (buildProperties.secrets['SMARTLOOK_API_KEY'] | buildProperties.env['SMARTLOOK_API_KEY']) | ""
@@ -103,13 +103,13 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.3'
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
-    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.activity:activity-ktx:1.8.2'
     implementation 'androidx.fragment:fragment-ktx:1.6.2'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'com.google.android.material:material:1.10.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
 
     // Firebase
     implementation platform("com.google.firebase:firebase-bom:32.7.3")

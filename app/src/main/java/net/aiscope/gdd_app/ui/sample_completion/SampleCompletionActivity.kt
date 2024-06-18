@@ -105,7 +105,10 @@ class SampleCompletionActivity : CaptureFlow, AppCompatActivity() {
 
         val preparationFragment: PreparationFragment? =
             findFragment(1) as? PreparationFragment
-        val preparationOK = preparationFragment?.validateAndUpdateVM() ?: true
+        val preparationOK = preparationFragment?.validateAndUpdateVM() ?: (
+            sharedVM.isValidWaterTypeValue(sharedVM.waterType) &&
+            sharedVM.isValidSampleAgeValue(sharedVM.sampleAge)
+        )
 
         val qualityFragment: QualityFragment? =
             findFragment(2) as? QualityFragment

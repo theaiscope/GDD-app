@@ -25,6 +25,9 @@
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
 
+# Do not obfuscate field names, ends up with a/b/c/d properties in firestore
+-keep public class net.aiscope.gdd_app.**{*;}
+
 # Build issues with R8
 -dontwarn com.amplitude.api.*
 -dontwarn com.bugsnag.android.*
